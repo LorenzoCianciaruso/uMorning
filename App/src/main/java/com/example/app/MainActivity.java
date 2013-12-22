@@ -12,7 +12,7 @@ import android.view.ViewGroup;
 import android.os.Build;
 
 public class MainActivity extends ActionBarActivity {
-//primo commit difo fryyweehawhaw
+//primo commit difo fryyweeh
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
