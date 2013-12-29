@@ -13,7 +13,7 @@ import java.util.Calendar;
 /**
  * When the alarm fires, this WakefulBroadcastReceiver receives the broadcast Intent
  * and then starts the IntentService {@code SampleSchedulingService} to do some work.
- */
+
 public class
         AlarmReceiver extends WakefulBroadcastReceiver {
     // The app's AlarmManager, which provides access to the system alarm services.
@@ -38,7 +38,7 @@ public class
          *
          * In this example, we simply create a new intent to deliver to the service.
          * This intent holds an extra identifying the wake lock.
-         */
+
         Intent service = new Intent(context, SchedulingService.class);
 
         // Start the service, keeping the device awake while it is launching.
@@ -51,7 +51,7 @@ public class
      * Sets a repeating alarm that runs once a day at approximately 8:30 a.m. When the
      * alarm fires, the app broadcasts an Intent to this WakefulBroadcastReceiver.
      * @param context
-     */
+
     public void setAlarm(Context context) {
         alarmMgr = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(context, AlarmReceiver.class);
@@ -92,7 +92,7 @@ public class
          * alarmMgr.setInexactRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP,
          *         AlarmManager.INTERVAL_HALF_HOUR,
          *         AlarmManager.INTERVAL_HALF_HOUR, alarmIntent);
-         */
+
 
         // Set the alarm to fire at approximately 8:30 a.m., according to the device's
         // clock, and to repeat once a day.
@@ -113,7 +113,7 @@ public class
     /**
      * Cancels the alarm.
      * @param context
-     */
+
     // BEGIN_INCLUDE(cancel_alarm)
     public void cancelAlarm(Context context) {
         // If the alarm has been set, cancel it.
@@ -132,3 +132,4 @@ public class
     }
     // END_INCLUDE(cancel_alarm)
 }
+        */

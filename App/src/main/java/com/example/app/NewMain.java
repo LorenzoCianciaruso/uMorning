@@ -14,7 +14,7 @@ package com.example.app;
  * This particular sample retrieves content from the Google home page once a day and
  * checks it for the search string "doodle". If it finds this string, that indicates
  * that the page contains a custom doodle instead of the standard Google logo.
- */
+
 public class NewMain extends Activity {
     AlarmReceiver alarm = new AlarmReceiver();
 
@@ -46,3 +46,4 @@ public class NewMain extends Activity {
         return false;
     }
 }
+ */

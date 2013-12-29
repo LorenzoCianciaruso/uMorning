@@ -1,4 +1,4 @@
-package com.example.app;
+/**package com.example.app;
 
         import android.app.IntentService;
         import android.app.NotificationManager;
@@ -21,7 +21,7 @@ package com.example.app;
  * partial wake lock for this service while the service does its work. When the
  * service is finished, it calls {@code completeWakefulIntent()} to release the
  * wake lock.
- */
+
 public class SchedulingService extends IntentService {
     public SchedulingService() {
         super("SchedulingService");
@@ -58,7 +58,7 @@ public class SchedulingService extends IntentService {
         // If the app finds the string "doodle" in the Google home page content, it
         // indicates the presence of a doodle. Post a "Doodle Alert" notification.
         if (result.indexOf(SEARCH_STRING) != -1) {
-            sendNotification(getString(R.string.doodle_found));
+            //sendNotification(getString(R.string.doodle_found));
             Log.i(TAG, "Found doodle!!");
         } else {
             sendNotification(getString(R.string.no_doodle));
@@ -93,7 +93,7 @@ public class SchedulingService extends IntentService {
 // The methods below this line fetch content from the specified URL and return the
 // content as a string.
 //
-    /** Given a URL string, initiate a fetch operation. */
+    /** Given a URL string, initiate a fetch operation.
     private String loadFromNetwork(String urlString) throws IOException {
         InputStream stream = null;
         String str ="";
@@ -115,13 +115,13 @@ public class SchedulingService extends IntentService {
      * @param urlString A string representation of a URL.
      * @return An InputStream retrieved from a successful HttpURLConnection.
      * @throws IOException
-     */
+
     private InputStream downloadUrl(String urlString) throws IOException {
 
         URL url = new URL(urlString);
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-        conn.setReadTimeout(10000 /* milliseconds */);
-        conn.setConnectTimeout(15000 /* milliseconds */);
+        conn.setReadTimeout(10000 /* milliseconds );
+        conn.setConnectTimeout(15000 /* milliseconds );
         conn.setRequestMethod("GET");
         conn.setDoInput(true);
         // Start the query
@@ -135,7 +135,7 @@ public class SchedulingService extends IntentService {
      * @param stream InputStream containing HTML from www.google.com.
      * @return String version of InputStream.
      * @throws IOException
-     */
+
     private String readIt(InputStream stream) throws IOException {
 
         StringBuilder builder = new StringBuilder();
@@ -146,3 +146,4 @@ public class SchedulingService extends IntentService {
         return builder.toString();
     }
 }
+        */
