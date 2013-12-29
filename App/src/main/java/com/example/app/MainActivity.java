@@ -27,12 +27,14 @@ public class MainActivity extends Activity {
                     .commit();
         }
 
+
         Intent myIntent = new Intent(MainActivity.this, MyAlarmService.class);
         PendingIntent pendingIntent = PendingIntent.getService(MainActivity.this, 0, myIntent, 0);
         AlarmManager alarmManager = (AlarmManager)getSystemService(ALARM_SERVICE);
 
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(System.currentTimeMillis());
+        //TODO datepicker
         calendar.set(2013,Calendar.DECEMBER,29,15,55);
 
 
