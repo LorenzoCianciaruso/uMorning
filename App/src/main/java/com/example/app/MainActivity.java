@@ -22,10 +22,15 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
 
         if (savedInstanceState == null) {
-            getFragmentManager().beginTransaction()
+           getFragmentManager().beginTransaction()
                     .add(R.id.container, new PlaceholderFragment())
                     .commit();
         }
+
+        MeteoService meteoRequest = new MeteoService();
+        meteoRequest.onCreate();
+
+
 
         Intent myIntent = new Intent(MainActivity.this, MyAlarmService.class);
         PendingIntent pendingIntent = PendingIntent.getService(MainActivity.this, 0, myIntent, 0);
