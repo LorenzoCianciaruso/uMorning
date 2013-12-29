@@ -34,7 +34,7 @@ public class MainActivity extends Activity {
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(System.currentTimeMillis());
         calendar.set(2013,Calendar.DECEMBER,29,15,55);
-        calendar.add(Calendar.SECOND, 10);
+
 
         alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
     }
