@@ -12,9 +12,17 @@ import java.util.Calendar;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Intent;
+import android.widget.TimePicker;
+import android.widget.Button;
+import android.widget.TextView;
 
 
 public class MainActivity extends Activity {
+
+    private TimePicker tpResult;
+    private Button btnSetAlarm;
+    private int hour;
+    private int minute;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,17 +36,37 @@ public class MainActivity extends Activity {
         }
 
 
-        Intent myIntent = new Intent(MainActivity.this, MyAlarmService.class);
-        PendingIntent pendingIntent = PendingIntent.getService(MainActivity.this, 0, myIntent, 0);
-        AlarmManager alarmManager = (AlarmManager)getSystemService(ALARM_SERVICE);
+        //Intent myIntent = new Intent(MainActivity.this, MyAlarmService.class);
+        //PendingIntent pendingIntent = PendingIntent.getService(MainActivity.this, 0, myIntent, 0);
+        //AlarmManager alarmManager = (AlarmManager)getSystemService(ALARM_SERVICE);
 
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTimeInMillis(System.currentTimeMillis());
+        //Calendar calendar = Calendar.getInstance();
+        //calendar.setTimeInMillis(System.currentTimeMillis());
         //TODO datepicker
-        calendar.set(2013,Calendar.DECEMBER,29,15,55);
+        //calendar.set(2013,Calendar.DECEMBER,30,18,32);
 
 
-        alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
+        //alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
+
+        btnSetAlarm = (Button) findViewById(R.id.btnSetAlarm);
+        btnSetAlarm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                tpResult=(TimePicker) findViewById(R.id.timePicker);
+                hour=tpResult.getCurrentHour();
+                minute=tpResult.getCurrentMinute();
+
+                Intent myIntent = new Intent(MainActivity.this, MyAlarmService.class);
+                PendingIntent pendingIntent = PendingIntent.getService(MainActivity.this, 0, myIntent, 0);
+                AlarmManager alarmManager = (AlarmManager)getSystemService(ALARM_SERVICE);
+
+                Calendar calendar = Calendar.getInstance();
+                calendar.setTimeInMillis(System.currentTimeMillis());
+                calendar.set(2013,Calendar.DECEMBER,30,hour,minute);
+                alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
+            }
+        });
     }
 
 
