@@ -22,14 +22,10 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
 
         if (savedInstanceState == null) {
-           getFragmentManager().beginTransaction()
+            getFragmentManager().beginTransaction()
                     .add(R.id.container, new PlaceholderFragment())
                     .commit();
         }
-
-        MeteoService meteoRequest = new MeteoService();
-        meteoRequest.onCreate();
-
 
 
         Intent myIntent = new Intent(MainActivity.this, MyAlarmService.class);
@@ -38,8 +34,9 @@ public class MainActivity extends Activity {
 
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(System.currentTimeMillis());
+        //TODO datepicker
         calendar.set(2013,Calendar.DECEMBER,29,15,55);
-        calendar.add(Calendar.SECOND, 10);
+
 
         alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
     }
