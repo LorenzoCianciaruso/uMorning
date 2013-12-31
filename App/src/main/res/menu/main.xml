@@ -6,8 +6,17 @@
     <item android:id="@+id/alarms"
         android:orderInCategory="100"
         android:showAsAction="always"
+        android:icon="@drawable/ic_action_alarms"
+        android:layout_gravity="left"
 
     />
+    <item android:id="@+id/time"
+        android:orderInCategory="100"
+        android:showAsAction="always"
+        android:icon="@drawable/ic_action_time"
+        android:layout_gravity="left"
+
+        />
     <item android:id="@+id/action_settings"
         android:title="@string/action_settings"
         android:orderInCategory="100"

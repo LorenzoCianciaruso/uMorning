@@ -51,6 +51,10 @@ public class MainActivity extends Activity {
         //TODO datepicker
         //calendar.set(2013,Calendar.DECEMBER,30,18,32);
 
+        //toglie l'icona e il titolo del app dal actionbar
+        getActionBar().setDisplayShowHomeEnabled(false);
+        getActionBar().setDisplayShowTitleEnabled(false);
+
 
         //alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
 
