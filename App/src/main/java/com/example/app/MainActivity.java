@@ -42,7 +42,6 @@ public class MainActivity extends Activity {
                     .commit();
         }*/
 
-
         //Intent myIntent = new Intent(MainActivity.this, MyAlarmService.class);
         //PendingIntent pendingIntent = PendingIntent.getService(MainActivity.this, 0, myIntent, 0);
         //AlarmManager alarmManager = (AlarmManager)getSystemService(ALARM_SERVICE);
