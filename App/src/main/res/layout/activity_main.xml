@@ -7,17 +7,31 @@
     tools:ignore="MergeRootFrame" >
 
 
+    <LinearLayout
+        android:layout_height="match_parent"
+        android:layout_width="fill_parent"
+        android:orientation="vertical">
+        <DatePicker
+            android:layout_height="wrap_content"
+            android:layout_width="fill_parent"
+            android:id="@+id/datePicker"
+            android:gravity="center"
+            android:calendarViewShown="false"
+            />
+        <TimePicker
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/timePicker"
+            android:gravity="center"
+            />
+        <Button
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:id="@+id/btnSetAlarm"
+            android:text="Set Alarm"
+            android:layout_gravity="center"/>
+        </LinearLayout>
 
-    <TimePicker
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/timePicker"
-        android:layout_gravity="center_horizontal" />
 
 
-    <Button
-        android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
-        android:id="@+id/btnSetAlarm"
-        android:text="Set Alarm"/>
 </FrameLayout>

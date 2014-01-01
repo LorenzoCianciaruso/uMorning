@@ -13,6 +13,7 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.widget.TimePicker;
+import android.widget.DatePicker;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -20,21 +21,26 @@ import android.widget.TextView;
 public class MainActivity extends Activity {
 
     private TimePicker tpResult;
-    private Button btnSetAlarm;
+    private DatePicker dpResult;
+
+    private int year;
+    private int month;
+    private int day;
     private int hour;
     private int minute;
+
+    private Button btnSetAlarm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        if (savedInstanceState == null) {
+        /*if (savedInstanceState == null) {
             getFragmentManager().beginTransaction()
                     .add(R.id.container, new PlaceholderFragment())
                     .commit();
-        }
-
+        }*/
 
         //Intent myIntent = new Intent(MainActivity.this, MyAlarmService.class);
         //PendingIntent pendingIntent = PendingIntent.getService(MainActivity.this, 0, myIntent, 0);
@@ -45,6 +51,10 @@ public class MainActivity extends Activity {
         //TODO datepicker
         //calendar.set(2013,Calendar.DECEMBER,30,18,32);
 
+        //toglie l'icona e il titolo del app dal actionbar
+        getActionBar().setDisplayShowHomeEnabled(false);
+        getActionBar().setDisplayShowTitleEnabled(false);
+
 
         //alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
 
@@ -54,6 +64,10 @@ public class MainActivity extends Activity {
             public void onClick(View view) {
 
                 tpResult=(TimePicker) findViewById(R.id.timePicker);
+                dpResult=(DatePicker) findViewById(R.id.datePicker);
+                year=dpResult.getYear();
+                month=dpResult.getMonth();
+                day=dpResult.getDayOfMonth();
                 hour=tpResult.getCurrentHour();
                 minute=tpResult.getCurrentMinute();
 
@@ -63,7 +77,7 @@ public class MainActivity extends Activity {
 
                 Calendar calendar = Calendar.getInstance();
                 calendar.setTimeInMillis(System.currentTimeMillis());
-                calendar.set(2013,Calendar.DECEMBER,30,hour,minute);
+                calendar.set(year,month,day,hour,minute);
                 alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
             }
         });
