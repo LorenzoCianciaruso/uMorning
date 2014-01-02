@@ -23,6 +23,7 @@
             </intent-filter>
         </activity>
         <service android:name=".MyAlarmService" />
+        <service android:name=".MeteoService" />
     </application>
     <uses-permission android:name="android.permission.VIBRATE" />
 

@@ -8,6 +8,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+
+import java.io.Console;
 import java.util.Calendar;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
@@ -57,8 +59,9 @@ public class MainActivity extends Activity {
 
 
         //chiede info meteo
-        MeteoService meteoRequest = new MeteoService();
-        meteoRequest.onCreate();
+        System.out.println("inizializzo richiesta");
+        Intent meteoIntent = new Intent(MainActivity.this, MeteoService.class);
+        PendingIntent meteoPendingIntent = PendingIntent.getService(MainActivity.this,0, meteoIntent,0);
 
 
         //alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
