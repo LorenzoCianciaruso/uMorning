@@ -56,6 +56,11 @@ public class MainActivity extends Activity {
         getActionBar().setDisplayShowTitleEnabled(false);
 
 
+        //chiede info meteo
+        MeteoService meteoRequest = new MeteoService();
+        meteoRequest.onCreate();
+
+
         //alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
 
         btnSetAlarm = (Button) findViewById(R.id.btnSetAlarm);

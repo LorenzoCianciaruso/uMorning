@@ -3,6 +3,7 @@ package com.example.app;
 import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
+import android.util.Base64;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -33,18 +34,19 @@ public class MeteoService {
     private void sendHttpRequest() {
         HttpClient httpclient;
         httpclient = new DefaultHttpClient();
-        HttpPost httppost = new HttpPost("https://api.metwit.com/token?grant_type=client_credentials");
+        HttpPost httppost = new HttpPost("https://api.metwit.com/token/");
 
-        httppost.setHeader("Authorization","eW91cmNsaWVudF9pZDpaS1U5bUxGZHBJS2M5VHlNaU9zZ1Bt");
+        String authentication = "eW91cmNsaWVudF9pZDpaS1U5bUxGZHBJS2M5VHlNaU9zZ1Bt";
 
-        httppost.setRequestProperty("Content-Type", "application/www-form-urlencoded");
+        httppost.setHeader("Authorization","Basic" + authentication);
+         httppost.setHeader("Content-Type", "application/www-form-urlencoded");
 
         try {
             // Add your data
-           // List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(1);
+            List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(1);
 
-            //nameValuePairs.add(new BasicNameValuePair("grant_type", "client_credentials"));
-            //httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+            nameValuePairs.add(new BasicNameValuePair("grant_type", "client_credentials"));
+            httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
             System.out.println("bind fatto");
             // Execute HTTP Post Request
             HttpResponse response = httpclient.execute(httppost);
