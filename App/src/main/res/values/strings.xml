@@ -4,6 +4,7 @@
     <string name="app_name">uMorning</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+    <string name="adv">Servizio in Background: MeteoService.onCreate()</string>
 
 
 </resources>
