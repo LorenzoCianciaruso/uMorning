@@ -44,7 +44,7 @@ public class MeteoService extends Service {
 
     }
 
-    //start thread che invia richiesta http
+    //start thread che invia richiesta http a metwit
     private void sendHttpRequest()  {
 
         new Thread(new Runnable() {
