@@ -8,7 +8,15 @@ import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.IBinder;
 import android.os.Vibrator;
+import android.widget.LinearLayout;
 import android.widget.Toast;
+import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.view.LayoutInflater;
 
 public class MyAlarmService extends Service {
 
@@ -16,8 +24,32 @@ public class MyAlarmService extends Service {
     @Override
     public void onCreate() {
 // TODO Auto-generated method stub
-        Toast.makeText(this, "Bregu ammazzati", Toast.LENGTH_LONG).show();
-        // Get instance of Vibrator from current Context
+        // prendi il layout giusto
+        /*LayoutInflater inflater = getLayoutInflater();
+
+        View layout = inflater.inflate(R.layout.toast_layout,
+                (ViewGroup) findViewById(R.id.custom_toast_layout_id));*/
+
+        LinearLayout layout=new LinearLayout(this);
+        // immagine di prova robottino
+        ImageView image = (ImageView) layout.findViewById(R.id.image);
+        image.setImageResource(R.drawable.ic_launcher);
+
+        // testo bregu strozzati
+        TextView text = (TextView) layout.findViewById(R.id.text);
+        text.setText("Bregu strozzati");
+
+        // Toast...
+        Toast toast = new Toast(getApplicationContext());
+        toast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
+        toast.setDuration(Toast.LENGTH_LONG);
+        toast.setView(layout);
+        toast.show();
+
+        //vecchia versione con bregu ammazzati
+        //Toast.makeText(this, "Bregu ammazzati", Toast.LENGTH_LONG).show();
+
+        //prendi vibrazione dal sistema
         Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
         // Start without a delay
         // Each element then alternates between vibrate, sleep, vibrate, sleep...
@@ -29,6 +61,7 @@ public class MyAlarmService extends Service {
         Ringtone r = RingtoneManager.getRingtone(getApplicationContext(), notification);
         r.play();
     }
+
 
 
     @Override
