@@ -30,7 +30,7 @@ public class MyAlarmService extends Service {
         Ringtone r = RingtoneManager.getRingtone(getApplicationContext(), notification);
         r.play();
         //riapri il main
-        //TODO aprire qualcosa che faccia snooze e stop
+        //TODO aprire qualcosa che faccia snooze e stop e che gestisca la vibrazione e la suoneria magari
         Intent reopen = new Intent(this, MainActivity.class);
         startActivity(reopen);
     }
