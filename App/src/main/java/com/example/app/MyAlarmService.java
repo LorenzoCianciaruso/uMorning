@@ -32,12 +32,12 @@ public class MyAlarmService extends Service {
 
         LinearLayout layout=new LinearLayout(this);
         // immagine di prova robottino
-        ImageView image = (ImageView) layout.findViewById(R.id.image);
-        image.setImageResource(R.drawable.ic_launcher);
+        //ImageView image = (ImageView) layout.findViewById(R.id.image);
+        //image.setImageResource(R.drawable.ic_launcher);
 
         // testo bregu strozzati
-        TextView text = (TextView) layout.findViewById(R.id.text);
-        text.setText("Bregu strozzati");
+        //TextView text = (TextView) layout.findViewById(R.id.text);
+        //text.setText("Bregu strozzati");
 
         // Toast...
         Toast toast = new Toast(getApplicationContext());
