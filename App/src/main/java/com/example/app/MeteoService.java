@@ -26,7 +26,6 @@ public class MeteoService extends Service {
 
     @Override
     public void onCreate() {
-        System.out.println("onCreate");
         sendHttpRequest();
     }
 
@@ -45,6 +44,7 @@ public class MeteoService extends Service {
 
     }
 
+    //start thread che invia richiesta http
     private void sendHttpRequest()  {
 
         new Thread(new Runnable() {
@@ -79,6 +79,7 @@ public class MeteoService extends Service {
 
     }
 
+    //converte flusso in input in una stringa
     private static String convertStreamToString(InputStream is) {
 
         BufferedReader reader = new BufferedReader(new InputStreamReader(is));
@@ -100,14 +101,6 @@ public class MeteoService extends Service {
         }
         return sb.toString();
     }
-
-
-
-
-
-
-
-
 }
 
 
