@@ -35,7 +35,7 @@ public class MyAlarmService extends Service {
         ImageView image = (ImageView) layout.findViewById(R.id.image);
         image.setImageResource(R.drawable.ic_launcher);
 
-        // testo bregu strozzati
+        // testo bregu strozzati veramente
         TextView text = (TextView) layout.findViewById(R.id.text);
         text.setText("Bregu strozzati");
 
