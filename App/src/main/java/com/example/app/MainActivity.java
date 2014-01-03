@@ -15,9 +15,6 @@ import android.content.Intent;
 import android.widget.TimePicker;
 import android.widget.DatePicker;
 import android.widget.Button;
-import android.widget.TextView;
-import android.widget.Toast;
-
 
 
 public class MainActivity extends Activity {
@@ -38,20 +35,6 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        /*if (savedInstanceState == null) {
-            getFragmentManager().beginTransaction()
-                    .add(R.id.container, new PlaceholderFragment())
-                    .commit();
-        }*/
-
-        //Intent myIntent = new Intent(MainActivity.this, MyAlarmService.class);
-        //PendingIntent pendingIntent = PendingIntent.getService(MainActivity.this, 0, myIntent, 0);
-        //AlarmManager alarmManager = (AlarmManager)getSystemService(ALARM_SERVICE);
-
-        //Calendar calendar = Calendar.getInstance();
-        //calendar.setTimeInMillis(System.currentTimeMillis());
-        //TODO datepicker
-        //calendar.set(2013,Calendar.DECEMBER,30,18,32);
 
         //toglie l'icona e il titolo del app dal actionbar
         getActionBar().setDisplayShowHomeEnabled(false);
@@ -65,9 +48,7 @@ public class MainActivity extends Activity {
         startService(meteoIntent);
 
 
-
-        //alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
-
+        //prende ora della sveglia dal date picker
         btnSetAlarm = (Button) findViewById(R.id.btnSetAlarm);
         btnSetAlarm.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -81,10 +62,11 @@ public class MainActivity extends Activity {
                 hour=tpResult.getCurrentHour();
                 minute=tpResult.getCurrentMinute();
 
+                //chiama un alarmservice
                 Intent myIntent = new Intent(MainActivity.this, MyAlarmService.class);
                 PendingIntent pendingIntent = PendingIntent.getService(MainActivity.this, 0, myIntent, 0);
                 AlarmManager alarmManager = (AlarmManager)getSystemService(ALARM_SERVICE);
-
+                //imposta l'ora e fa partire
                 Calendar calendar = Calendar.getInstance();
                 calendar.setTimeInMillis(System.currentTimeMillis());
                 calendar.set(year,month,day,hour,minute);
