@@ -31,8 +31,6 @@ public class GpsLocalizationService extends Service {
     public void onCreate(){
 
         LocationManager mgr;
-        double latitude;
-        double longitude;
 
         mgr=(LocationManager)getSystemService(LOCATION_SERVICE);
         LocationListener locationListener = new myLocationListener();
