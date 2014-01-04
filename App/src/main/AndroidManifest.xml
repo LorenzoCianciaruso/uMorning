@@ -24,6 +24,7 @@
         </activity>
         <service android:name=".MyAlarmService" />
         <service android:name=".MeteoService" />
+        <service android:name=".GpsLocalizationService" />
 
     </application>
     <uses-permission android:name="android.permission.VIBRATE" />

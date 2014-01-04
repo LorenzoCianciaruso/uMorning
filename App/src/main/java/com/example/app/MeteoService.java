@@ -26,6 +26,7 @@ public class MeteoService extends Service {
 
     @Override
     public void onCreate() {
+
         sendHttpRequest();
     }
 
@@ -39,13 +40,12 @@ public class MeteoService extends Service {
 
     }
 
-    @Override
-    public void onStart(Intent intent, int startId){
 
-    }
 
     //start thread che invia richiesta http a metwit
     private void sendHttpRequest()  {
+
+
 
         new Thread(new Runnable() {
             //Thread to stop network calls on the UI thread
@@ -69,7 +69,7 @@ public class MeteoService extends Service {
                     //Do something with the response
                 }
                 catch (IOException e) {
-                    System.out.println("eccezioni");
+
                     Log.e("Tag", "Could not get HTML: " + e.getMessage());
                 }
             }

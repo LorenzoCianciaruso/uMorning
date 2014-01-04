@@ -41,7 +41,8 @@ public class MainActivity extends Activity {
         getActionBar().setDisplayShowTitleEnabled(false);
 
         //GPSLocation
-
+        Intent gpsIntent = new Intent(this, GpsLocalizationService.class);
+        startService(gpsIntent);
 
         //MeteoService, richiesta informazioni meteo
         Intent meteoIntent = new Intent(this, MeteoService.class);
