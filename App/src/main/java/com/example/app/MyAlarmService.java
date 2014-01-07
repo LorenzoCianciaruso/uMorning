@@ -31,8 +31,8 @@ public class MyAlarmService extends Service {
         r.play();
         //riapri il main
         //TODO aprire qualcosa che faccia snooze e stop e che gestisca la vibrazione e la suoneria magari
-        Intent reopen = new Intent(this, MainActivity.class);
-        startActivity(reopen);
+        Intent intent = new Intent(this, Prova.class);
+        startActivity(intent);
     }
 
     @Override

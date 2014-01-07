@@ -22,16 +22,20 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <service android:name=".MyAlarmService" />
-        <service android:name=".MeteoService" />
-        <service android:name=".GpsLocalizationService" />
 
+        <service android:name="com.example.app.MyAlarmService" />
+        <service android:name="com.example.app.MeteoService" />
+        <service android:name="com.example.app.GpsLocalizationService" />
+
+        <activity
+            android:name="com.example.app.Prova"
+            android:label="@string/title_activity_prova" >
+        </activity>
     </application>
+
     <uses-permission android:name="android.permission.VIBRATE" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-
-
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
 </manifest>
