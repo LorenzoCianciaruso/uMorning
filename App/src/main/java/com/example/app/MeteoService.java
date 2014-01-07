@@ -17,11 +17,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
-
-
-/**
- * Created by Lorenzo on 29/12/13.
- */
 public class MeteoService extends Service {
 
     @Override

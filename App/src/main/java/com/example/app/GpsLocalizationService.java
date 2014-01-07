@@ -14,9 +14,6 @@ import android.widget.Toast;
 
 import static android.widget.Toast.LENGTH_LONG;
 
-/**
- * Created by Lorenzo on 04/01/14.
- */
 public class GpsLocalizationService extends Service {
 
 
