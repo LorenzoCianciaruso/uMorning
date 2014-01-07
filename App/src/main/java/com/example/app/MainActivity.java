@@ -15,6 +15,7 @@ import android.content.Intent;
 import android.widget.TimePicker;
 import android.widget.DatePicker;
 import android.widget.Button;
+import android.widget.Toast;
 
 
 public class MainActivity extends Activity {
@@ -40,12 +41,25 @@ public class MainActivity extends Activity {
         getActionBar().setDisplayShowHomeEnabled(false);
         getActionBar().setDisplayShowTitleEnabled(false);
 
-        //GPSLocation
-        Intent gpsIntent = new Intent(this, GpsLocalizationService.class);
-        startService(gpsIntent);
+        //GPSLocalization
+        //Intent gpsIntent = new Intent(this, GpsLocalizationService.class);
+        //startService(gpsIntent);
+        double latitude;
+        double longitude;
+        GpsLocalizationService gps = new GpsLocalizationService(this);
+        if(gps.canGetLocation()){ // gps enabled} // return boolean true/false
+            latitude = gps.getLatitude(); // returns latitude
+            longitude = gps.getLongitude(); // returns longitude
+            Toast.makeText(getApplicationContext(), "Your Location is - \nLat: " + latitude + "\nLong: " + longitude, Toast.LENGTH_LONG).show();
+        }else{
+            gps.showSettingsAlert();
+        }
+
 
         //MeteoService, richiesta informazioni meteo
         Intent meteoIntent = new Intent(this, MeteoService.class);
+       // meteoIntent.putExtra("latitude", latitude);
+       // meteoIntent.putExtra("longitude", longitude);
         startService(meteoIntent);
 
 
@@ -67,6 +81,7 @@ public class MainActivity extends Activity {
                 Intent myIntent = new Intent(MainActivity.this, MyAlarmService.class);
                 PendingIntent pendingIntent = PendingIntent.getService(MainActivity.this, 0, myIntent, 0);
                 AlarmManager alarmManager = (AlarmManager)getSystemService(ALARM_SERVICE);
+
                 //imposta l'ora e fa partire
                 Calendar calendar = Calendar.getInstance();
                 calendar.setTimeInMillis(System.currentTimeMillis());
