@@ -16,7 +16,7 @@ import android.widget.Toast;
 
 
 /**
- * Created by Lorenzo on 04/01/14.
+ * Created by Lorenzo on 04/01/14.s
  */
 public class GpsLocalizationService extends Service implements LocationListener {
 
