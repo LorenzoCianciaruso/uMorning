@@ -15,22 +15,10 @@ public class MyAlarmService extends Service {
     @Override
     public void onCreate() {
 
-        //popup
-        Toast.makeText(this, "Bregu ammazzati", Toast.LENGTH_LONG).show();
-        //servizio vibrazione
-        Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
-        // inizia subito
-        // ogni elemento alterna vibrazione, pausa, vibrazione, pausa...
-        long[] pattern = {0,500,110,500,110,450,110,200,110,170,40,450,110,200,110,170,40,500};
-        // Il '-1' vibra una volta
-        // '0' vibra all'infinito
-        v.vibrate(pattern, 0);
-        //servizio suoneria
-        Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
-        Ringtone r = RingtoneManager.getRingtone(getApplicationContext(), notification);
-        r.play();
+
+
         //riapri il main
-        //TODO bregu serpente si apre l'activity ciucciamelo e metti i bottoni nell'actvity
+
         Intent dialogIntent = new Intent(getBaseContext(), Prova.class);
         dialogIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         getApplication().startActivity(dialogIntent);

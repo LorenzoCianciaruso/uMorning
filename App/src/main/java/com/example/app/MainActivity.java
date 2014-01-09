@@ -16,6 +16,7 @@ import android.widget.TimePicker;
 import android.widget.DatePicker;
 import android.widget.Button;
 import android.widget.Toast;
+import java.lang.Thread;
 
 
 public class MainActivity extends Activity {
@@ -44,17 +45,33 @@ public class MainActivity extends Activity {
         //GPSLocalization
         //Intent gpsIntent = new Intent(this, GpsLocalizationService.class);
         //startService(gpsIntent);
-        double latitude;
-        double longitude;
+        /*
+        double latitude=0;
+        double longitude=0;
         GpsLocalizationService gps = new GpsLocalizationService(this);
-        if(gps.canGetLocation()){ // gps enabled} // return boolean true/false
+
+        if(!gps.canGetLocation()){
+            gps.showSettingsAlert();
+
+
+            if(gps.canGetLocation()){
+            // gps enabled} // return boolean true/false
             latitude = gps.getLatitude(); // returns latitude
             longitude = gps.getLongitude(); // returns longitude
-            Toast.makeText(getApplicationContext(), "Your Location is - \nLat: " + latitude + "\nLong: " + longitude, Toast.LENGTH_LONG).show();
+            }
+
+
         }else{
-            gps.showSettingsAlert();
+
+                // gps enabled} // return boolean true/false
+                latitude = gps.getLatitude(); // returns latitude
+                longitude = gps.getLongitude(); // returns longitude
+
         }
 
+
+        Toast.makeText(getApplicationContext(), "Your Location is - \nLat: " + latitude + "\nLong: " + longitude, Toast.LENGTH_LONG).show();
+*/
 
         //MeteoService, richiesta informazioni meteo
         Intent meteoIntent = new Intent(this, MeteoService.class);

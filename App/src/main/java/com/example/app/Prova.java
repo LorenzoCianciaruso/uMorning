@@ -1,5 +1,10 @@
 package com.example.app;
 
+import android.content.Context;
+import android.media.Ringtone;
+import android.media.RingtoneManager;
+import android.net.Uri;
+import android.os.Vibrator;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
@@ -17,6 +22,21 @@ public class Prova extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_prova);
+
+           //TODO mettere bottoni
+
+        //servizio vibrazione
+        Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+        // inizia subito
+        // ogni elemento alterna vibrazione, pausa, vibrazione, pausa...
+        long[] pattern = {0,500,110,500,110,450,110,200,110,170,40,450,110,200,110,170,40,500};
+        // Il '-1' vibra una volta
+        // '0' vibra all'infinito
+        v.vibrate(pattern, 0);
+        //servizio suoneria
+        Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
+        Ringtone r = RingtoneManager.getRingtone(getApplicationContext(), notification);
+        r.play();
 
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()

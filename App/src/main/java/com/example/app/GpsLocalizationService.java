@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.provider.Settings;
 import android.util.Log;
+import android.widget.Toast;
 
 
 /**
@@ -19,7 +20,55 @@ import android.util.Log;
  */
 public class GpsLocalizationService extends Service implements LocationListener {
 
+    // Acquire a reference to the system Location Manager
+    LocationManager locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
 
+    // Define a listener that responds to location updates
+    LocationListener locationListener = new LocationListener() {
+        public void onLocationChanged(Location location) {
+            // Called when a new location is found by the network location provider.
+            double latitude = location.getLatitude();
+            double longitude = location.getLongitude();
+
+            Toast.makeText(getApplicationContext(), latitude+" "+longitude, Toast.LENGTH_LONG);
+        }
+
+        public void onStatusChanged(String provider, int status, Bundle extras) {}
+
+        public void onProviderEnabled(String provider) {}
+
+        public void onProviderDisabled(String provider) {}
+    };
+
+    @Override
+    public void onLocationChanged(Location location) {
+
+    }
+
+    @Override
+    public void onStatusChanged(String s, int i, Bundle bundle) {
+
+    }
+
+    @Override
+    public void onProviderEnabled(String s) {
+
+    }
+
+    @Override
+    public void onProviderDisabled(String s) {
+
+    }
+
+    @Override
+    public IBinder onBind(Intent intent) {
+        return null;
+    }
+
+// Register the listener with the Location Manager to receive location updates
+    //locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
+
+/*
 
     private final Context mContext;
 
@@ -137,39 +186,39 @@ public class GpsLocalizationService extends Service implements LocationListener 
     /**
      * Function to get latitude
      * */
-    public double getLatitude(){
+    /*public double getLatitude(){
         if(location != null){
             latitude = location.getLatitude();
         }
 
         // return latitude
         return latitude;
-    }
+    }*/
 
     /**
      * Function to get longitude
      * */
-    public double getLongitude(){
+    /*public double getLongitude(){
         if(location != null){
             longitude = location.getLongitude();
         }
 
         // return longitude
         return longitude;
-    }
+    }*/
 
     /**
      * Function to check if best network provider
      * @return boolean
      * */
-    public boolean canGetLocation() {
+    /*public boolean canGetLocation() {
         return this.canGetLocation;
-    }
+    }*/
 
     /**
      * Function to show settings alert dialog
      * */
-    public void showSettingsAlert(){
+   /* public void showSettingsAlert(){
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(mContext);
 
         // Setting Dialog Title
@@ -199,16 +248,20 @@ public class GpsLocalizationService extends Service implements LocationListener 
         // Showing Alert Message
         alertDialog.show();
     }
-
+*/
     /**
      * Stop using GPS listener
      * Calling this function will stop using GPS in your app
      * */
-    public void stopUsingGPS(){
+    /*public void stopUsingGPS(){
         if(locationManager != null){
             locationManager.removeUpdates(GpsLocalizationService.this);
         }
-    }
+    }*/
+
+
+
+   // prima soluzione
     /*@Override
     public IBinder onBind(Intent intent) {
         return null;
@@ -244,8 +297,7 @@ public class GpsLocalizationService extends Service implements LocationListener 
 
 
                 Context context = getApplicationContext();
-                Toast toast = Toast.makeText(context, latitude+" "+longitude, Toast.LENGTH_LONG);
-                toast.show();
+
 
             }
         }
@@ -264,6 +316,6 @@ public class GpsLocalizationService extends Service implements LocationListener 
         public void onProviderDisabled(String s) {
 
         }
-    }
-*/
+    }*/
+
 }
