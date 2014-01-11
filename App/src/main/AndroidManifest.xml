@@ -28,7 +28,7 @@
         <service android:name="com.example.app.GpsLocalizationService" />
 
         <activity
-            android:name="com.example.app.Prova"
+            android:name=".AlarmActivity"
             android:label="@string/title_activity_prova" >
         </activity>
     </application>

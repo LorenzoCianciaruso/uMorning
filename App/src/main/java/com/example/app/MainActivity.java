@@ -2,11 +2,6 @@ package com.example.app;
 
 import android.app.Activity;
 import android.app.Fragment;
-import android.content.Context;
-import android.location.Criteria;
-import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -20,7 +15,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.security.Provider;
 import java.util.Calendar;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
@@ -28,7 +22,7 @@ import android.content.Intent;
 import android.widget.TimePicker;
 import android.widget.DatePicker;
 import android.widget.Button;
-import android.widget.Toast;
+
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -39,7 +33,6 @@ import org.apache.http.params.BasicHttpParams;
 import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.params.HttpParams;
 
-import java.lang.Thread;
 
 
 public class MainActivity extends Activity {

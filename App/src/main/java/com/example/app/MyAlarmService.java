@@ -1,13 +1,8 @@
 package com.example.app;
 
 import android.app.Service;
-import android.content.Context;
 import android.content.Intent;
-import android.media.Ringtone;
-import android.media.RingtoneManager;
-import android.net.Uri;
 import android.os.IBinder;
-import android.os.Vibrator;
 import android.widget.Toast;
 
 public class MyAlarmService extends Service {
@@ -19,7 +14,7 @@ public class MyAlarmService extends Service {
 
         //riapri il main
 
-        Intent dialogIntent = new Intent(getBaseContext(), Prova.class);
+        Intent dialogIntent = new Intent(getBaseContext(), AlarmActivity.class);
         dialogIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         getApplication().startActivity(dialogIntent);
     }
