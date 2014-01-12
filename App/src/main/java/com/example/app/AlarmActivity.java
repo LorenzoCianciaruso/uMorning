@@ -21,7 +21,7 @@ public class AlarmActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_prova);
 
-           //TODO mettere bottoni
+           //TODO mettere bottoni stop e snooze poi bisogna trovare il modo di fare dei metodi che lo facciano
 
         //servizio vibrazione
         Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
@@ -67,6 +67,7 @@ public class AlarmActivity extends ActionBarActivity {
     /**
      * A placeholder fragment containing a simple view.
      */
+    //TODO ancora sti fragment di merda?? dobbiamo decidere se li vogliamo usare o fare tutto ad activity
     public static class PlaceholderFragment extends Fragment {
 
         public PlaceholderFragment() {

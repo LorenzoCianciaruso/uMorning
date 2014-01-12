@@ -33,6 +33,16 @@ import org.apache.http.params.BasicHttpParams;
 import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.params.HttpParams;
 
+import android.os.Bundle;
+import android.os.IBinder;
+import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
+import android.content.ComponentName;
+import android.content.ServiceConnection;
+import android.view.Menu;
+import com.example.app.LocalizationBoundService.LocalBinder;
+
 
 
 public class MainActivity extends Activity {
@@ -50,11 +60,50 @@ public class MainActivity extends Activity {
 
     private double latitude=0;
     private double longitude=0;
+    LocalizationBoundService LocalizationService;
+    boolean isBound = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
+        super.onCreate(savedInstanceState);
+        Intent intent = new Intent(this, LocalizationBoundService.class);
+        bindService(intent, myConnection, Context.BIND_AUTO_CREATE);
         setContentView(R.layout.activity_main);
+
+        //TODO spostare tutta questa robaccia nella classe setalarm activity e fare un bottone nellla main che ci vada
+        //TODO spostando tutte le variabili e le import perchè non si riesce a capire un cazzo
+        //prende ora della sveglia dal date picker
+        btnSetAlarm = (Button) findViewById(R.id.btnSetAlarm);
+        btnSetAlarm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                tpResult=(TimePicker) findViewById(R.id.timePicker);
+                dpResult=(DatePicker) findViewById(R.id.datePicker);
+                year=dpResult.getYear();
+                month=dpResult.getMonth();
+                day=dpResult.getDayOfMonth();
+                hour=tpResult.getCurrentHour();
+                minute=tpResult.getCurrentMinute();
+
+                //chiama un alarmservice
+                Intent myIntent = new Intent(MainActivity.this, MyAlarmService.class);
+                PendingIntent pendingIntent = PendingIntent.getService(MainActivity.this, 0, myIntent, 0);
+                AlarmManager alarmManager = (AlarmManager)getSystemService(ALARM_SERVICE);
+
+                //imposta l'ora e fa partire
+                Calendar calendar = Calendar.getInstance();
+                calendar.setTimeInMillis(System.currentTimeMillis());
+                calendar.set(year,month,day,hour,minute);
+                alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
+            }
+        });
+
+        //TODO il todo finisce qui
+
+
 
 
         //toglie l'icona e il titolo del app dal actionbar
@@ -62,10 +111,10 @@ public class MainActivity extends Activity {
         getActionBar().setDisplayShowTitleEnabled(false);
 
         //GPSLocalization
-        //Intent gpsIntent = new Intent(this, GpsLocalizationService.class);
+        //Intent gpsIntent = new Intent(this, LocalizationBoundService.class);
         //startService(gpsIntent);
         /*
-        GpsLocalizationService gps = new GpsLocalizationService(this);
+        LocalizationBoundService gps = new LocalizationBoundService(this);
 
         if(!gps.canGetLocation()){
             gps.showSettingsAlert();
@@ -97,42 +146,29 @@ public class MainActivity extends Activity {
         startService(meteoIntent);*/
 
 
-        //prende ora della sveglia dal date picker
-        btnSetAlarm = (Button) findViewById(R.id.btnSetAlarm);
-        btnSetAlarm.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
 
-                tpResult=(TimePicker) findViewById(R.id.timePicker);
-                dpResult=(DatePicker) findViewById(R.id.datePicker);
-                year=dpResult.getYear();
-                month=dpResult.getMonth();
-                day=dpResult.getDayOfMonth();
-                hour=tpResult.getCurrentHour();
-                minute=tpResult.getCurrentMinute();
-
-                //chiama un alarmservice
-                Intent myIntent = new Intent(MainActivity.this, MyAlarmService.class);
-                PendingIntent pendingIntent = PendingIntent.getService(MainActivity.this, 0, myIntent, 0);
-                AlarmManager alarmManager = (AlarmManager)getSystemService(ALARM_SERVICE);
-
-                //imposta l'ora e fa partire
-                Calendar calendar = Calendar.getInstance();
-                calendar.setTimeInMillis(System.currentTimeMillis());
-                calendar.set(year,month,day,hour,minute);
-                alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
-            }
-        });
     }
 
+    private ServiceConnection myConnection = new ServiceConnection() {
 
+        public void onServiceConnected(ComponentName className,
+                                       IBinder service) {
+            LocalBinder binder = (LocalBinder) service;
+            LocalizationService = binder.getService();
+            isBound = true;
+        }
 
+        public void onServiceDisconnected(ComponentName arg0) {
+            isBound = false;
+        }
+
+    };
 
 
     @Override
     public void onResume(){
 
-      /*  GpsLocalizationService gps = new GpsLocalizationService(MainActivity.this);
+      /*  LocalizationBoundService gps = new LocalizationBoundService(MainActivity.this);
 
         // check if GPS enabled
         if(gps.canGetLocation()){
@@ -182,6 +218,7 @@ public class MainActivity extends Activity {
     /**
      * A placeholder fragment containing a simple view.
      */
+    //TODO sto fragmaent a che cazzo serve?
     public static class PlaceholderFragment extends Fragment {
 
         public PlaceholderFragment() {

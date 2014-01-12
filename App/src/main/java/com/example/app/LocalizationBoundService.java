@@ -12,14 +12,19 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.provider.Settings;
 import android.util.Log;
-import android.widget.Toast;
+import android.app.Service;
+import android.content.Intent;
+import android.os.Binder;
 
 
 /**
  * Created by Lorenzo on 04/01/14.s
+ * Fixed by [SWIMv2] Difo [ita]
  */
-public class GpsLocalizationService extends Service implements LocationListener {
+public class LocalizationBoundService extends Service implements LocationListener {
     private final Context mContext;
+
+    private final IBinder myBinder = new LocalBinder();
 
     // flag for GPS status
     boolean isGPSEnabled = false;
@@ -43,7 +48,7 @@ public class GpsLocalizationService extends Service implements LocationListener 
     // Declaring a Location Manager
     protected LocationManager locationManager;
 
-    public GpsLocalizationService(Context context) {
+    public LocalizationBoundService(Context context) {
         this.mContext = context;
         getLocation();
     }
@@ -114,7 +119,7 @@ public class GpsLocalizationService extends Service implements LocationListener 
      * */
     public void stopUsingGPS(){
         if(locationManager != null){
-            locationManager.removeUpdates(GpsLocalizationService.this);
+            locationManager.removeUpdates(LocalizationBoundService.this);
         }
     }
 
@@ -198,11 +203,20 @@ public class GpsLocalizationService extends Service implements LocationListener 
     public void onStatusChanged(String provider, int status, Bundle extras) {
     }
 
+
+
     @Override
     public IBinder onBind(Intent arg0) {
+        // TODO Auto-generated method stub
         return null;
     }
 
+    public class LocalBinder extends Binder {
+        LocalizationBoundService getService() {
+            return LocalizationBoundService.this;
+
+        }
+    }
 
 
 /*
@@ -279,7 +293,7 @@ public class GpsLocalizationService extends Service implements LocationListener 
     // Declaring a Location Manager
     protected LocationManager locationManager;
 
-    public GpsLocalizationService(Context context) {
+    public LocalizationBoundService(Context context) {
         this.mContext = context;
         getLocation();
     }
@@ -441,7 +455,7 @@ public class GpsLocalizationService extends Service implements LocationListener 
      * */
     /*public void stopUsingGPS(){
         if(locationManager != null){
-            locationManager.removeUpdates(GpsLocalizationService.this);
+            locationManager.removeUpdates(LocalizationBoundService.this);
         }
     }*/
 
@@ -504,4 +518,4 @@ public class GpsLocalizationService extends Service implements LocationListener 
         }
     }*/
 
-}
+        }
