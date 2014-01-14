@@ -33,15 +33,9 @@ import org.apache.http.params.BasicHttpParams;
 import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.params.HttpParams;
 
-import android.os.IBinder;
-import android.content.Context;
-import android.content.ComponentName;
-import android.content.ServiceConnection;
 import android.widget.Toast;
 
-//import com.example.app.LocalizationBoundService.LocalBinder;
-
-import static java.lang.Double.toString;
+//import com.example.app.GpsLocalizationService.LocalBinder;
 
 
 public class MainActivity extends Activity {
@@ -60,8 +54,8 @@ public class MainActivity extends Activity {
     private double latitude=0;
     private double longitude=0;
 
-    private LocalizationBoundService gps;
-    //LocalizationBoundService localizationService;
+    private GpsLocalizationService gps;
+    //GpsLocalizationService localizationService;
     //boolean isBound = false;
 
     @Override
@@ -69,7 +63,7 @@ public class MainActivity extends Activity {
 
         super.onCreate(savedInstanceState);
         super.onCreate(savedInstanceState);
-       // Intent intent = new Intent(this, LocalizationBoundService.class);
+       // Intent intent = new Intent(this, GpsLocalizationService.class);
        // bindService(intent, myConnection, Context.BIND_AUTO_CREATE);
        // startService(intent);
         setContentView(R.layout.activity_main);
@@ -134,11 +128,11 @@ public class MainActivity extends Activity {
     @Override
     public void onResume(){
         super.onResume();
-        gps = new LocalizationBoundService(MainActivity.this);
+        gps = new GpsLocalizationService(MainActivity.this);
 
         // check if GPS enabled
         if(gps.canGetLocation()){
-            System.out.println("ABILITATO");
+
             latitude = gps.getLatitude();
             longitude = gps.getLongitude();
 

@@ -25,7 +25,7 @@
 
         <service android:name="com.example.app.MyAlarmService" />
         <service android:name="com.example.app.MeteoService" />
-        <service android:name=".LocalizationBoundService" />
+        <service android:name=".GpsLocalizationService" />
 
         <activity
             android:name=".AlarmActivity"

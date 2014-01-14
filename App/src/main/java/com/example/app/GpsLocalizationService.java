@@ -12,17 +12,13 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.provider.Settings;
 import android.util.Log;
-import android.app.Service;
-import android.content.Intent;
-import android.os.Binder;
-import android.widget.Toast;
 
 
 /**
  * Created by Lorenzo on 04/01/14.s
  * Fixed by [SWIMv2] Difo [ita] coglione
  */
-public class LocalizationBoundService extends Service implements LocationListener {
+public class GpsLocalizationService extends Service implements LocationListener {
 
     private final Context mContext;
 
@@ -48,7 +44,7 @@ public class LocalizationBoundService extends Service implements LocationListene
     // Declaring a Location Manager
     protected LocationManager locationManager;
 
-    public LocalizationBoundService(Context context) {
+    public GpsLocalizationService(Context context) {
         this.mContext = context;
         getLocation();
     }
@@ -119,7 +115,7 @@ public class LocalizationBoundService extends Service implements LocationListene
      * */
     public void stopUsingGPS(){
         if(locationManager != null){
-            locationManager.removeUpdates(LocalizationBoundService.this);
+            locationManager.removeUpdates(GpsLocalizationService.this);
         }
     }
 
@@ -254,8 +250,8 @@ public class LocalizationBoundService extends Service implements LocationListene
     }
 
     public class LocalBinder extends Binder {
-        LocalizationBoundService getService() {
-            return LocalizationBoundService.this;
+        GpsLocalizationService getService() {
+            return GpsLocalizationService.this;
 
         }
     }
