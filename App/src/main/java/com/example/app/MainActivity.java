@@ -33,16 +33,15 @@ import org.apache.http.params.BasicHttpParams;
 import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.params.HttpParams;
 
-import android.os.Bundle;
 import android.os.IBinder;
-import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.content.ComponentName;
 import android.content.ServiceConnection;
-import android.view.Menu;
-import com.example.app.LocalizationBoundService.LocalBinder;
+import android.widget.Toast;
 
+//import com.example.app.LocalizationBoundService.LocalBinder;
+
+import static java.lang.Double.toString;
 
 
 public class MainActivity extends Activity {
@@ -60,16 +59,19 @@ public class MainActivity extends Activity {
 
     private double latitude=0;
     private double longitude=0;
-    LocalizationBoundService LocalizationService;
-    boolean isBound = false;
+
+    private LocalizationBoundService gps;
+    //LocalizationBoundService localizationService;
+    //boolean isBound = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         super.onCreate(savedInstanceState);
-        Intent intent = new Intent(this, LocalizationBoundService.class);
-        bindService(intent, myConnection, Context.BIND_AUTO_CREATE);
+       // Intent intent = new Intent(this, LocalizationBoundService.class);
+       // bindService(intent, myConnection, Context.BIND_AUTO_CREATE);
+       // startService(intent);
         setContentView(R.layout.activity_main);
 
         //TODO spostare tutta questa robaccia nella classe setalarm activity e fare un bottone nellla main che ci vada
@@ -101,6 +103,7 @@ public class MainActivity extends Activity {
             }
         });
 
+
         //TODO il todo finisce qui
 
 
@@ -110,51 +113,15 @@ public class MainActivity extends Activity {
         getActionBar().setDisplayShowHomeEnabled(false);
         getActionBar().setDisplayShowTitleEnabled(false);
 
-        //GPSLocalization
-        //Intent gpsIntent = new Intent(this, LocalizationBoundService.class);
-        //startService(gpsIntent);
-        /*
-        LocalizationBoundService gps = new LocalizationBoundService(this);
-
-        if(!gps.canGetLocation()){
-            gps.showSettingsAlert();
-
-            if(gps.canGetLocation()){
-            // gps enabled} // return boolean true/false
-            latitude = gps.getLatitude(); // returns latitude
-            longitude = gps.getLongitude(); // returns longitude
-            }
-
-        }else{
-
-                // gps enabled} // return boolean true/false
-                latitude = gps.getLatitude(); // returns latitude
-                longitude = gps.getLongitude(); // returns longitude
-
-        }
-
-        Toast.makeText(getApplicationContext(), "Your Location is - \nLat: " + latitude + "\nLong: " + longitude, Toast.LENGTH_LONG).show();
-*/
-
-
-
-        /*
-        //MeteoService, richiesta informazioni meteo
-        Intent meteoIntent = new Intent(this, MeteoService.class);
-       // meteoIntent.putExtra("latitude", latitude);
-       // meteoIntent.putExtra("longitude", longitude);
-        startService(meteoIntent);*/
-
-
 
     }
-
+/*
     private ServiceConnection myConnection = new ServiceConnection() {
 
         public void onServiceConnected(ComponentName className,
                                        IBinder service) {
             LocalBinder binder = (LocalBinder) service;
-            LocalizationService = binder.getService();
+            localizationService = binder.getService();
             isBound = true;
         }
 
@@ -163,18 +130,17 @@ public class MainActivity extends Activity {
         }
 
     };
-
-
+    */
     @Override
     public void onResume(){
-
-      /*  LocalizationBoundService gps = new LocalizationBoundService(MainActivity.this);
+        super.onResume();
+        gps = new LocalizationBoundService(MainActivity.this);
 
         // check if GPS enabled
         if(gps.canGetLocation()){
-
-            double latitude = gps.getLatitude();
-            double longitude = gps.getLongitude();
+            System.out.println("ABILITATO");
+            latitude = gps.getLatitude();
+            longitude = gps.getLongitude();
 
 
 
@@ -182,14 +148,14 @@ public class MainActivity extends Activity {
             Toast.makeText(getApplicationContext(), "Your Location is - \nLat: " + latitude + "\nLong: " + longitude, Toast.LENGTH_LONG).show();
 
             new AsyncTaskMeteoRequest().execute(latitude,longitude);
+
         }else{
+            System.out.println("SETTINGS");
             // can't get location
             // GPS or Network is not enabled
             // Ask user to enable GPS/network in settings
             gps.showSettingsAlert();
-        }*/
-
-
+        }
 
     }
 
@@ -273,6 +239,7 @@ public class MainActivity extends Activity {
 
         }
 
+        //TODO metodo solo per debug
         private String convertStreamToString(InputStream is) {
 
             BufferedReader reader = new BufferedReader(new InputStreamReader(is));
