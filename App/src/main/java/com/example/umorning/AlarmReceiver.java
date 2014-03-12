@@ -1,14 +1,4 @@
-package com.example.app;
-
-import android.app.AlarmManager;
-import android.app.PendingIntent;
-import android.content.ComponentName;
-import android.content.Context;
-import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.support.v4.content.WakefulBroadcastReceiver;
-
-import java.util.Calendar;
+package com.example.umorning;
 
 /**
  * When the alarm fires, this WakefulBroadcastReceiver receives the broadcast Intent

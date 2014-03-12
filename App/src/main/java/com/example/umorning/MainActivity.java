@@ -1,4 +1,4 @@
-package com.example.app;
+package com.example.umorning;
 
 import android.app.Activity;
 import android.app.Fragment;
@@ -233,33 +233,78 @@ public class MainActivity extends Activity {
 
         }
 
-        //TODO metodo solo per debug
-        private String convertStreamToString(InputStream is) {
 
-            BufferedReader reader = new BufferedReader(new InputStreamReader(is));
-            StringBuilder sb = new StringBuilder();
-
-            String line = null;
-            try {
-                while ((line = reader.readLine()) != null) {
-                    sb.append(line + "\n");
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            } finally {
-                try {
-                    is.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-            return sb.toString();
-        }
 
 
 
     }
+    private class AsyncTaskTrafficRequest extends AsyncTask<Double, Void, String> {
+
+        @Override
+        protected String doInBackground(Double... params) {
+
+            double startLatitude = params[0];
+            double startLongitude = params[1];
+            double endLatitude = params[2];
+            double endLongitude = params[3];
+
+            String url = "http://maps.googleapis.com/maps/api/distancematrix/json?origins="+startLatitude+","+startLongitude+"&destinations="+endLatitude+","+endLongitude+"&mode=driving&language=en-US&sensor=false&key=AIzaSyDj6lm3eLSuOhG4rLXL66WUBg7C7XEDYcA";
+
+            try{
+
+                HttpParams httpParameters = new BasicHttpParams();
+                HttpConnectionParams.setConnectionTimeout(httpParameters, 5000);
+                HttpConnectionParams.setSoTimeout(httpParameters, 5000);
+
+                HttpClient client = new DefaultHttpClient(httpParameters);
+                HttpGet request = new HttpGet(url);
+                HttpResponse response = client.execute(request);
+                HttpEntity entity = response.getEntity();
+                InputStream is = entity.getContent();
+
+                System.out.println("Risposta: "+convertStreamToString(is));
+
+
+                //Do something with the response
+            }
+            catch (IOException e) {
+
+                Log.e("Tag", "Could not get HTML: " + e.getMessage());
+            }
+            //TODO parsing json per estrarre il tempo
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String url){
+            //TODO update tempo
+
+        }
+    }
+
+    //TODO metodo solo per debug
+    private String convertStreamToString(InputStream is) {
+
+        BufferedReader reader = new BufferedReader(new InputStreamReader(is));
+        StringBuilder sb = new StringBuilder();
+
+        String line = null;
+        try {
+            while ((line = reader.readLine()) != null) {
+                sb.append(line + "\n");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                is.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return sb.toString();
+    }
 
 
 
-}
+    }

@@ -1,9 +1,5 @@
-package com.example.app;
+package com.example.umorning;
 
-
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
 
 /**
  * This BroadcastReceiver automatically (re)starts the alarm when the device is
