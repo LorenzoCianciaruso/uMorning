@@ -3,6 +3,8 @@ package com.example.umorning;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.Fragment;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -21,6 +23,8 @@ import java.io.Console;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.Calendar;
 import java.util.Map;
 
@@ -44,7 +48,7 @@ import org.json.JSONObject;
 
 import android.widget.Toast;
 
-//import com.example.app.GpsLocalizationService.LocalBinder;
+
 
 
 public class MainActivity extends Activity {
@@ -200,28 +204,60 @@ public class MainActivity extends Activity {
             HttpEntity entity = response.getEntity();
             InputStream is = entity.getContent();
 
-            System.out.println("Risposta: "+convertStreamToString(is));
+            StringBuilder builder = new StringBuilder();
+            BufferedReader reader = new BufferedReader(new InputStreamReader(is));
+            String line;
+            while ((line = reader.readLine()) != null) {
+                builder.append(line);
+            }
 
-          //  JSONObject json = new JSONObject(convertStreamToString(is));
+            String result = builder.toString();
 
-           // String imageUrl = json.getString("icon");
+            JSONObject jObject = new JSONObject(result);
+            JSONObject jsonWeather = jObject.getJSONArray("objects").getJSONObject(0);
 
-           //  System.out.println("icon "+imageUrl);
+            String locality = jsonWeather.getJSONObject("location").getString("locality");
 
-//TODO parsing json per estrarre url icona località temperatura
+            String iconURL = jsonWeather.getString("icon");
+
+            jsonWeather = jsonWeather.getJSONObject("weather");
+
+
+            //parse da json a int e conversione da fahrenheit a gradi centigradi
+            int temperatureFahrenheit = jsonWeather.getJSONObject("measured").getInt("temperature") - 273 ;
+
+            String temperature = Integer.toString(temperatureFahrenheit);
+
+                return iconURL;
 
         }
         catch (IOException e) {
 
             Log.e("Tag", "Could not get HTML: " + e.getMessage());
-        }
+        } catch (JSONException e) {
+                e.printStackTrace();
+            }
 
             return null;
         }
 
         @Override
-        protected void onPostExecute(String url){
-            //TODO update icona meteo
+        protected void onPostExecute(String iconUrl){
+            try {
+                URL url = new URL(iconUrl);
+                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                connection.setDoInput(true);
+                connection.connect();
+                InputStream input = connection.getInputStream();
+                Bitmap myBitmap = BitmapFactory.decodeStream(input);
+
+                //TODO aggiorna icona usando myBitmap
+
+
+            } catch (IOException e) {
+                e.printStackTrace();
+
+            }
 
         }
     }
