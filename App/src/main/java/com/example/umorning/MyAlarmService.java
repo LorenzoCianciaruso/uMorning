@@ -10,10 +10,7 @@ public class MyAlarmService extends Service {
     @Override
     public void onCreate() {
 
-
-
         //riapri il main
-
         Intent dialogIntent = new Intent(getBaseContext(), AlarmActivity.class);
         dialogIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         getApplication().startActivity(dialogIntent);
@@ -31,11 +28,11 @@ public class MyAlarmService extends Service {
         Toast.makeText(this, "MyAlarmService.onDestroy()", Toast.LENGTH_LONG).show();
     }
 
-    @Override
+    /*@Override
     public void onStart(Intent intent, int startId) {
         super.onStart(intent, startId);
         //Toast.makeText(this, "MyAlarmService.onStart()", Toast.LENGTH_LONG).show();
-    }
+    }*/
 
     @Override
     public boolean onUnbind(Intent intent) {
