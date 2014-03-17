@@ -1,8 +1,10 @@
 package com.example.umorning;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.Fragment;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -65,6 +67,7 @@ public class MainActivity extends Activity {
     //GpsLocalizationService localizationService;
     //boolean isBound = false;
 
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -188,6 +191,7 @@ public class MainActivity extends Activity {
      * A placeholder fragment containing a simple view.
      */
     //TODO sto fragmaent a che cazzo serve?
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     public static class PlaceholderFragment extends Fragment {
 
         public PlaceholderFragment() {
