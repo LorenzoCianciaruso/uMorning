@@ -64,8 +64,7 @@ public class MainActivity extends Activity {
     private double longitude=0;
 
     private GpsLocalizationService gps;
-    //GpsLocalizationService localizationService;
-    //boolean isBound = false;
+
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     @Override
@@ -73,13 +72,9 @@ public class MainActivity extends Activity {
 
         super.onCreate(savedInstanceState);
         super.onCreate(savedInstanceState);
-       // Intent intent = new Intent(this, GpsLocalizationService.class);
-       // bindService(intent, myConnection, Context.BIND_AUTO_CREATE);
-       // startService(intent);
         setContentView(R.layout.activity_main);
 
-        //TODO spostare tutta questa robaccia nella classe setalarm activity e fare un bottone nellla main che ci vada
-        //TODO spostando tutte le variabili e le import perchè non si riesce a capire un cazzo
+        //TODO spostare tutta questa robaccia nella classe setalarm activity e fare un bottone nella main che ci vada con tutte le variabili sopra
         //prende ora della sveglia dal date picker
         btnSetAlarm = (Button) findViewById(R.id.btnSetAlarm);
         btnSetAlarm.setOnClickListener(new View.OnClickListener() {
@@ -111,30 +106,13 @@ public class MainActivity extends Activity {
         //TODO il todo finisce qui
 
 
-
-
         //toglie l'icona e il titolo del app dal actionbar
         getActionBar().setDisplayShowHomeEnabled(false);
         getActionBar().setDisplayShowTitleEnabled(false);
 
 
     }
-/*
-    private ServiceConnection myConnection = new ServiceConnection() {
 
-        public void onServiceConnected(ComponentName className,
-                                       IBinder service) {
-            LocalBinder binder = (LocalBinder) service;
-            localizationService = binder.getService();
-            isBound = true;
-        }
-
-        public void onServiceDisconnected(ComponentName arg0) {
-            isBound = false;
-        }
-
-    };
-    */
     @Override
     public void onResume(){
         super.onResume();
@@ -156,15 +134,10 @@ public class MainActivity extends Activity {
             new AsyncTaskTrafficRequest().execute(latitude, longitude, 45.0, 9.0);
 
         }else{
-            System.out.println("SETTINGS");
-            // can't get location
-            // GPS or Network is not enabled
-            // Ask user to enable GPS/network in settings
+            // Chiedi all'utente di andare nelle impostazioni
             gps.showSettingsAlert();
         }
-
     }
-
 
 
     @Override
@@ -235,14 +208,14 @@ public class MainActivity extends Activity {
 
            //  System.out.println("icon "+imageUrl);
 
-
+//TODO parsing json per estrarre url icona località temperatura
 
         }
         catch (IOException e) {
 
             Log.e("Tag", "Could not get HTML: " + e.getMessage());
         }
-            //TODO parsing json per estrarre url icona località temperatura
+
             return null;
         }
 
@@ -251,12 +224,8 @@ public class MainActivity extends Activity {
             //TODO update icona meteo
 
         }
-
-
-
-
-
     }
+
     private class AsyncTaskTrafficRequest extends AsyncTask<Double, Void, String> {
 
         @Override
@@ -281,7 +250,6 @@ public class MainActivity extends Activity {
                 HttpEntity entity = response.getEntity();
                 InputStream is = entity.getContent();
 
-               /// System.out.println("Risposta: "+convertStreamToString(is));
 
                 StringBuilder builder = new StringBuilder();
                 BufferedReader reader = new BufferedReader(new InputStreamReader(is));
@@ -290,19 +258,12 @@ public class MainActivity extends Activity {
                     builder.append(line);
                 }
 
-
                 String result = builder.toString();
-
                 JSONObject jObject = new JSONObject(result);
-
                 JSONArray jsonRows = jObject.getJSONArray("rows");
-
                 JSONObject jsonElement = (JSONObject) jsonRows.get(0);
-
                 JSONArray jsonElem = jsonElement.getJSONArray("elements");
-
                 JSONObject jsonE = (JSONObject) jsonElem.get(0);
-
                 JSONObject jsonDuration = jsonE.getJSONObject("duration");
 
                 // valore in secondi della durata del viaggio
@@ -316,45 +277,18 @@ public class MainActivity extends Activity {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            //TODO parsing json per estrarre il tempo
+
             return null;
         }
 
         @Override
         protected void onPostExecute(String url){
-            //TODO update tempo
 
         }
     }
-
-    /*
-    private String convertStreamToString(InputStream is) {
-
-        BufferedReader reader = new BufferedReader(new InputStreamReader(is));
-        StringBuilder sb = new StringBuilder();
-
-        String line = null;
-        try {
-            while ((line = reader.readLine()) != null) {
-                sb.append(line + "\n");
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                is.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        return sb.toString();
-    }*/
 
     static String convertStreamToString(java.io.InputStream is) {
         java.util.Scanner s = new java.util.Scanner(is).useDelimiter("\\A");
         return s.hasNext() ? s.next() : "";
     }
-
-
-
     }
