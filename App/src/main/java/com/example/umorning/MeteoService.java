@@ -35,8 +35,6 @@ public class MeteoService extends Service {
 
     }
 
-
-
     //start thread che invia richiesta http a metwit
     private void sendHttpRequest()  {
 

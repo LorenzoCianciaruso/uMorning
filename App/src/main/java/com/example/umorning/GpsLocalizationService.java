@@ -14,34 +14,26 @@ import android.provider.Settings;
 import android.util.Log;
 
 
-/**
- * Created by Lorenzo on 04/01/14.s
- * Fixed by [SWIMv2] Difo [ita] coglione
- */
+
 public class GpsLocalizationService extends Service implements LocationListener {
 
     private final Context mContext;
 
-    // flag for GPS status
+    // flags
     boolean isGPSEnabled = false;
-
-    // flag for network status
     boolean isNetworkEnabled = false;
-
-    // flag for GPS status
     boolean canGetLocation = false;
 
-    Location location; // location
-    double latitude; // latitude
-    double longitude; // longitude
+    Location location;
+    double latitude;
+    double longitude;
 
-    // The minimum distance to change Updates in meters
-    private static final long MIN_DISTANCE_CHANGE_FOR_UPDATES = 10; // 10 meters
+    // Distanza minima per generare un update in metri
+    private static final long MIN_DISTANCE_CHANGE_FOR_UPDATES = 10;
 
-    // The minimum time between updates in milliseconds
-    private static final long MIN_TIME_BW_UPDATES = 1000 * 60 * 1; // 1 minute
+    // Tempo minimo tra gli update in millisecondi
+    private static final long MIN_TIME_BW_UPDATES = 1000 * 60 ;
 
-    // Declaring a Location Manager
     protected LocationManager locationManager;
 
     public GpsLocalizationService(Context context) {
@@ -54,19 +46,18 @@ public class GpsLocalizationService extends Service implements LocationListener 
             locationManager = (LocationManager) mContext
                     .getSystemService(LOCATION_SERVICE);
 
-            // getting GPS status
+            // stato GPS
             isGPSEnabled = locationManager
                     .isProviderEnabled(LocationManager.GPS_PROVIDER);
 
-            // getting network status
+            // stato rete
             isNetworkEnabled = locationManager
                     .isProviderEnabled(LocationManager.NETWORK_PROVIDER);
 
             if (!isGPSEnabled && !isNetworkEnabled) {
-                // no network provider is enabled
+                // no rete
             } else {
                 this.canGetLocation = true;
-                // First get location from Network Provider
                 if (isNetworkEnabled) {
                     locationManager.requestLocationUpdates(
                             LocationManager.NETWORK_PROVIDER,
@@ -82,7 +73,6 @@ public class GpsLocalizationService extends Service implements LocationListener 
                         }
                     }
                 }
-                // if GPS Enabled get lat/long using GPS Services
                 if (isGPSEnabled) {
                     if (location == null) {
                         locationManager.requestLocationUpdates(
@@ -109,9 +99,9 @@ public class GpsLocalizationService extends Service implements LocationListener 
         return location;
     }
 
+    //TODO serve veramente
     /**
      * Stop using GPS listener
-     * Calling this function will stop using GPS in your app
      * */
     public void stopUsingGPS(){
         if(locationManager != null){
@@ -120,7 +110,7 @@ public class GpsLocalizationService extends Service implements LocationListener 
     }
 
     /**
-     * Function to get latitude
+     * Prendi latitude
      * */
     public double getLatitude(){
         if(location != null){
@@ -144,7 +134,7 @@ public class GpsLocalizationService extends Service implements LocationListener 
     }
 
     /**
-     * Function to check GPS/wifi enabled
+     * Controlla se GPS/wifi sono abilitati
      * @return boolean
      * */
     public boolean canGetLocation() {
@@ -152,16 +142,12 @@ public class GpsLocalizationService extends Service implements LocationListener 
     }
 
     /**
-     * Function to show settings alert dialog
-     * On pressing Settings button will lauch Settings Options
+     * Pop-up per aprire le impostaioni e abilitare il GPS
      * */
     public void showSettingsAlert(){
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(mContext);
 
-        // Setting Dialog Title
         alertDialog.setTitle("GPS is settings");
-
-        // Setting Dialog Message
         alertDialog.setMessage("GPS is not enabled. Do you want to go to settings menu?");
 
         // On pressing Settings button
@@ -178,8 +164,6 @@ public class GpsLocalizationService extends Service implements LocationListener 
                 dialog.cancel();
             }
         });
-
-        // Showing Alert Message
         alertDialog.show();
     }
 
@@ -203,59 +187,4 @@ public class GpsLocalizationService extends Service implements LocationListener 
     public IBinder onBind(Intent arg0) {
         return null;
     }
-
 }
-
-
-   // private final Context mContext;
-
-  /*  private LocationManager lm;
-
-    private final IBinder myBinder = new LocalBinder();
-
-
-
-
-    public void onCreate(){
-        lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 500, 1, this);
-    }
-
-
-
-    @Override
-    public IBinder onBind(Intent arg0) {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public void onLocationChanged(Location location) {
-
-    }
-
-    @Override
-    public void onStatusChanged(String s, int i, Bundle bundle) {
-
-    }
-
-    @Override
-    public void onProviderEnabled(String s) {
-
-    }
-
-    @Override
-    public void onProviderDisabled(String s) {
-
-    }
-
-    public class LocalBinder extends Binder {
-        GpsLocalizationService getService() {
-            return GpsLocalizationService.this;
-
-        }
-    }
-
-    }*/
-
-
