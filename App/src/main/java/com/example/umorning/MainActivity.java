@@ -11,11 +11,17 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 import java.io.BufferedReader;
+import java.io.Console;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.Calendar;
+import java.util.Map;
+
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Intent;
@@ -32,6 +38,7 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.params.BasicHttpParams;
 import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.params.HttpParams;
+import org.json.JSONObject;
 
 import android.widget.Toast;
 
@@ -143,6 +150,8 @@ public class MainActivity extends Activity {
 
             new AsyncTaskMeteoRequest().execute(latitude,longitude);
 
+            new AsyncTaskTrafficRequest().execute(latitude, longitude, 45.0, 9.0);
+
         }else{
             System.out.println("SETTINGS");
             // can't get location
@@ -216,8 +225,14 @@ public class MainActivity extends Activity {
 
             System.out.println("Risposta: "+convertStreamToString(is));
 
+          //  JSONObject json = new JSONObject(convertStreamToString(is));
 
-            //Do something with the response
+           // String imageUrl = json.getString("icon");
+
+           //  System.out.println("icon "+imageUrl);
+
+
+
         }
         catch (IOException e) {
 
@@ -248,7 +263,7 @@ public class MainActivity extends Activity {
             double endLatitude = params[2];
             double endLongitude = params[3];
 
-            String url = "http://maps.googleapis.com/maps/api/distancematrix/json?origins="+startLatitude+","+startLongitude+"&destinations="+endLatitude+","+endLongitude+"&mode=driving&language=en-US&sensor=false&key=AIzaSyDj6lm3eLSuOhG4rLXL66WUBg7C7XEDYcA";
+            String url = "https://maps.googleapis.com/maps/api/distancematrix/json?origins="+startLatitude+","+startLongitude+"&destinations="+endLatitude+","+endLongitude+"&mode=driving&language=en-US&sensor=false&key=AIzaSyDj6lm3eLSuOhG4rLXL66WUBg7C7XEDYcA";
 
             try{
 
@@ -262,14 +277,40 @@ public class MainActivity extends Activity {
                 HttpEntity entity = response.getEntity();
                 InputStream is = entity.getContent();
 
-                System.out.println("Risposta: "+convertStreamToString(is));
+               /// System.out.println("Risposta: "+convertStreamToString(is));
+
+                StringBuilder builder = new StringBuilder();
+                BufferedReader reader = new BufferedReader(new InputStreamReader(is));
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    builder.append(line);
+                }
 
 
-                //Do something with the response
+                String result = builder.toString();
+
+                JSONObject jObject = new JSONObject(result);
+
+                JSONArray jsonRows = jObject.getJSONArray("rows");
+
+                JSONObject jsonElement = (JSONObject) jsonRows.get(0);
+
+                JSONArray jsonElem = jsonElement.getJSONArray("elements");
+
+                JSONObject jsonE = (JSONObject) jsonElem.get(0);
+
+                JSONObject jsonDuration = jsonE.getJSONObject("duration");
+
+                // valore in secondi della durata del viaggio
+                int value = jsonDuration.getInt("value");
+
+
             }
             catch (IOException e) {
 
                 Log.e("Tag", "Could not get HTML: " + e.getMessage());
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
             //TODO parsing json per estrarre il tempo
             return null;
@@ -282,7 +323,7 @@ public class MainActivity extends Activity {
         }
     }
 
-    //TODO metodo solo per debug
+    /*
     private String convertStreamToString(InputStream is) {
 
         BufferedReader reader = new BufferedReader(new InputStreamReader(is));
@@ -303,6 +344,11 @@ public class MainActivity extends Activity {
             }
         }
         return sb.toString();
+    }*/
+
+    static String convertStreamToString(java.io.InputStream is) {
+        java.util.Scanner s = new java.util.Scanner(is).useDelimiter("\\A");
+        return s.hasNext() ? s.next() : "";
     }
 
 
