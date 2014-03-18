@@ -2,31 +2,28 @@ package com.example.umorning;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.app.Dialog;
 import android.app.Fragment;
+import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-import java.io.BufferedReader;
-import java.io.Console;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Calendar;
-import java.util.Map;
+
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GooglePlayServicesUtil;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
@@ -35,16 +32,6 @@ import android.widget.TimePicker;
 import android.widget.DatePicker;
 import android.widget.Button;
 
-
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.params.BasicHttpParams;
-import org.apache.http.params.HttpConnectionParams;
-import org.apache.http.params.HttpParams;
-import org.json.JSONObject;
 
 import android.widget.Toast;
 
@@ -64,8 +51,8 @@ public class MainActivity extends Activity {
 
     private Button btnSetAlarm;
 
-    private double latitude=0;
-    private double longitude=0;
+    private double latitude = 0;
+    private double longitude = 0;
 
     private GpsLocalizationService gps;
 
@@ -85,23 +72,23 @@ public class MainActivity extends Activity {
             @Override
             public void onClick(View view) {
 
-                tpResult=(TimePicker) findViewById(R.id.timePicker);
-                dpResult=(DatePicker) findViewById(R.id.datePicker);
-                year=dpResult.getYear();
-                month=dpResult.getMonth();
-                day=dpResult.getDayOfMonth();
-                hour=tpResult.getCurrentHour();
-                minute=tpResult.getCurrentMinute();
+                tpResult = (TimePicker) findViewById(R.id.timePicker);
+                dpResult = (DatePicker) findViewById(R.id.datePicker);
+                year = dpResult.getYear();
+                month = dpResult.getMonth();
+                day = dpResult.getDayOfMonth();
+                hour = tpResult.getCurrentHour();
+                minute = tpResult.getCurrentMinute();
 
                 //chiama un alarmservice
                 Intent myIntent = new Intent(MainActivity.this, MyAlarmService.class);
                 PendingIntent pendingIntent = PendingIntent.getService(MainActivity.this, 0, myIntent, 0);
-                AlarmManager alarmManager = (AlarmManager)getSystemService(ALARM_SERVICE);
+                AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
 
                 //imposta l'ora e fa partire
                 Calendar calendar = Calendar.getInstance();
                 calendar.setTimeInMillis(System.currentTimeMillis());
-                calendar.set(year,month,day,hour,minute);
+                calendar.set(year, month, day, hour, minute);
                 alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
             }
         });
@@ -118,28 +105,40 @@ public class MainActivity extends Activity {
     }
 
     @Override
-    public void onResume(){
+    public void onResume() {
         super.onResume();
         gps = new GpsLocalizationService(MainActivity.this);
 
         // check if GPS enabled
-        if(gps.canGetLocation()){
+        if (gps.canGetLocation()) {
 
             latitude = gps.getLatitude();
             longitude = gps.getLongitude();
 
 
-
             // \n is for new line
             Toast.makeText(getApplicationContext(), "Your Location is - \nLat: " + latitude + "\nLong: " + longitude, Toast.LENGTH_LONG).show();
 
-            new AsyncTaskMeteoRequest().execute(latitude,longitude);
+            new AsyncTaskMeteoRequest().execute(latitude, longitude);
 
             new AsyncTaskTrafficRequest().execute(latitude, longitude, 45.0, 9.0);
 
-        }else{
+        } else {
             // Chiedi all'utente di andare nelle impostazioni
             gps.showSettingsAlert();
+        }
+
+        final int checkPlayStatus = GooglePlayServicesUtil.isGooglePlayServicesAvailable(this);
+
+        if (checkPlayStatus != ConnectionResult.SUCCESS) {
+            Dialog dialog = GooglePlayServicesUtil.getErrorDialog(checkPlayStatus, this, 69, new DialogInterface.OnCancelListener() {
+                @Override
+                public void onCancel(DialogInterface dialog) {
+                    //SDK obbligatorio
+                    finish();
+                }
+            });
+            dialog.show();
         }
     }
 
@@ -182,15 +181,23 @@ public class MainActivity extends Activity {
         }
     }
 
-    private class AsyncTaskMeteoRequest extends AsyncTask<Double, Void, String> {
+    private class AsyncTaskMeteoRequest extends AsyncTask<Double, Void, MetwitRequest> {
 
         @Override
-        protected String doInBackground(Double... params) {
+        protected MetwitRequest doInBackground(Double... params) {
 
             double latitude = params[0];
             double longitude = params[1];
 
-            String url = "https://api.metwit.com/v2/weather/?location_lat="+latitude+"&location_lng="+longitude;
+            MetwitRequest weatherInfo = new MetwitRequest(latitude,longitude);
+
+            weatherInfo.sendHttpRequest();
+
+            return weatherInfo;
+        }
+
+
+           /* String url = "https://api.metwit.com/v2/weather/?location_lat="+latitude+"&location_lng="+longitude;
 
             try{
 
@@ -239,42 +246,54 @@ public class MainActivity extends Activity {
             }
 
             return null;
-        }
+        }*/
 
         @Override
-        protected void onPostExecute(String iconUrl){
-            try {
-                URL url = new URL(iconUrl);
-                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-                connection.setDoInput(true);
-                connection.connect();
-                InputStream input = connection.getInputStream();
-                Bitmap myBitmap = BitmapFactory.decodeStream(input);
+        protected void onPostExecute(MetwitRequest weatherInfo) {
+           // try {
+
+                Toast.makeText(getApplicationContext(), "URL : " + weatherInfo.getIconURL() + "\nTemperature : " + weatherInfo.getTemperature(), Toast.LENGTH_LONG).show();
+
+                //URL url = new URL(weatherInfo.getIconURL());
+                //HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                //connection.setDoInput(true);
+                //connection.connect();
+                //InputStream input = connection.getInputStream();
+                //Bitmap myBitmap = BitmapFactory.decodeStream(input);
 
                 //TODO aggiorna icona usando myBitmap
+                //TODO aggiorna temperatura
+                //TODO aggiorna localita
 
 
-            } catch (IOException e) {
-                e.printStackTrace();
+            //} catch (IOException e) {
+            //    e.printStackTrace();
 
-            }
+           // }
 
         }
     }
 
-    private class AsyncTaskTrafficRequest extends AsyncTask<Double, Void, String> {
+
+    private class AsyncTaskTrafficRequest extends AsyncTask<Double, Void, GoogleTraffic> {
 
         @Override
-        protected String doInBackground(Double... params) {
+        protected GoogleTraffic doInBackground(Double... params) {
 
             double startLatitude = params[0];
             double startLongitude = params[1];
             double endLatitude = params[2];
             double endLongitude = params[3];
 
-            String url = "https://maps.googleapis.com/maps/api/distancematrix/json?origins="+startLatitude+","+startLongitude+"&destinations="+endLatitude+","+endLongitude+"&mode=driving&language=en-US&sensor=false&key=AIzaSyDj6lm3eLSuOhG4rLXL66WUBg7C7XEDYcA";
+            GoogleTraffic traffic = new GoogleTraffic(startLatitude,startLongitude,endLatitude,endLongitude);
 
-            try{
+            traffic.sendHttpRequest();
+
+            return traffic;
+
+            /*String url = "https://maps.googleapis.com/maps/api/distancematrix/json?origins=" + startLatitude + "," + startLongitude + "&destinations=" + endLatitude + "," + endLongitude + "&mode=driving&language=en-US&sensor=false&key=AIzaSyDj6lm3eLSuOhG4rLXL66WUBg7C7XEDYcA";
+
+            try {
 
                 HttpParams httpParameters = new BasicHttpParams();
                 HttpConnectionParams.setConnectionTimeout(httpParameters, 5000);
@@ -306,25 +325,24 @@ public class MainActivity extends Activity {
                 int value = jsonDuration.getInt("value");
 
 
-            }
-            catch (IOException e) {
-
+            } catch (IOException e) {
                 Log.e("Tag", "Could not get HTML: " + e.getMessage());
             } catch (JSONException e) {
                 e.printStackTrace();
             }
 
-            return null;
+            return null;*/
+
         }
 
         @Override
-        protected void onPostExecute(String url){
+        protected void onPostExecute(GoogleTraffic traffic){
 
         }
-    }
 
-    static String convertStreamToString(java.io.InputStream is) {
-        java.util.Scanner s = new java.util.Scanner(is).useDelimiter("\\A");
-        return s.hasNext() ? s.next() : "";
+
     }
-    }
+}
+
+
+
