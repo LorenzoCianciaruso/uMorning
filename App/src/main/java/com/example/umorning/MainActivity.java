@@ -197,56 +197,7 @@ public class MainActivity extends Activity {
         }
 
 
-           /* String url = "https://api.metwit.com/v2/weather/?location_lat="+latitude+"&location_lng="+longitude;
 
-            try{
-
-            HttpParams httpParameters = new BasicHttpParams();
-            HttpConnectionParams.setConnectionTimeout(httpParameters, 5000);
-            HttpConnectionParams.setSoTimeout(httpParameters, 5000);
-
-            HttpClient client = new DefaultHttpClient(httpParameters);
-            HttpGet request = new HttpGet(url);
-            HttpResponse response = client.execute(request);
-            HttpEntity entity = response.getEntity();
-            InputStream is = entity.getContent();
-
-            StringBuilder builder = new StringBuilder();
-            BufferedReader reader = new BufferedReader(new InputStreamReader(is));
-            String line;
-            while ((line = reader.readLine()) != null) {
-                builder.append(line);
-            }
-
-            String result = builder.toString();
-
-            JSONObject jObject = new JSONObject(result);
-            JSONObject jsonWeather = jObject.getJSONArray("objects").getJSONObject(0);
-
-            String locality = jsonWeather.getJSONObject("location").getString("locality");
-
-            String iconURL = jsonWeather.getString("icon");
-
-            jsonWeather = jsonWeather.getJSONObject("weather");
-
-
-            //parse da json a int e conversione da fahrenheit a gradi centigradi
-            int temperatureFahrenheit = jsonWeather.getJSONObject("measured").getInt("temperature") - 273 ;
-
-            String temperature = Integer.toString(temperatureFahrenheit);
-
-                return iconURL;
-
-        }
-        catch (IOException e) {
-
-            Log.e("Tag", "Could not get HTML: " + e.getMessage());
-        } catch (JSONException e) {
-                e.printStackTrace();
-            }
-
-            return null;
-        }*/
 
         @Override
         protected void onPostExecute(MetwitRequest weatherInfo) {
@@ -291,47 +242,7 @@ public class MainActivity extends Activity {
 
             return traffic;
 
-            /*String url = "https://maps.googleapis.com/maps/api/distancematrix/json?origins=" + startLatitude + "," + startLongitude + "&destinations=" + endLatitude + "," + endLongitude + "&mode=driving&language=en-US&sensor=false&key=AIzaSyDj6lm3eLSuOhG4rLXL66WUBg7C7XEDYcA";
 
-            try {
-
-                HttpParams httpParameters = new BasicHttpParams();
-                HttpConnectionParams.setConnectionTimeout(httpParameters, 5000);
-                HttpConnectionParams.setSoTimeout(httpParameters, 5000);
-
-                HttpClient client = new DefaultHttpClient(httpParameters);
-                HttpGet request = new HttpGet(url);
-                HttpResponse response = client.execute(request);
-                HttpEntity entity = response.getEntity();
-                InputStream is = entity.getContent();
-
-
-                StringBuilder builder = new StringBuilder();
-                BufferedReader reader = new BufferedReader(new InputStreamReader(is));
-                String line;
-                while ((line = reader.readLine()) != null) {
-                    builder.append(line);
-                }
-
-                String result = builder.toString();
-                JSONObject jObject = new JSONObject(result);
-                JSONArray jsonRows = jObject.getJSONArray("rows");
-                JSONObject jsonElement = (JSONObject) jsonRows.get(0);
-                JSONArray jsonElem = jsonElement.getJSONArray("elements");
-                JSONObject jsonE = (JSONObject) jsonElem.get(0);
-                JSONObject jsonDuration = jsonE.getJSONObject("duration");
-
-                // valore in secondi della durata del viaggio
-                int value = jsonDuration.getInt("value");
-
-
-            } catch (IOException e) {
-                Log.e("Tag", "Could not get HTML: " + e.getMessage());
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-
-            return null;*/
 
         }
 
