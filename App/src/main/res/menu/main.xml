@@ -3,22 +3,29 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".MainActivity"
     android:orientation="horizontal">
+
     <item android:id="@+id/alarms"
         android:orderInCategory="100"
         android:showAsAction="always"
         android:icon="@drawable/ic_action_alarms"
         android:layout_gravity="left"
-
     />
     <item android:id="@+id/time"
         android:orderInCategory="100"
         android:showAsAction="always"
         android:icon="@drawable/ic_action_time"
         android:layout_gravity="left"
-
         />
     <item android:id="@+id/action_settings"
         android:title="@string/action_settings"
         android:orderInCategory="100"
-        app:showAsAction="never" />
+        app:showAsAction="always" />
+
+    <item android:id="@+id/action_accounts"
+        android:title="Accounts"
+        android:orderInCategory="100"
+        app:showAsAction="always"
+        android:onClick="startAccountManager"
+        />
+
 </menu>

@@ -6,5 +6,6 @@
     <string name="action_settings">Settings</string>
     <string name="adv">Servizio in Background: MeteoService.onCreate()</string>
     <string name="title_activity_prova">Prova</string>
+    <string name="title_activity_account_manager">AccountManager</string>
 
 </resources>

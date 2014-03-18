@@ -5,21 +5,16 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.app.Fragment;
 import android.content.DialogInterface;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.Calendar;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -179,6 +174,16 @@ public class MainActivity extends Activity {
             View rootView = inflater.inflate(R.layout.fragment_main, container, false);
             return rootView;
         }
+    }
+
+    public boolean startAccountManager(MenuItem menuItem){
+
+        super.onOptionsItemSelected(menuItem);
+        this.closeOptionsMenu();
+        Intent intent = new Intent(this, AccountManagerActivity.class);
+
+        startActivity(intent);
+        return true;
     }
 
     private class AsyncTaskMeteoRequest extends AsyncTask<Double, Void, MetwitRequest> {
