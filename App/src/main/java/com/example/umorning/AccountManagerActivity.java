@@ -1,9 +1,12 @@
 package com.example.umorning;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 
 public class AccountManagerActivity extends ActionBarActivity {
@@ -33,6 +36,18 @@ public class AccountManagerActivity extends ActionBarActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public void eventbriteAuth(View view) {
+        Intent intent = new Intent(Intent.ACTION_VIEW,
+        Uri.parse("https://www.eventbrite.com/oauth/authorize?response_type=token&client_id=AWF7I3D2E3CAVX6QNW"));
+        startActivity(intent);
+
+
+    }
+
+    public void facebookAuth(View view){
+
     }
 
 }

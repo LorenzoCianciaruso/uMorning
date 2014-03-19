@@ -19,8 +19,6 @@ import android.view.ViewGroup;
 
 import java.util.Calendar;
 
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GooglePlayServicesUtil;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
@@ -36,7 +34,8 @@ import android.database.Cursor;
 
 import android.widget.Toast;
 
-
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GooglePlayServicesUtil;
 
 
 public class MainActivity extends Activity {
@@ -233,8 +232,14 @@ public class MainActivity extends Activity {
             // Submit the query and get a Cursor object back.
             cur = cr.query(uri, EVENT_PROJECTION, selection, selectionArgs, null);
 
+            System.out.println("********************** prima del while");
+            System.out.println("cur :"+cur);
+
             // Use the cursor to step through the returned records
             while (cur.moveToNext()) {
+
+                System.out.println("************ dentro il while");
+
                 long calID = 0;
                 String displayName = null;
                 String accountName = null;
@@ -246,16 +251,10 @@ public class MainActivity extends Activity {
                 accountName = cur.getString(PROJECTION_ACCOUNT_NAME_INDEX);
                 ownerName = cur.getString(PROJECTION_OWNER_ACCOUNT_INDEX);
 
-                System.out.println(displayName);
+                System.out.println("****************....... "+ displayName);
             }
-
-
                 return weatherInfo;
-
-
         }
-
-
 
 
         @Override
