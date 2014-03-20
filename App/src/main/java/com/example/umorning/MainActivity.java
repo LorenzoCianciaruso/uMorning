@@ -252,7 +252,7 @@ public class MainActivity extends Activity {
                 do {
                     long id = calCursor.getLong(0);
                     String displayName = calCursor.getString(1);
-                    System.out.println("Ecco i campi"+calCursor.getString(0)+calCursor.getString(1)+calCursor.getString(2)+calCursor.getString(3)+calCursor.getString(4));
+                    System.out.println("Ecco i campi"+calCursor.getString(0)+calCursor.getString(1)+calCursor.getString(2)+calCursor.getString(3));
                     } while (calCursor.moveToNext());
             }
 

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- suppress AndroidDomInspection -->
-<!--suppress AndroidDomInspection -->
+<!-- suppress AndroidDomInspection -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.umorning"
     android:versionCode="1"
@@ -37,8 +37,20 @@
             android:label="@string/title_activity_prova" >
         </activity>
         <activity
-            android:name=".AccountManagerActivity"
+            android:name="com.example.umorning.AccountManagerActivity"
             android:label="@string/title_activity_account_manager" >
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data android:scheme="my.special.scheme" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.example.umorning.WebViewActivity"
+            android:label="@string/title_activity_web_view" >
         </activity>
     </application>
 

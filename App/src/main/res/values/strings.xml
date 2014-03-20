@@ -7,5 +7,6 @@
     <string name="adv">Servizio in Background: MeteoService.onCreate()</string>
     <string name="title_activity_prova">Prova</string>
     <string name="title_activity_account_manager">AccountManager</string>
+    <string name="title_activity_web_view">WebViewActivity</string>
 
 </resources>

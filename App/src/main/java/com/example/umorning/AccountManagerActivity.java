@@ -39,11 +39,16 @@ public class AccountManagerActivity extends ActionBarActivity {
     }
 
     public void eventbriteAuth(View view) {
-        Intent intent = new Intent(Intent.ACTION_VIEW,
-        Uri.parse("https://www.eventbrite.com/oauth/authorize?response_type=token&client_id=AWF7I3D2E3CAVX6QNW"));
+        //Intent intent = new Intent(Intent.ACTION_VIEW,
+        //ri.parse("https://www.eventbrite.com/oauth/authorize?response_type=token&client_id=AWF7I3D2E3CAVX6QNW"));
+        //startActivity(intent);
+
+        Intent intent = new Intent(this, WebViewActivity.class);
+        Bundle b = new Bundle();
+        b.putString("url", "https://www.eventbrite.com/oauth/authorize?response_type=token&client_id=AWF7I3D2E3CAVX6QNW");
+        intent.putExtras(b); //Put your id to your next Intent
         startActivity(intent);
-
-
+        finish();
     }
 
     public void facebookAuth(View view){
