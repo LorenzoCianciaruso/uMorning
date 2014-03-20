@@ -216,25 +216,7 @@ public class MainActivity extends Activity {
             weatherInfo.sendHttpRequest();
 
             //TODO metto qui solo per provare
-            // Projection array. Creating indices for this array instead of doing
-
-/*
-            // Run query
-            Cursor cur = null;
-            ContentResolver cr = getContentResolver();
-            Uri uri = Calendars.CONTENT_URI;
-            String selection = "((" + Calendars.ACCOUNT_NAME + " = ?) AND ("
-                    + Calendars.ACCOUNT_TYPE + " = ?) AND ("
-                    + Calendars.OWNER_ACCOUNT + " = ?))";
-            String[] selectionArgs = new String[] {"lory90@gmail.com", "com.google",};
-
-            // Submit the query and get a Cursor object back.
-            String selection ="(1=?)";
-            String[] selectionArgs = new String[]{"1"};
-            cur = cr.query(uri, EVENT_PROJECTION, selection, selectionArgs, null);*/
-
-
-            String[] projection =
+                       String[] projection =
                     new String[]{
                             Calendars._ID,
                             Calendars.NAME,
@@ -249,23 +231,17 @@ public class MainActivity extends Activity {
                                     Calendars._ID + " ASC");
             if (calCursor.moveToFirst()) {
                 do {
-                    long id = calCursor.getLong(0);
                     System.out.println("Ecco i campi"+calCursor.getString(0)+calCursor.getString(1)+calCursor.getString(2)+calCursor.getString(3));
                     } while (calCursor.moveToNext());
             }
 
-            projection = new String[] { "calendar_id", "title", "description",
-                    "dtstart", "dtend", "eventLocation" };
+            projection = new String[] { "1", "title", "description", "dtstart", "dtend", "eventLocation" };
 
             Cursor cursor = getContentResolver().query(Uri.parse("content://com.android.calendar/events"),
-                    projection,
-                    null,
-                    null,
-                    null);
+                    projection, null, null, null);
             do {
-                long id = cursor.getLong(0);
-                System.out.println("Ecco gli eventi"+calCursor.getString(0)+calCursor.getString(1)+calCursor.getString(2)+calCursor.getString(3));
-            } while (calCursor.moveToNext());
+                System.out.println("Ecco i papa"+cursor.getString(0));
+            } while (cursor.moveToNext());
 
 
 
