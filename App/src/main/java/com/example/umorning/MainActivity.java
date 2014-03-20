@@ -4,7 +4,6 @@ import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.Dialog;
 import android.app.Fragment;
-import android.content.ContentResolver;
 import android.content.DialogInterface;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -53,7 +52,7 @@ public class MainActivity extends Activity {
     private double latitude = 0;
     private double longitude = 0;
 
-    private GpsLocalizationService gps;
+    private LocalizationService gps;
 
     // dynamic lookups improves performance.
     public static final String[] EVENT_PROJECTION = new String[] {
@@ -120,7 +119,7 @@ public class MainActivity extends Activity {
     @Override
     public void onResume() {
         super.onResume();
-        gps = new GpsLocalizationService(MainActivity.this);
+        gps = new LocalizationService(MainActivity.this);
 
         // check if GPS enabled
         if (gps.canGetLocation()) {
@@ -198,7 +197,7 @@ public class MainActivity extends Activity {
 
         super.onOptionsItemSelected(menuItem);
         this.closeOptionsMenu();
-        Intent intent = new Intent(this, AccountManagerActivity.class);
+        Intent intent = new Intent(this, EventbriteAccountManagerActivity.class);
 
         startActivity(intent);
         return true;
@@ -251,10 +250,23 @@ public class MainActivity extends Activity {
             if (calCursor.moveToFirst()) {
                 do {
                     long id = calCursor.getLong(0);
-                    String displayName = calCursor.getString(1);
                     System.out.println("Ecco i campi"+calCursor.getString(0)+calCursor.getString(1)+calCursor.getString(2)+calCursor.getString(3));
                     } while (calCursor.moveToNext());
             }
+
+            projection = new String[] { "calendar_id", "title", "description",
+                    "dtstart", "dtend", "eventLocation" };
+
+            Cursor cursor = getContentResolver().query(Uri.parse("content://com.android.calendar/events"),
+                    projection,
+                    null,
+                    null,
+                    null);
+            do {
+                long id = cursor.getLong(0);
+                System.out.println("Ecco gli eventi"+calCursor.getString(0)+calCursor.getString(1)+calCursor.getString(2)+calCursor.getString(3));
+            } while (calCursor.moveToNext());
+
 
 
                 return weatherInfo;

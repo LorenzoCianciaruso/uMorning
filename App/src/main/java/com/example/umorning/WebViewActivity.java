@@ -5,11 +5,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-
-import java.util.StringTokenizer;
 
 
 public class WebViewActivity extends Activity {
@@ -39,7 +36,7 @@ public class WebViewActivity extends Activity {
                     access_token = splittedString[2];
 
                 //TODO salvare token
-                Intent intent = new Intent(WebViewActivity.this, AccountManagerActivity.class);
+                Intent intent = new Intent(WebViewActivity.this, EventbriteAccountManagerActivity.class);
                 startActivity(intent);
                 finish();
             }

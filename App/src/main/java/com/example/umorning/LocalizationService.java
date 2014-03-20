@@ -15,7 +15,7 @@ import android.util.Log;
 
 
 
-public class GpsLocalizationService extends Service implements LocationListener {
+public class LocalizationService extends Service implements LocationListener {
 
     private final Context mContext;
 
@@ -36,7 +36,7 @@ public class GpsLocalizationService extends Service implements LocationListener 
 
     protected LocationManager locationManager;
 
-    public GpsLocalizationService(Context context) {
+    public LocalizationService(Context context) {
         this.mContext = context;
         getLocation();
     }
@@ -105,7 +105,7 @@ public class GpsLocalizationService extends Service implements LocationListener 
      * */
     public void stopUsingGPS(){
         if(locationManager != null){
-            locationManager.removeUpdates(GpsLocalizationService.this);
+            locationManager.removeUpdates(LocalizationService.this);
         }
     }
 

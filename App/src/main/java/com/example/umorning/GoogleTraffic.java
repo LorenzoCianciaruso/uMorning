@@ -19,9 +19,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
-/**
- * Created by Lorenzo on 18/03/14.
- */
+
 public class GoogleTraffic {
 
     private double startLatitude;
