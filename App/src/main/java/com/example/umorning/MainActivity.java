@@ -225,12 +225,16 @@ public class MainActivity extends Activity {
             Cursor cur = null;
             ContentResolver cr = getContentResolver();
             Uri uri = Calendars.CONTENT_URI;
-            String selection = "((" + Calendars.ACCOUNT_NAME + " = ?) AND ("
+            /*String selection = "((" + Calendars.ACCOUNT_NAME + " = ?) AND ("
                     + Calendars.ACCOUNT_TYPE + " = ?) AND ("
                     + Calendars.OWNER_ACCOUNT + " = ?))";
-            String[] selectionArgs = new String[] {"lory90@gmail.com", "com.google",};
+            String[] selectionArgs = new String[] {"lory90@gmail.com", "com.google",};*/
+
             // Submit the query and get a Cursor object back.
+            String selection ="(1=?)";
+            String[] selectionArgs = new String[]{"1"};
             cur = cr.query(uri, EVENT_PROJECTION, selection, selectionArgs, null);
+
 
             System.out.println("********************** prima del while");
             System.out.println("cur :"+cur);
