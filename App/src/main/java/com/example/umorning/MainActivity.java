@@ -197,7 +197,7 @@ public class MainActivity extends Activity {
 
         super.onOptionsItemSelected(menuItem);
         this.closeOptionsMenu();
-        Intent intent = new Intent(this, EventbriteAccountManagerActivity.class);
+        Intent intent = new Intent(this, AccountManagerActivity.class);
 
         startActivity(intent);
         return true;

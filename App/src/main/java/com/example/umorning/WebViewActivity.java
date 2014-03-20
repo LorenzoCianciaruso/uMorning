@@ -44,10 +44,12 @@ public class WebViewActivity extends Activity {
                     editor.putString("EventbriteToken", access_token);
                     editor.commit();
 
-                Intent intent = new Intent(WebViewActivity.this, AccountManagerActivity.class);
-                startActivity(intent);
-                finish();
-            }
+
+
+                    Intent intent = new Intent(WebViewActivity.this, AccountManagerActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
             }
 
         });

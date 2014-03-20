@@ -37,7 +37,7 @@
             android:label="@string/title_activity_prova" >
         </activity>
         <activity
-            android:name=".EventbriteAccountManagerActivity"
+            android:name=".AccountManagerActivity"
             android:label="@string/title_activity_account_manager" >
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
