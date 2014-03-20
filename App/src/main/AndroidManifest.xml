@@ -29,7 +29,7 @@
             </intent-filter>
         </activity>
 
-        <service android:name="com.example.umorning.MyAlarmService" />
+        <service android:name=".AlarmService" />
         <service android:name="com.example.umorning.GpsLocalizationService" />
 
         <activity

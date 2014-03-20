@@ -12,7 +12,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -95,7 +94,7 @@ public class MainActivity extends Activity {
                 minute = tpResult.getCurrentMinute();
 
                 //chiama un alarmservice
-                Intent myIntent = new Intent(MainActivity.this, MyAlarmService.class);
+                Intent myIntent = new Intent(MainActivity.this, AlarmService.class);
                 PendingIntent pendingIntent = PendingIntent.getService(MainActivity.this, 0, myIntent, 0);
                 AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
 
@@ -220,21 +219,42 @@ public class MainActivity extends Activity {
             //TODO metto qui solo per provare
             // Projection array. Creating indices for this array instead of doing
 
-
+/*
             // Run query
             Cursor cur = null;
             ContentResolver cr = getContentResolver();
             Uri uri = Calendars.CONTENT_URI;
-            /*String selection = "((" + Calendars.ACCOUNT_NAME + " = ?) AND ("
+            String selection = "((" + Calendars.ACCOUNT_NAME + " = ?) AND ("
                     + Calendars.ACCOUNT_TYPE + " = ?) AND ("
                     + Calendars.OWNER_ACCOUNT + " = ?))";
-            String[] selectionArgs = new String[] {"lory90@gmail.com", "com.google",};*/
+            String[] selectionArgs = new String[] {"lory90@gmail.com", "com.google",};
 
             // Submit the query and get a Cursor object back.
             String selection ="(1=?)";
             String[] selectionArgs = new String[]{"1"};
-            cur = cr.query(uri, EVENT_PROJECTION, selection, selectionArgs, null);
+            cur = cr.query(uri, EVENT_PROJECTION, selection, selectionArgs, null);*/
 
+
+            String[] projection =
+                    new String[]{
+                            Calendars._ID,
+                            Calendars.NAME,
+                            Calendars.ACCOUNT_NAME,
+                            Calendars.ACCOUNT_TYPE};
+            Cursor calCursor =
+                    getContentResolver().
+                            query(Calendars.CONTENT_URI,
+                                    projection,
+                                    Calendars.VISIBLE + " = 1",
+                                    null,
+                                    Calendars._ID + " ASC");
+            if (calCursor.moveToFirst()) {
+                do {
+                    long id = calCursor.getLong(0);
+                    String displayName = calCursor.getString(1);
+                    // ...
+                } while (calCursor.moveToNext());
+            }
 
             System.out.println("********************** prima del while");
             System.out.println("cur :"+cur);
