@@ -9,6 +9,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.CalendarContract;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -32,6 +33,10 @@ import android.database.Cursor;
 
 import android.widget.Toast;
 
+import com.example.umorning.util.AlarmService;
+import com.example.umorning.util.GoogleTraffic;
+import com.example.umorning.util.LocalizationService;
+import com.example.umorning.util.MetwitRequest;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 
@@ -235,17 +240,23 @@ public class MainActivity extends Activity {
                     } while (calCursor.moveToNext());
             }
 
-            projection = new String[] { "1", "title", "description", "dtstart", "dtend", "eventLocation" };
+            Uri.Builder builder = CalendarContract.Instances.CONTENT_URI.buildUpon();
 
-            Cursor cursor = getContentResolver().query(Uri.parse("content://com.android.calendar/events"),
-                    projection, null, null, null);
+            Cursor mCursor = null;
+            projection = new String[]
+                    { CalendarContract.Events.TITLE, CalendarContract.Events.DTSTART, CalendarContract.Events.DTEND};
+
+            mCursor =   getContentResolver().query(
+                    builder.build(), projection, CalendarContract.Instances.CALENDAR_ID  + " = ?",
+                    new String[]{"1"}, null);
+            if (mCursor.moveToFirst()){
             do {
-                System.out.println("Ecco i papa"+cursor.getString(0));
-            } while (cursor.moveToNext());
+                System.out.println("Ecco i papa"+mCursor.getString(0));
+            } while (mCursor.moveToNext());
+        }
 
 
-
-                return weatherInfo;
+            return weatherInfo;
         }
 
 

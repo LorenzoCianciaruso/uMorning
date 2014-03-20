@@ -29,8 +29,8 @@
             </intent-filter>
         </activity>
 
-        <service android:name=".AlarmService" />
-        <service android:name=".LocalizationService" />
+        <service android:name=".util.AlarmService" />
+        <service android:name=".util.LocalizationService" />
 
         <activity
             android:name="com.example.umorning.AlarmActivity"
