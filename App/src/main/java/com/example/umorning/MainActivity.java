@@ -252,11 +252,12 @@ public class MainActivity extends Activity {
                 do {
                     long id = calCursor.getLong(0);
                     String displayName = calCursor.getString(1);
+                    System.out.println("********************** prima del while"+displayName);
                     // ...
                 } while (calCursor.moveToNext());
             }
 
-            System.out.println("********************** prima del while");
+           /*
             System.out.println("cur :"+cur);
 
             // Use the cursor to step through the returned records
@@ -276,7 +277,7 @@ public class MainActivity extends Activity {
                 ownerName = cur.getString(PROJECTION_OWNER_ACCOUNT_INDEX);
 
                 System.out.println("****************....... "+ displayName);
-            }
+            }*/
                 return weatherInfo;
         }
 
