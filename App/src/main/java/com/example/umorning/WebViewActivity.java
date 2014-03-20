@@ -24,20 +24,11 @@ public class WebViewActivity extends Activity {
         myWebView.getSettings().setLoadsImagesAutomatically(true);
 
         myWebView.setWebViewClient(new WebViewClient(){
-            // you tell the webclient you want to catch when a url is about to load
-           // @Override
-           // public boolean shouldOverrideUrlLoading(WebView  view, String  url){
-           //     return true;
-          //  }
-            // here you execute an action when the URL you want is about to load
+
             @Override
             public void onLoadResource(WebView  view, String  url){
 
                 String originalUrl=myWebView.getUrl();
-
-
-
-
 
                 if( originalUrl.contains("umorning") ){
 
