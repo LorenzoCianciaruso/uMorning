@@ -49,6 +49,8 @@ public class AccountManagerActivity extends ActionBarActivity {
         intent.putExtras(b); //Put your id to your next Intent
         startActivity(intent);
         finish();
+
+
     }
 
     public void facebookAuth(View view){
