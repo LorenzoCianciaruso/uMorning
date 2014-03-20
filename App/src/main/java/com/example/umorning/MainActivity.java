@@ -1,321 +1,80 @@
 package com.example.umorning;
 
-import android.annotation.TargetApi;
-import android.app.Activity;
-import android.app.Dialog;
-import android.app.Fragment;
-import android.content.ContentResolver;
-import android.content.DialogInterface;
-import android.net.Uri;
-import android.os.AsyncTask;
-import android.os.Build;
+import android.annotation.SuppressLint;
+import android.app.ActionBar;
+import android.app.ActionBar.Tab;
+import android.app.FragmentTransaction;
 import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.view.ViewPager;
 
-import java.util.Calendar;
+import com.example.umorning.tabswipeadapter.TabsPagerAdapter;
 
 
-import android.app.AlarmManager;
-import android.app.PendingIntent;
-import android.content.Intent;
-import android.widget.TimePicker;
-import android.widget.DatePicker;
-import android.widget.Button;
+public class MainActivity extends FragmentActivity implements
+        ActionBar.TabListener {
 
-import android.provider.CalendarContract.Calendars;
-import android.database.Cursor;
+    private ViewPager viewPager;
+    private TabsPagerAdapter mAdapter;
+    private ActionBar actionBar;
+    // Tab titles
+    private String[] tabs = { "Home", "Alarms", "Events" };
 
-
-
-import android.widget.Toast;
-
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GooglePlayServicesUtil;
-
-
-public class MainActivity extends Activity {
-
-    private TimePicker tpResult;
-    private DatePicker dpResult;
-
-    private int year;
-    private int month;
-    private int day;
-    private int hour;
-    private int minute;
-
-    private Button btnSetAlarm;
-
-    private double latitude = 0;
-    private double longitude = 0;
-
-    private GpsLocalizationService gps;
-
-    // dynamic lookups improves performance.
-    public static final String[] EVENT_PROJECTION = new String[] {
-            Calendars._ID,                           // 0
-            Calendars.ACCOUNT_NAME,                  // 1
-            Calendars.CALENDAR_DISPLAY_NAME,         // 2
-            Calendars.OWNER_ACCOUNT                  // 3
-    };
-
-    // The indices for the projection array above.
-    private static final int PROJECTION_ID_INDEX = 0;
-    private static final int PROJECTION_ACCOUNT_NAME_INDEX = 1;
-    private static final int PROJECTION_DISPLAY_NAME_INDEX = 2;
-    private static final int PROJECTION_OWNER_ACCOUNT_INDEX = 3;
-
-
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-    @Override
+    @SuppressLint("NewApi") @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity);
 
-        //TODO spostare tutta questa robaccia nella classe setalarm activity e fare un bottone nella main che ci vada con tutte le variabili sopra
-        //prende ora della sveglia dal date picker
-        btnSetAlarm = (Button) findViewById(R.id.btnSetAlarm);
-        btnSetAlarm.setOnClickListener(new View.OnClickListener() {
+        // Initilization
+        viewPager = (ViewPager) findViewById(R.id.pager);
+        actionBar = getActionBar();
+        mAdapter = new TabsPagerAdapter(getSupportFragmentManager());
+
+        viewPager.setAdapter(mAdapter);
+        actionBar.setHomeButtonEnabled(false);
+        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+
+        // Adding Tabs
+        for (String tab_name : tabs) {
+            actionBar.addTab(actionBar.newTab().setText(tab_name)
+                    .setTabListener(this));
+        }
+
+        /**
+         * on swiping the viewpager make respective tab selected
+         * */
+        viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+
             @Override
-            public void onClick(View view) {
+            public void onPageSelected(int position) {
+                // on changing the page
+                // make respected tab selected
+                actionBar.setSelectedNavigationItem(position);
+            }
 
-                tpResult = (TimePicker) findViewById(R.id.timePicker);
-                dpResult = (DatePicker) findViewById(R.id.datePicker);
-                year = dpResult.getYear();
-                month = dpResult.getMonth();
-                day = dpResult.getDayOfMonth();
-                hour = tpResult.getCurrentHour();
-                minute = tpResult.getCurrentMinute();
+            @Override
+            public void onPageScrolled(int arg0, float arg1, int arg2) {
+            }
 
-                //chiama un alarmservice
-                Intent myIntent = new Intent(MainActivity.this, AlarmService.class);
-                PendingIntent pendingIntent = PendingIntent.getService(MainActivity.this, 0, myIntent, 0);
-                AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
-
-                //imposta l'ora e fa partire
-                Calendar calendar = Calendar.getInstance();
-                calendar.setTimeInMillis(System.currentTimeMillis());
-                calendar.set(year, month, day, hour, minute);
-                alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
+            @Override
+            public void onPageScrollStateChanged(int arg0) {
             }
         });
-
-
-        //TODO il todo finisce qui
-
-
-        //toglie l'icona e il titolo del app dal actionbar
-        getActionBar().setDisplayShowHomeEnabled(false);
-        getActionBar().setDisplayShowTitleEnabled(false);
-
-
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-        gps = new GpsLocalizationService(MainActivity.this);
-
-        // check if GPS enabled
-        if (gps.canGetLocation()) {
-
-            latitude = gps.getLatitude();
-            longitude = gps.getLongitude();
-
-
-            // \n is for new line
-            Toast.makeText(getApplicationContext(), "Your Location is - \nLat: " + latitude + "\nLong: " + longitude, Toast.LENGTH_LONG).show();
-
-            new AsyncTaskMeteoRequest().execute(latitude, longitude);
-
-            new AsyncTaskTrafficRequest().execute(latitude, longitude, 45.0, 9.0);
-
-        } else {
-            // Chiedi all'utente di andare nelle impostazioni
-            gps.showSettingsAlert();
-        }
-
-        final int checkPlayStatus = GooglePlayServicesUtil.isGooglePlayServicesAvailable(this);
-
-        if (checkPlayStatus != ConnectionResult.SUCCESS) {
-            Dialog dialog = GooglePlayServicesUtil.getErrorDialog(checkPlayStatus, this, 69, new DialogInterface.OnCancelListener() {
-                @Override
-                public void onCancel(DialogInterface dialog) {
-                    //SDK obbligatorio
-                    finish();
-                }
-            });
-            dialog.show();
-        }
-    }
-
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
+    public void onTabReselected(Tab tab, FragmentTransaction ft) {
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
+    public void onTabSelected(Tab tab, FragmentTransaction ft) {
+        // on tab selected
+        // show respected fragment view
+        viewPager.setCurrentItem(tab.getPosition());
     }
 
-    /**
-     * A placeholder fragment containing a simple view.
-     */
-    //TODO sto fragmaent a che cazzo serve?
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-    public static class PlaceholderFragment extends Fragment {
-
-        public PlaceholderFragment() {
-        }
-
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                 Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_main, container, false);
-            return rootView;
-        }
+    @Override
+    public void onTabUnselected(Tab tab, FragmentTransaction ft) {
     }
 
-    public boolean startAccountManager(MenuItem menuItem){
-
-        super.onOptionsItemSelected(menuItem);
-        this.closeOptionsMenu();
-        Intent intent = new Intent(this, AccountManagerActivity.class);
-
-        startActivity(intent);
-        return true;
-    }
-
-    private class AsyncTaskMeteoRequest extends AsyncTask<Double, Void, MetwitRequest> {
-
-        @Override
-        protected MetwitRequest doInBackground(Double... params) {
-
-            double latitude = params[0];
-            double longitude = params[1];
-
-            MetwitRequest weatherInfo = new MetwitRequest(latitude,longitude);
-
-            weatherInfo.sendHttpRequest();
-
-            //TODO metto qui solo per provare
-            // Projection array. Creating indices for this array instead of doing
-
-/*
-            // Run query
-            Cursor cur = null;
-            ContentResolver cr = getContentResolver();
-            Uri uri = Calendars.CONTENT_URI;
-            String selection = "((" + Calendars.ACCOUNT_NAME + " = ?) AND ("
-                    + Calendars.ACCOUNT_TYPE + " = ?) AND ("
-                    + Calendars.OWNER_ACCOUNT + " = ?))";
-            String[] selectionArgs = new String[] {"lory90@gmail.com", "com.google",};
-
-            // Submit the query and get a Cursor object back.
-            String selection ="(1=?)";
-            String[] selectionArgs = new String[]{"1"};
-            cur = cr.query(uri, EVENT_PROJECTION, selection, selectionArgs, null);*/
-
-
-            String[] projection =
-                    new String[]{
-                            Calendars._ID,
-                            Calendars.NAME,
-                            Calendars.ACCOUNT_NAME,
-                            Calendars.ACCOUNT_TYPE};
-            Cursor calCursor =
-                    getContentResolver().
-                            query(Calendars.CONTENT_URI,
-                                    projection,
-                                    Calendars.VISIBLE + " = 1",
-                                    null,
-                                    Calendars._ID + " ASC");
-            if (calCursor.moveToFirst()) {
-                do {
-                    long id = calCursor.getLong(0);
-                    String displayName = calCursor.getString(1);
-                    System.out.println("Ecco i campi"+calCursor.getString(0)+calCursor.getString(1)+calCursor.getString(2)+calCursor.getString(3));
-                    } while (calCursor.moveToNext());
-            }
-
-
-                return weatherInfo;
-        }
-
-
-        @Override
-        protected void onPostExecute(MetwitRequest weatherInfo) {
-           // try {
-
-                Toast.makeText(getApplicationContext(), "URL : " + weatherInfo.getIconURL() + "\nTemperature : " + weatherInfo.getTemperature(), Toast.LENGTH_LONG).show();
-
-                //URL url = new URL(weatherInfo.getIconURL());
-                //HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-                //connection.setDoInput(true);
-                //connection.connect();
-                //InputStream input = connection.getInputStream();
-                //Bitmap myBitmap = BitmapFactory.decodeStream(input);
-
-                //TODO aggiorna icona usando myBitmap
-                //TODO aggiorna temperatura
-                //TODO aggiorna localita
-
-
-            //} catch (IOException e) {
-            //    e.printStackTrace();
-
-           // }
-
-        }
-    }
-
-
-    private class AsyncTaskTrafficRequest extends AsyncTask<Double, Void, GoogleTraffic> {
-
-        @Override
-        protected GoogleTraffic doInBackground(Double... params) {
-
-            double startLatitude = params[0];
-            double startLongitude = params[1];
-            double endLatitude = params[2];
-            double endLongitude = params[3];
-
-            GoogleTraffic traffic = new GoogleTraffic(startLatitude,startLongitude,endLatitude,endLongitude);
-
-            traffic.sendHttpRequest();
-
-            return traffic;
-
-
-
-        }
-
-        @Override
-        protected void onPostExecute(GoogleTraffic traffic){
-
-        }
-
-
-    }
 }
-
-
-
