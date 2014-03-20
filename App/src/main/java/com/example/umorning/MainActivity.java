@@ -252,32 +252,11 @@ public class MainActivity extends Activity {
                 do {
                     long id = calCursor.getLong(0);
                     String displayName = calCursor.getString(1);
-                    System.out.println("********************** prima del while"+displayName);
-                    // ...
-                } while (calCursor.moveToNext());
+                    System.out.println("Ecco i campi"+calCursor.getString(0)+calCursor.getString(1)+calCursor.getString(2)+calCursor.getString(3)+calCursor.getString(4));
+                    } while (calCursor.moveToNext());
             }
 
-           /*
-            System.out.println("cur :"+cur);
 
-            // Use the cursor to step through the returned records
-            while (cur.moveToNext()) {
-
-                System.out.println("************ dentro il while");
-
-                long calID = 0;
-                String displayName = null;
-                String accountName = null;
-                String ownerName = null;
-
-                // Get the field values
-                calID = cur.getLong(PROJECTION_ID_INDEX);
-                displayName = cur.getString(PROJECTION_DISPLAY_NAME_INDEX);
-                accountName = cur.getString(PROJECTION_ACCOUNT_NAME_INDEX);
-                ownerName = cur.getString(PROJECTION_OWNER_ACCOUNT_INDEX);
-
-                System.out.println("****************....... "+ displayName);
-            }*/
                 return weatherInfo;
         }
 
