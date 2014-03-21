@@ -1,5 +1,6 @@
 package com.example.umorning;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -15,6 +16,14 @@ public class AlarmsFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_alarms, container, false);
 
         return rootView;
+    }
+
+    public void openAddNewActivity(View view) {
+        // Do something in response to button
+        /*
+        Intent myIntent = new Intent(getActivity(), AddNewAlarm.class);
+        startActivity(myIntent);*/
+        startActivity(new Intent(view.getContext(),AddNewAlarm.class));
     }
 }
 

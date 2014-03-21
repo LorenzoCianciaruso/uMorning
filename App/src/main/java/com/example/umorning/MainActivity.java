@@ -4,9 +4,11 @@ import android.annotation.SuppressLint;
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
 import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
+import android.view.View;
 
 import com.example.umorning.tabswipeadapter.TabsPagerAdapter;
 
@@ -76,5 +78,16 @@ public class MainActivity extends FragmentActivity implements
     @Override
     public void onTabUnselected(Tab tab, FragmentTransaction ft) {
     }
-
+    public void openAddNewActivity(View v) {
+        switch(v.getId()) {
+            case R.id.addnewalarm:
+                Intent myIntent = new Intent();
+                myIntent.setClassName("com.example.umorning", "com.example.umorning.AddNewAlarm");
+                // for ex: your package name can be "com.example"
+                // your activity name will be "com.example.Contact_Developer"
+                startActivity(myIntent);
+                overridePendingTransition(R.anim.fadein, R.anim.fadeout);
+                break;
+        }
+    }
 }

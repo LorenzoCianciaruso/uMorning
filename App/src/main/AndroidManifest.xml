@@ -30,11 +30,14 @@
         </activity>
 
         <service android:name=".AlarmService" />
-        <service android:name="com.example.umorning.GpsLocalizationService" />
+        <!--<service android:name="com.example.umorning.GpsLocalizationService" />-->
 
         <activity
             android:name="com.example.umorning.AlarmActivity"
             android:label="@string/title_activity_prova" >
+        </activity>
+        <activity
+            android:name="com.example.umorning.AddNewAlarm">
         </activity>
         <activity
             android:name="com.example.umorning.AccountManagerActivity"
