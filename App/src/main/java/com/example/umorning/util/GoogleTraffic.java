@@ -27,8 +27,6 @@ public class GoogleTraffic {
     private double endLatitude;
     private double endLongitude;
 
-
-
     private int tripDuration;
     private int tripDistance;
 
@@ -41,31 +39,12 @@ public class GoogleTraffic {
         this.endLongitude=endLongitude;
     }
 
-    public void sendHttpRequest( ){
+    public void askForTraffic() {
 
-        String url = "https://maps.googleapis.com/maps/api/distancematrix/json?origins=" + startLatitude + "," + startLongitude + "&destinations=" + endLatitude + "," + endLongitude + "&mode=driving&language=en-US&sensor=false&key=AIzaSyDj6lm3eLSuOhG4rLXL66WUBg7C7XEDYcA";
+                String url = "https://maps.googleapis.com/maps/api/distancematrix/json?origins=" + startLatitude + "," + startLongitude + "&destinations=" + endLatitude + "," + endLongitude + "&mode=driving&language=en-US&sensor=false&key=AIzaSyDj6lm3eLSuOhG4rLXL66WUBg7C7XEDYcA";
+                String result = new HttpRequest().getRequest(url);
 
         try {
-            //richiesta http
-            HttpParams httpParameters = new BasicHttpParams();
-            HttpConnectionParams.setConnectionTimeout(httpParameters, 5000);
-            HttpConnectionParams.setSoTimeout(httpParameters, 5000);
-
-            HttpClient client = new DefaultHttpClient(httpParameters);
-            HttpGet request = new HttpGet(url);
-            HttpResponse response = client.execute(request);
-            HttpEntity entity = response.getEntity();
-            InputStream is = entity.getContent();
-
-
-            StringBuilder builder = new StringBuilder();
-            BufferedReader reader = new BufferedReader(new InputStreamReader(is));
-            String line;
-            while ((line = reader.readLine()) != null) {
-                builder.append(line);
-            }
-
-            String result = builder.toString();
             JSONObject jObject = new JSONObject(result);
             JSONArray jsonRows = jObject.getJSONArray("rows");
             JSONObject jsonElement = (JSONObject) jsonRows.get(0);
@@ -75,17 +54,13 @@ public class GoogleTraffic {
 
             // valore in secondi della durata del viaggio
             tripDuration = jsonDuration.getInt("value");
-            //TODO tripdistance
-
-
-        } catch (IOException e) {
-            Log.e("Tag", "Could not get HTML: " + e.getMessage());
-        } catch (JSONException e) {
+        } catch (JSONException e){
             e.printStackTrace();
         }
+            }
 
+            //TODO tripdistance
 
-    }
 
     public int getTripDuration() {
         return tripDuration;

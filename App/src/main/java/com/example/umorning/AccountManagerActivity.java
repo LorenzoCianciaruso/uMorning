@@ -82,7 +82,7 @@ public class AccountManagerActivity extends ActionBarActivity {
 // then you use
         String access = prefs.getString("EventbriteToken", "errore");
 
-        System.out.println("getSharedPref: "+access);
+
 
         try {
             HttpParams httpParameters = new BasicHttpParams();
@@ -115,31 +115,6 @@ public class AccountManagerActivity extends ActionBarActivity {
         }).start();
 
         }
-
-
-
-        /*try {
-            // Add your data
-
-
-            List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
-            nameValuePairs.add(new BasicNameValuePair("code", access));
-            nameValuePairs.add(new BasicNameValuePair("client_secret", "IAHAVFS5X7LLPMSPDYAW63LAZPFWGL6MHBOULWP363TRPVOG5V"));
-            nameValuePairs.add(new BasicNameValuePair("client_id","AWF7I3D2E3CAVX6QNW"));
-            nameValuePairs.add(new BasicNameValuePair("grant_tyoe", "authorization_code"));
-            httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
-
-            // Execute HTTP Post Request
-            HttpResponse response = httpclient.execute(httppost);
-
-            //String result = EntityUtils.toString(response);
-
-        } catch (ClientProtocolException e) {
-            // TODO Auto-generated catch block
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-        }
-        }*/
 
 
     public void facebookAuth(View view){

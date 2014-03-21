@@ -5,7 +5,6 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.app.Fragment;
 import android.content.DialogInterface;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -28,7 +27,6 @@ import android.widget.Button;
 
 import android.provider.CalendarContract.Calendars;
 import android.database.Cursor;
-
 
 
 import android.widget.Toast;
@@ -60,7 +58,7 @@ public class MainActivity extends Activity {
     private LocalizationService gps;
 
     // dynamic lookups improves performance.
-    public static final String[] EVENT_PROJECTION = new String[] {
+    public static final String[] EVENT_PROJECTION = new String[]{
             Calendars._ID,                           // 0
             Calendars.ACCOUNT_NAME,                  // 1
             Calendars.CALENDAR_DISPLAY_NAME,         // 2
@@ -198,7 +196,7 @@ public class MainActivity extends Activity {
         }
     }
 
-    public boolean startAccountManager(MenuItem menuItem){
+    public boolean startAccountManager(MenuItem menuItem) {
 
         super.onOptionsItemSelected(menuItem);
         this.closeOptionsMenu();
@@ -216,9 +214,9 @@ public class MainActivity extends Activity {
             double latitude = params[0];
             double longitude = params[1];
 
-            MetwitRequest weatherInfo = new MetwitRequest(latitude,longitude);
+            MetwitRequest weatherInfo = new MetwitRequest(latitude, longitude);
 
-            weatherInfo.sendHttpRequest();
+            weatherInfo.askForWeather();
 
             //TODO metto qui solo per provare
                        /*String[] projection =
@@ -244,21 +242,20 @@ public class MainActivity extends Activity {
 
             Cursor mCursor = null;
 
-           String[] queryEvents = new String[]
-                    { CalendarContract.Events.TITLE, CalendarContract.Events.DTSTART};
+            String[] queryEvents = new String[]
+                    {CalendarContract.Events.TITLE, CalendarContract.Events.DTSTART};
 
             mCursor = getContentResolver().query(CalendarContract.Events.CONTENT_URI, queryEvents, null, null, null);
 
 
-
-            if (mCursor.moveToFirst()){
-           // do {
+            if (mCursor.moveToFirst()) {
+                // do {
                 //System.out.println("Ecco i papa"+mCursor.getString(0));
 //                if(mCursor.getString(3)!=null){
-                  //  System.out.println("luogo "+mCursor.getString(3));
-               // }
-          //  } while (mCursor.moveToNext());
-        }
+                //  System.out.println("luogo "+mCursor.getString(3));
+                // }
+                //  } while (mCursor.moveToNext());
+            }
 
 
             return weatherInfo;
@@ -267,26 +264,26 @@ public class MainActivity extends Activity {
 
         @Override
         protected void onPostExecute(MetwitRequest weatherInfo) {
-           // try {
+            // try {
 
-                Toast.makeText(getApplicationContext(), "URL : " + weatherInfo.getIconURL() + "\nTemperature : " + weatherInfo.getTemperature(), Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), "URL : " + weatherInfo.getIconURL() + "\nTemperature : " + weatherInfo.getTemperature(), Toast.LENGTH_LONG).show();
 
-                //URL url = new URL(weatherInfo.getIconURL());
-                //HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-                //connection.setDoInput(true);
-                //connection.connect();
-                //InputStream input = connection.getInputStream();
-                //Bitmap myBitmap = BitmapFactory.decodeStream(input);
+            //URL url = new URL(weatherInfo.getIconURL());
+            //HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            //connection.setDoInput(true);
+            //connection.connect();
+            //InputStream input = connection.getInputStream();
+            //Bitmap myBitmap = BitmapFactory.decodeStream(input);
 
-                //TODO aggiorna icona usando myBitmap
-                //TODO aggiorna temperatura
-                //TODO aggiorna localita
+            //TODO aggiorna icona usando myBitmap
+            //TODO aggiorna temperatura
+            //TODO aggiorna localita
 
 
             //} catch (IOException e) {
             //    e.printStackTrace();
 
-           // }
+            // }
 
         }
     }
@@ -302,18 +299,14 @@ public class MainActivity extends Activity {
             double endLatitude = params[2];
             double endLongitude = params[3];
 
-            GoogleTraffic traffic = new GoogleTraffic(startLatitude,startLongitude,endLatitude,endLongitude);
-
-            traffic.sendHttpRequest();
+            GoogleTraffic traffic = new GoogleTraffic(startLatitude, startLongitude, endLatitude, endLongitude);
+            traffic.askForTraffic();
 
             return traffic;
-
-
-
         }
 
         @Override
-        protected void onPostExecute(GoogleTraffic traffic){
+        protected void onPostExecute(GoogleTraffic traffic) {
 
         }
 
