@@ -12,7 +12,6 @@ import android.view.View;
 
 import com.example.umorning.tabswipeadapter.TabsPagerAdapter;
 
-
 public class MainActivity extends FragmentActivity implements
         ActionBar.TabListener {
 
