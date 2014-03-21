@@ -1,4 +1,4 @@
-package com.example.umorning;
+package com.example.umorning.util;
 
 import android.app.AlertDialog;
 import android.app.Service;
@@ -100,50 +100,35 @@ public class LocalizationService extends Service implements LocationListener {
     }
 
     //TODO serve veramente
-    /**
-     * Stop using GPS listener
-     * */
     public void stopUsingGPS(){
         if(locationManager != null){
             locationManager.removeUpdates(LocalizationService.this);
         }
     }
 
-    /**
-     * Prendi latitude
-     * */
+    //latitudine
     public double getLatitude(){
         if(location != null){
             latitude = location.getLatitude();
         }
-
-        // return latitude
         return latitude;
     }
 
-    /**
-     * Function to get longitude
-     * */
+
+    //longitudine
     public double getLongitude(){
         if(location != null){
             longitude = location.getLongitude();
         }
-
-        // return longitude
         return longitude;
     }
 
-    /**
-     * Controlla se GPS/wifi sono abilitati
-     * @return boolean
-     * */
+    //Controlla se GPS/wifi sono abilitati
     public boolean canGetLocation() {
         return this.canGetLocation;
     }
 
-    /**
-     * Pop-up per aprire le impostaioni e abilitare il GPS
-     * */
+    //Pop-up per aprire le impostaioni e abilitare il GPS
     public void showSettingsAlert(){
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(mContext);
 
