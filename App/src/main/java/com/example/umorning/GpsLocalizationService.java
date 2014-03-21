@@ -1,4 +1,4 @@
-package com.example.umorning.util;
+package com.example.umorning;
 
 import android.app.AlertDialog;
 import android.app.Service;
@@ -15,7 +15,7 @@ import android.util.Log;
 
 
 
-public class LocalizationService extends Service implements LocationListener {
+public class GpsLocalizationService extends Service implements LocationListener {
 
     private final Context mContext;
 
@@ -36,7 +36,7 @@ public class LocalizationService extends Service implements LocationListener {
 
     protected LocationManager locationManager;
 
-    public LocalizationService(Context context) {
+    public GpsLocalizationService(Context context) {
         this.mContext = context;
         getLocation();
     }
@@ -100,35 +100,50 @@ public class LocalizationService extends Service implements LocationListener {
     }
 
     //TODO serve veramente
+    /**
+     * Stop using GPS listener
+     * */
     public void stopUsingGPS(){
         if(locationManager != null){
-            locationManager.removeUpdates(LocalizationService.this);
+            locationManager.removeUpdates(GpsLocalizationService.this);
         }
     }
 
-    //latitudine
+    /**
+     * Prendi latitude
+     * */
     public double getLatitude(){
         if(location != null){
             latitude = location.getLatitude();
         }
+
+        // return latitude
         return latitude;
     }
 
-
-    //longitudine
+    /**
+     * Function to get longitude
+     * */
     public double getLongitude(){
         if(location != null){
             longitude = location.getLongitude();
         }
+
+        // return longitude
         return longitude;
     }
 
-    //Controlla se GPS/wifi sono abilitati
+    /**
+     * Controlla se GPS/wifi sono abilitati
+     * @return boolean
+     * */
     public boolean canGetLocation() {
         return this.canGetLocation;
     }
 
-    //Pop-up per aprire le impostaioni e abilitare il GPS
+    /**
+     * Pop-up per aprire le impostaioni e abilitare il GPS
+     * */
     public void showSettingsAlert(){
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(mContext);
 

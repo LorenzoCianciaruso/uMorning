@@ -2,7 +2,6 @@ package com.example.umorning;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -39,22 +38,11 @@ public class WebViewActivity extends Activity {
 
                     access_token = splittedString[2];
 
-                    SharedPreferences settings = getSharedPreferences("uMorning", 0);
-                    SharedPreferences.Editor editor = settings.edit();
-                    editor.putString("EventbriteToken", access_token);
-                    editor.commit();
-
-                    System.out.println("token: "+access_token);
-                    System.out.println("token_salvato: "+getSharedPreferences("uMorning",0).getString("EventbriteToken","errore1"));
-
-
-
-
-
-                    Intent intent = new Intent(WebViewActivity.this, AccountManagerActivity.class);
-                    startActivity(intent);
-                    finish();
-                }
+                //TODO salvare token
+                Intent intent = new Intent(WebViewActivity.this, AccountManagerActivity.class);
+                startActivity(intent);
+                finish();
+            }
             }
 
         });

@@ -27,6 +27,8 @@ public class GoogleTraffic {
     private double endLatitude;
     private double endLongitude;
 
+  
+
     private int tripDuration;
     private int tripDistance;
 

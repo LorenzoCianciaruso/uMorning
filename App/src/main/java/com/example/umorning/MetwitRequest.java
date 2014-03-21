@@ -1,4 +1,4 @@
-package com.example.umorning.util;
+package com.example.umorning;
 
 import android.app.Service;
 import android.content.Intent;
