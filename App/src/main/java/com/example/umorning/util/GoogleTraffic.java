@@ -27,13 +27,7 @@ public class GoogleTraffic {
     private double endLatitude;
     private double endLongitude;
 
-    public int getTripDuration() {
-        return tripDuration;
-    }
 
-    public int getTripDistance() {
-        return tripDistance;
-    }
 
     private int tripDuration;
     private int tripDistance;
@@ -52,7 +46,7 @@ public class GoogleTraffic {
         String url = "https://maps.googleapis.com/maps/api/distancematrix/json?origins=" + startLatitude + "," + startLongitude + "&destinations=" + endLatitude + "," + endLongitude + "&mode=driving&language=en-US&sensor=false&key=AIzaSyDj6lm3eLSuOhG4rLXL66WUBg7C7XEDYcA";
 
         try {
-
+            //richiesta http
             HttpParams httpParameters = new BasicHttpParams();
             HttpConnectionParams.setConnectionTimeout(httpParameters, 5000);
             HttpConnectionParams.setSoTimeout(httpParameters, 5000);
@@ -81,6 +75,7 @@ public class GoogleTraffic {
 
             // valore in secondi della durata del viaggio
             tripDuration = jsonDuration.getInt("value");
+            //TODO tripdistance
 
 
         } catch (IOException e) {
@@ -90,6 +85,14 @@ public class GoogleTraffic {
         }
 
 
+    }
+
+    public int getTripDuration() {
+        return tripDuration;
+    }
+
+    public int getTripDistance() {
+        return tripDistance;
     }
 
 }

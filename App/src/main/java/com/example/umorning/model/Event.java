@@ -8,6 +8,8 @@ public class Event {
     private String place;
     private Date date;
 
+
+    //setter e getter
     public int getId() {
         return id;
     }
