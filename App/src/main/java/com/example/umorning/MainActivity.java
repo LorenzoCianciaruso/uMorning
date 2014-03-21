@@ -221,7 +221,7 @@ public class MainActivity extends Activity {
             weatherInfo.sendHttpRequest();
 
             //TODO metto qui solo per provare
-                       String[] projection =
+                       /*String[] projection =
                     new String[]{
                             Calendars._ID,
                             Calendars.NAME,
@@ -240,18 +240,23 @@ public class MainActivity extends Activity {
                     } while (calCursor.moveToNext());
             }
 
-            Uri.Builder builder = CalendarContract.Instances.CONTENT_URI.buildUpon();
+            Uri.Builder builder = CalendarContract.Instances.CONTENT_URI.buildUpon();*/
 
             Cursor mCursor = null;
-            projection = new String[]
-                    { CalendarContract.Events.TITLE, CalendarContract.Events.DTSTART, CalendarContract.Events.DTEND};
 
-            mCursor =   getContentResolver().query(
-                    builder.build(), projection, CalendarContract.Instances.CALENDAR_ID  + " = ?",
-                    new String[]{"1"}, null);
+           String[] queryEvents = new String[]
+                    { CalendarContract.Events.TITLE, CalendarContract.Events.DTSTART};
+
+            mCursor = getContentResolver().query(CalendarContract.Events.CONTENT_URI, queryEvents, null, null, null);
+
+
+
             if (mCursor.moveToFirst()){
             do {
                 System.out.println("Ecco i papa"+mCursor.getString(0));
+                if(mCursor.getString(3)!=null){
+                    System.out.println("luogo "+mCursor.getString(3));
+                }
             } while (mCursor.moveToNext());
         }
 
