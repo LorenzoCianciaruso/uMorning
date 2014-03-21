@@ -9,19 +9,24 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
-import org.apache.http.NameValuePair;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.message.BasicNameValuePair;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.util.EntityUtils;
 
+import java.io.InputStream;
+import 	java.net.URI;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.params.BasicHttpParams;
+import org.apache.http.params.HttpConnectionParams;
+import org.apache.http.params.HttpParams;
+
+
+import java.io.BufferedReader;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import java.io.InputStreamReader;
+
 
 
 public class AccountManagerActivity extends ActionBarActivity {
@@ -65,25 +70,55 @@ public class AccountManagerActivity extends ActionBarActivity {
         startActivity(intent);
         finish();
 
-        postData();
-
-
-
-
     }
 
-    public void postData() {
+    public void postData(View view) {
+
+        new Thread(new Runnable() {
+            public void run(){
+
         // Create a new HttpClient and Post Header
-        HttpClient httpclient = new DefaultHttpClient();
-
-        HttpPost httppost = new HttpPost("https://www.eventbrite.com/oauth/token");
-
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences prefs = getSharedPreferences("uMorning",0);
 // then you use
-        String access = prefs.getString("EventbriteToken", null);
+        String access = prefs.getString("EventbriteToken", "errore");
 
+        System.out.println("getSharedPref: "+access);
 
         try {
+            HttpParams httpParameters = new BasicHttpParams();
+            HttpConnectionParams.setConnectionTimeout(httpParameters, 5000);
+            HttpConnectionParams.setSoTimeout(httpParameters, 5000);
+
+            HttpClient client = new DefaultHttpClient(httpParameters);
+            HttpGet request = new HttpGet("https://www.eventbriteapi.com/v3/users/me/orders/?token="+access);
+            HttpResponse response = client.execute(request);
+            HttpEntity entity = response.getEntity();
+            InputStream is = entity.getContent();
+
+            StringBuilder builder = new StringBuilder();
+            BufferedReader reader = new BufferedReader(new InputStreamReader(is));
+            String line;
+            while ((line = reader.readLine()) != null) {
+                builder.append(line);
+            }
+
+            String result = builder.toString();
+
+            System.out.println("risposta: "+result);
+
+
+        }
+            catch(Exception e ){
+                e.printStackTrace();
+            }
+            }
+        }).start();
+
+        }
+
+
+
+        /*try {
             // Add your data
 
 
@@ -104,7 +139,8 @@ public class AccountManagerActivity extends ActionBarActivity {
         } catch (IOException e) {
             // TODO Auto-generated catch block
         }
-    }
+        }*/
+
 
     public void facebookAuth(View view){
 

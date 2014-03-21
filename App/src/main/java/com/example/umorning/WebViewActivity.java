@@ -44,6 +44,11 @@ public class WebViewActivity extends Activity {
                     editor.putString("EventbriteToken", access_token);
                     editor.commit();
 
+                    System.out.println("token: "+access_token);
+                    System.out.println("token_salvato: "+getSharedPreferences("uMorning",0).getString("EventbriteToken","errore1"));
+
+
+
 
 
                     Intent intent = new Intent(WebViewActivity.this, AccountManagerActivity.class);

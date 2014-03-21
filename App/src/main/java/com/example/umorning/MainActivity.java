@@ -252,12 +252,12 @@ public class MainActivity extends Activity {
 
 
             if (mCursor.moveToFirst()){
-            do {
-                System.out.println("Ecco i papa"+mCursor.getString(0));
-                if(mCursor.getString(3)!=null){
-                    System.out.println("luogo "+mCursor.getString(3));
-                }
-            } while (mCursor.moveToNext());
+           // do {
+                //System.out.println("Ecco i papa"+mCursor.getString(0));
+//                if(mCursor.getString(3)!=null){
+                  //  System.out.println("luogo "+mCursor.getString(3));
+               // }
+          //  } while (mCursor.moveToNext());
         }
 
 

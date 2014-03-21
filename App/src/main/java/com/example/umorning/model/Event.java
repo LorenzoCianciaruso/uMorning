@@ -6,7 +6,11 @@ public class Event {
     private int id;
     private String name;
     private String place;
+    private String latitude;
+    private String longitude;
     private Date date;
+    private String hour;
+
 
 
     //setter e getter
@@ -43,4 +47,27 @@ public class Event {
     }
 
 
+    public String getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(String latitude) {
+        this.latitude = latitude;
+    }
+
+    public String getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(String longitude) {
+        this.longitude = longitude;
+    }
+
+    public String getHour() {
+        return hour;
+    }
+
+    public void setHour(String hour) {
+        this.hour = hour;
+    }
 }
