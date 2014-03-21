@@ -29,18 +29,15 @@
             </intent-filter>
         </activity>
 
-        <service android:name=".AlarmService" />
-        <!--<service android:name="com.example.umorning.GpsLocalizationService" />-->
+        <service android:name=".util.AlarmService" />
+        <service android:name=".util.LocalizationService" />
 
         <activity
             android:name="com.example.umorning.AlarmActivity"
             android:label="@string/title_activity_prova" >
         </activity>
         <activity
-            android:name="com.example.umorning.AddNewAlarm">
-        </activity>
-        <activity
-            android:name="com.example.umorning.AccountManagerActivity"
+            android:name=".AccountManagerActivity"
             android:label="@string/title_activity_account_manager" >
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
