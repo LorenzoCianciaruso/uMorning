@@ -9,11 +9,14 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.example.umorning.util.HttpRequest;
+
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 
 import java.io.InputStream;
-import 	java.net.URI;
+import java.net.URI;
+
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 
@@ -28,7 +31,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 
-
 public class AccountManagerActivity extends ActionBarActivity {
 
     @Override
@@ -40,7 +42,7 @@ public class AccountManagerActivity extends ActionBarActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        
+
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.account_manager, menu);
         return true;
@@ -75,49 +77,22 @@ public class AccountManagerActivity extends ActionBarActivity {
     public void postData(View view) {
 
         new Thread(new Runnable() {
-            public void run(){
+            public void run() {
 
-        // Create a new HttpClient and Post Header
-        SharedPreferences prefs = getSharedPreferences("uMorning",0);
-// then you use
-        String access = prefs.getString("EventbriteToken", "errore");
+                SharedPreferences prefs = getSharedPreferences("uMorning", 0);
+                String access = prefs.getString("EventbriteToken", "errore");
+                String url = "https://www.eventbriteapi.com/v3/users/me/orders/?token=" + access;
+                String result = new HttpRequest().getRequest(url);
+                System.out.println("risposta: " + result);
 
-
-
-        try {
-            HttpParams httpParameters = new BasicHttpParams();
-            HttpConnectionParams.setConnectionTimeout(httpParameters, 5000);
-            HttpConnectionParams.setSoTimeout(httpParameters, 5000);
-
-            HttpClient client = new DefaultHttpClient(httpParameters);
-            HttpGet request = new HttpGet("https://www.eventbriteapi.com/v3/users/me/orders/?token="+access);
-            HttpResponse response = client.execute(request);
-            HttpEntity entity = response.getEntity();
-            InputStream is = entity.getContent();
-
-            StringBuilder builder = new StringBuilder();
-            BufferedReader reader = new BufferedReader(new InputStreamReader(is));
-            String line;
-            while ((line = reader.readLine()) != null) {
-                builder.append(line);
             }
 
-            String result = builder.toString();
-
-            System.out.println("risposta: "+result);
-
-
-        }
-            catch(Exception e ){
-                e.printStackTrace();
-            }
-            }
         }).start();
 
-        }
+    }
 
 
-    public void facebookAuth(View view){
+    public void facebookAuth(View view) {
 
     }
 
