@@ -59,7 +59,7 @@ public class AccountManagerActivity extends ActionBarActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-
+//
     public void eventbriteAuth(View view) {
         //Intent intent = new Intent(Intent.ACTION_VIEW,
         //ri.parse("https://www.eventbrite.com/oauth/authorize?response_type=token&client_id=AWF7I3D2E3CAVX6QNW"));
