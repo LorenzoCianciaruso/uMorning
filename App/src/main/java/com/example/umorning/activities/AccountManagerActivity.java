@@ -1,12 +1,16 @@
-package com.example.umorning;
+package com.example.umorning.activities;
 
 import android.content.Intent;
-import android.net.Uri;
+import android.content.SharedPreferences;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+
+import com.example.umorning.R;
+import com.example.umorning.activities.WebViewActivity;
+import com.example.umorning.external_services.HttpRequest;
 
 
 public class AccountManagerActivity extends ActionBarActivity {
@@ -20,7 +24,7 @@ public class AccountManagerActivity extends ActionBarActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        
+
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.account_manager, menu);
         return true;
@@ -37,7 +41,7 @@ public class AccountManagerActivity extends ActionBarActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-
+//
     public void eventbriteAuth(View view) {
         //Intent intent = new Intent(Intent.ACTION_VIEW,
         //ri.parse("https://www.eventbrite.com/oauth/authorize?response_type=token&client_id=AWF7I3D2E3CAVX6QNW"));
@@ -49,9 +53,28 @@ public class AccountManagerActivity extends ActionBarActivity {
         intent.putExtras(b); //Put your id to your next Intent
         startActivity(intent);
         finish();
+
     }
 
-    public void facebookAuth(View view){
+    public void postData(View view) {
+
+        new Thread(new Runnable() {
+            public void run() {
+
+                SharedPreferences prefs = getSharedPreferences("uMorning", 0);
+                String access = prefs.getString("EventbriteToken", "errore");
+                String url = "https://www.eventbriteapi.com/v3/users/me/orders/?token=" + access;
+                String result = new HttpRequest().getRequest(url);
+                System.out.println("risposta: " + result);
+
+            }
+
+        }).start();
+
+    }
+
+
+    public void facebookAuth(View view) {
 
     }
 

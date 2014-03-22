@@ -1,4 +1,4 @@
-package com.example.umorning;
+package com.example.umorning.activities;
 
 import android.content.Context;
 import android.media.Ringtone;
@@ -13,6 +13,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.example.umorning.R;
 
 public class AlarmActivity extends ActionBarActivity {
 

@@ -1,4 +1,4 @@
-package com.example.umorning;
+package com.example.umorning.internal_services;
 
 import android.app.AlertDialog;
 import android.app.Service;
