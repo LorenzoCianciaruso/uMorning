@@ -4,9 +4,9 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-import com.example.umorning.AlarmsFragment;
-import com.example.umorning.EventsFragment;
-import com.example.umorning.HomeFragment;
+import com.example.umorning.fragments.AlarmsFragment;
+import com.example.umorning.fragments.EventsFragment;
+import com.example.umorning.fragments.HomeFragment;
 
 public class TabsPagerAdapter extends FragmentPagerAdapter {
 

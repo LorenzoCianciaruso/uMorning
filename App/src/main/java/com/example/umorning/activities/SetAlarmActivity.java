@@ -1,4 +1,4 @@
-package com.example.umorning;
+package com.example.umorning.activities;
 
 
 public class SetAlarmActivity {

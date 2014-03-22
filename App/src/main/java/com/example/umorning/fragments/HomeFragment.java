@@ -1,4 +1,4 @@
-package com.example.umorning;
+package com.example.umorning.fragments;
 
 import android.os.AsyncTask;
 import android.support.v4.app.Fragment;
@@ -19,6 +19,10 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.example.umorning.R;
+import com.example.umorning.external_services.MetwitRequest;
+import com.example.umorning.internal_services.AlarmService;
+import com.example.umorning.internal_services.GpsLocalizationService;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 
 import java.util.Calendar;

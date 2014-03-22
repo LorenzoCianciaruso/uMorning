@@ -1,15 +1,14 @@
-package com.example.umorning;
+package com.example.umorning.activities;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
-import java.util.StringTokenizer;
+import com.example.umorning.R;
 
 
 public class WebViewActivity extends Activity {

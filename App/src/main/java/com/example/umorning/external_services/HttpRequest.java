@@ -1,4 +1,4 @@
-package com.example.umorning.util;
+package com.example.umorning.external_services;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;

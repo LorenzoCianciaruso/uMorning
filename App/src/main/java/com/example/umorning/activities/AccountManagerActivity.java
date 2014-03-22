@@ -1,34 +1,16 @@
-package com.example.umorning;
+package com.example.umorning.activities;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.example.umorning.util.HttpRequest;
-
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-
-import java.io.InputStream;
-import java.net.URI;
-
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.params.BasicHttpParams;
-import org.apache.http.params.HttpConnectionParams;
-import org.apache.http.params.HttpParams;
-
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import com.example.umorning.R;
+import com.example.umorning.activities.WebViewActivity;
+import com.example.umorning.external_services.HttpRequest;
 
 
 public class AccountManagerActivity extends ActionBarActivity {

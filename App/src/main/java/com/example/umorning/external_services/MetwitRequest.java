@@ -1,18 +1,9 @@
-package com.example.umorning;
+package com.example.umorning.external_services;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-
-import com.example.umorning.util.HttpRequest;
+import com.example.umorning.external_services.HttpRequest;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.net.URLConnection;
 
 public class MetwitRequest {
 
