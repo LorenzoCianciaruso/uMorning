@@ -15,9 +15,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
-/**
- * Created by Lorenzo on 21/03/14.
- */
+
 public class HttpRequest {
 
 

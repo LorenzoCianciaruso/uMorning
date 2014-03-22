@@ -23,6 +23,7 @@
             android:orientation="vertical" >
 
             <TextView
+                android:id="@+id/locality"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
@@ -33,6 +34,7 @@
                 android:textStyle="bold" />
 
             <TextView
+                android:id="@+id/country"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
@@ -43,6 +45,7 @@
                 android:layout_gravity="center_horizontal" />
 
             <TextView
+                android:id="@+id/temperature"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
@@ -53,11 +56,10 @@
         </LinearLayout>
 
         <ImageView
-            android:id="@+id/imageView1"
+            android:id="@+id/weatherIcon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:src="@drawable/meteoprova"
             android:layout_marginRight="15dp"
             android:layout_alignBottom="@+id/mLlayoutBottomButtons2"
             android:layout_toRightOf="@+id/mLlayoutBottomButtons2"
