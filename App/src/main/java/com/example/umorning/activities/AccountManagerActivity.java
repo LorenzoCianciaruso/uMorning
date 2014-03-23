@@ -63,6 +63,7 @@ public class AccountManagerActivity extends ActionBarActivity {
                 String access = prefs.getString("EventbriteToken", "errore");
                 String url = "https://www.eventbriteapi.com/v3/users/me/orders/?token=" + access;
                 String result = new HttpRequest().getRequest(url);
+                System.out.println(result);
 
 
             }
