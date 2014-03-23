@@ -43,20 +43,18 @@ public class AccountManagerActivity extends ActionBarActivity {
     }
 //
     public void eventbriteAuth(View view) {
-        //Intent intent = new Intent(Intent.ACTION_VIEW,
-        //ri.parse("https://www.eventbrite.com/oauth/authorize?response_type=token&client_id=AWF7I3D2E3CAVX6QNW"));
-        //startActivity(intent);
+
 
         Intent intent = new Intent(this, WebViewActivity.class);
         Bundle b = new Bundle();
         b.putString("url", "https://www.eventbrite.com/oauth/authorize?response_type=token&client_id=AWF7I3D2E3CAVX6QNW");
-        intent.putExtras(b); //Put your id to your next Intent
+        intent.putExtras(b);
         startActivity(intent);
         finish();
 
     }
 
-    public void postData(View view) {
+    public void postData() {
 
         new Thread(new Runnable() {
             public void run() {
@@ -65,7 +63,7 @@ public class AccountManagerActivity extends ActionBarActivity {
                 String access = prefs.getString("EventbriteToken", "errore");
                 String url = "https://www.eventbriteapi.com/v3/users/me/orders/?token=" + access;
                 String result = new HttpRequest().getRequest(url);
-                System.out.println("risposta: " + result);
+
 
             }
 

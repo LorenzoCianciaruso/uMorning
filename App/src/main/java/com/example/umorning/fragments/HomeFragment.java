@@ -10,6 +10,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.provider.CalendarContract.Calendars;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -20,6 +22,7 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.example.umorning.R;
+import com.example.umorning.activities.AccountManagerActivity;
 import com.example.umorning.external_services.MetwitRequest;
 import com.example.umorning.internal_services.AlarmService;
 import com.example.umorning.internal_services.GpsLocalizationService;
@@ -63,13 +66,15 @@ public class HomeFragment extends Fragment {
     private static final int PROJECTION_DISPLAY_NAME_INDEX = 2;
     private static final int PROJECTION_OWNER_ACCOUNT_INDEX = 3;
 
+
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         setHasOptionsMenu(true);
 
-        super.onCreate(savedInstanceState);
+
         super.onCreate(savedInstanceState);
         //setContentView(R.layout.fragment_home);
 
@@ -112,9 +117,10 @@ public class HomeFragment extends Fragment {
         return rootView;
     }
 
+
     @Override
-    public void onResume() {
-        super.onResume();
+    public void onStart() {
+        super.onStart();
         gps = new GpsLocalizationService(getActivity());
 
         // check if GPS enabled
@@ -123,7 +129,7 @@ public class HomeFragment extends Fragment {
             latitude = gps.getLatitude();
             longitude = gps.getLongitude();
 
-            // \n is for new line
+
             Toast.makeText(getActivity().getApplicationContext(), "Your Location is - \nLat: " + latitude + "\nLong: " + longitude, Toast.LENGTH_LONG).show();
 
             new AsyncTaskMeteoRequest().execute(latitude, longitude);
@@ -150,6 +156,7 @@ public class HomeFragment extends Fragment {
         }
         */
     }
+
 
     private class AsyncTaskMeteoRequest extends AsyncTask<Double, Void, MetwitRequest> {
 
@@ -258,70 +265,13 @@ public class HomeFragment extends Fragment {
     }
 
 
+
 ////////////////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////
     //Todo tutta la roba sotto va messo in EventsFragments, la roba sopra fa la sveglia e verrà spostato in AlarmsFragment
 /*
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        gps = new GpsLocalizationService(MainActivity.this);
-
-        // check if GPS enabled
-        if (gps.canGetLocation()) {
-
-            latitude = gps.getLatitude();
-            longitude = gps.getLongitude();
-
-
-            // \n is for new line
-            Toast.makeText(getApplicationContext(), "Your Location is - \nLat: " + latitude + "\nLong: " + longitude, Toast.LENGTH_LONG).show();
-
-            new AsyncTaskMeteoRequest().execute(latitude, longitude);
-
-            new AsyncTaskTrafficRequest().execute(latitude, longitude, 45.0, 9.0);
-
-        } else {
-            // Chiedi all'utente di andare nelle impostazioni
-            gps.showSettingsAlert();
-        }
-
-        final int checkPlayStatus = GooglePlayServicesUtil.isGooglePlayServicesAvailable(this);
-
-        if (checkPlayStatus != ConnectionResult.SUCCESS) {
-            Dialog dialog = GooglePlayServicesUtil.getErrorDialog(checkPlayStatus, this, 69, new DialogInterface.OnCancelListener() {
-                @Override
-                public void onCancel(DialogInterface dialog) {
-                    //SDK obbligatorio
-                    finish();
-                }
-            });
-            dialog.show();
-        }
-    }
-
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
 
 
     //TODO sto fragmaent a che cazzo serve?

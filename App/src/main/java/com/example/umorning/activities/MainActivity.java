@@ -68,7 +68,7 @@ public class MainActivity extends FragmentActivity implements
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.add_new_alarm, menu);
+        getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
 
@@ -97,5 +97,9 @@ public class MainActivity extends FragmentActivity implements
                 overridePendingTransition(R.anim.fadein, R.anim.fadeout);
                 break;
         }
+    }
+    public void startAccountManager(View view){
+        Intent intent = new Intent(this, AccountManagerActivity.class);
+        startActivity(intent);
     }
 }
