@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 
 import com.example.umorning.R;
@@ -98,7 +99,7 @@ public class MainActivity extends FragmentActivity implements
                 break;
         }
     }
-    public void startAccountManager(View view){
+    public void startAccountManager(MenuItem item){
         Intent intent = new Intent(this, AccountManagerActivity.class);
         startActivity(intent);
     }

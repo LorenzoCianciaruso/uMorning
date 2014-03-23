@@ -260,10 +260,11 @@ public class HomeFragment extends Fragment {
                 weatherIcon.setImageResource(R.drawable.windy);
             }
 
-          //  AccountManagerActivity aba = new AccountManagerActivity();
-            //aba.postData();
+            //Intent intent = new Intent(getActivity(), AccountManagerActivity.class);
+           // startActivity(intent);
 
-
+          //  AccountManagerActivity aba= new AccountManagerActivity();
+           // aba.postData();
         }
     }
 
