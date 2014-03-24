@@ -38,7 +38,6 @@ public class WebViewActivity extends Activity {
 
                     access_token = splittedString[2];
 
-
                     SharedPreferences settings = getSharedPreferences("uMorning", 0);
                     SharedPreferences.Editor editor = settings.edit();
                     editor.putString("EventbriteToken", access_token);

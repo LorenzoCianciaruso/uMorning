@@ -54,10 +54,11 @@ public class AccountManagerActivity extends ActionBarActivity {
 
     }
 
-    public void postData() {
+    public void getEventbriteOrders() {
 
         new Thread(new Runnable() {
             public void run() {
+
 
                 SharedPreferences prefs = getSharedPreferences("uMorning", 0);
                 String access = prefs.getString("EventbriteToken", "errore");
@@ -71,6 +72,8 @@ public class AccountManagerActivity extends ActionBarActivity {
         }).start();
 
     }
+
+
 
 
     public void facebookAuth(View view) {
