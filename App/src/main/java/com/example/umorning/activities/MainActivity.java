@@ -91,7 +91,7 @@ public class MainActivity extends FragmentActivity implements
         switch(v.getId()) {
             case R.id.addnewalarm:
                 Intent myIntent = new Intent();
-                myIntent.setClassName("com.example.umorning", "com.example.umorning.AddNewAlarm");
+                myIntent.setClassName("com.example.umorning", "com.example.umorning.activities.AlarmAddNewActivity");
                 // for ex: your package name can be "com.example"
                 // your activity name will be "com.example.Contact_Developer"
                 startActivity(myIntent);

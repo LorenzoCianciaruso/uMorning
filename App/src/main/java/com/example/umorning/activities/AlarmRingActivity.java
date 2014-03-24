@@ -16,7 +16,7 @@ import android.view.ViewGroup;
 
 import com.example.umorning.R;
 
-public class AlarmActivity extends ActionBarActivity {
+public class AlarmRingActivity extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,11 +38,12 @@ public class AlarmActivity extends ActionBarActivity {
         Ringtone r = RingtoneManager.getRingtone(getApplicationContext(), notification);
         r.play();
 
-        if (savedInstanceState == null) {
+        /*if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.container, new PlaceholderFragment())
                     .commit();
         }
+        */
     }
 
 
@@ -66,9 +67,9 @@ public class AlarmActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    /**
+    /*
      * A placeholder fragment containing a simple view.
-     */
+
     //TODO ancora sti fragment di merda?? dobbiamo decidere se li vogliamo usare o fare tutto ad activity
     public static class PlaceholderFragment extends Fragment {
 
@@ -82,5 +83,6 @@ public class AlarmActivity extends ActionBarActivity {
             return rootView;
         }
     }
+    */
 
 }

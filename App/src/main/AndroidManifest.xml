@@ -33,11 +33,11 @@
         <!--<service android:name="com.example.umorning.util.GpsLocalizationService" />-->
 
         <activity
-            android:name=".activities.AlarmActivity"
+            android:name=".activities.AlarmRingActivity"
             android:label="@string/title_activity_prova" >
         </activity>
         <activity
-            android:name="com.example.umorning.AddNewAlarm">
+            android:name=".activities.AlarmAddNewActivity">
         </activity>
         <activity
             android:name=".activities.AccountManagerActivity"
