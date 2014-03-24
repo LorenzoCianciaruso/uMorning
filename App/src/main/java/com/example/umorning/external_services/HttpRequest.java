@@ -45,6 +45,7 @@ public class HttpRequest {
 
             String result = builder.toString();
             return result;
+
         } catch (ClientProtocolException e) {
             e.printStackTrace();
         } catch (IOException e) {

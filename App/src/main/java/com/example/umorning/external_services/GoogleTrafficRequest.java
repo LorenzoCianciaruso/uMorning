@@ -5,7 +5,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 
-public class GoogleTraffic {
+public class GoogleTrafficRequest {
 
     private double startLatitude;
     private double startLongitude;
@@ -19,7 +19,7 @@ public class GoogleTraffic {
 
 
 
-    public GoogleTraffic(double startLatitude, double startLongitude, double endLatitude, double endLongitude){
+    public GoogleTrafficRequest(double startLatitude, double startLongitude, double endLatitude, double endLongitude){
         this.startLatitude=startLatitude;
         this.startLongitude=startLongitude;
         this.endLatitude=endLatitude;
