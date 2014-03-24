@@ -4,31 +4,66 @@ package com.example.umorning.model;
 public class Event {
 
     private String name;
-    private String place;
+    private String id;
+    private String organizerName;
+    private String address;
+    private String city;
+    private String country;
     private String latitude;
     private String longitude;
-    private String url;
+    private String locationName;
+    private String eventURL;
+    private String getRequestURL;
     private String date;
     private String hour;
+    private String status;
     private boolean partecipation;
 
-    public Event(String name, String place, String latitude, String longitude, String url, String date, String hour, boolean partecipation){
-        this.name=name;
-        this.place=place;
-        this.latitude=latitude;
-        this.longitude=longitude;
-        this.url=url;
-        this.date=date;
-        this.hour=hour;
-        this.partecipation=partecipation;
+
+    public Event(String name, String id, String organizerName, String address, String city, String country, String latitude, String longitude,String locationName, String eventURL, String getRequestURL, String date, String hour, String status) {
+        this.name = name;
+        this.id = id;
+        this.organizerName = organizerName;
+        this.address = address;
+        this.city = city;
+        this.country = country;
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.locationName = locationName;
+        this.eventURL = eventURL;
+        this.getRequestURL = getRequestURL;
+        this.date = date;
+        this.hour = hour;
+        this.status = status;
+
+    }
+
+    public void setPartecipation(boolean partecipation) {
+        this.partecipation = partecipation;
     }
 
     public String getName() {
         return name;
     }
 
-    public String getPlace() {
-        return place;
+    public String getId() {
+        return id;
+    }
+
+    public String getOrganizerName() {
+        return organizerName;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public String getCountry() {
+        return country;
     }
 
     public String getLatitude() {
@@ -39,8 +74,12 @@ public class Event {
         return longitude;
     }
 
-    public String getUrl() {
-        return url;
+    public String getEventURL() {
+        return eventURL;
+    }
+
+    public String getGetRequestURL() {
+        return getRequestURL;
     }
 
     public String getDate() {
@@ -51,13 +90,15 @@ public class Event {
         return hour;
     }
 
+    public String getStatus() {
+        return status;
+    }
+
+    public String getLocationName() {
+        return locationName;
+    }
+
     public boolean isPartecipation() {
         return partecipation;
     }
-
-    public void setPartecipation(boolean partecipation) {
-        this.partecipation = partecipation;
-    }
-
-
 }
