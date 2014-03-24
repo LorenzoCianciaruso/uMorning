@@ -1,4 +1,4 @@
-package com.example.umorning;
+package com.example.umorning.activities;
 
 
 import android.app.Activity;
@@ -7,7 +7,9 @@ import android.view.Menu;
 import android.view.View;
 import android.widget.TimePicker;
 
-public class AddNewAlarm extends Activity {
+import com.example.umorning.R;
+
+public class AlarmAddNewActivity extends Activity {
     TimePicker timepicker;
 
     @Override
@@ -16,6 +18,8 @@ public class AddNewAlarm extends Activity {
         setContentView(R.layout.activity_add_new_alarm);
         timepicker = (TimePicker) findViewById(R.id.timePicker1);
         timepicker.setIs24HourView(true);
+
+        //TODO il codice per creare la sveglia lo trovi in alarm fragment ma va messo qui
     }
 
     @Override
@@ -26,9 +30,9 @@ public class AddNewAlarm extends Activity {
     }
     public void saveAlarm(View view) {
         // Do something in response to button
-		/*Intent myIntent = new Intent(MainActivity.this, AddNewAlarm.class);
+		/*Intent myIntent = new Intent(MainActivity.this, AlarmAddNewActivity.class);
 		startActivity(myIntent);*/
-        //Intent myIntent = new Intent(AddNewAlarm.this, MainActivity.class);
+        //Intent myIntent = new Intent(AlarmAddNewActivity.this, MainActivity.class);
         //startActivity(myIntent);
         //myIntent.putExtra("index", 2);
         //startActivity(myIntent);

@@ -5,7 +5,7 @@ import android.content.Intent;
 import android.os.IBinder;
 import android.widget.Toast;
 
-import com.example.umorning.activities.AlarmActivity;
+import com.example.umorning.activities.AlarmRingActivity;
 
 public class AlarmService extends Service {
 
@@ -13,7 +13,7 @@ public class AlarmService extends Service {
     public void onCreate() {
 
         //riapri l'applicazione andando su alarm activity che suona e apre una finestra
-        Intent dialogIntent = new Intent(getBaseContext(), AlarmActivity.class);
+        Intent dialogIntent = new Intent(getBaseContext(), AlarmRingActivity.class);
         dialogIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         getApplication().startActivity(dialogIntent);
     }

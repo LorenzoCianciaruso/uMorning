@@ -12,7 +12,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.TimePicker;
 
-import com.example.umorning.AddNewAlarm;
+import com.example.umorning.activities.AlarmAddNewActivity;
 import com.example.umorning.R;
 import com.example.umorning.internal_services.AlarmService;
 
@@ -57,7 +57,7 @@ public class AlarmsFragment extends Fragment {
                 //chiama un alarmservice
                 Intent myIntent = new Intent(getActivity(), AlarmService.class);
                 PendingIntent pendingIntent = PendingIntent.getService(getActivity(), 0, myIntent, 0);
-                AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+                AlarmManager alarmManager = (AlarmManager) getActivity().getSystemService(ALARM_SERVICE);
 
                 //imposta l'ora e fa partire
                 Calendar calendar = Calendar.getInstance();
@@ -73,8 +73,8 @@ public class AlarmsFragment extends Fragment {
     public void openAddNewActivity(View view) {
         // Do something in response to button
         /*
-        Intent myIntent = new Intent(getActivity(), AddNewAlarm.class);
+        Intent myIntent = new Intent(getActivity(), AlarmAddNewActivity.class);
         startActivity(myIntent);*/
-        startActivity(new Intent(view.getContext(),AddNewAlarm.class));
+        startActivity(new Intent(view.getContext(),AlarmAddNewActivity.class));
     }
 }
