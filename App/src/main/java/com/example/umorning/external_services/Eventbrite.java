@@ -96,7 +96,7 @@ public class Eventbrite {
             String date= startTime[0];
             String hour= startTime[1];
 
-            Event event = new Event( name, id, organizer, address, city, country, latitude, longitude,locationName, url, resource_uri,date, hour,status);
+            Event event = new Event( name, id, organizer, address, city, country, latitude, longitude, locationName, url, resource_uri,date, hour, status);
 
             return event;
 
