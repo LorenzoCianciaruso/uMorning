@@ -11,7 +11,8 @@ public class EventService {
     public List<Event> getEvent(){
 
             /*
-            // Run query
+            // Run queryjiofvsuhbfvuabrfbhiufdbui
+
             Cursor cur = null;
             ContentResolver cr = getContentResolver();
             Uri uri = CalendarContract.Calendars.CONTENT_URI;
