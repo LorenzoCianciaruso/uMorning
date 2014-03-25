@@ -1,5 +1,8 @@
 package com.example.umorning.fragments;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -11,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.umorning.R;
+import com.example.umorning.external_services.Eventbrite;
 import com.example.umorning.model.Event;
 
 import java.util.ArrayList;
@@ -32,9 +36,44 @@ public class EventsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
+        setHasOptionsMenu(true);
+
+        super.onCreate(savedInstanceState);
+
         View rootView = inflater.inflate(R.layout.fragment_events, container, false);
 
+
+        SharedPreferences prefs = getActivity().getSharedPreferences("uMorning", 0);
+        String token = prefs.getString("EventbriteToken", "NotEventbriteLogged");
+
+        if(token.equals("NotEventbriteLogged")){
+            //TODO notlogged
+        }else{
+        new AsyncTaskEventbrite().execute(token);
+        }
+
         return rootView;
+    }
+
+
+    private class AsyncTaskEventbrite extends AsyncTask<String, Void, List<Event>>{
+
+        @Override
+        protected List<Event> doInBackground(String... params) {
+
+            String token = params[0];
+
+            Eventbrite eve = new Eventbrite(token);
+            eve.getEventbriteOrders();
+            List<Event> eventList = eve.getEventList();
+            return eventList;
+
+        }
+
+        @Override
+        protected void onPostExecute(List<Event> params){
+
+        }
     }
 
     private class AsyncTaskEventRetrive extends AsyncTask<Void, Void, List<Event> > {
@@ -80,7 +119,7 @@ public class EventsFragment extends Fragment {
             }
             */
             Uri.Builder builder = CalendarContract.Instances.CONTENT_URI.buildUpon();
-
+/*
             Cursor mCursor;
             String[] projection = new String[]
                     {CalendarContract.Events.TITLE, CalendarContract.Events.DTSTART, CalendarContract.Events.DTEND};
@@ -93,6 +132,7 @@ public class EventsFragment extends Fragment {
                     System.out.println("Ecco i papa" + mCursor.getString(0));
                 } while (mCursor.moveToNext());
             }
+            */
             List<Event> events = new ArrayList<Event>();
 
             return events;
