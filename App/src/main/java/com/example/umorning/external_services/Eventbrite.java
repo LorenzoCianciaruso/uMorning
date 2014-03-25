@@ -48,16 +48,9 @@ public class Eventbrite {
                         }
                     }
 
-
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-
-
-
-
-
-
     }
 
     private Event getEventbriteEvent(String resource_uri){
