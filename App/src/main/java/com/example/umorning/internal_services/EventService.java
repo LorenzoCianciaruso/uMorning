@@ -46,7 +46,7 @@ public class EventService {
                     System.out.println("Ecco i campi" + calCursor.getString(0) + calCursor.getString(1) + calCursor.getString(2) + calCursor.getString(3));
                 } while (calCursor.moveToNext());
             }
-
+dwqjpedqjpideq
             */
         Uri.Builder builder = CalendarContract.Instances.CONTENT_URI.buildUpon();
 
