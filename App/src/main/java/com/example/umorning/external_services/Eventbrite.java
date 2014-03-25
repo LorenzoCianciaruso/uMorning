@@ -13,20 +13,20 @@ import java.util.List;
 
 public class Eventbrite {
 
-    List<Event> eventList = new ArrayList<Event>();
     String token;
 
-    public Eventbrite() {
-        //TODO da errore getsharePref
-       // SharedPreferences prefs = getSharedPreferences("uMorning", 0);
-        // TODO da gestire nel caso non ci sia ancora stata autenticazione
-       // token = prefs.getString("EventbriteToken", "errore");
+
+    public Eventbrite(String token) {
+        this.token = token;
     }
 
-    public void getEventbriteOrders() {
+    public List<Event> getEventList() {
+        return eventList;
+    }
 
-        new Thread(new Runnable() {
-            public void run() {
+    List<Event> eventList = new ArrayList<Event>();
+
+    public void getEventbriteOrders() {
 
                 String url = "https://www.eventbriteapi.com/v3/users/me/orders/?token=" + token;
                 String response = new HttpRequest().getRequest(url);
@@ -43,8 +43,9 @@ public class Eventbrite {
 
                         if (event.getStatus().equals("live")) {
                             eventList.add(event);
+                        }else{
+                            break;
                         }
-
                     }
 
 
@@ -53,15 +54,13 @@ public class Eventbrite {
                 }
 
 
-            }
 
-        }).start();
+
+
 
     }
 
     private Event getEventbriteEvent(String resource_uri){
-
-
 
         resource_uri = resource_uri + "?token=" + token;
         String response =new HttpRequest().getRequest(resource_uri);
