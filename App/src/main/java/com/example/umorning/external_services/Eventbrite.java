@@ -1,7 +1,5 @@
 package com.example.umorning.external_services;
 
-import android.content.SharedPreferences;
-
 import com.example.umorning.model.Event;
 
 import org.json.JSONArray;

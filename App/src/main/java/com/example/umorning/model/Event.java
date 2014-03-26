@@ -19,7 +19,6 @@ public class Event {
     private String status;
     private boolean partecipation;
 
-//hdhvgcfx
 
     public Event(String name, String id, String organizerName, String address, String city, String country, String latitude, String longitude,String locationName, String eventURL, String getRequestURL, String date, String hour, String status) {
         this.name = name;
