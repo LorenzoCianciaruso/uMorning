@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 import com.example.umorning.R;
 import com.example.umorning.external_services.Eventbrite;
 import com.example.umorning.internal_services.EventService;
-import com.example.umorning.oldmodel.Event;
+import com.example.umorning.model.Event;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package com.example.umorning.oldmodel;
+package com.example.umorning.model;
 
 
 public class Event {

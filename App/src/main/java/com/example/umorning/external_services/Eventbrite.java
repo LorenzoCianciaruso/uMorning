@@ -1,6 +1,6 @@
 package com.example.umorning.external_services;
 
-import com.example.umorning.oldmodel.Event;
+import com.example.umorning.model.Event;
 
 import org.json.JSONArray;
 import org.json.JSONException;

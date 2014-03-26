@@ -4,7 +4,7 @@ import android.app.Application;
 import android.database.Cursor;
 import android.net.Uri;
 import android.provider.CalendarContract;
-import com.example.umorning.oldmodel.Event;
+import com.example.umorning.model.Event;
 import java.util.ArrayList;
 import java.util.List;
 
