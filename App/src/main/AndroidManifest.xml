@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- suppress AndroidDomInspection -->
 <!-- suppress AndroidDomInspection -->
+<!--suppress AndroidDomInspection -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.umorning"
     android:versionCode="1"
@@ -30,7 +31,7 @@
         </activity>
 
         <service android:name=".internal_services.AlarmService" />
-        <!--<service android:name="com.example.umorning.util.GpsLocalizationService" />-->
+        <service android:name="com.example.umorning.internal_services.GpsLocalizationService" />
 
         <activity
             android:name=".activities.AlarmRingActivity"
