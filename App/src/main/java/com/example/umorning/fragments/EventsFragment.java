@@ -22,11 +22,8 @@ public class EventsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         setHasOptionsMenu(true);
-
         super.onCreate(savedInstanceState);
-
         View rootView = inflater.inflate(R.layout.fragment_events, container, false);
-
 
         SharedPreferences prefs = getActivity().getSharedPreferences("uMorning", 0);
         String token = prefs.getString("EventbriteToken", "NotEventbriteLogged");
@@ -35,8 +32,9 @@ public class EventsFragment extends Fragment {
             //TODO notlogged
         }else{
         new AsyncTaskEventbrite().execute(token);
-        new AsyncTaskEvent().execute();
         }
+        System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA /n");
+        new AsyncTaskEvent().execute();
         return rootView;
     }
 
