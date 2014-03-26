@@ -19,6 +19,7 @@ public class Event {
     private String status;
     private boolean partecipation;
 
+//hd
 
     public Event(String name, String id, String organizerName, String address, String city, String country, String latitude, String longitude,String locationName, String eventURL, String getRequestURL, String date, String hour, String status) {
         this.name = name;
@@ -35,7 +36,13 @@ public class Event {
         this.date = date;
         this.hour = hour;
         this.status = status;
+    }
 
+    public Event(String name, String id, String organizerName, String locationName) {
+        this.id = id;
+        this.name = name;
+        this.organizerName = organizerName;
+        this.locationName = locationName;
     }
 
     public void setPartecipation(boolean partecipation) {
