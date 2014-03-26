@@ -11,6 +11,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.umorning.R;
+import com.example.umorning.external_services.Eventbrite;
 import com.example.umorning.external_services.GoogleTrafficRequest;
 import com.example.umorning.external_services.MetwitRequest;
 import com.example.umorning.internal_services.GpsLocalizationService;
@@ -138,6 +139,7 @@ public class HomeFragment extends Fragment {
                 weatherIcon.setImageResource(R.drawable.windy);
             }
         }
+
     }
 
     private class AsyncTaskTrafficRequest extends AsyncTask<Double, Void, GoogleTrafficRequest> {
@@ -164,22 +166,6 @@ public class HomeFragment extends Fragment {
         }
     }
 
-    //TODO sto fragmaent a che cazzo serve?
-    /*
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-    public static class PlaceholderFragment extends Fragment {
-
-        public PlaceholderFragment() {
-        }
-
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                 Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_main, container, false);
-            return rootView;
-        }
-
-    }*/
 }
 
 
