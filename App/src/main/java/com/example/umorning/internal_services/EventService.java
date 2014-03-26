@@ -1,13 +1,14 @@
 package com.example.umorning.internal_services;
 
+import android.app.Application;
 import android.database.Cursor;
 import android.net.Uri;
 import android.provider.CalendarContract;
-import com.example.umorning.model.Event;
+import com.example.umorning.oldmodel.Event;
 import java.util.ArrayList;
 import java.util.List;
 
-public class EventService {
+public class EventService extends Application{
     public List<Event> getEvent(){
 
             /*
