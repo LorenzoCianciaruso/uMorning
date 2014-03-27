@@ -18,7 +18,7 @@ public class Event {
     private String status;
     private boolean activation;
 
-    public Event(String name, String organizerName, String address, String city, String country, String latitude, String longitude,String locationName, String eventURL, String getRequestURL, Date date, String status) {
+    public Event(String name, String organizerName, String address, String city, String country, String latitude, String longitude, String locationName, String eventURL, String getRequestURL, Date date, String status) {
         this.name = name;
         this.organizerName = organizerName;
         this.address = address;
@@ -37,28 +37,59 @@ public class Event {
         this.name = name;
         this.organizerName = organizerName;
         this.locationName = locationName;
-        this.date =date;
+        this.date = date;
     }
 
     //controlla che l'evento non sia spam
-    public boolean checkFields(){
-        if (this.name.startsWith("compleanno")){
+    public boolean checkFields() {
+        if (this.name != null && this.name.contains("compleanno")) {
             return false;
         }
-        if (this.name.startsWith("pasqua")){
+        if (this.name != null && this.name.contains("Pasqua")) {
             return false;
         }
-        if (this.name.startsWith("natale")){
+        if (this.name != null && this.name.contains("Natale")) {
             return false;
         }
-        if (this.name.startsWith("epifania")){
+        if (this.name != null && this.name.contains("Epifania")) {
             return false;
         }
+        if (this.name != null && this.name.contains("Assunzione")) {
+            return false;
+        }
+        if (this.name != null && this.name.contains("Santo")) {
+            return false;
+        }
+        if (this.name != null && this.name.contains("Santi")) {
+            return false;
+        }
+        if (this.name != null && this.name.contains("Repubblica")) {
+            return false;
+        }
+        if (this.name != null && this.name.contains("Liberazione")) {
+            return false;
+        }
+        if (this.name != null && this.name.contains("Lavoro")) {
+            return false;
+        }
+        if (this.name != null && this.name.contains("Capodanno")) {
+            return false;
+        }
+        if (this.name != null && this.name.contains("Silvestro")) {
+            return false;
+        }
+        if (this.name != null && this.name.contains("Immacolata")) {
+            return false;
+        }
+        if (this.name != null && this.name.contains("Pasquetta")) {
+            return false;
+        }
+
         return true;
     }
 
     //controlla che i campi fondamentali per la sveglia siano definiti
-    public boolean checkForAlarm () {
+    public boolean checkForAlarm() {
         if (this.date != null && this.locationName != null && this.name != null) {
             return true;
         }
