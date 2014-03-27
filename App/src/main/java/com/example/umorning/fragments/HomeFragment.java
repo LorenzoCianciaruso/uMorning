@@ -3,6 +3,7 @@ package com.example.umorning.fragments;
 import android.os.AsyncTask;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,11 @@ import com.example.umorning.R;
 import com.example.umorning.external_services.GoogleTrafficRequest;
 import com.example.umorning.external_services.MetwitRequest;
 import com.example.umorning.internal_services.GpsLocalizationService;
+import com.facebook.LoggingBehavior;
+import com.facebook.Request;
+import com.facebook.Response;
+import com.facebook.Settings;
+import com.facebook.model.GraphUser;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 
 public class HomeFragment extends Fragment {
