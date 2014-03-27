@@ -1,6 +1,5 @@
 package com.example.umorning.fragments;
 
-import android.app.Activity;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -23,8 +22,11 @@ public class EventsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         setHasOptionsMenu(true);
+
         super.onCreate(savedInstanceState);
+
         View rootView = inflater.inflate(R.layout.fragment_events, container, false);
+
 
         SharedPreferences prefs = getActivity().getSharedPreferences("uMorning", 0);
         String token = prefs.getString("EventbriteToken", "NotEventbriteLogged");
@@ -33,40 +35,40 @@ public class EventsFragment extends Fragment {
             //TODO notlogged
         }else{
         new AsyncTaskEventbrite().execute(token);
+
         }
-        System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA /n");
-        new AsyncTaskEvent().execute(getActivity());
+        new AsyncTaskEvent().execute();
         return rootView;
     }
 
 
-private class AsyncTaskEventbrite extends AsyncTask<String, Void, List<Event>>{
+    private class AsyncTaskEventbrite extends AsyncTask<String, Void, List<Event>>{
 
-    @Override
-    protected List<Event> doInBackground(String... params) {
-        String token = params[0];
-        Eventbrite eve = new Eventbrite(token);
-        eve.getEventbriteOrders();
-        List<Event> eventList = eve.getEventList();
-        return eventList;
-    }
-    @Override
-    protected void onPostExecute(List<Event> params){
-    }
-}
-
-private class AsyncTaskEvent extends AsyncTask<Activity, Void, List<Event>>{
-
-    @Override
-    protected List<Event> doInBackground(Activity...params) {
-        EventService eve = new EventService(params[0]);
-        List<Event> eventList = eve.getEvent();
-        return eventList;
+        @Override
+        protected List<Event> doInBackground(String... params) {
+            String token = params[0];
+            Eventbrite eve = new Eventbrite(token);
+            eve.getEventbriteOrders();
+            List<Event> eventList = eve.getEventList();
+            return eventList;
+        }
+        @Override
+        protected void onPostExecute(List<Event> params){
+        }
     }
 
-    @Override
-    protected void onPostExecute(List<Event> params){
+    private class AsyncTaskEvent extends AsyncTask<Void, Void, List<Event>>{
 
+        @Override
+        protected List<Event> doInBackground(Void...params) {
+            EventService eve = new EventService(getActivity());
+            List<Event> eventList = eve.getEvent();
+            return eventList;
+        }
+
+        @Override
+        protected void onPostExecute(List<Event> params){
+
+        }
     }
-}
 }

@@ -8,6 +8,7 @@
         <option name="modules">
           <set>
             <option value="C:\Users\Lorenzo\AndroidStudioProjects\uMorning" />
+            <option value="C:\Users\Lorenzo\AndroidStudioProjects\uMorning\App" />
           </set>
         </option>
       </GradleProjectSettings>

@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
 import android.app.FragmentTransaction;
-import android.content.ContentResolver;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -65,8 +64,6 @@ public class MainActivity extends FragmentActivity implements
             public void onPageScrollStateChanged(int arg0) {
             }
         });
-        ContentResolver cr= getApplicationContext().getContentResolver();
-
     }
 
     @Override
@@ -102,11 +99,8 @@ public class MainActivity extends FragmentActivity implements
                 break;
         }
     }
-
     public void startAccountManager(MenuItem item){
         Intent intent = new Intent(this, AccountManagerActivity.class);
         startActivity(intent);
     }
-
-
 }
