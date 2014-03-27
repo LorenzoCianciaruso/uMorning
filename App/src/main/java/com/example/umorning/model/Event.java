@@ -1,10 +1,10 @@
 package com.example.umorning.model;
 
 
-public class Event {
+import java.util.Date;
 
+public class Event {
     private String name;
-    private String id;
     private String organizerName;
     private String address;
     private String city;
@@ -14,15 +14,12 @@ public class Event {
     private String locationName;
     private String eventURL;
     private String getRequestURL;
-    private String date;
-    private String hour;
+    private Date date;
     private String status;
-    private boolean partecipation;
+    private boolean activation;
 
-
-    public Event(String name, String id, String organizerName, String address, String city, String country, String latitude, String longitude,String locationName, String eventURL, String getRequestURL, String date, String hour, String status) {
+    public Event(String name, String organizerName, String address, String city, String country, String latitude, String longitude,String locationName, String eventURL, String getRequestURL, Date date, String status) {
         this.name = name;
-        this.id = id;
         this.organizerName = organizerName;
         this.address = address;
         this.city = city;
@@ -33,27 +30,47 @@ public class Event {
         this.eventURL = eventURL;
         this.getRequestURL = getRequestURL;
         this.date = date;
-        this.hour = hour;
         this.status = status;
     }
 
-    public Event(String name, String id, String organizerName, String locationName) {
-        this.id = id;
+    public Event(String name, String organizerName, String locationName, Date date) {
         this.name = name;
         this.organizerName = organizerName;
         this.locationName = locationName;
+        this.date =date;
     }
 
-    public void setPartecipation(boolean partecipation) {
-        this.partecipation = partecipation;
+    //controlla che l'evento non sia spam
+    public boolean checkFields(){
+        if (this.name.startsWith("compleanno")){
+            return false;
+        }
+        if (this.name.startsWith("pasqua")){
+            return false;
+        }
+        if (this.name.startsWith("natale")){
+            return false;
+        }
+        if (this.name.startsWith("epifania")){
+            return false;
+        }
+        return true;
+    }
+
+    //controlla che i campi fondamentali per la sveglia siano definiti
+    public boolean checkForAlarm () {
+        if (this.date != null && this.locationName != null && this.name != null) {
+            return true;
+        }
+        return false;
+    }
+
+    public void setActivation(boolean activation) {
+        this.activation = activation;
     }
 
     public String getName() {
         return name;
-    }
-
-    public String getId() {
-        return id;
     }
 
     public String getOrganizerName() {
@@ -88,12 +105,8 @@ public class Event {
         return getRequestURL;
     }
 
-    public String getDate() {
+    public Date getDate() {
         return date;
-    }
-
-    public String getHour() {
-        return hour;
     }
 
     public String getStatus() {
@@ -104,7 +117,7 @@ public class Event {
         return locationName;
     }
 
-    public boolean isPartecipation() {
-        return partecipation;
+    public boolean activation() {
+        return activation;
     }
 }

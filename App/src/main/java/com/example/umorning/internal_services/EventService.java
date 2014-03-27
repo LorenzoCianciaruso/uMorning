@@ -1,18 +1,13 @@
 package com.example.umorning.internal_services;
 
-import android.app.Application;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.database.Cursor;
-import android.database.MatrixCursor;
 import android.net.Uri;
 import android.provider.CalendarContract;
 import com.example.umorning.model.Event;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -26,8 +21,6 @@ public class EventService {
     public List<Event> getEvent(){
 
             /*
-            // Run queryjiofvsuhbfvuabrfbhiufdbui
-
             Cursor cur = null;
             ContentResolver cr = getContentResolver();
             Uri uri = CalendarContract.Calendars.CONTENT_URI;
@@ -76,28 +69,55 @@ public class EventService {
         List<Event> events = new ArrayList<Event>();
 
         if (mCursor.moveToFirst()) {
-
             do {
-
-                //Event event = new Event(mCursor.getString(mCursor.getColumnIndexOrThrow(CalendarContract.Events.TITLE)) ,mCursor.getString(mCursor.getColumnIndexOrThrow(CalendarContract.Events.ORIGINAL_ID)),null,null);
-                        //,null, mCursor.getString(mCursor.getColumnIndex(CalendarContract.Events.ORGANIZER)),mCursor.getString(mCursor.getColumnIndex(CalendarContract.Events.EVENT_LOCATION)));
-                        //mCursor.getString(mCursor.getColumnIndex(CalendarContract.Events.ORIGINAL_ID)), mCursor.getString(mCursor.getColumnIndex(CalendarContract.Events.ORGANIZER)), mCursor.getString(mCursor.getColumnIndex(CalendarContract.Events.EVENT_LOCATION)));
-                //events.add(event);
-                long l = Long.parseLong(mCursor.getString(mCursor.getColumnIndexOrThrow(CalendarContract.Events.DTSTART)));
-                System.out.println("time: "+getDate(l, "dd/MM/yyyy HH:mm:ss"));
-                System.out.println("Org "+ mCursor.getString(mCursor.getColumnIndexOrThrow(CalendarContract.Events.DTSTART)));
-                System.out.println("title: "+mCursor.getString(mCursor.getColumnIndexOrThrow(CalendarContract.Events.TITLE)));
+                //prendi la data
+                Date date = new Date();
+                try {
+                    long l = Long.parseLong(mCursor.getString(mCursor.getColumnIndexOrThrow(CalendarContract.Events.DTSTART)));
+                    date.setTime(l);
+                }
+                catch (IllegalArgumentException e){
+                    ;
+                }
+                //prendi il nome
+                String title = new String();
+                try {
+                    title = mCursor.getString(mCursor.getColumnIndexOrThrow(CalendarContract.Events.TITLE));
+                }
+                catch (IllegalArgumentException e){
+                    ;
+                }
+                //prendi la location
+                String location = new String();
+                try {
+                    location = mCursor.getString(mCursor.getColumnIndexOrThrow(CalendarContract.Events.EVENT_LOCATION));
+                }
+                catch (IllegalArgumentException e){
+                    ;
+                }
+                //prendi organizzatore
+                String organizer = new String();
+                try {
+                    organizer = mCursor.getString(mCursor.getColumnIndexOrThrow(CalendarContract.Events.ORGANIZER));
+                }
+                catch (IllegalArgumentException e){
+                    ;
+                }
+                Event e = new Event(title,organizer,location,date);
+                if (e.checkFields()){
+                    events.add(e);
+                }
             } while (mCursor.moveToNext());
         }
         for (int i=0;i<events.size();i++){
             Event e = events.get(i);
-            System.out.println ("AAAAAAAAAAAAAAAAA"+e.getName()+e.getLocationName()+e.getOrganizerName()+e.getId());
+            System.out.println ("Nome"+e.getName()+"loc "+e.getLocationName()+"org "+e.getOrganizerName()+"date "+e.getDate());
 
         }
         return events;
     }
 
-    public static String getDate(long milliSeconds, String dateFormat)
+    /*public static String getDate(long milliSeconds, String dateFormat)
     {
         // Create a DateFormatter object for displaying date in specified format.
         DateFormat formatter = new SimpleDateFormat(dateFormat);
@@ -106,5 +126,6 @@ public class EventService {
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(milliSeconds);
         return formatter.format(calendar.getTime());
-    }
+    }*/
+
 }

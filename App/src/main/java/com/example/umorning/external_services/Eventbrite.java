@@ -7,6 +7,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class Eventbrite {
@@ -77,16 +78,17 @@ public class Eventbrite {
             String latitude = jsonVenue.getString("latitude");
             String longitude = jsonVenue.getString("longitude");
             String locationName = jsonVenue.getString("name");
-            String id = jObject.getString("id");
             String url = jObject.getString("url");
             String start = jsonStart.getString("local");
             String status = jObject.getString("status");
 
+            Date date = new Date();
             String[] startTime = start.split("T");
-            String date= startTime[0];
+            String dat= startTime[0];
             String hour= startTime[1];
 
-            Event event = new Event( name, id, organizer, address, city, country, latitude, longitude, locationName, url, resource_uri,date, hour, status);
+            //TODO parsare la data per metterla in un campo date
+            Event event = new Event(name, organizer, address, city, country, latitude, longitude, locationName, url, resource_uri, date, status);
 
             return event;
 
