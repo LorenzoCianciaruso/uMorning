@@ -2,6 +2,7 @@ package com.example.umorning.internal_services;
 
 import android.app.Activity;
 import android.content.ContentResolver;
+import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 import android.provider.CalendarContract;
@@ -11,7 +12,14 @@ import com.example.umorning.model.Event;
 import java.util.ArrayList;
 import java.util.List;
 
-public class EventService extends Activity {
+public class EventService {
+
+    private Context cxt;
+
+    public EventService(Context cxt){
+        this.cxt=cxt;
+    }
+
     public List<Event> getEvent(){
 
           /* Cursor cur = null;
@@ -72,7 +80,7 @@ public class EventService extends Activity {
         String[] projection = new String[] { "calendar_id", "title", "description",
                 "dtstart", "dtend", "eventLocation" };
 
-        ContentResolver cr= getApplicationContext().getContentResolver();
+        ContentResolver cr= cxt.getApplicationContext().getContentResolver();
 
         Cursor mCursor = cr.query(Uri.parse("content://com.android.calendar/events"),
                 projection,
