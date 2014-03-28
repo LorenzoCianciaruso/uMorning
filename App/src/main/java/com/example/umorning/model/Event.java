@@ -1,9 +1,9 @@
 package com.example.umorning.model;
 
-
+import java.io.Serializable;
 import java.util.Date;
 
-public class Event {
+public class Event implements Serializable {
     private String name;
     private String organizerName;
     private String address;

@@ -20,4 +20,9 @@ public class Alarm implements Serializable {
     public int getDelay() {
         return delay;
     }
+
+    public boolean isActivated() {
+        return activated;
+    }
+
 }

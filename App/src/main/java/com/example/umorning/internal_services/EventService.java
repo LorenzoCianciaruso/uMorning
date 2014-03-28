@@ -2,6 +2,7 @@ package com.example.umorning.internal_services;
 
 import android.content.ContentResolver;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
 import android.provider.CalendarContract;
@@ -20,42 +21,7 @@ public class EventService {
     }
     public List<Event> getEvent(){
 
-            /*
-            Cursor cur = null;
-            ContentResolver cr = getContentResolver();
-            Uri uri = CalendarContract.Calendars.CONTENT_URI;
-            String selection = "((" + CalendarContract.Calendars.ACCOUNT_NAME + " = ?) AND ("
-                    + CalendarContract.Calendars.ACCOUNT_TYPE + " = ?) AND ("
-                    + CalendarContract.Calendars.OWNER_ACCOUNT + " = ?))";
-            String[] selectionArgs = new String[]{"lory90@gmail.com", "com.google",};
 
-            // Submit the query and get a Cursor object back.
-            String selection = "(1=?)";
-            String[] selectionArgs = new String[]{"1"};
-            cur = cr.query(uri, EVENT_PROJECTION, selection, selectionArgs, null);
-
-
-            String[] projection =
-                    new String[]{
-                            CalendarContract.Calendars._ID,
-                            CalendarContract.Calendars.NAME,
-                            CalendarContract.Calendars.ACCOUNT_NAME,
-                            CalendarContract.Calendars.ACCOUNT_TYPE};
-            Cursor calCursor =
-                    getContentResolver().
-                            query(CalendarContract.Calendars.CONTENT_URI,
-                                    projection,
-                                    CalendarContract.Calendars.VISIBLE + " = 1",
-                                    null,
-                                    CalendarContract.Calendars._ID + " ASC");
-            if (calCursor.moveToFirst()) {
-                do {
-                    long id = calCursor.getLong(0);
-                    String displayName = calCursor.getString(1);
-                    System.out.println("Ecco i campi" + calCursor.getString(0) + calCursor.getString(1) + calCursor.getString(2) + calCursor.getString(3));
-                } while (calCursor.moveToNext());
-            }
-            */
         String[] projection = new String[] { "calendar_id", "title", "description",
                 "dtstart", "dtend", "eventLocation" };
 
@@ -114,6 +80,10 @@ public class EventService {
             System.out.println ("Nome "+e.getName()+" loc "+e.getLocationName()+" org "+e.getOrganizerName()+" date "+e.getDate());
 
         }
+        SharedPreferences prefs = cxt.getSharedPreferences("com.example.uMorning", Context.MODE_PRIVATE);
+        prefs.edit().putString("prova", events.toString()).commit();
+        String a =  prefs.getString("prova", "vaffanculo");
+        System.out.println(a);
         return events;
     }
 
