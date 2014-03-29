@@ -2,29 +2,53 @@ package com.example.umorning.activities;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Base64;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-
+import java.io.ByteArrayOutputStream;
 import com.example.umorning.R;
 import com.example.umorning.activities.WebViewActivity;
 import com.example.umorning.external_services.HttpRequest;
+import com.facebook.Session;
+import com.facebook.SessionState;
+import com.facebook.UiLifecycleHelper;
+import com.facebook.widget.LoginButton;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.security.Signature;
+import java.util.Arrays;
+import java.util.List;
 
 
 public class AccountManagerActivity extends ActionBarActivity {
+
+    private static final String TAG = "AccountManagerActivity";
+    private UiLifecycleHelper uiHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_account_manager);
+
+        uiHelper = new UiLifecycleHelper(this, callback);
+        uiHelper.onCreate(savedInstanceState);
+        List<String> requestPermission = Arrays.asList("user_events");
+        LoginButton facebookLoginButton = (LoginButton) findViewById(R.id.authButton);
+        facebookLoginButton.setReadPermissions(requestPermission);
     }
 
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.account_manager, menu);
         return true;
@@ -44,7 +68,6 @@ public class AccountManagerActivity extends ActionBarActivity {
 //
     public void eventbriteAuth(View view) {
 
-
         Intent intent = new Intent(this, WebViewActivity.class);
         Bundle b = new Bundle();
         b.putString("url", "https://www.eventbrite.com/oauth/authorize?response_type=token&client_id=AWF7I3D2E3CAVX6QNW");
@@ -54,30 +77,55 @@ public class AccountManagerActivity extends ActionBarActivity {
 
     }
 
-    public void getEventbriteOrders() {
+    private void onSessionStateChange(Session session, SessionState state, Exception exception) {
+        if (state.isOpened()) {
+            Log.i(TAG, "Logged in...");
+        } else if (state.isClosed()) {
+            Log.i(TAG, "Logged out...");
+        }
+    }
 
-        new Thread(new Runnable() {
-            public void run() {
+    private Session.StatusCallback callback = new Session.StatusCallback() {
+        @Override
+        public void call(Session session, SessionState state, Exception exception) {
+            onSessionStateChange(session, state, exception);
+        }
+    };
 
-
-                SharedPreferences prefs = getSharedPreferences("uMorning", 0);
-                String access = prefs.getString("EventbriteToken", "errore");
-                String url = "https://www.eventbriteapi.com/v3/users/me/orders/?token=" + access;
-                String result = new HttpRequest().getRequest(url);
-                System.out.println(result);
-
-
-            }
-
-        }).start();
+    @Override
+    public void onResume() {
+        super.onResume();
+        Session session = Session.getActiveSession();
+        if (session != null &&
+                (session.isOpened() || session.isClosed()) ) {
+            onSessionStateChange(session, session.getState(), null);
+        }
+        uiHelper.onResume();
 
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        uiHelper.onActivityResult(requestCode, resultCode, data);
+    }
 
+    @Override
+      public void onPause() {
+        super.onPause();
+        uiHelper.onPause();
+    }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        uiHelper.onDestroy();
+    }
 
-    public void facebookAuth(View view) {
-
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        uiHelper.onSaveInstanceState(outState);
     }
 
 }

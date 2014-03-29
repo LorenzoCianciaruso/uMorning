@@ -142,7 +142,7 @@ public class GpsLocalizationService extends Service implements LocationListener 
     }
 
     /**
-     * Pop-up per aprire le impostaioni e abilitare il GPS
+     * Pop-up per aprire le impostazioni e abilitare il GPS
      * */
     public void showSettingsAlert(){
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(mContext);

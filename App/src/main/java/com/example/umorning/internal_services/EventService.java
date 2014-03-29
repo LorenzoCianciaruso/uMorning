@@ -83,7 +83,7 @@ public class EventService {
         SharedPreferences prefs = cxt.getSharedPreferences("com.example.uMorning", Context.MODE_PRIVATE);
         prefs.edit().putString("prova", events.toString()).commit();
         String a =  prefs.getString("prova", "vaffanculo");
-        System.out.println(a);
+        System.out.println("shared "+a);
         return events;
     }
 
