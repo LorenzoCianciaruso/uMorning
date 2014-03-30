@@ -39,7 +39,7 @@ public class Facebook {
 
                         System.out.println("response "+response.toString());
                         //List<String> idList = getEventIdList(response);
-
+//
                         //for (int i = 0; i < idList.size(); i++) {
                        //     getEventDetails(idList.get(i));
 
