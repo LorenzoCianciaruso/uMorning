@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 
 import com.example.umorning.R;
 import com.example.umorning.external_services.Eventbrite;
+import com.example.umorning.external_services.Facebook;
 import com.example.umorning.internal_services.EventService;
 import com.example.umorning.model.Event;
 
@@ -31,18 +32,22 @@ public class EventsFragment extends Fragment {
         SharedPreferences prefs = getActivity().getSharedPreferences("uMorning", 0);
         String token = prefs.getString("EventbriteToken", "NotEventbriteLogged");
 
-        if(token.equals("NotEventbriteLogged")){
+        if (token.equals("NotEventbriteLogged")) {
             //TODO notlogged
-        }else{
-        new AsyncTaskEventbrite().execute(token);
+        } else {
+            new AsyncTaskEventbrite().execute(token);
+
 
         }
+        //TODO fb
+        Facebook fb = new Facebook();
+        fb.getEventList();
         new AsyncTaskEvent().execute();
         return rootView;
     }
 
 
-    private class AsyncTaskEventbrite extends AsyncTask<String, Void, List<Event>>{
+    private class AsyncTaskEventbrite extends AsyncTask<String, Void, List<Event>> {
 
         @Override
         protected List<Event> doInBackground(String... params) {
@@ -52,22 +57,23 @@ public class EventsFragment extends Fragment {
             List<Event> eventList = eve.getEventList();
             return eventList;
         }
+
         @Override
-        protected void onPostExecute(List<Event> params){
+        protected void onPostExecute(List<Event> params) {
         }
     }
 
-    private class AsyncTaskEvent extends AsyncTask<Void, Void, List<Event>>{
+    private class AsyncTaskEvent extends AsyncTask<Void, Void, List<Event>> {
 
         @Override
-        protected List<Event> doInBackground(Void...params) {
+        protected List<Event> doInBackground(Void... params) {
             EventService eve = new EventService(getActivity());
             List<Event> eventList = eve.getEvent();
             return eventList;
         }
 
         @Override
-        protected void onPostExecute(List<Event> params){
+        protected void onPostExecute(List<Event> params) {
 
         }
     }

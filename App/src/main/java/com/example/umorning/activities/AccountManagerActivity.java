@@ -11,6 +11,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
+
 import java.io.ByteArrayOutputStream;
 import com.example.umorning.R;
 import com.example.umorning.activities.WebViewActivity;
@@ -34,6 +36,7 @@ public class AccountManagerActivity extends ActionBarActivity {
     private static final String TAG = "AccountManagerActivity";
     private UiLifecycleHelper uiHelper;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,6 +46,7 @@ public class AccountManagerActivity extends ActionBarActivity {
         uiHelper.onCreate(savedInstanceState);
         List<String> requestPermission = Arrays.asList("user_events");
         LoginButton facebookLoginButton = (LoginButton) findViewById(R.id.authButton);
+
         facebookLoginButton.setReadPermissions(requestPermission);
     }
 

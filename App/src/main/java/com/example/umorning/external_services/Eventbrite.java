@@ -82,12 +82,13 @@ public class Eventbrite {
             String start = jsonStart.getString("local");
             String status = jObject.getString("status");
 
+            //TODO parsare la data per metterla in un campo date
             Date date = new Date();
             String[] startTime = start.split("T");
             String dat= startTime[0];
             String hour= startTime[1];
 
-            //TODO parsare la data per metterla in un campo date
+
             Event event = new Event(name, organizer, address, city, country, latitude, longitude, locationName, url, resource_uri, date, status);
 
             return event;
