@@ -48,7 +48,7 @@ public class Facebook {
                        }
                     }
                 }
-        ).executeAsync();
+        ).executeAndWait();
         return eventsList;
     }
 
@@ -111,21 +111,15 @@ public class Facebook {
                             int minute = Integer.parseInt(hourStart.split(":")[1]);
 
                             Calendar date = new GregorianCalendar(year,month,day,hour,minute);
-
                             Event event = new Event( name, organizer, location, city, country, latitude,longitude,null,null,null,date,null);
 
-                            System.out.println("facebook: name " + name + "org "+organizer + "loc " + location + "lat" + latitude + "long " + longitude + date.toString());
                             eventsList.add(event);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-
-
                     }
                 }
-        ).executeAsync();
-
-
+        ).executeAndWait();
     }
 
 
