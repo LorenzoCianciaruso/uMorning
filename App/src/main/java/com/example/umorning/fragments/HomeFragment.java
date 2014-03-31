@@ -154,8 +154,6 @@ public class HomeFragment extends Fragment {
 
             GoogleTrafficRequest trafficInfo = new GoogleTrafficRequest(startLatitude, startLongitude, endLatitude, endLongitude);
 
-            trafficInfo.askForTraffic();
-
             return trafficInfo;
         }
 
