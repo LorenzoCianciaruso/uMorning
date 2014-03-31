@@ -36,12 +36,16 @@ public class EventsFragment extends Fragment {
             //TODO notlogged
         } else {
             new AsyncTaskEventbrite().execute(token);
-
-
         }
-        //TODO fb
+
         Facebook fb = new Facebook();
-        fb.getEventList();
+        List<Event> list = fb.getEventList();
+
+
+        for(int i=0;i<list.size();i++){
+            System.out.println("eventsFragment: nome "+ list.get(i).getName() + " data "+list.get(i).getDate().toString());
+        }
+
         new AsyncTaskEvent().execute();
         return rootView;
     }
