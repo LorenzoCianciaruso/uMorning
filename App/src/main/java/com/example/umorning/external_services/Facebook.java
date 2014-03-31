@@ -5,13 +5,16 @@ import com.facebook.HttpMethod;
 import com.facebook.Request;
 import com.facebook.Response;
 import com.facebook.Session;
+import com.facebook.model.GraphObject;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 public class Facebook {
@@ -37,25 +40,26 @@ public class Facebook {
                 new Request.Callback() {
                     public void onCompleted(Response response) {
 
-                        System.out.println("response "+response.toString());
-                        //List<String> idList = getEventIdList(response);
-//
-                        //for (int i = 0; i < idList.size(); i++) {
-                       //     getEventDetails(idList.get(i));
 
-                       // }
+                       List<String> idList = getEventIdList(response);
+
+                       for (int i = 0; i < idList.size(); i++) {
+                            getEventDetails(idList.get(i));
+                       }
                     }
                 }
-        ).executeAsync();
+        ).executeAndWait();
         return eventsList;
     }
 
     private List<String> getEventIdList(Response response) {
         List<String> idList = new ArrayList<String>();
-        JSONArray eventsArr;
+
         try {
 
-            eventsArr = response.getGraphObject().getInnerJSONObject().getJSONArray("data");
+            GraphObject go  = response.getGraphObject();
+            JSONObject  json = go.getInnerJSONObject();
+            JSONArray eventsArr = json.getJSONArray("data");
 
             for (int i = 0; i < eventsArr.length(); i++) {
                 JSONObject item = eventsArr.getJSONObject(i);
@@ -77,33 +81,45 @@ public class Facebook {
                 HttpMethod.GET,
                 new Request.Callback() {
                     public void onCompleted(Response response) {
-                        JSONObject jsonEvent = response.getGraphObject().getInnerJSONObject();
+                        GraphObject go  = response.getGraphObject();
+                        JSONObject  json = go.getInnerJSONObject();
+
                         try {
-                            String name = jsonEvent.getString("name");
-                            String location = jsonEvent.getString("location");
-                            String organizer = jsonEvent.getJSONObject("owner").getString("name");
-                            String startTime = jsonEvent.getString("start_time");
-                            JSONObject jsonVenue = jsonEvent.getJSONObject("venue");
+
+                            String name = json.getString("name");
+                            String location = json.getString("location");
+                            String organizer = json.getJSONObject("owner").getString("name");
+                            String startTime = json.getString("start_time");
+                            JSONObject jsonVenue = json.getJSONObject("venue");
                             String city = jsonVenue.getString("city");
                             String country = jsonVenue.getString("country");
                             String latitude = jsonVenue.getString("latitude");
                             String longitude = jsonVenue.getString("longitude");
-                            Date date = new Date();
-                            //TODO mettere a posto startTime
+
+                            String[] start = startTime.split("T");
+                            String dateStart= start[0];
+                            String rest= start[1];
+
+                            String[] yearMonthDay = dateStart.split("-");
+                            int year = Integer.parseInt(yearMonthDay[0]);
+                            int month = Integer.parseInt(yearMonthDay[1]);
+                            int day = Integer.parseInt(yearMonthDay[2]);
+
+                            String dateTime[] = rest.split("\\+");
+                            String hourStart = dateTime[0];
+                            int hour = Integer.parseInt(hourStart.split(":")[0]);
+                            int minute = Integer.parseInt(hourStart.split(":")[1]);
+
+                            Calendar date = new GregorianCalendar(year,month,day,hour,minute);
                             Event event = new Event( name, organizer, location, city, country, latitude,longitude,null,null,null,date,null);
 
-                            System.out.println("name " + name + "org "+organizer + "loc " + location + "lat" + latitude + "long " + longitude);
                             eventsList.add(event);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-
-
                     }
                 }
-        ).executeAsync();
-
-
+        ).executeAndWait();
     }
 
 

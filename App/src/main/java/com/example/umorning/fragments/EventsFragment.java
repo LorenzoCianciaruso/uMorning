@@ -36,12 +36,13 @@ public class EventsFragment extends Fragment {
             //TODO notlogged
         } else {
             new AsyncTaskEventbrite().execute(token);
-
-
         }
-        //TODO fb
-        Facebook fb = new Facebook();
-        fb.getEventList();
+
+        new AsyncTaskFacebook().execute();
+
+
+
+
         new AsyncTaskEvent().execute();
         return rootView;
     }
@@ -75,6 +76,21 @@ public class EventsFragment extends Fragment {
         @Override
         protected void onPostExecute(List<Event> params) {
 
+        }
+    }
+
+    private class AsyncTaskFacebook extends AsyncTask<Void, Void, List<Event>> {
+
+        @Override
+        protected List<Event> doInBackground(Void... params) {
+
+            Facebook fb = new Facebook();
+            List<Event> list = fb.getEventList();
+            return list;
+        }
+
+        @Override
+        protected void onPostExecute(List<Event> params) {
         }
     }
 }

@@ -7,7 +7,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 public class Eventbrite {
@@ -55,7 +57,7 @@ public class Eventbrite {
     private Event getEventbriteEvent(String resource_uri){
 
         resource_uri = resource_uri + "?token=" + token;
-        String response =new HttpRequest().getRequest(resource_uri);
+        String response = new HttpRequest().getRequest(resource_uri);
         try {
             JSONObject jObject = new JSONObject(response);
 
@@ -79,15 +81,25 @@ public class Eventbrite {
             String longitude = jsonVenue.getString("longitude");
             String locationName = jsonVenue.getString("name");
             String url = jObject.getString("url");
-            String start = jsonStart.getString("local");
+            String startTime = jsonStart.getString("local");
             String status = jObject.getString("status");
 
             //TODO parsare la data per metterla in un campo date
-            Date date = new Date();
-            String[] startTime = start.split("T");
-            String dat= startTime[0];
-            String hour= startTime[1];
+            String[] start = startTime.split("T");
+            String dateStart= start[0];
+            String rest= start[1];
 
+            String[] yearMonthDay = dateStart.split("-");
+            int year = Integer.parseInt(yearMonthDay[0]);
+            int month = Integer.parseInt(yearMonthDay[1]);
+            int day = Integer.parseInt(yearMonthDay[2]);
+
+            String[] hourMinuteSec = rest.split(":");
+            int hour = Integer.parseInt(hourMinuteSec[0]);
+            int minute = Integer.parseInt(hourMinuteSec[1]);
+
+
+            Calendar date = new GregorianCalendar(year,month,day,hour,minute);
 
             Event event = new Event(name, organizer, address, city, country, latitude, longitude, locationName, url, resource_uri, date, status);
 
