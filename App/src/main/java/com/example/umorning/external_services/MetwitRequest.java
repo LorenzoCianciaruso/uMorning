@@ -24,10 +24,12 @@ public class MetwitRequest {
     public MetwitRequest(double latitude, double longitude) {
         this.latitude = latitude;
         this.longitude = longitude;
+
+        askForWeather();
     }
 
     //start thread che invia richiesta http a metwit
-    public void askForWeather() {
+    private void askForWeather() {
                 String url = "https://api.metwit.com/v2/weather/?location_lat=" + latitude + "&location_lng=" + longitude;
                 String result = new HttpRequest().getRequest(url);
 

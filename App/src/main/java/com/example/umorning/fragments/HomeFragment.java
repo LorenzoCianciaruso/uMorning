@@ -95,10 +95,10 @@ public class HomeFragment extends Fragment {
             double latitude = params[0];
             double longitude = params[1];
 
+            //richiesta meteo
             MetwitRequest weatherInfo = new MetwitRequest(latitude, longitude);
 
-            weatherInfo.askForWeather();
-
+            //restituisce oggetto meteo contenente informazioni
             return weatherInfo;
         }
 
