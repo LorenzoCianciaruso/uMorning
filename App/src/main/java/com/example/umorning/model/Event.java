@@ -44,6 +44,9 @@ public class Event implements Serializable {
 
     //controlla che l'evento non sia spam
     public boolean checkFields() {
+        if (this.date == null) {
+            return false;
+        }
         if (this.name != null && this.name.contains("compleanno")) {
             return false;
         }
@@ -86,8 +89,14 @@ public class Event implements Serializable {
         if (this.name != null && this.name.contains("Pasquetta")) {
             return false;
         }
-
         return true;
+    }
+
+    public boolean checkDate() {
+        if (this.date != null && this.date.after(Calendar.getInstance())) {
+            return true;
+        }
+        return false;
     }
 
     //controlla che i campi fondamentali per la sveglia siano definiti
@@ -153,4 +162,5 @@ public class Event implements Serializable {
     public boolean activation() {
         return activation;
     }
+
 }

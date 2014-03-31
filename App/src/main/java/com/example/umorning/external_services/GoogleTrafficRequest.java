@@ -11,9 +11,7 @@ public class GoogleTrafficRequest {
     private double startLongitude;
     private double endLatitude;
     private double endLongitude;
-
-  
-
+    private String arrivalLocation;
     private int tripDuration;
     private int tripDistance;
 
@@ -24,11 +22,28 @@ public class GoogleTrafficRequest {
         this.startLongitude=startLongitude;
         this.endLatitude=endLatitude;
         this.endLongitude=endLongitude;
+        this.arrivalLocation = new String();
+
+        this.askForTraffic();
     }
 
-    public void askForTraffic() {
+    public GoogleTrafficRequest(double startLatitude, double startLongitude, String arrivalLocation ){
+        this.startLatitude=startLatitude;
+        this.startLongitude=startLongitude;
+        this.arrivalLocation = new String();
+        this.arrivalLocation = arrivalLocation;
 
-                String url = "https://maps.googleapis.com/maps/api/distancematrix/json?origins=" + startLatitude + "," + startLongitude + "&destinations=" + endLatitude + "," + endLongitude + "&mode=driving&language=en-US&sensor=false&key=AIzaSyDj6lm3eLSuOhG4rLXL66WUBg7C7XEDYcA";
+        this.askForTraffic();
+    }
+
+    private void askForTraffic() {
+        String url;
+                if (arrivalLocation==null) {
+                    url = "https://maps.googleapis.com/maps/api/distancematrix/json?origins=" + startLatitude + "," + startLongitude + "&destinations=" + endLatitude + "," + endLongitude + "&mode=driving&language=en-US&sensor=false&key=AIzaSyDj6lm3eLSuOhG4rLXL66WUBg7C7XEDYcA";
+                }
+        else {
+                    url = "https://maps.googleapis.com/maps/api/distancematrix/json?origins=" + startLatitude + "," + startLongitude + "&destinations=" + arrivalLocation + "&mode=driving&language=en-US&sensor=false&key=AIzaSyDj6lm3eLSuOhG4rLXL66WUBg7C7XEDYcA";
+                }
                 String result = new HttpRequest().getRequest(url);
 
         try {

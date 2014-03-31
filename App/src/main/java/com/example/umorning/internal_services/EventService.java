@@ -76,7 +76,9 @@ public class EventService {
                 }
                 Event e = new Event(title,organizer,location,date);
                 if (e.checkFields()){
-                    events.add(e);
+                    if (e.checkDate()) {
+                        events.add(e);
+                    }
                 }
             } while (mCursor.moveToNext());
         }

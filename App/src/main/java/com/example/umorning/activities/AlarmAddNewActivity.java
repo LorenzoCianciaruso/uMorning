@@ -1,7 +1,10 @@
 package com.example.umorning.activities;
 
-
 import android.app.Activity;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.app.Service;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
@@ -9,11 +12,23 @@ import android.widget.TimePicker;
 
 import com.example.umorning.R;
 import com.example.umorning.external_services.GoogleTrafficRequest;
+import com.example.umorning.internal_services.AlarmService;
 
-import java.util.concurrent.TimeUnit;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 
 public class AlarmAddNewActivity extends Activity {
     TimePicker timepicker;
+    Long trafficMillis;
+    Long userTimeMillis;
+    Calendar timeOfArrival;
+    Calendar timeOfAlarm;
+    Double startLatitude;
+    Double startLongitude;
+    Double arrivalLatitude;
+    Double arrivalLongitude;
+    String arrivalLocation;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,37 +37,32 @@ public class AlarmAddNewActivity extends Activity {
         timepicker = (TimePicker) findViewById(R.id.timePicker1);
         timepicker.setIs24HourView(true);
 
-        //TODO il codice per creare la sveglia lo trovi in alarm fragment ma va messo qui
+        //TODO forse tutta sta roba va in save alarm qui sotto ne parliamo quando c'è la grafica
 
-        //converte da millisecondi in ore, minuti, secondi
-        GoogleTrafficRequest traffic = new GoogleTrafficRequest(45,25,46,25);
-        Long millis = new Long (traffic.getTripDuration());
-        if(millis < 0)
+        //prendo il traffico
+        //TODO usare l'altro costruttore se non abbiamo le coordinate
+        GoogleTrafficRequest trafficRequest = new GoogleTrafficRequest(startLatitude,startLongitude,arrivalLatitude,arrivalLongitude);
+        trafficMillis = new Long (trafficRequest.getTripDuration());
+        if(trafficMillis < 0)
         {
-            throw new IllegalArgumentException("Duration must be greater than zero!");
+            throw new IllegalArgumentException("NON PUO' ESSERE NEGATIVO");
         }
 
-        long days = TimeUnit.MILLISECONDS.toDays(millis);
-        millis -= TimeUnit.DAYS.toMillis(days);
-        long hours = TimeUnit.MILLISECONDS.toHours(millis);
-        millis -= TimeUnit.HOURS.toMillis(hours);
-        long minutes = TimeUnit.MILLISECONDS.toMinutes(millis);
-        millis -= TimeUnit.MINUTES.toMillis(minutes);
-        long seconds = TimeUnit.MILLISECONDS.toSeconds(millis);
+        //ottengo l'ora della sveglia sottraendo traffico e tempo per prepararsi
+        timeOfArrival = new GregorianCalendar();
+        timeOfAlarm = new GregorianCalendar();
+        timeOfAlarm.setTimeInMillis(timeOfArrival.getTimeInMillis()-trafficMillis-userTimeMillis);
 
-        StringBuilder sb = new StringBuilder(64);
-        sb.append(days);
-        sb.append(" Days ");
-        sb.append(hours);
-        sb.append(" Hours ");
-        sb.append(minutes);
-        sb.append(" Minutes ");
-        sb.append(seconds);
-        sb.append(" Seconds");
+        //chiama un alarmservice
+        Intent myIntent = new Intent(this, AlarmService.class);
+        PendingIntent pendingIntent = PendingIntent.getService(this, 0, myIntent, 0);
+        AlarmManager alarmManager = (AlarmManager) getSystemService(Service.ALARM_SERVICE);
 
-        System.out.println(sb.toString());
+        //imposta l'ora e fa partire
+        alarmManager.set(AlarmManager.RTC_WAKEUP, timeOfAlarm.getTimeInMillis(), pendingIntent);
 
 
+       System.out.println ("allarme alle "+timeOfAlarm+" appuntamento alle "+timeOfArrival);
     }
 
     @Override
