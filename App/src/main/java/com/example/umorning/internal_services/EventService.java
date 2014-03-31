@@ -9,6 +9,7 @@ import android.provider.CalendarContract;
 import com.example.umorning.model.Event;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
@@ -38,7 +39,7 @@ public class EventService {
         if (mCursor.moveToFirst()) {
             do {
                 //prendi la data
-                GregorianCalendar date = new GregorianCalendar();
+                Calendar date = new GregorianCalendar();
                 try {
 
                     long l = Long.parseLong(mCursor.getString(mCursor.getColumnIndexOrThrow(CalendarContract.Events.DTSTART)));

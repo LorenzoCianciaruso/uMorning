@@ -1,6 +1,7 @@
 package com.example.umorning.model;
 
 import java.io.Serializable;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
@@ -15,11 +16,11 @@ public class Event implements Serializable {
     private String locationName;
     private String eventURL;
     private String getRequestURL;
-    private GregorianCalendar date;
+    private Calendar date;
     private String status;
     private boolean activation;
 
-    public Event(String name, String organizerName, String address, String city, String country, String latitude, String longitude, String locationName, String eventURL, String getRequestURL, GregorianCalendar date, String status) {
+    public Event(String name, String organizerName, String address, String city, String country, String latitude, String longitude, String locationName, String eventURL, String getRequestURL, Calendar date, String status) {
         this.name = name;
         this.organizerName = organizerName;
         this.address = address;
@@ -34,7 +35,7 @@ public class Event implements Serializable {
         this.status = status;
     }
 
-    public Event(String name, String organizerName, String locationName, GregorianCalendar date) {
+    public Event(String name, String organizerName, String locationName, Calendar date) {
         this.name = name;
         this.organizerName = organizerName;
         this.locationName = locationName;
@@ -137,7 +138,7 @@ public class Event implements Serializable {
         return getRequestURL;
     }
 
-    public GregorianCalendar getDate() {
+    public Calendar getDate() {
         return date;
     }
 
