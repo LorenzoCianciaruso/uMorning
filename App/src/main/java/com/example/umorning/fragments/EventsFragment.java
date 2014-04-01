@@ -34,12 +34,13 @@ public class EventsFragment extends Fragment {
 
         if (token.equals("NotEventbriteLogged")) {
             //TODO notlogged
+            System.out.println("EEEEEEE eventibrite not logged");
         } else {
             new AsyncTaskEventbrite().execute(token);
+            System.out.println("EEEEEE eventbrite token");
         }
 
         new AsyncTaskFacebook().execute();
-
 
 
 
@@ -86,6 +87,9 @@ public class EventsFragment extends Fragment {
 
             Facebook fb = new Facebook();
             List<Event> list = fb.getEventList();
+
+            System.out.println("LLLLLLLLLL."+list.toString());
+
             return list;
         }
 
