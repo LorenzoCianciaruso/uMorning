@@ -13,6 +13,7 @@ import android.widget.TimePicker;
 import com.example.umorning.R;
 import com.example.umorning.external_services.GoogleTrafficRequest;
 import com.example.umorning.internal_services.AlarmService;
+import com.example.umorning.internal_services.GpsLocalizationService;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -39,8 +40,20 @@ public class AlarmAddNewActivity extends Activity {
 
         //TODO forse tutta sta roba va in save alarm qui sotto ne parliamo quando c'è la grafica
 
-        //prendo il traffico
         //TODO usare l'altro costruttore se non abbiamo le coordinate
+
+        //ottengo la posizione attuale
+        GpsLocalizationService gps = new GpsLocalizationService(this);
+        // controlla se il GPS è attivo
+        if (gps.canGetLocation()) {
+            //TODO gestire le coordinate 0 0
+            startLatitude = gps.getLatitude();
+            startLongitude = gps.getLongitude();
+        } else {
+            // Chiedi all'utente di andare nelle impostazioni
+            gps.showSettingsAlert();
+        }
+        //richiesta traffico
         GoogleTrafficRequest trafficRequest = new GoogleTrafficRequest(startLatitude,startLongitude,arrivalLatitude,arrivalLongitude);
         trafficMillis = new Long (trafficRequest.getTripDuration());
         if(trafficMillis < 0)
@@ -89,6 +102,4 @@ public class AlarmAddNewActivity extends Activity {
         super.onBackPressed();
         overridePendingTransition(R.anim.fadein, R.anim.fadeout);
     }
-
-
 }

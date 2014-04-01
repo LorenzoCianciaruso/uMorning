@@ -51,6 +51,7 @@ public class HomeFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
+
         gps = new GpsLocalizationService(getActivity());
 
         // check if GPS enabled
@@ -58,7 +59,6 @@ public class HomeFragment extends Fragment {
 
             latitude = gps.getLatitude();
             longitude = gps.getLongitude();
-
 
             Toast.makeText(getActivity().getApplicationContext(), "Your Location is - \nLat: " + latitude + "\nLong: " + longitude, Toast.LENGTH_LONG).show();
 
@@ -69,7 +69,6 @@ public class HomeFragment extends Fragment {
             // Chiedi all'utente di andare nelle impostazioni
             gps.showSettingsAlert();
         }
-
         final int checkPlayStatus = GooglePlayServicesUtil.isGooglePlayServicesAvailable(getActivity());
 
         /*
@@ -142,6 +141,7 @@ public class HomeFragment extends Fragment {
         }
     }
 
+    //TODO probabilmente levare il traffico nel main fragment non serve
     private class AsyncTaskTrafficRequest extends AsyncTask<Double, Void, GoogleTrafficRequest> {
 
         @Override

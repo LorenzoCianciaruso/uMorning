@@ -13,8 +13,6 @@ import android.os.IBinder;
 import android.provider.Settings;
 import android.util.Log;
 
-
-
 public class GpsLocalizationService extends Service implements LocationListener {
 
     private final Context mContext;
@@ -95,55 +93,48 @@ public class GpsLocalizationService extends Service implements LocationListener 
         } catch (Exception e) {
             e.printStackTrace();
         }
-
         return location;
     }
 
     //TODO serve veramente
-    /**
-     * Stop using GPS listener
-     * */
+    //Stop using GPS listener
     public void stopUsingGPS(){
         if(locationManager != null){
             locationManager.removeUpdates(GpsLocalizationService.this);
         }
     }
 
-    /**
-     * Prendi latitude
-     * */
-    public double getLatitude(){
+
+    //Prendi latitude
+    public double getLatitude() throws IllegalStateException{
         if(location != null){
             latitude = location.getLatitude();
         }
-
-        // return latitude
+        if (longitude ==0&&latitude==0){
+            throw new IllegalStateException();
+        }
         return latitude;
     }
 
-    /**
-     * Function to get longitude
-     * */
-    public double getLongitude(){
+    //prendi la longitudine
+    public double getLongitude() throws IllegalStateException{
         if(location != null){
             longitude = location.getLongitude();
         }
-
-        // return longitude
+        if (longitude ==0&&latitude==0){
+            throw new IllegalStateException();
+        }
         return longitude;
     }
 
-    /**
-     * Controlla se GPS/wifi sono abilitati
-     * @return boolean
-     * */
-    public boolean canGetLocation() {
+
+     //Controlla se GPS/wifi sono abilitati
+     public boolean canGetLocation() {
         return this.canGetLocation;
     }
 
-    /**
-     * Pop-up per aprire le impostazioni e abilitare il GPS
-     * */
+
+    //Pop-up per aprire le impostazioni e abilitare il GPS
     public void showSettingsAlert(){
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(mContext);
 
