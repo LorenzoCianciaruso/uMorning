@@ -32,6 +32,8 @@ public class Facebook {
 
     public List<Event> getEventList() {
 
+        System.out.println("FFFFFFFFFFFFF dentro fb");
+
         new Request(
                 session,
                 "/me/events/attending",
@@ -41,11 +43,13 @@ public class Facebook {
                     public void onCompleted(Response response) {
 
 
-                       List<String> idList = getEventIdList(response);
+                        List<String> idList = getEventIdList(response);
 
-                       for (int i = 0; i < idList.size(); i++) {
+                        System.out.println("FFFFFFFFFFFFFFFFFFF completed"+response.toString());
+
+                        for (int i = 0; i < idList.size(); i++) {
                             getEventDetails(idList.get(i));
-                       }
+                        }
                     }
                 }
         ).executeAndWait();

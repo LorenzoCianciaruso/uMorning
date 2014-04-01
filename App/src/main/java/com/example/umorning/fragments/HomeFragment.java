@@ -1,5 +1,6 @@
 package com.example.umorning.fragments;
 
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
@@ -38,12 +39,9 @@ public class HomeFragment extends Fragment {
         setHasOptionsMenu(true);
 
         super.onCreate(savedInstanceState);
-        //setContentView(R.layout.fragment_home);
 
         View rootView = inflater.inflate(R.layout.fragment_home, container, false);
 
-        //getActionBar().setDisplayShowHomeEnabled(false);
-        //getActionBar().setDisplayShowTitleEnabled(false);
         return rootView;
     }
 
@@ -53,6 +51,15 @@ public class HomeFragment extends Fragment {
         super.onStart();
 
         gps = new GpsLocalizationService(getActivity());
+
+        //trova riferimenti layout
+        locality = (TextView) getView().findViewById(R.id.locality);
+        country = (TextView) getView().findViewById(R.id.country);
+        temperature = (TextView) getView().findViewById(R.id.temperature);
+        weatherIcon = (ImageView) getView().findViewById(R.id.weatherIcon);
+
+        updateUI();
+
 
         // check if GPS enabled
         if (gps.canGetLocation()) {
@@ -104,40 +111,18 @@ public class HomeFragment extends Fragment {
 
         @Override
         protected void onPostExecute(MetwitRequest weatherInfo) {
-            //trova riferimenti layout
-            locality = (TextView) getView().findViewById(R.id.locality);
-            country = (TextView) getView().findViewById(R.id.country);
-            temperature = (TextView) getView().findViewById(R.id.temperature);
-            weatherIcon = (ImageView) getView().findViewById(R.id.weatherIcon);
 
+            //salvo ultime informazioni
+            SharedPreferences settings = getActivity().getSharedPreferences("uMorning", 0);
+            SharedPreferences.Editor editor = settings.edit();
+            editor.putString("Locality", weatherInfo.getLocality());
+            editor.putString("Country", weatherInfo.getCountry());
+            editor.putString("Temperature", weatherInfo.getTemperature());
+            editor.putString("Icon", weatherInfo.getIcon());
+            editor.commit();
 
-            //assegna variabili
-            locality.setText(weatherInfo.getLocality());
-            country.setText(weatherInfo.getCountry());
-            temperature.setText(weatherInfo.getTemperature());
+            updateUI();
 
-            //setta l'icona
-            if (weatherInfo.getIcon().equals("sunny")) {
-                weatherIcon.setImageResource(R.drawable.sunny);
-            } else if (weatherInfo.getIcon().equals("clear_moon")) {
-                weatherIcon.setImageResource(R.drawable.clear_moon);
-            } else if (weatherInfo.getIcon().equals("cloudy")) {
-                weatherIcon.setImageResource(R.drawable.cloudy);
-            } else if (weatherInfo.getIcon().equals("foggy")) {
-                weatherIcon.setImageResource(R.drawable.foggy);
-            } else if (weatherInfo.getIcon().equals("partly_moon")) {
-                weatherIcon.setImageResource(R.drawable.partly_moon);
-            } else if (weatherInfo.getIcon().equals("partly_sunny")) {
-                weatherIcon.setImageResource(R.drawable.partly_sunny);
-            } else if (weatherInfo.getIcon().equals("rainy")) {
-                weatherIcon.setImageResource(R.drawable.rainy);
-            } else if (weatherInfo.getIcon().equals("snowy")) {
-                weatherIcon.setImageResource(R.drawable.snowy);
-            } else if (weatherInfo.getIcon().equals("stormy")) {
-                weatherIcon.setImageResource(R.drawable.stormy);
-            } else if (weatherInfo.getIcon().equals("windy")) {
-                weatherIcon.setImageResource(R.drawable.windy);
-            }
         }
     }
 
@@ -162,6 +147,45 @@ public class HomeFragment extends Fragment {
         protected void onPostExecute(GoogleTrafficRequest traffic) {
 
         }
+    }
+
+    private void updateUI() {
+
+        SharedPreferences prefs = getActivity().getSharedPreferences("uMorning", 0);
+        String loc = prefs.getString("Locality", " ");
+        String cou = prefs.getString("Country", " ");
+        String temp = prefs.getString("Temperature", " ");
+        String icon = prefs.getString("Icon", " ");
+
+
+        //assegna variabili
+        locality.setText(loc);
+        country.setText(cou);
+        temperature.setText(temp);
+
+        //setta l'icona
+        if (icon.equals("sunny")) {
+            weatherIcon.setImageResource(R.drawable.sunny);
+        } else if (icon.equals("clear_moon")) {
+            weatherIcon.setImageResource(R.drawable.clear_moon);
+        } else if (icon.equals("cloudy")) {
+            weatherIcon.setImageResource(R.drawable.cloudy);
+        } else if (icon.equals("foggy")) {
+            weatherIcon.setImageResource(R.drawable.foggy);
+        } else if (icon.equals("partly_moon")) {
+            weatherIcon.setImageResource(R.drawable.partly_moon);
+        } else if (icon.equals("partly_sunny")) {
+            weatherIcon.setImageResource(R.drawable.partly_sunny);
+        } else if (icon.equals("rainy")) {
+            weatherIcon.setImageResource(R.drawable.rainy);
+        } else if (icon.equals("snowy")) {
+            weatherIcon.setImageResource(R.drawable.snowy);
+        } else if (icon.equals("stormy")) {
+            weatherIcon.setImageResource(R.drawable.stormy);
+        } else if (icon.equals("windy")) {
+            weatherIcon.setImageResource(R.drawable.windy);
+        }
+
     }
 
 }
