@@ -1,5 +1,10 @@
 package com.example.umorning.external_services;
 
+import android.app.Activity;
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
@@ -23,6 +28,7 @@ public class HttpRequest {
     }
 
     public String getRequest(String url) {
+
 
         try {
 
@@ -55,6 +61,16 @@ public class HttpRequest {
 
        return null;
             }
+
+    static public boolean isOnline(Context cxt) {
+        ConnectivityManager cm =
+                (ConnectivityManager) cxt.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = cm.getActiveNetworkInfo();
+        if (netInfo != null && netInfo.isConnectedOrConnecting()) {
+            return true;
+        }
+        return false;
+    }
 
 
 

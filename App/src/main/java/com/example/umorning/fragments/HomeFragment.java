@@ -1,5 +1,7 @@
 package com.example.umorning.fragments;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.support.v4.app.Fragment;
@@ -14,6 +16,7 @@ import android.widget.Toast;
 
 import com.example.umorning.R;
 import com.example.umorning.external_services.GoogleTrafficRequest;
+import com.example.umorning.external_services.HttpRequest;
 import com.example.umorning.external_services.MetwitRequest;
 import com.example.umorning.internal_services.GpsLocalizationService;
 
@@ -69,8 +72,12 @@ public class HomeFragment extends Fragment {
 
             Toast.makeText(getActivity().getApplicationContext(), "Your Location is - \nLat: " + latitude + "\nLong: " + longitude, Toast.LENGTH_LONG).show();
 
-            new AsyncTaskMeteoRequest().execute(latitude, longitude);
-            new AsyncTaskTrafficRequest().execute(latitude, longitude, 45.0, 9.0);
+            if (HttpRequest.isOnline(getActivity())) {
+                new AsyncTaskMeteoRequest().execute(latitude, longitude);
+                new AsyncTaskTrafficRequest().execute(latitude, longitude, 45.0, 9.0);
+            } else {
+                Toast.makeText(getActivity().getApplicationContext(), "No Internet Connection", Toast.LENGTH_LONG).show();
+            }
 
         } else {
             // Chiedi all'utente di andare nelle impostazioni
@@ -100,9 +107,12 @@ public class HomeFragment extends Fragment {
 
             double latitude = params[0];
             double longitude = params[1];
+            MetwitRequest weatherInfo = null;
+
 
             //richiesta meteo
-            MetwitRequest weatherInfo = new MetwitRequest(latitude, longitude);
+            weatherInfo = new MetwitRequest(latitude, longitude);
+
 
             //restituisce oggetto meteo contenente informazioni
             return weatherInfo;
@@ -136,8 +146,11 @@ public class HomeFragment extends Fragment {
             double startLongitude = params[1];
             double endLatitude = params[2];
             double endLongitude = params[3];
+            GoogleTrafficRequest trafficInfo = null;
 
-            GoogleTrafficRequest trafficInfo = new GoogleTrafficRequest(startLatitude, startLongitude, endLatitude, endLongitude);
+
+            trafficInfo = new GoogleTrafficRequest(startLatitude, startLongitude, endLatitude, endLongitude);
+
 
             return trafficInfo;
         }
@@ -187,6 +200,7 @@ public class HomeFragment extends Fragment {
         }
 
     }
+
 
 }
 
