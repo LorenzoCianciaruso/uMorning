@@ -46,7 +46,7 @@ public class AlarmAddNewActivity extends Activity {
         GpsLocalizationService gps = new GpsLocalizationService(this);
         // controlla se il GPS è attivo
         if (gps.canGetLocation()) {
-            //TODO gestire le coordinate 0 0
+            //TODO gestire le coordinate 0 0 per adesso si può catchare l'eccezione
             startLatitude = gps.getLatitude();
             startLongitude = gps.getLongitude();
         } else {
@@ -56,10 +56,10 @@ public class AlarmAddNewActivity extends Activity {
         //richiesta traffico
         GoogleTrafficRequest trafficRequest = new GoogleTrafficRequest(startLatitude,startLongitude,arrivalLatitude,arrivalLongitude);
         trafficMillis = new Long (trafficRequest.getTripDuration());
-        if(trafficMillis < 0)
-        {
-            throw new IllegalArgumentException("NON PUO' ESSERE NEGATIVO");
-        }
+
+        //tempo per prepararsi
+        SettingsActivity ud = new SettingsActivity();
+        userTimeMillis = ud.getUserDelay();
 
         //ottengo l'ora della sveglia sottraendo traffico e tempo per prepararsi
         timeOfArrival = new GregorianCalendar();
@@ -67,6 +67,7 @@ public class AlarmAddNewActivity extends Activity {
         timeOfAlarm.setTimeInMillis(timeOfArrival.getTimeInMillis()-trafficMillis-userTimeMillis);
 
         //chiama un alarmservice
+        //TODO passare qualche campo significativo per poter riconoscere gli intent
         Intent myIntent = new Intent(this, AlarmService.class);
         PendingIntent pendingIntent = PendingIntent.getService(this, 0, myIntent, 0);
         AlarmManager alarmManager = (AlarmManager) getSystemService(Service.ALARM_SERVICE);
@@ -74,8 +75,8 @@ public class AlarmAddNewActivity extends Activity {
         //imposta l'ora e fa partire
         alarmManager.set(AlarmManager.RTC_WAKEUP, timeOfAlarm.getTimeInMillis(), pendingIntent);
 
-
-       System.out.println ("allarme alle "+timeOfAlarm+" appuntamento alle "+timeOfArrival);
+        //print di prova
+        System.out.println ("allarme alle "+timeOfAlarm+" appuntamento alle "+timeOfArrival);
     }
 
     @Override
@@ -85,16 +86,16 @@ public class AlarmAddNewActivity extends Activity {
         return true;
     }
     public void saveAlarm(View view) {
-        // Do something in response to button
-		/*Intent myIntent = new Intent(MainActivity.this, AlarmAddNewActivity.class);
-		startActivity(myIntent);*/
-        //Intent myIntent = new Intent(AlarmAddNewActivity.this, MainActivity.class);
-        //startActivity(myIntent);
-        //myIntent.putExtra("index", 2);
-        //startActivity(myIntent);
-        //overridePendingTransition(R.anim.fadeout, R.anim.fadein);
-       finish();
-       overridePendingTransition(R.anim.fadein,R.anim.fadeout);
+        /* Do something in response to button
+		Intent myIntent = new Intent(MainActivity.this, AlarmAddNewActivity.class);
+		startActivity(myIntent);
+        Intent myIntent = new Intent(AlarmAddNewActivity.this, MainActivity.class);
+        startActivity(myIntent);
+        myIntent.putExtra("index", 2);
+        startActivity(myIntent);
+        overridePendingTransition(R.anim.fadeout, R.anim.fadein);*/
+        finish();
+        overridePendingTransition(R.anim.fadein,R.anim.fadeout);
     }
 
     @Override

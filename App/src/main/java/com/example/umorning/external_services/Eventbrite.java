@@ -84,7 +84,7 @@ public class Eventbrite {
             String startTime = jsonStart.getString("local");
             String status = jObject.getString("status");
 
-            //TODO parsare la data per metterla in un campo date
+            //parsa la data
             String[] start = startTime.split("T");
             String dateStart= start[0];
             String rest= start[1];
