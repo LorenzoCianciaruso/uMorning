@@ -1,5 +1,7 @@
 package com.example.umorning.external_services;
 
+import android.content.Context;
+
 import com.example.umorning.model.Event;
 import com.facebook.HttpMethod;
 import com.facebook.Request;
@@ -20,10 +22,23 @@ import java.util.List;
 public class Facebook {
 
     private List<Event> eventsList = new ArrayList<Event>();
-    private Session session;
 
-    public Facebook() {
+    public Session getSession() {
+        return session;
+    }
+
+    private Session session;
+    private Context cxt;
+
+    public Facebook(Context cxt) {
+        this.cxt = cxt;
         session = Session.getActiveSession();
+
+        if (session == null) {
+            System.out.println("restore");
+            session = Session.openActiveSessionFromCache(cxt);
+        }
+
     }
 
     public List<Event> getEventsList() {
@@ -32,7 +47,7 @@ public class Facebook {
 
     public List<Event> getEventList() {
 
-        System.out.println("FFFFFFFFFFFFF dentro fb");
+
 
         new Request(
                 session,
@@ -41,12 +56,7 @@ public class Facebook {
                 HttpMethod.GET,
                 new Request.Callback() {
                     public void onCompleted(Response response) {
-
-
                         List<String> idList = getEventIdList(response);
-
-                        System.out.println("FFFFFFFFFFFFFFFFFFF completed"+response.toString());
-
                         for (int i = 0; i < idList.size(); i++) {
                             getEventDetails(idList.get(i));
                         }
@@ -61,8 +71,8 @@ public class Facebook {
 
         try {
 
-            GraphObject go  = response.getGraphObject();
-            JSONObject  json = go.getInnerJSONObject();
+            GraphObject go = response.getGraphObject();
+            JSONObject json = go.getInnerJSONObject();
             JSONArray eventsArr = json.getJSONArray("data");
 
             for (int i = 0; i < eventsArr.length(); i++) {
@@ -85,8 +95,8 @@ public class Facebook {
                 HttpMethod.GET,
                 new Request.Callback() {
                     public void onCompleted(Response response) {
-                        GraphObject go  = response.getGraphObject();
-                        JSONObject  json = go.getInnerJSONObject();
+                        GraphObject go = response.getGraphObject();
+                        JSONObject json = go.getInnerJSONObject();
 
                         try {
 
@@ -101,8 +111,8 @@ public class Facebook {
                             String longitude = jsonVenue.getString("longitude");
 
                             String[] start = startTime.split("T");
-                            String dateStart= start[0];
-                            String rest= start[1];
+                            String dateStart = start[0];
+                            String rest = start[1];
 
                             String[] yearMonthDay = dateStart.split("-");
                             int year = Integer.parseInt(yearMonthDay[0]);
@@ -114,8 +124,8 @@ public class Facebook {
                             int hour = Integer.parseInt(hourStart.split(":")[0]);
                             int minute = Integer.parseInt(hourStart.split(":")[1]);
 
-                            Calendar date = new GregorianCalendar(year,month,day,hour,minute);
-                            Event event = new Event( name, organizer, location, city, country, latitude,longitude,null,null,null,date,null);
+                            Calendar date = new GregorianCalendar(year, month, day, hour, minute);
+                            Event event = new Event(name, organizer, location, city, country, latitude, longitude, null, null, null, date, null);
 
                             eventsList.add(event);
                         } catch (JSONException e) {
