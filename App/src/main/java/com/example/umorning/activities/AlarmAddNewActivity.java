@@ -5,8 +5,9 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.view.Menu;
+import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.TimePicker;
 
@@ -57,9 +58,9 @@ public class AlarmAddNewActivity extends Activity {
         GoogleTrafficRequest trafficRequest = new GoogleTrafficRequest(startLatitude,startLongitude,arrivalLatitude,arrivalLongitude);
         trafficMillis = new Long (trafficRequest.getTripDuration());
 
-        //tempo per prepararsi
-        SettingsActivity ud = new SettingsActivity();
-        userTimeMillis = ud.getUserDelay();
+        //tempo per prepararsi dalle preferenze
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this.getApplicationContext());
+        prefs.getLong("DELAY", 4);
 
         //ottengo l'ora della sveglia sottraendo traffico e tempo per prepararsi
         timeOfArrival = new GregorianCalendar();
@@ -77,11 +78,6 @@ public class AlarmAddNewActivity extends Activity {
 
         //print di prova
         System.out.println ("allarme alle "+timeOfAlarm+" appuntamento alle "+timeOfArrival);
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        return true;
     }
 
     public void saveAlarm(View view) {

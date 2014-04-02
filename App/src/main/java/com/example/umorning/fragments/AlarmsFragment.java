@@ -43,7 +43,7 @@ public class AlarmsFragment extends Fragment {
             nameAlarms.add(x.getName());
         }
 
-        listAdapter = new ArrayAdapter<String>(getActivity(), R.layout.list_item, nameAlarms);
+        listAdapter = new ArrayAdapter<String>(getActivity(), R.layout.list_item_alarms, R.id.textView1,nameAlarms);
         list_of_alarms.setAdapter(listAdapter);
 
 

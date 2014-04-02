@@ -1,18 +1,17 @@
 package com.example.umorning.activities;
 
+import android.app.Activity;
 import android.content.Context;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
-import android.os.Vibrator;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.view.Menu;
+import android.os.Vibrator;
 import android.view.MenuItem;
 
 import com.example.umorning.R;
 
-public class AlarmRingActivity extends ActionBarActivity {
+public class AlarmRingActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,15 +31,6 @@ public class AlarmRingActivity extends ActionBarActivity {
         Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
         Ringtone r = RingtoneManager.getRingtone(getApplicationContext(), notification);
         r.play();
-    }
-
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        
-        // Inflate the menu; this adds items to the action bar if it is present.
-        //getMenuInflater().inflate(R.menu.prova, menu);
-        return true;
     }
 
     @Override

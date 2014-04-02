@@ -138,8 +138,8 @@ public class GpsLocalizationService extends Service implements LocationListener 
     public void showSettingsAlert(){
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(mContext);
 
-        alertDialog.setTitle("GPS is settings");
-        alertDialog.setMessage("GPS is not enabled. Do you want to go to settings menu?");
+        alertDialog.setTitle("GPS is activity_settings");
+        alertDialog.setMessage("GPS is not enabled. Do you want to go to activity_settings menu?");
 
         // On pressing Settings button
         alertDialog.setPositiveButton("Settings", new DialogInterface.OnClickListener() {

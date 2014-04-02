@@ -1,12 +1,9 @@
 package com.example.umorning.fragments;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
-import android.support.v4.app.Fragment;
 import android.os.Bundle;
-
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,7 +16,6 @@ import com.example.umorning.external_services.GoogleTrafficRequest;
 import com.example.umorning.external_services.HttpRequest;
 import com.example.umorning.external_services.MetwitRequest;
 import com.example.umorning.internal_services.GpsLocalizationService;
-
 import com.google.android.gms.common.GooglePlayServicesUtil;
 
 public class HomeFragment extends Fragment {
@@ -73,8 +69,8 @@ public class HomeFragment extends Fragment {
             Toast.makeText(getActivity().getApplicationContext(), "Your Location is - \nLat: " + latitude + "\nLong: " + longitude, Toast.LENGTH_LONG).show();
 
             if (HttpRequest.isOnline(getActivity())) {
-                new AsyncTaskMeteoRequest().execute(latitude, longitude);
-                new AsyncTaskTrafficRequest().execute(latitude, longitude, 45.0, 9.0);
+                //new AsyncTaskMeteoRequest().execute(latitude, longitude);
+                //new AsyncTaskTrafficRequest().execute(latitude, longitude, 45.0, 9.0);
             } else {
                 Toast.makeText(getActivity().getApplicationContext(), "No Internet Connection", Toast.LENGTH_LONG).show();
             }

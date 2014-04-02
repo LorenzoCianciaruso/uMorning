@@ -23,7 +23,6 @@ public class MainActivity extends FragmentActivity implements
     private TabsPagerAdapter mAdapter;
     private ActionBar actionBar;
     private DatabaseHelper db;
-    // Tab titles
     private String[] tabs = { "Home", "Alarms", "Events" };
 
     @SuppressLint("NewApi") @Override
@@ -31,7 +30,6 @@ public class MainActivity extends FragmentActivity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity);
 
-        // Initilization
         viewPager = (ViewPager) findViewById(R.id.pager);
         actionBar = getActionBar();
         mAdapter = new TabsPagerAdapter(getSupportFragmentManager());
@@ -41,21 +39,17 @@ public class MainActivity extends FragmentActivity implements
         actionBar.setHomeButtonEnabled(false);
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 
-        // Adding Tabs
+        // aggiunge i tab
         for (String tab_name : tabs) {
             actionBar.addTab(actionBar.newTab().setText(tab_name)
                     .setTabListener(this));
         }
 
-        /**
-         * on swiping the viewpager make respective tab selected
-         * */
         viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
 
             @Override
             public void onPageSelected(int position) {
-                // on changing the page
-                // make respected tab selected
+                //evidenzia la pagina selezionata
                 actionBar.setSelectedNavigationItem(position);
             }
 
@@ -71,7 +65,6 @@ public class MainActivity extends FragmentActivity implements
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
@@ -82,8 +75,7 @@ public class MainActivity extends FragmentActivity implements
 
     @Override
     public void onTabSelected(Tab tab, FragmentTransaction ft) {
-        // on tab selected
-        // show respected fragment view
+       // mostra i fragment
         viewPager.setCurrentItem(tab.getPosition());
     }
 
@@ -93,10 +85,7 @@ public class MainActivity extends FragmentActivity implements
     public void openAddNewActivity(View v) {
         switch(v.getId()) {
             case R.id.addnewalarm:
-                Intent myIntent = new Intent();
-                myIntent.setClassName("com.example.umorning", "com.example.umorning.activities.AlarmAddNewActivity");
-                // for ex: your package name can be "com.example"
-                // your activity name will be "com.example.Contact_Developer"
+                Intent myIntent = new Intent(MainActivity.this, AlarmAddNewActivity.class);
                 startActivity(myIntent);
                 overridePendingTransition(R.anim.fadein, R.anim.fadeout);
                 break;
@@ -104,6 +93,10 @@ public class MainActivity extends FragmentActivity implements
     }
     public void startAccountManager(MenuItem item){
         Intent intent = new Intent(this, AccountManagerActivity.class);
+        startActivity(intent);
+    }
+    public void startSettingsManager(MenuItem item){
+        Intent intent = new Intent(this, SettingsActivity.class);
         startActivity(intent);
     }
 }

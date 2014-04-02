@@ -45,12 +45,14 @@
             android:label="@string/title_activity_account_manager" >
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
-
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
 
                 <data android:scheme="my.special.scheme" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name=".activities.SettingsActivity" >
         </activity>
         <activity
             android:name=".activities.WebViewActivity"
