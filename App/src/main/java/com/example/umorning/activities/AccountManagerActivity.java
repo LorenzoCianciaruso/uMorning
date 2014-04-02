@@ -1,10 +1,9 @@
 package com.example.umorning.activities;
 
+import android.app.Activity;
 import android.content.Intent;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -18,7 +17,7 @@ import java.util.Arrays;
 import java.util.List;
 
 
-public class AccountManagerActivity extends ActionBarActivity {
+public class AccountManagerActivity extends Activity {
 
     private static final String TAG = "AccountManagerActivity";
     private UiLifecycleHelper uiHelper;
@@ -37,14 +36,14 @@ public class AccountManagerActivity extends ActionBarActivity {
         facebookLoginButton.setReadPermissions(requestPermission);
     }
 
-
+    //TODO levare se funziona ancora ho tolto action bar
+    /*
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        //TODO serve??
         getMenuInflater().inflate(R.menu.account_manager, menu);
         return true;
-    }
+    }*/
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

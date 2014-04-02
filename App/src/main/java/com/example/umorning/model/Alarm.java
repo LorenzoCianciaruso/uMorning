@@ -4,8 +4,8 @@ import java.util.Date;
 
 public class Alarm {
 
-    private int id;
-    private int delay; //tempo che l'utente ci mette a uscire di casa
+    private long id;
+    private long delay; //tempo che l'utente ci mette a uscire di casa
     private String name;
     private String address;
     private String city;
@@ -21,6 +21,10 @@ public class Alarm {
     //TODO il costruttore dovrà prendere un evento e settare i campi
     //TODO settare l'id in maniera intelligente (hash dei campi??)
 
+    public Alarm(Event e){
+        this.name=e.getName();
+
+    }
     public Alarm(){
         id=1;
         delay=2;
@@ -28,11 +32,11 @@ public class Alarm {
 
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public int getDelay() {
+    public long getDelay() {
         return delay;
     }
 

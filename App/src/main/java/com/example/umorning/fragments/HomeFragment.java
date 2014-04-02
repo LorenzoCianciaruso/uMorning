@@ -136,7 +136,7 @@ public class HomeFragment extends Fragment {
         }
     }
 
-    //TODO probabilmente levare il traffico nel main fragment non serve
+    //TODO levare alla fine per adesso è qui così vediamo se crasha
     private class AsyncTaskTrafficRequest extends AsyncTask<Double, Void, GoogleTrafficRequest> {
 
         @Override

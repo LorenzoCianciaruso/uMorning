@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -59,14 +58,14 @@ public class WebViewActivity extends Activity {
 
     }
 
-
+//TODO levare se funziona ancora ho tolto action bar
+    /*
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        //TODO serve davvero??
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.web_view, menu);
         return true;
-    }
+    }*/
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

@@ -11,20 +11,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
-
-    // Logcat tag
+    //proprietà del DB
     private static final String LOG = "DatabaseHelper";
-
-    // Database Version
     private static final int DATABASE_VERSION = 1;
-
-    // Database Name
     private static final String DATABASE_NAME = "uMorningDatabase";
-
-    // Table Names
     private static final String TABLE_ALARM = "alarms";
 
-    // Column names
+    // Colonne
     private static final String KEY_ALARM_ID = "id";
     private static final String KEY_DELAY = "delay";
     private static final String KEY_NAME = "name";
@@ -63,29 +56,22 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
-
-        // creating required table
         sqLiteDatabase.execSQL(CREATE_TABLE_ALARM);
-
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i2) {
-
-        // on upgrade drop older tables
+        // on upgrade elimina le tabelle veccchie
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TABLE_ALARM);
-
-        // create new tables
+        // crea nuove tabelle
         onCreate(sqLiteDatabase);
-
     }
 
-    // ------------------------ "alarms" table methods ----------------//
-    // Creating an alarm
+    // Aggiungi un allarme
     public long addAlarm(Alarm alarm) {
         SQLiteDatabase db = this.getWritableDatabase();
-
         ContentValues values = new ContentValues();
+
         values.put(KEY_DELAY, alarm.getDelay());
         values.put(KEY_NAME, alarm.getName());
         values.put(KEY_ADDRESS, alarm.getAddress());
@@ -96,57 +82,52 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put(KEY_END_LATITUDE, alarm.getEndLatitude());
         values.put(KEY_END_LONGITUDE, alarm.getEndLongitude());
         values.put(KEY_LOCATION_NAME, alarm.getLocationName());
-       // values.put(KEY_DATE, parser.format(alarm.getDate()));
+        // values.put(KEY_DATE, parser.format(alarm.getDate()));
         values.put(KEY_ACTIVATED, alarm.isActivated());
 
-        // insert row
         long alarm_id = db.insert(TABLE_ALARM, null, values);
-
         return alarm_id;
     }
 
-    //get single alarm
+    //prendi allarme per id
     public Alarm getAlarm(long alarm_id){
         SQLiteDatabase db = this.getReadableDatabase();
-
         String selectQuery = "SELECT  * FROM " + TABLE_ALARM + " WHERE "
                 + KEY_ALARM_ID + " = " + alarm_id;
 
         Log.e(LOG, selectQuery);
-
         Cursor c = db.rawQuery(selectQuery, null);
 
-        if (c != null)
-            c.moveToFirst();
-
         Alarm a=new Alarm();
-        a.setId(c.getInt(c.getColumnIndex(KEY_ALARM_ID)));
-        a.setDelay(c.getInt(c.getColumnIndex(KEY_DELAY)));
-        a.setName(c.getString(c.getColumnIndex(KEY_NAME)));
-        a.setAddress(c.getString(c.getColumnIndex(KEY_ADDRESS)));
-        a.setCity(c.getString(c.getColumnIndex(KEY_CITY)));
-        a.setCountry(c.getString(c.getColumnIndex(KEY_COUNTRY)));
-        a.setStartLatitude(c.getString(c.getColumnIndex(KEY_START_LATITUDE)));
-        a.setStartLongitude(c.getString(c.getColumnIndex(KEY_START_LONGITUDE)));
-        a.setEndLatitude(c.getString(c.getColumnIndex(KEY_END_LATITUDE)));
-        a.setEndLongitude(c.getString(c.getColumnIndex(KEY_END_LONGITUDE)));
-        //a.setDate(c.getString(c.getColumnIndex(KEY_DATEY)));
-        //a.setActivated(c.getString(c.getColumnIndex(KEY_ACTIVATED)));
+        if (c != null) {
+            c.moveToFirst();
+            a.setId(c.getInt(c.getColumnIndex(KEY_ALARM_ID)));
+            a.setDelay(c.getInt(c.getColumnIndex(KEY_DELAY)));
+            a.setName(c.getString(c.getColumnIndex(KEY_NAME)));
+            a.setAddress(c.getString(c.getColumnIndex(KEY_ADDRESS)));
+            a.setCity(c.getString(c.getColumnIndex(KEY_CITY)));
+            a.setCountry(c.getString(c.getColumnIndex(KEY_COUNTRY)));
+            a.setStartLatitude(c.getString(c.getColumnIndex(KEY_START_LATITUDE)));
+            a.setStartLongitude(c.getString(c.getColumnIndex(KEY_START_LONGITUDE)));
+            a.setEndLatitude(c.getString(c.getColumnIndex(KEY_END_LATITUDE)));
+            a.setEndLongitude(c.getString(c.getColumnIndex(KEY_END_LONGITUDE)));
+            //a.setDate(c.getString(c.getColumnIndex(KEY_DATEY)));
+            //a.setActivated(c.getString(c.getColumnIndex(KEY_ACTIVATED)));
+        }
 
         return a;
     }
 
-    //getting all alarms
+    //prendi tutti gli allarmi come lista
     public List<Alarm> getAllAlarms(){
         List<Alarm> alarms=new ArrayList<Alarm>();
         String selectQuery = "SELECT  * FROM " + TABLE_ALARM;
-
         Log.e(LOG, selectQuery);
 
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor c = db.rawQuery(selectQuery, null);
 
-        // looping through all rows and adding to list
+        // aggiungili alla lista
         if (c.moveToFirst()) {
             do {
                 Alarm a=new Alarm();
@@ -163,30 +144,29 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 //a.setDate(c.getString(c.getColumnIndex(KEY_DELAY)));
                 //a.setActivated(c.getString(c.getColumnIndex(KEY_DELAY)));
 
-                // adding to tags list
                 alarms.add(a);
             } while (c.moveToNext());
         }
         return alarms;
     }
 
-    //Updating an alarm name
-    public int updateTag(Alarm alarm) {
-        SQLiteDatabase db = this.getWritableDatabase();
+    //aggiornare un allarme
+    public long updateAlarm(long id, Alarm alarm) {
 
+        this.deleteAlarm(id);
+        return this.addAlarm(alarm);
+        /*
         ContentValues values = new ContentValues();
         values.put(KEY_NAME, alarm.getName());
 
-        // updating row
         return db.update(TABLE_ALARM, values, KEY_ALARM_ID + " = ?",
-                new String[] { String.valueOf(alarm.getId()) });
+                new String[] { String.valueOf(alarm.getId()) });*/
     }
 
-    //deleting an alarm
-    public void deleteAlarm(Alarm alarm){
+    //cancellare un allarme
+    public void deleteAlarm(Long id){
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_ALARM, KEY_ALARM_ID + " = ?",
-                new String[] { String.valueOf(alarm) });
+                new String[] { String.valueOf(id) });
     }
 }
-

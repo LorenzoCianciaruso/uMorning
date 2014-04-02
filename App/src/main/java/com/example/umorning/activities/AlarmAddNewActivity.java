@@ -81,10 +81,9 @@ public class AlarmAddNewActivity extends Activity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-
         return true;
     }
+
     public void saveAlarm(View view) {
         /* Do something in response to button
 		Intent myIntent = new Intent(MainActivity.this, AlarmAddNewActivity.class);
