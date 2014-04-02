@@ -111,7 +111,7 @@ public class GpsLocalizationService extends Service implements LocationListener 
             latitude = location.getLatitude();
         }
         if (longitude ==0&&latitude==0){
-            throw new IllegalStateException();
+           // throw new IllegalStateException();
         }
         return latitude;
     }
@@ -122,7 +122,7 @@ public class GpsLocalizationService extends Service implements LocationListener 
             longitude = location.getLongitude();
         }
         if (longitude ==0&&latitude==0){
-            throw new IllegalStateException();
+           // throw new IllegalStateException();
         }
         return longitude;
     }

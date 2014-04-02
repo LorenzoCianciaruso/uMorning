@@ -13,6 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.example.umorning.R;
+import com.example.umorning.model.DatabaseHelper;
 import com.example.umorning.tabswipeadapter.TabsPagerAdapter;
 
 public class MainActivity extends FragmentActivity implements
@@ -21,6 +22,7 @@ public class MainActivity extends FragmentActivity implements
     private ViewPager viewPager;
     private TabsPagerAdapter mAdapter;
     private ActionBar actionBar;
+    private DatabaseHelper db;
     // Tab titles
     private String[] tabs = { "Home", "Alarms", "Events" };
 
@@ -33,6 +35,7 @@ public class MainActivity extends FragmentActivity implements
         viewPager = (ViewPager) findViewById(R.id.pager);
         actionBar = getActionBar();
         mAdapter = new TabsPagerAdapter(getSupportFragmentManager());
+
 
         viewPager.setAdapter(mAdapter);
         actionBar.setHomeButtonEnabled(false);

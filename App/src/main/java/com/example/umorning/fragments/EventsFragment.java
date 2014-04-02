@@ -40,7 +40,7 @@ public class EventsFragment extends Fragment {
             System.out.println("EEEEEE eventbrite token");
         }
 
-        new AsyncTaskFacebook().execute();
+       // new AsyncTaskFacebook().execute();
 
 
 

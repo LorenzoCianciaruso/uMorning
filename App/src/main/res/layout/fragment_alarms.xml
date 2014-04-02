@@ -9,16 +9,15 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin">
 
-    <TextView
-        android:layout_width="fill_parent"
+    <ListView
+        android:id="@+id/listView"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:gravity="center"
-        android:text="Design Games Screen"
-        android:textSize="20dp" />
+        android:layout_above="@+id/footer">
+    </ListView>
 
-    <LinearLayout
-        android:id="@+id/mLlayoutBottomButtons"
+    <RelativeLayout
+        android:id="@+id/footer"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
@@ -32,6 +31,6 @@
             android:text="Add New Alarm"
             android:onClick="openAddNewActivity"/>
 
-    </LinearLayout>
+    </RelativeLayout>
 
 </RelativeLayout>

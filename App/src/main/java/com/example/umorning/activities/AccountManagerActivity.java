@@ -41,6 +41,7 @@ public class AccountManagerActivity extends ActionBarActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
+        //TODO serve??
         getMenuInflater().inflate(R.menu.account_manager, menu);
         return true;
     }

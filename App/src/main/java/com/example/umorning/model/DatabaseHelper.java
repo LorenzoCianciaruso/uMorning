@@ -7,7 +7,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -55,7 +54,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             + KEY_DATE + " DATETIME,"
             + KEY_ACTIVATED + " BOOLEAN"
             + ")";
-    private final SimpleDateFormat parser = new SimpleDateFormat("yyyy-MM-ddTHH:mm:ss.sss");
+
+    //private final SimpleDateFormat parser = new SimpleDateFormat("yyyy-MM-ddTHH:mm:ss.sss");
 
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -82,7 +82,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     // ------------------------ "alarms" table methods ----------------//
     // Creating an alarm
-    public long createAlarm(Alarm alarm) {
+    public long addAlarm(Alarm alarm) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
@@ -96,7 +96,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put(KEY_END_LATITUDE, alarm.getEndLatitude());
         values.put(KEY_END_LONGITUDE, alarm.getEndLongitude());
         values.put(KEY_LOCATION_NAME, alarm.getLocationName());
-        values.put(KEY_DATE, parser.format(alarm.getDate()));
+       // values.put(KEY_DATE, parser.format(alarm.getDate()));
         values.put(KEY_ACTIVATED, alarm.isActivated());
 
         // insert row
@@ -130,8 +130,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         a.setStartLongitude(c.getString(c.getColumnIndex(KEY_START_LONGITUDE)));
         a.setEndLatitude(c.getString(c.getColumnIndex(KEY_END_LATITUDE)));
         a.setEndLongitude(c.getString(c.getColumnIndex(KEY_END_LONGITUDE)));
-        //a.setDate(c.getString(c.getColumnIndex(KEY_DELAY)));
-        //a.setActivated(c.getString(c.getColumnIndex(KEY_DELAY)));
+        //a.setDate(c.getString(c.getColumnIndex(KEY_DATEY)));
+        //a.setActivated(c.getString(c.getColumnIndex(KEY_ACTIVATED)));
 
         return a;
     }

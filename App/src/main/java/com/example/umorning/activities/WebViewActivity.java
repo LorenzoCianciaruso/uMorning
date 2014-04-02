@@ -62,7 +62,7 @@ public class WebViewActivity extends Activity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        
+        //TODO serve davvero??
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.web_view, menu);
         return true;

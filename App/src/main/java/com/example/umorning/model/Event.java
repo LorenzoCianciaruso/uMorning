@@ -1,11 +1,8 @@
 package com.example.umorning.model;
 
-import java.io.Serializable;
 import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
 
-public class Event implements Serializable {
+public class Event {
     private String name;
     private String organizerName;
     private String address;

@@ -6,13 +6,9 @@ import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Vibrator;
 import android.support.v7.app.ActionBarActivity;
-import android.support.v4.app.Fragment;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
 
 import com.example.umorning.R;
 
@@ -21,7 +17,7 @@ public class AlarmRingActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_prova);
+        setContentView(R.layout.activity_alarm_ring);
 
            //TODO mettere bottoni stop e snooze poi bisogna trovare il modo di fare dei metodi che lo facciano
 
@@ -43,7 +39,7 @@ public class AlarmRingActivity extends ActionBarActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.prova, menu);
+        //getMenuInflater().inflate(R.menu.prova, menu);
         return true;
     }
 

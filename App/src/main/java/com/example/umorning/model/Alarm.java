@@ -1,9 +1,8 @@
 package com.example.umorning.model;
 
-import java.io.Serializable;
 import java.util.Date;
 
-public class Alarm implements Serializable {
+public class Alarm {
 
     private int id;
     private int delay; //tempo che l'utente ci mette a uscire di casa
@@ -22,6 +21,12 @@ public class Alarm implements Serializable {
     //TODO il costruttore dovrà prendere un evento e settare i campi
     //TODO settare l'id in maniera intelligente (hash dei campi??)
 
+    public Alarm(){
+        id=1;
+        delay=2;
+        name="ciao";
+
+    }
 
     public int getId() {
         return id;
