@@ -19,6 +19,8 @@ import java.util.List;
 public class EventsFragment extends Fragment {
 
 
+
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
