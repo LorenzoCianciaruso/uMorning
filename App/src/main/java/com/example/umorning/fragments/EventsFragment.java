@@ -32,17 +32,16 @@ public class EventsFragment extends Fragment {
         SharedPreferences prefs = getActivity().getSharedPreferences("uMorning", 0);
         String token = prefs.getString("EventbriteToken", "NotEventbriteLogged");
 
-        if (token.equals("NotEventbriteLogged")) {
-            //TODO notlogged
-            System.out.println("EEEEEEE eventibrite not logged");
-        } else {
+        //se è loggato in eventbrite
+        if (!token.equals("NotEventbriteLogged")) {
             new AsyncTaskEventbrite().execute(token);
-            System.out.println("EEEEEE eventbrite token");
         }
 
-        new AsyncTaskFacebook().execute();
-
-
+        Facebook fb = new Facebook(getActivity());
+        //se è loggato in facebook
+        if(fb.getSession() != null && fb.getSession().isOpened()==true){
+            new AsyncTaskFacebook().execute(fb);
+        }
 
         new AsyncTaskEvent().execute();
         return rootView;
@@ -62,6 +61,7 @@ public class EventsFragment extends Fragment {
 
         @Override
         protected void onPostExecute(List<Event> params) {
+
         }
     }
 
@@ -77,18 +77,19 @@ public class EventsFragment extends Fragment {
         @Override
         protected void onPostExecute(List<Event> params) {
 
+
+
         }
     }
 
-    private class AsyncTaskFacebook extends AsyncTask<Void, Void, List<Event>> {
+    private class AsyncTaskFacebook extends AsyncTask<Facebook, Void, List<Event>> {
 
         @Override
-        protected List<Event> doInBackground(Void... params) {
+        protected List<Event> doInBackground(Facebook... params) {
 
-            Facebook fb = new Facebook();
-            List<Event> list = fb.getEventList();
 
-            System.out.println("LLLLLLLLLL."+list.toString());
+            List<Event> list = params[0].getEventList();
+
 
             return list;
         }
