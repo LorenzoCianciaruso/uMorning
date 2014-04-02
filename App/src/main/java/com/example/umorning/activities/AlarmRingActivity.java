@@ -27,7 +27,6 @@ public class AlarmRingActivity extends ActionBarActivity {
 
         //servizio vibrazione
         Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
-        // inizia subito
         // ogni elemento alterna vibrazione, pausa, vibrazione, pausa...
         long[] pattern = {0,500,110,500,110,450,110,200,110,170,40,450,110,200,110,170,40,500};
         // Il '-1' vibra una volta
@@ -37,13 +36,6 @@ public class AlarmRingActivity extends ActionBarActivity {
         Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
         Ringtone r = RingtoneManager.getRingtone(getApplicationContext(), notification);
         r.play();
-
-        /*if (savedInstanceState == null) {
-            getSupportFragmentManager().beginTransaction()
-                    .add(R.id.container, new PlaceholderFragment())
-                    .commit();
-        }
-        */
     }
 
 
@@ -66,23 +58,5 @@ public class AlarmRingActivity extends ActionBarActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-
-    /*
-     * A placeholder fragment containing a simple view.
-
-    //TODO ancora sti fragment di merda?? dobbiamo decidere se li vogliamo usare o fare tutto ad activity
-    public static class PlaceholderFragment extends Fragment {
-
-        public PlaceholderFragment() {
-        }
-
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_prova, container, false);
-            return rootView;
-        }
-    }
-    */
 
 }
