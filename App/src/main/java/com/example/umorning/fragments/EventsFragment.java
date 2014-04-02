@@ -76,9 +76,6 @@ public class EventsFragment extends Fragment {
 
         @Override
         protected void onPostExecute(List<Event> params) {
-
-
-
         }
     }
 
@@ -86,11 +83,7 @@ public class EventsFragment extends Fragment {
 
         @Override
         protected List<Event> doInBackground(Facebook... params) {
-
-
             List<Event> list = params[0].getEventList();
-
-
             return list;
         }
 
