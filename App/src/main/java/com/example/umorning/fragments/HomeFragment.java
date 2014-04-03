@@ -36,11 +36,8 @@ public class HomeFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         setHasOptionsMenu(true);
-
         super.onCreate(savedInstanceState);
-
         View rootView = inflater.inflate(R.layout.fragment_home, container, false);
-
         return rootView;
     }
 
@@ -69,8 +66,8 @@ public class HomeFragment extends Fragment {
             Toast.makeText(getActivity().getApplicationContext(), "Your Location is - \nLat: " + latitude + "\nLong: " + longitude, Toast.LENGTH_LONG).show();
 
             if (HttpRequest.isOnline(getActivity())) {
-                //new AsyncTaskMeteoRequest().execute(latitude, longitude);
-                //new AsyncTaskTrafficRequest().execute(latitude, longitude, 45.0, 9.0);
+                new AsyncTaskMeteoRequest().execute(latitude, longitude);
+                new AsyncTaskTrafficRequest().execute(latitude, longitude, 45.0, 9.0);
             } else {
                 Toast.makeText(getActivity().getApplicationContext(), "No Internet Connection", Toast.LENGTH_LONG).show();
             }
@@ -105,11 +102,8 @@ public class HomeFragment extends Fragment {
             double longitude = params[1];
             MetwitRequest weatherInfo = null;
 
-
             //richiesta meteo
             weatherInfo = new MetwitRequest(latitude, longitude);
-
-
             //restituisce oggetto meteo contenente informazioni
             return weatherInfo;
         }
@@ -144,9 +138,7 @@ public class HomeFragment extends Fragment {
             double endLongitude = params[3];
             GoogleTrafficRequest trafficInfo = null;
 
-
             trafficInfo = new GoogleTrafficRequest(startLatitude, startLongitude, endLatitude, endLongitude);
-
 
             return trafficInfo;
         }
@@ -159,13 +151,11 @@ public class HomeFragment extends Fragment {
     }
 
     private void updateUI() {
-
         SharedPreferences prefs = getActivity().getSharedPreferences("uMorning", 0);
         String loc = prefs.getString("Locality", " ");
         String cou = prefs.getString("Country", " ");
         String temp = prefs.getString("Temperature", " ");
         String icon = prefs.getString("Icon", " ");
-
 
         //assegna variabili
         locality.setText(loc);
@@ -194,7 +184,7 @@ public class HomeFragment extends Fragment {
         } else if (icon.equals("windy")) {
             weatherIcon.setImageResource(R.drawable.windy);
         }
-
+        //TODO refresh display
     }
 
 

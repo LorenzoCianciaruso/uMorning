@@ -51,6 +51,7 @@ public class EventsFragment extends Fragment {
         }else{
             Toast.makeText(getActivity().getApplicationContext(), "No Internet Connection", Toast.LENGTH_LONG).show();
         }
+
         new AsyncTaskEvent().execute();
 
     }

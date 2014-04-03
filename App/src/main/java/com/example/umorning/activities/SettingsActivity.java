@@ -3,7 +3,6 @@ package com.example.umorning.activities;
 import android.app.Activity;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.NumberPicker;
 
@@ -28,7 +27,7 @@ public class SettingsActivity extends Activity {
     public void saveSettings(View view){
         userDelay=number.getValue()*60*1000;
         // salva nelle preferenze
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this.getApplicationContext());
+        SharedPreferences prefs = getSharedPreferences("uMorning", 0);
         SharedPreferences.Editor editor = prefs.edit();
         editor.putLong("DELAY", userDelay);
         editor.commit();
