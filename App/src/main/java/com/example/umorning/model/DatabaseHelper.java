@@ -8,6 +8,8 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
@@ -34,7 +36,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String CREATE_TABLE_ALARM="CREATE TABLE " + TABLE_ALARM
             + "("
             + KEY_ALARM_ID + " INTEGER PRIMARY KEY,"
-            + KEY_DELAY + " INTEGER,"
+            + KEY_DELAY + " LONG,"
             + KEY_NAME + " TEXT,"
             + KEY_ADDRESS + " TEXT,"
             + KEY_CITY + " TEXT,"
@@ -44,11 +46,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             + KEY_END_LATITUDE + " TEXT,"
             + KEY_END_LONGITUDE + " TEXT,"
             + KEY_LOCATION_NAME + " TEXT,"
-            + KEY_DATE + " DATETIME,"
-            + KEY_ACTIVATED + " BOOLEAN"
+            + KEY_DATE + " LONG,"
+            + KEY_ACTIVATED + " INTEGER"
             + ")";
-
-    //private final SimpleDateFormat parser = new SimpleDateFormat("yyyy-MM-ddTHH:mm:ss.sss");
 
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -82,7 +82,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put(KEY_END_LATITUDE, alarm.getEndLatitude());
         values.put(KEY_END_LONGITUDE, alarm.getEndLongitude());
         values.put(KEY_LOCATION_NAME, alarm.getLocationName());
-        // values.put(KEY_DATE, parser.format(alarm.getDate()));
+        values.put(KEY_DATE, alarm.getDate().getTimeInMillis());
         values.put(KEY_ACTIVATED, alarm.isActivated());
 
         long alarm_id = db.insert(TABLE_ALARM, null, values);
@@ -97,25 +97,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         Log.e(LOG, selectQuery);
         Cursor c = db.rawQuery(selectQuery, null);
-
-        Alarm a=new Alarm();
-        if (c != null) {
-            c.moveToFirst();
-            a.setId(c.getInt(c.getColumnIndex(KEY_ALARM_ID)));
-            a.setDelay(c.getInt(c.getColumnIndex(KEY_DELAY)));
-            a.setName(c.getString(c.getColumnIndex(KEY_NAME)));
-            a.setAddress(c.getString(c.getColumnIndex(KEY_ADDRESS)));
-            a.setCity(c.getString(c.getColumnIndex(KEY_CITY)));
-            a.setCountry(c.getString(c.getColumnIndex(KEY_COUNTRY)));
-            a.setStartLatitude(c.getString(c.getColumnIndex(KEY_START_LATITUDE)));
-            a.setStartLongitude(c.getString(c.getColumnIndex(KEY_START_LONGITUDE)));
-            a.setEndLatitude(c.getString(c.getColumnIndex(KEY_END_LATITUDE)));
-            a.setEndLongitude(c.getString(c.getColumnIndex(KEY_END_LONGITUDE)));
-            //a.setDate(c.getString(c.getColumnIndex(KEY_DATEY)));
-            //a.setActivated(c.getString(c.getColumnIndex(KEY_ACTIVATED)));
-        }
-
-        return a;
+        return fromCursorToAlarm(c);
     }
 
     //prendi tutti gli allarmi come lista
@@ -130,20 +112,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         // aggiungili alla lista
         if (c.moveToFirst()) {
             do {
-                Alarm a=new Alarm();
-                a.setId(c.getInt(c.getColumnIndex(KEY_ALARM_ID)));
-                a.setDelay(c.getInt(c.getColumnIndex(KEY_DELAY)));
-                a.setName(c.getString(c.getColumnIndex(KEY_NAME)));
-                a.setAddress(c.getString(c.getColumnIndex(KEY_ADDRESS)));
-                a.setCity(c.getString(c.getColumnIndex(KEY_CITY)));
-                a.setCountry(c.getString(c.getColumnIndex(KEY_COUNTRY)));
-                a.setStartLatitude(c.getString(c.getColumnIndex(KEY_START_LATITUDE)));
-                a.setStartLongitude(c.getString(c.getColumnIndex(KEY_START_LONGITUDE)));
-                a.setEndLatitude(c.getString(c.getColumnIndex(KEY_END_LATITUDE)));
-                a.setEndLongitude(c.getString(c.getColumnIndex(KEY_END_LONGITUDE)));
-                //a.setDate(c.getString(c.getColumnIndex(KEY_DELAY)));
-                //a.setActivated(c.getString(c.getColumnIndex(KEY_DELAY)));
-
+                Alarm a = fromCursorToAlarm(c);
                 alarms.add(a);
             } while (c.moveToNext());
         }
@@ -168,5 +137,32 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_ALARM, KEY_ALARM_ID + " = ?",
                 new String[] { String.valueOf(id) });
+    }
+
+    //trasforma un ogetto del db in un oggetto Alarm compatibile con il sistema
+    private Alarm fromCursorToAlarm(Cursor c) {
+        //creo i campi
+        int id = (c.getInt(c.getColumnIndex(KEY_ALARM_ID)));
+        long delay = (c.getLong(c.getColumnIndex(KEY_DELAY)));
+        String name = (c.getString(c.getColumnIndex(KEY_NAME)));
+        String address = (c.getString(c.getColumnIndex(KEY_ADDRESS)));
+        String city = (c.getString(c.getColumnIndex(KEY_CITY)));
+        String country =  (c.getString(c.getColumnIndex(KEY_COUNTRY)));
+        String startLatitude = (c.getString(c.getColumnIndex(KEY_START_LATITUDE)));
+        String startLongitude = (c.getString(c.getColumnIndex(KEY_START_LONGITUDE)));
+        String endLatitude =(c.getString(c.getColumnIndex(KEY_END_LATITUDE)));
+        String endLongitude =(c.getString(c.getColumnIndex(KEY_END_LONGITUDE)));
+        String location = (c.getString(c.getColumnIndex(KEY_LOCATION_NAME)));
+        Calendar date = new GregorianCalendar();
+        date.setTimeInMillis(c.getLong(c.getColumnIndex(KEY_DATE)));
+        int activation = (c.getInt(c.getColumnIndex(KEY_ACTIVATED)));
+        boolean activated;
+        if (activation ==0){
+            activated = false;        }
+        else{
+            activated = true;
+        }
+        //chiamo il costruttore
+        return new Alarm(id, delay, name, address, city, country, startLatitude, startLongitude, endLatitude, endLongitude, location, date, activated);
     }
 }

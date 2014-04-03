@@ -1,10 +1,10 @@
 package com.example.umorning.model;
 
-import java.util.Date;
+import java.util.Calendar;
 
 public class Alarm {
 
-    private long id;
+    private int id;
     private long delay; //tempo che l'utente ci mette a uscire di casa
     private String name;
     private String address;
@@ -15,21 +15,23 @@ public class Alarm {
     private String endLatitude;
     private String endLongitude;
     private String locationName;
-    private Date date;
+    private Calendar date;
     private boolean activated;
 
-    //TODO il costruttore dovrà prendere un evento e settare i campi
-    //TODO settare l'id in maniera intelligente (hash dei campi??)
-
-    public Alarm(Event e){
-        this.name=e.getName();
-
-    }
-    public Alarm(){
-        id=1;
-        delay=2;
-        name="ciao";
-
+    public Alarm (int id, long delay, String name, String address, String city, String country, String startLatitude, String startLongitude, String endLatitude, String endLongitude, String locationName, Calendar date, boolean activated){
+        this.id= id;
+        this.delay = delay;
+        this.name = name;
+        this.address = address;
+        this.city = city;
+        this.country = country;
+        this.startLatitude = startLatitude;
+        this.startLongitude = startLongitude;
+        this.endLatitude = endLatitude;
+        this.endLongitude = endLongitude;
+        this.locationName = locationName;
+        this.date = date;
+        this.activated = activated;
     }
 
     public long getId() {
@@ -80,59 +82,7 @@ public class Alarm {
         return activated;
     }
 
-    public Date getDate() {
+    public Calendar getDate() {
         return date;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public void setDelay(int delay) {
-        this.delay = delay;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
-    }
-
-    public void setCountry(String country) {
-        this.country = country;
-    }
-
-    public void setStartLatitude(String startLatitude) {
-        this.startLatitude = startLatitude;
-    }
-
-    public void setStartLongitude(String startLongitude) {
-        this.startLongitude = startLongitude;
-    }
-
-    public void setEndLatitude(String endLatitude) {
-        this.endLatitude = endLatitude;
-    }
-
-    public void setEndLongitude(String endLongitude) {
-        this.endLongitude = endLongitude;
-    }
-
-    public void setLocationName(String locationName) {
-        this.locationName = locationName;
-    }
-
-    public void setDate(Date date) {
-        this.date = date;
-    }
-
-    public void setActivated(boolean activated) {
-        this.activated = activated;
     }
 }

@@ -21,7 +21,9 @@ public class SettingsActivity extends Activity {
         number=(NumberPicker) findViewById(R.id.numberPicker);
         number.setMaxValue(480);
         number.setMinValue(1);
-        number.setValue(30);
+        SharedPreferences prefs = getSharedPreferences("uMorning", 0);
+        long saved = prefs.getLong("DELAY",30*1000*60);
+        number.setValue((int) saved/1000/60);
     }
 
     public void saveSettings(View view){

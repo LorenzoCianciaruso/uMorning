@@ -40,7 +40,7 @@ public class Event {
     }
 
     //controlla che l'evento non sia spam
-    public boolean checkFields() {
+    public boolean validEvent() {
         if (this.date == null) {
             return false;
         }
@@ -89,7 +89,7 @@ public class Event {
         return true;
     }
 
-    public boolean checkDate() {
+    public boolean futureEvent() {
         if (this.date != null && this.date.after(Calendar.getInstance())) {
             return true;
         }
