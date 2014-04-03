@@ -31,29 +31,7 @@ public class EventsFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        events=new ArrayList<Event>();
-        SharedPreferences prefs = getActivity().getSharedPreferences("uMorning", 0);
-        String token = prefs.getString("EventbriteToken", "NotEventbriteLogged");
-
-        //verifico connessione internet
-        if(HttpRequest.isOnline(getActivity())) {
-
-            //se è loggato in eventbrite
-            if (!token.equals("NotEventbriteLogged")) {
-                new AsyncTaskEventbrite().execute(token);
-            }
-
-            Facebook fb = new Facebook(getActivity());
-            //se è loggato in facebook
-            if (fb.getSession() != null && fb.getSession().isOpened() == true) {
-                new AsyncTaskFacebook().execute(fb);
-            }
-        }else{
-            Toast.makeText(getActivity().getApplicationContext(), "No Internet Connection", Toast.LENGTH_LONG).show();
-        }
-
         new AsyncTaskEvent().execute();
-
     }
 
     @Override
@@ -64,8 +42,6 @@ public class EventsFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         View rootView = inflater.inflate(R.layout.fragment_events, container, false);
-
-
         /*
         SharedPreferences prefs = getActivity().getSharedPreferences("uMorning", 0);
         String token = prefs.getString("EventbriteToken", "NotEventbriteLogged");
@@ -89,18 +65,35 @@ public class EventsFragment extends Fragment {
 
         @Override
         protected List<Event> doInBackground(Void... params) {
+            events=new ArrayList<Event>();
+            SharedPreferences prefs = getActivity().getSharedPreferences("uMorning", 0);
+            String token = prefs.getString("EventbriteToken", "NotEventbriteLogged");
+
+            //verifico connessione internet
+            if(HttpRequest.isOnline(getActivity())) {
+                //se è loggato in eventbrite
+                if (!token.equals("NotEventbriteLogged")) {
+                    //new AsyncTaskEventbrite().execute(token);
+                    Eventbrite eve = new Eventbrite(token);
+                    eve.getEventbriteOrders();
+                    events.addAll(eve.getEventList());
+                }
+                Facebook fb = new Facebook(getActivity());
+                //se è loggato in facebook
+                if (fb.getSession() != null && fb.getSession().isOpened() == true) {
+                    //new AsyncTaskFacebook().execute(fb);
+                    events.addAll(fb.getEventList());
+                }
+            }else{
+                Toast.makeText(getActivity().getApplicationContext(), "No Internet Connection", Toast.LENGTH_LONG).show();
+            }
             EventService eve = new EventService(getActivity());
-            List<Event> eventList = eve.getEvent();
-            return eventList;
+            events.addAll(eve.getEvent());
+            return events;
         }
 
         @Override
         protected void onPostExecute(List<Event> params) {
-            System.out.println("nella post");
-            for(Event x: params){
-                System.out.println("AAAAA");
-                System.out.println(x.getName());
-            }
             events=params;
 
             list_of_events = (ListView) getActivity().findViewById(R.id.listViewEvents);
@@ -115,7 +108,7 @@ public class EventsFragment extends Fragment {
             list_of_events.setAdapter(listAdapter);
         }
     }
-
+/*
     private class AsyncTaskFacebook extends AsyncTask<Facebook, Void, List<Event>> {
 
         @Override
@@ -144,5 +137,5 @@ public class EventsFragment extends Fragment {
         protected void onPostExecute(List<Event> params) {
             events.addAll(params);
         }
-    }
+    }*/
 }
