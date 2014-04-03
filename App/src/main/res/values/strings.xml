@@ -6,8 +6,9 @@
     <string name="action_settings">Settings</string>
     <string name="adv">Servizio in Background: MeteoService.onCreate()</string>
     <string name="title_activity_prova">Prova</string>
-    <string name="title_activity_account_manager">AccountManager</string>
-    <string name="title_activity_web_view">WebViewActivity</string>
+    <string name="title_activity_account_manager">Accounts</string>
+    <string name="title_activity_web_view">Web</string>
     <string name="app_id">832717773409055</string>
+    <string name="account_text">Log in your Facebook and Eventbrite accounts to syncronize in uMorning all the events you are partecipating</string>
 
 </resources>
