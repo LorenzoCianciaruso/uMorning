@@ -7,7 +7,6 @@ import android.app.Service;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.TimePicker;
 
@@ -59,7 +58,7 @@ public class AlarmAddNewActivity extends Activity {
         trafficMillis = new Long (trafficRequest.getTripDuration());
 
         //tempo per prepararsi dalle preferenze
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this.getApplicationContext());
+        SharedPreferences prefs = getSharedPreferences("uMorning", 0);
         prefs.getLong("DELAY", 4);
 
         //ottengo l'ora della sveglia sottraendo traffico e tempo per prepararsi
