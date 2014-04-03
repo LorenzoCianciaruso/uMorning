@@ -9,6 +9,7 @@
     <string name="title_activity_account_manager">Accounts</string>
     <string name="title_activity_web_view">Web</string>
     <string name="app_id">832717773409055</string>
-    <string name="account_text">Log in your Facebook and Eventbrite accounts to syncronize in uMorning all the events you are partecipating</string>
+    <string name="account_text">Syncronize all the events you are attending by logging in your Facebook and Eventbrite accounts!</string>
+    <string name="title_activity_event_details">Event\'s details</string>
 
 </resources>

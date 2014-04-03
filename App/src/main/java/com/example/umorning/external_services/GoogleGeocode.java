@@ -35,8 +35,6 @@ public class GoogleGeocode {
 
         String result = new HttpRequest().getRequest(url);
 
-        System.out.println("GGGGGG22222 "+result);
-
         try {
             JSONObject jObject = new JSONObject(result);
 
@@ -58,13 +56,9 @@ public class GoogleGeocode {
 
         String result = new HttpRequest().getRequest(url);
 
-        System.out.println("GGGGGG11111 "+result);
-
         try {
             JSONObject jObject = new JSONObject(result);
             JSONArray jArr = jObject.getJSONArray("results");
-
-
 
             JSONObject jRes = jArr.getJSONObject(0);
             formattedAddress = jRes.getString("formatted_address");

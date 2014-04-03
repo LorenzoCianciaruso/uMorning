@@ -22,14 +22,14 @@ public class WebViewActivity extends Activity {
         myWebView.getSettings().setJavaScriptEnabled(true);
         myWebView.getSettings().setLoadsImagesAutomatically(true);
 
-        myWebView.setWebViewClient(new WebViewClient(){
+             myWebView.setWebViewClient(new WebViewClient() {
 
             @Override
-            public void onLoadResource(WebView  view, String  url){
+            public void onLoadResource(WebView view, String url) {
 
-                String originalUrl=myWebView.getUrl();
+                String originalUrl = myWebView.getUrl();
 
-                if( originalUrl.contains("umorning") ){
+                if (originalUrl.contains("umorning")) {
 
                     String access_token;
 
@@ -43,10 +43,10 @@ public class WebViewActivity extends Activity {
                     editor.commit();
 
 
-                Intent intent = new Intent(WebViewActivity.this, AccountManagerActivity.class);
-                startActivity(intent);
-                finish();
-            }
+                    Intent intent = new Intent(WebViewActivity.this, AccountManagerActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
             }
 
         });
