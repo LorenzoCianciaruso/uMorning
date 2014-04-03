@@ -35,10 +35,12 @@ public class GoogleGeocode {
 
         String result = new HttpRequest().getRequest(url);
 
+        System.out.println("GGGGGG22222 "+result);
+
         try {
             JSONObject jObject = new JSONObject(result);
 
-            JSONObject jLocation = jObject.getJSONObject("geometry").getJSONObject("location");
+            JSONObject jLocation = jObject.getJSONArray("results").getJSONObject(0).getJSONObject("geometry").getJSONObject("location");
 
             latitude = jLocation.getString("lat");
             longitude = jLocation.getString("lng");
@@ -56,13 +58,16 @@ public class GoogleGeocode {
 
         String result = new HttpRequest().getRequest(url);
 
+        System.out.println("GGGGGG11111 "+result);
+
         try {
             JSONObject jObject = new JSONObject(result);
-            JSONArray jArr = jObject.getJSONArray("result");
+            JSONArray jArr = jObject.getJSONArray("results");
 
-            formattedAddress = jObject.getString("formatted_address");
+
 
             JSONObject jRes = jArr.getJSONObject(0);
+            formattedAddress = jRes.getString("formatted_address");
             JSONArray jComponents = jRes.getJSONArray("address_components");
 
             number = jComponents.getJSONObject(0).getString("long_name");

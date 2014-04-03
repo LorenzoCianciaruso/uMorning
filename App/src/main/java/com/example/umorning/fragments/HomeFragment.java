@@ -12,6 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.umorning.R;
+import com.example.umorning.external_services.GoogleGeocode;
 import com.example.umorning.external_services.GoogleTrafficRequest;
 import com.example.umorning.external_services.HttpRequest;
 import com.example.umorning.external_services.MetwitRequest;
@@ -97,6 +98,15 @@ public class HomeFragment extends Fragment {
 
         @Override
         protected MetwitRequest doInBackground(Double... params) {
+
+            //prova geocode, funziona
+/*
+            GoogleGeocode gg = new GoogleGeocode("45.5297831","9.0381249");
+            System.out.println("AAAAA "+gg.getFormattedAddress());
+
+            GoogleGeocode gg2 = new GoogleGeocode("Via matteotti 32, Rho, Milano");
+            System.out.println("AAAAAAA2222 "+ gg2.getLatitude() + " " + gg2.getLongitude());
+            */
 
             double latitude = params[0];
             double longitude = params[1];
