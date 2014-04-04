@@ -31,7 +31,7 @@ public class EventsFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        new AsyncTaskEvent().execute();
+        //new AsyncTaskEvent().execute();
     }
 
     @Override
@@ -42,6 +42,8 @@ public class EventsFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         View rootView = inflater.inflate(R.layout.fragment_events, container, false);
+
+        new AsyncTaskEvent().execute();
         /*
         SharedPreferences prefs = getActivity().getSharedPreferences("uMorning", 0);
         String token = prefs.getString("EventbriteToken", "NotEventbriteLogged");

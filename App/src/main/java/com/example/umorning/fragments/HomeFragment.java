@@ -27,24 +27,23 @@ public class HomeFragment extends Fragment {
     private TextView locality;
     private TextView temperature;
 
-    private double latitude = 0;
-    private double longitude = 0;
-
-    private GpsLocalizationService gps;
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         setHasOptionsMenu(true);
         super.onCreate(savedInstanceState);
-        View rootView = inflater.inflate(R.layout.fragment_home, container, false);
-        return rootView;
+        return inflater.inflate(R.layout.fragment_home, container, false);
     }
 
 
     @Override
     public void onStart() {
+
+        double latitude;
+        double longitude;
+
+        GpsLocalizationService gps;
         super.onStart();
 
         gps = new GpsLocalizationService(getActivity());
@@ -99,15 +98,6 @@ public class HomeFragment extends Fragment {
         @Override
         protected MetwitRequest doInBackground(Double... params) {
 
-            //prova geocode, funziona
-/*
-            GoogleGeocode gg = new GoogleGeocode("45.5297831","9.0381249");
-            System.out.println("AAAAA "+gg.getFormattedAddress());
-
-            GoogleGeocode gg2 = new GoogleGeocode("Via matteotti 32, Rho, Milano");
-            System.out.println("AAAAAAA2222 "+ gg2.getLatitude() + " " + gg2.getLongitude());
-            */
-
             double latitude = params[0];
             double longitude = params[1];
             MetwitRequest weatherInfo = null;
@@ -146,9 +136,8 @@ public class HomeFragment extends Fragment {
             double startLongitude = params[1];
             double endLatitude = params[2];
             double endLongitude = params[3];
-            GoogleTrafficRequest trafficInfo = null;
 
-            trafficInfo = new GoogleTrafficRequest(startLatitude, startLongitude, endLatitude, endLongitude);
+            GoogleTrafficRequest trafficInfo = new GoogleTrafficRequest(startLatitude, startLongitude, endLatitude, endLongitude);
 
             return trafficInfo;
         }
