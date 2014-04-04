@@ -1,5 +1,7 @@
 package com.example.umorning.model;
 
+import android.app.PendingIntent;
+
 import java.util.Calendar;
 
 public class Alarm {
@@ -17,8 +19,9 @@ public class Alarm {
     private String locationName;
     private Calendar date;
     private boolean activated;
+    private PendingIntent intent;
 
-    public Alarm (int id, long delay, String name, String address, String city, String country, String startLatitude, String startLongitude, String endLatitude, String endLongitude, String locationName, Calendar date, boolean activated){
+    public Alarm (int id, long delay, String name, String address, String city, String country, String startLatitude, String startLongitude, String endLatitude, String endLongitude, String locationName, Calendar date, boolean activated, PendingIntent intent){
         this.id= id;
         this.delay = delay;
         this.name = name;
@@ -32,6 +35,7 @@ public class Alarm {
         this.locationName = locationName;
         this.date = date;
         this.activated = activated;
+        this.intent = intent;
     }
 
     public long getId() {
@@ -84,5 +88,9 @@ public class Alarm {
 
     public Calendar getDate() {
         return date;
+    }
+
+    public PendingIntent getIntent() {
+        return intent;
     }
 }

@@ -1,12 +1,16 @@
 package com.example.umorning.model;
 
+import android.app.PendingIntent;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.os.Parcel;
 import android.util.Log;
 
+import java.sql.Blob;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -33,6 +37,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String KEY_LOCATION_NAME = "locationName";
     private static final String KEY_DATE = "date";
     private static final String KEY_ACTIVATED = "activated";
+    private static final String KEY_INTENT = "intent";
     private static final String CREATE_TABLE_ALARM="CREATE TABLE " + TABLE_ALARM
             + "("
             + KEY_ALARM_ID + " INTEGER PRIMARY KEY,"
@@ -48,6 +53,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             + KEY_LOCATION_NAME + " TEXT,"
             + KEY_DATE + " LONG,"
             + KEY_ACTIVATED + " INTEGER"
+            + KEY_INTENT + " BLOB"
             + ")";
 
     public DatabaseHelper(Context context) {
@@ -83,7 +89,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put(KEY_END_LONGITUDE, alarm.getEndLongitude());
         values.put(KEY_LOCATION_NAME, alarm.getLocationName());
         values.put(KEY_DATE, alarm.getDate().getTimeInMillis());
-        values.put(KEY_ACTIVATED, alarm.isActivated());
+        if (alarm.isActivated()) {
+            values.put(KEY_ACTIVATED, 1);
+        }
+        else{
+            values.put(KEY_ACTIVATED, 0);
+        }
+        Parcel parcel = Parcel.obtain();
+        alarm.getIntent().writeToParcel(parcel, 0);
+        values.put(KEY_INTENT, parcel.createByteArray());
 
         long alarm_id = db.insert(TABLE_ALARM, null, values);
         return alarm_id;
@@ -162,7 +176,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         else{
             activated = true;
         }
+        PendingIntent intent;
+
+        byte[] blob = c.getBlob(c.getColumnIndex(KEY_INTENT));
+        Parcel parcel = Parcel.obtain();
+        parcel.readByteArray(blob);
+        intent = parcel.readParcelable(Intent.class.getClassLoader());
+
+        Log.d("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", intent.toString());
+
+
         //chiamo il costruttore
-        return new Alarm(id, delay, name, address, city, country, startLatitude, startLongitude, endLatitude, endLongitude, location, date, activated);
+        return new Alarm(id, delay, name, address, city, country, startLatitude, startLongitude, endLatitude, endLongitude, location, date, activated, intent);
     }
 }
