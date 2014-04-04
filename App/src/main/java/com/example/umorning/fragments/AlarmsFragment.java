@@ -5,7 +5,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.example.umorning.R;
@@ -17,39 +17,39 @@ import java.util.List;
 
 public class AlarmsFragment extends Fragment {
 
-    private ListView list_of_alarms;
-    private ArrayAdapter<String> listAdapter;
+    ListView list;
+    AlarmsAdapter adapter;
+    private List<Alarm> alarms;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View rootView = inflater.inflate(R.layout.fragment_alarms, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_alarms, container,
+                false);
 
         super.onCreate(savedInstanceState);
 
-        // Database
-        DatabaseHelper db=new DatabaseHelper(getActivity().getApplicationContext());
-        list_of_alarms = (ListView) rootView.findViewById(R.id.listView);
+        DatabaseHelper db = new DatabaseHelper(getActivity()
+                .getApplicationContext());
+        alarms = new ArrayList<Alarm>();
+        alarms = db.getAllAlarms();
 
-        System.out.println("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
-        System.out.println("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
-        ArrayList<String> nameAlarms = new ArrayList<String>();
-        List<Alarm> alarms=new ArrayList<Alarm>();
-        alarms=db.getAllAlarms();
+        System.out.println("ZZZZZZZZZZZZZZ: " + alarms.get(1).getName());
 
-        for(Alarm x: alarms){
-            System.out.println(x.getName());
-            nameAlarms.add(x.getName());
-        }
+        list = (ListView) rootView.findViewById(R.id.listView);
+        adapter = new AlarmsAdapter(getActivity(), alarms);
+        list.setAdapter(adapter);
 
-        listAdapter = new ArrayAdapter<String>(getActivity(), R.layout.list_item_alarms, R.id.alarmTime,nameAlarms);
-        list_of_alarms.setAdapter(listAdapter);
+        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view,
+                                    int i, long l) {
 
-
+            }
+        });
 
         return rootView;
     }
-
 
 }

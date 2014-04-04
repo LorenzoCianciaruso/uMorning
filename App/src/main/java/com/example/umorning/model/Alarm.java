@@ -18,6 +18,10 @@ public class Alarm {
     private Calendar date;
     private boolean activated;
 
+    public Alarm(){
+
+    }
+
     public Alarm (int id, long delay, String name, String address, String city, String country, String startLatitude, String startLongitude, String endLatitude, String endLongitude, String locationName, Calendar date, boolean activated){
         this.id= id;
         this.delay = delay;

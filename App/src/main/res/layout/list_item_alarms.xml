@@ -2,68 +2,54 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
+    android:descendantFocusability="blocksDescendants"
     android:orientation="horizontal"
     android:padding="5dip" >
 
-
-    <LinearLayout android:id="@+id/thumbnail"
+    <RelativeLayout
+        android:id="@+id/left"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="3dip"
         android:layout_alignParentLeft="true"
-        android:layout_marginRight="5dip">
+        android:layout_marginRight="5dip"
+        android:padding="3dip" >
 
         <ImageView
-            android:id="@+id/list_image"
+            android:id="@+id/image_alarm"
             android:layout_width="50dip"
             android:layout_height="50dip"
-            android:src="@drawable/alarm_icon"/>
+            android:src="@drawable/alarm_icon" />
+    </RelativeLayout>
 
-    </LinearLayout>
-
-    <TextView
-        android:id="@+id/alarmTime"
+    <RelativeLayout
+        android:id="@+id/right"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="11:45"
-        android:typeface="sans"
-        android:textSize="35dip"
-        android:textStyle="bold"
-        android:textColor="#10bcc9"
-        android:layout_above="@+id/alarmTitle"
-        android:layout_toRightOf="@+id/thumbnail" />
+        android:layout_marginRight="5dip"
+        android:layout_toRightOf="@id/left"
+        android:padding="3dip" >
+        
+        <TextView
+            android:id="@+id/alarmTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="11:45"
+            android:typeface="sans"
+            android:textSize="35dip"
+            android:textStyle="bold"
+            android:textColor="#10bcc9" />
+        <TextView
+            android:id="@+id/alarmTitle"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:textSize="15dip"
+            android:text="nome evento o descrizione"
+            android:textColor="#10bcc9"
+            android:layout_below="@id/alarmTime"
+            android:layout_alignParentRight="true"
+            />
+    </RelativeLayout>
 
-    <TextView
-        android:id="@+id/alarmTitle"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:textSize="10dip"
-        android:text="nome evento"
-        android:textColor="#10bcc9"
-        android:layout_alignBottom="@+id/button"
-        android:layout_alignLeft="@+id/alarmTime"
-        android:layout_alignStart="@+id/alarmTime" />
 
-    <Switch
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/switch1"
-        android:checked="false"
-        android:focusable="false"
-        android:layout_alignRight="@+id/alarmTitle"
-        android:layout_alignEnd="@+id/alarmTitle"
-        android:layout_alignBottom="@+id/button"
-        android:layout_alignTop="@+id/button" />
-
-    <ImageButton
-        style="?android:attr/buttonStyleSmall"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/button"
-        android:layout_alignParentTop="true"
-        android:layout_toLeftOf="@+id/switch1"
-        android:focusable="false"
-        android:src="@drawable/ic_action_discard"
-        android:background="@null"/>
 
 </RelativeLayout>
