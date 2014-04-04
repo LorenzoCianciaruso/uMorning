@@ -10,7 +10,6 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Parcel;
 import android.util.Log;
 
-import java.sql.Blob;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -76,31 +75,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     // Aggiungi un allarme
     public long addAlarm(Alarm alarm) {
         SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues values = new ContentValues();
 
-        values.put(KEY_DELAY, alarm.getDelay());
-        values.put(KEY_NAME, alarm.getName());
-        values.put(KEY_ADDRESS, alarm.getAddress());
-        values.put(KEY_CITY, alarm.getCity());
-        values.put(KEY_COUNTRY, alarm.getCountry());
-        values.put(KEY_START_LATITUDE, alarm.getStartLatitude());
-        values.put(KEY_START_LONGITUDE, alarm.getStartLongitude());
-        values.put(KEY_END_LATITUDE, alarm.getEndLatitude());
-        values.put(KEY_END_LONGITUDE, alarm.getEndLongitude());
-        values.put(KEY_LOCATION_NAME, alarm.getLocationName());
-        values.put(KEY_DATE, alarm.getDate().getTimeInMillis());
-        if (alarm.isActivated()) {
-            values.put(KEY_ACTIVATED, 1);
-        }
-        else{
-            values.put(KEY_ACTIVATED, 0);
-        }
-        Parcel parcel = Parcel.obtain();
-        alarm.getIntent().writeToParcel(parcel, 0);
-        values.put(KEY_INTENT, parcel.createByteArray());
+        ContentValues values = getContentValues(alarm);
 
-        long alarm_id = db.insert(TABLE_ALARM, null, values);
-        return alarm_id;
+        return db.insert(TABLE_ALARM, null, values);
     }
 
     //prendi allarme per id
@@ -135,15 +113,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     //aggiornare un allarme
     public long updateAlarm(long id, Alarm alarm) {
+        SQLiteDatabase db = this.getWritableDatabase();
 
-        this.deleteAlarm(id);
-        return this.addAlarm(alarm);
-        /*
-        ContentValues values = new ContentValues();
-        values.put(KEY_NAME, alarm.getName());
+        ContentValues values = getContentValues(alarm);
 
         return db.update(TABLE_ALARM, values, KEY_ALARM_ID + " = ?",
-                new String[] { String.valueOf(alarm.getId()) });*/
+                new String[] { String.valueOf(alarm.getId()) });
     }
 
     //cancellare un allarme
@@ -188,5 +163,31 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         //chiamo il costruttore
         return new Alarm(id, delay, name, address, city, country, startLatitude, startLongitude, endLatitude, endLongitude, location, date, activated, intent);
+    }
+
+    private ContentValues getContentValues(Alarm alarm) {
+        ContentValues values = new ContentValues();
+
+        values.put(KEY_DELAY, alarm.getDelay());
+        values.put(KEY_NAME, alarm.getName());
+        values.put(KEY_ADDRESS, alarm.getAddress());
+        values.put(KEY_CITY, alarm.getCity());
+        values.put(KEY_COUNTRY, alarm.getCountry());
+        values.put(KEY_START_LATITUDE, alarm.getStartLatitude());
+        values.put(KEY_START_LONGITUDE, alarm.getStartLongitude());
+        values.put(KEY_END_LATITUDE, alarm.getEndLatitude());
+        values.put(KEY_END_LONGITUDE, alarm.getEndLongitude());
+        values.put(KEY_LOCATION_NAME, alarm.getLocationName());
+        values.put(KEY_DATE, alarm.getDate().getTimeInMillis());
+        if (alarm.isActivated()) {
+            values.put(KEY_ACTIVATED, 1);
+        }
+        else{
+            values.put(KEY_ACTIVATED, 0);
+        }
+        Parcel parcel = Parcel.obtain();
+        alarm.getIntent().writeToParcel(parcel, 0);
+        values.put(KEY_INTENT, parcel.createByteArray());
+        return values;
     }
 }
