@@ -22,7 +22,6 @@ public class AccountManagerActivity extends Activity {
     private static final String TAG = "AccountManagerActivity";
     private UiLifecycleHelper uiHelper;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,7 +34,6 @@ public class AccountManagerActivity extends Activity {
 
         facebookLoginButton.setReadPermissions(requestPermission);
     }
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -57,7 +55,6 @@ public class AccountManagerActivity extends Activity {
         intent.putExtras(b);
         startActivity(intent);
         finish();
-
     }
 
     private void onSessionStateChange(Session session, SessionState state, Exception exception) {
