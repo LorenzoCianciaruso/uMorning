@@ -1,22 +1,13 @@
 package com.example.umorning.activities;
 
 import android.app.Activity;
-import android.app.AlarmManager;
-import android.app.PendingIntent;
-import android.app.Service;
-import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TimePicker;
 
 import com.example.umorning.R;
-import com.example.umorning.external_services.GoogleTrafficRequest;
-import com.example.umorning.internal_services.AlarmService;
-import com.example.umorning.internal_services.GpsLocalizationService;
 
 import java.util.Calendar;
-import java.util.GregorianCalendar;
 
 public class AlarmAddNewActivity extends Activity {
     TimePicker timepicker;
@@ -41,7 +32,7 @@ public class AlarmAddNewActivity extends Activity {
         //TODO forse tutta sta roba va in save alarm qui sotto ne parliamo quando c'è la grafica
 
         //TODO usare l'altro costruttore se non abbiamo le coordinate
-
+/*
         //ottengo la posizione attuale
         GpsLocalizationService gps = new GpsLocalizationService(this);
         // controlla se il GPS è attivo
@@ -77,6 +68,8 @@ public class AlarmAddNewActivity extends Activity {
 
         //print di prova
         System.out.println ("allarme alle "+timeOfAlarm+" appuntamento alle "+timeOfArrival);
+
+*/
     }
 
     public void saveAlarm(View view) {

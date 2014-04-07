@@ -35,7 +35,7 @@ public class AlarmsFragment extends Fragment {
         alarms = new ArrayList<Alarm>();
         alarms = db.getAllAlarms();
 
-        System.out.println("ZZZZZZZZZZZZZZ: " + alarms.get(1).getName());
+        System.out.println("ZZZZZZZZZZZZZZ: ");
 
         list = (ListView) rootView.findViewById(R.id.listView);
         adapter = new AlarmsAdapter(getActivity(), alarms);
