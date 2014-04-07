@@ -39,7 +39,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String KEY_INTENT = "intent";
     private static final String CREATE_TABLE_ALARM="CREATE TABLE " + TABLE_ALARM
             + "("
-            + KEY_ALARM_ID + " INTEGER PRIMARY KEY,"
+            + KEY_ALARM_ID + " LONG PRIMARY KEY,"
             + KEY_DELAY + " LONG,"
             + KEY_NAME + " TEXT,"
             + KEY_ADDRESS + " TEXT,"
@@ -122,7 +122,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     //cancellare un allarme
-    public void deleteAlarm(Long id){
+    public void deleteAlarm(long id){
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_ALARM, KEY_ALARM_ID + " = ?",
                 new String[] { String.valueOf(id) });
@@ -131,7 +131,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     //trasforma un ogetto del db in un oggetto Alarm compatibile con il sistema
     private Alarm fromCursorToAlarm(Cursor c) {
         //creo i campi
-        int id = (c.getInt(c.getColumnIndex(KEY_ALARM_ID)));
+        long id = (c.getInt(c.getColumnIndex(KEY_ALARM_ID)));
         long delay = (c.getLong(c.getColumnIndex(KEY_DELAY)));
         String name = (c.getString(c.getColumnIndex(KEY_NAME)));
         String address = (c.getString(c.getColumnIndex(KEY_ADDRESS)));

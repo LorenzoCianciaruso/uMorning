@@ -24,8 +24,7 @@ public class AlarmRingActivity extends Activity {
         Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
         // ogni elemento alterna vibrazione, pausa, vibrazione, pausa...
         long[] pattern = {0,500,110,500,110,450,110,200,110,170,40,450,110,200,110,170,40,500};
-        // Il '-1' vibra una volta
-        // '0' vibra all'infinito
+        // '-1' vibra una volta '0' vibra all'infinito
         v.vibrate(pattern, 0);
         //servizio suoneria
         Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
@@ -35,9 +34,6 @@ public class AlarmRingActivity extends Activity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
         if (id == R.id.action_settings) {
             return true;

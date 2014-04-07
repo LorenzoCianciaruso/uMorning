@@ -1,12 +1,14 @@
 package com.example.umorning.model;
 
 import android.app.PendingIntent;
+import android.content.SharedPreferences;
 
 import java.util.Calendar;
+import java.util.GregorianCalendar;
 
 public class Alarm {
 
-    private int id;
+    private long id;
     private long delay; //tempo che l'utente ci mette a uscire di casa
     private String name;
     private String address;
@@ -22,10 +24,23 @@ public class Alarm {
     private PendingIntent intent;
 
     public Alarm(){
-
+        this.id = -1;
+        this.delay = 4;
+        this.name = "name";
+        this.address = "address";
+        this.city = "city";
+        this.country = "country";
+        this.startLatitude = "startLatitude";
+        this.startLongitude = "startLongitude";
+        this.endLatitude = "endLatitude";
+        this.endLongitude = "endLongitude";
+        this.locationName = "locationName";
+        this.date = new GregorianCalendar();
+        this.activated = true;
     }
 
-    public Alarm (int id, long delay, String name, String address, String city, String country, String startLatitude, String startLongitude, String endLatitude, String endLongitude, String locationName, Calendar date, boolean activated, PendingIntent intent){        this.id= id;
+    public Alarm (long id, long delay, String name, String address, String city, String country, String startLatitude, String startLongitude, String endLatitude, String endLongitude, String locationName, Calendar date, boolean activated, PendingIntent intent){        this.id= id;
+        this.id = id;
         this.delay = delay;
         this.name = name;
         this.address = address;

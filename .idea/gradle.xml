@@ -7,10 +7,10 @@
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
         <option name="modules">
           <set>
-            <option value="C:\Users\Lorenzo\AndroidStudioProjects\uMorning" />
-            <option value="C:\Users\Lorenzo\AndroidStudioProjects\uMorning\App" />
-            <option value="C:\Users\Lorenzo\AndroidStudioProjects\uMorning\libraries" />
-            <option value="C:\Users\Lorenzo\AndroidStudioProjects\uMorning\libraries\facebook" />
+            <option value="C:\Users\Francesco\AndStudio\uMorning" />
+            <option value="C:\Users\Francesco\AndStudio\uMorning\App" />
+            <option value="C:\Users\Francesco\AndStudio\uMorning\libraries" />
+            <option value="C:\Users\Francesco\AndStudio\uMorning\libraries\facebook" />
           </set>
         </option>
       </GradleProjectSettings>
