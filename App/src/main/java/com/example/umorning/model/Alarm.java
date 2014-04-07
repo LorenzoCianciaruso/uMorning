@@ -1,7 +1,10 @@
 package com.example.umorning.model;
 
 import android.app.PendingIntent;
+import android.content.Intent;
 import android.content.SharedPreferences;
+
+import com.example.umorning.internal_services.AlarmService;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -23,23 +26,7 @@ public class Alarm {
     private boolean activated;
     private PendingIntent intent;
 
-    public Alarm(){
-        this.id = -1;
-        this.delay = 4;
-        this.name = "name";
-        this.address = "address";
-        this.city = "city";
-        this.country = "country";
-        this.startLatitude = 4;
-        this.startLongitude = 4;
-        this.endLatitude = 0;
-        this.endLongitude = 0;
-        this.locationName = "locationName";
-        this.date = new GregorianCalendar();
-        this.activated = true;
-    }
-
-    public Alarm (long id, long delay, String name, String address, String city, String country, double startLatitude, double startLongitude, double endLatitude, double endLongitude, String locationName, Calendar date, boolean activated, PendingIntent intent){        this.id= id;
+    public Alarm(long id, long delay, String name, String address, String city, String country, double startLatitude, double startLongitude, double endLatitude, double endLongitude, String locationName, Calendar date, boolean activated, PendingIntent intent) {
         this.id = id;
         this.delay = delay;
         this.name = name;
@@ -53,7 +40,7 @@ public class Alarm {
         this.locationName = locationName;
         this.date = date;
         this.activated = activated;
-        this.intent=intent;
+        this.intent = intent;
     }
 
     public long getId() {
@@ -108,7 +95,7 @@ public class Alarm {
         return date;
     }
 
-    public PendingIntent getIntent(){
+    public PendingIntent getIntent() {
         return intent;
     }
 }

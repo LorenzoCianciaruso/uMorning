@@ -7,21 +7,26 @@ import org.json.JSONObject;
 
 public class GoogleGeocode {
 
-    private String latitude;
-    private String longitude;
+    private double latitude;
+    private double longitude;
     private String city;
     private String address;
     private String number;
     private String formattedAddress;
 
-    public GoogleGeocode(String latitude, String longitude){
+    //TODO se non serve da coordinate a indirizzo, toglierlo
+
+    public GoogleGeocode(double latitude, double longitude){
         this.latitude = latitude;
         this.longitude = longitude;
 
         fromCoordinatesToAddress();
     }
 
-    public GoogleGeocode(String address){
+    public GoogleGeocode(String address, String city, String country){
+
+        formattedAddress = address + ",+" + city + ",+" + country;
+
         formattedAddress = address.replace(" ", "+");
 
         fromAddressToCoordinates();
@@ -40,8 +45,8 @@ public class GoogleGeocode {
 
             JSONObject jLocation = jObject.getJSONArray("results").getJSONObject(0).getJSONObject("geometry").getJSONObject("location");
 
-            latitude = jLocation.getString("lat");
-            longitude = jLocation.getString("lng");
+            latitude = jLocation.getDouble("lat");
+            longitude = jLocation.getDouble("lng");
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -74,11 +79,11 @@ public class GoogleGeocode {
 
     }
 
-    public String getLatitude() {
+    public double getLatitude() {
         return latitude;
     }
 
-    public String getLongitude() {
+    public double getLongitude() {
         return longitude;
     }
 
@@ -94,8 +99,5 @@ public class GoogleGeocode {
         return number;
     }
 
-    public String getFormattedAddress() {
-        return formattedAddress;
-    }
 
 }

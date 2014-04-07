@@ -50,7 +50,7 @@ public class AlarmsAdapter extends BaseAdapter {
         TextView title = (TextView)row.findViewById(R.id.alarmTitle);
         TextView time = (TextView)row.findViewById(R.id.alarmTime);
 
-        Alarm a = new Alarm();
+        Alarm a;
         a=alarms.get(position);
 
         title.setText(a.getName());

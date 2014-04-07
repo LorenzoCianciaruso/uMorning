@@ -57,11 +57,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
+
     }
 
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
         sqLiteDatabase.execSQL(CREATE_TABLE_ALARM);
+        System.out.println("onCreate DB");
     }
 
     @Override
@@ -70,15 +72,21 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TABLE_ALARM);
         // crea nuove tabelle
         onCreate(sqLiteDatabase);
+        System.out.println("onUpgrade DB");
     }
 
     // Aggiungi un allarme
     public long addAlarm(Alarm alarm) {
+
+
         SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL("DROP TABLE " + TABLE_ALARM);
 
+        db.execSQL(CREATE_TABLE_ALARM);
         ContentValues values = getContentValues(alarm);
-
-        return db.insert(TABLE_ALARM, null, values);
+        long id = db.insert(TABLE_ALARM, null, values);
+        System.out.println("efgsiiiiiiiiiiiiiiiiiiiii "+id);
+        return id;
     }
 
     //prendi allarme per id

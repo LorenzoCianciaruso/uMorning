@@ -180,13 +180,10 @@ public class HomeFragment extends Fragment {
             weatherIcon.setImageResource(R.drawable.snowy);
         } else if (icon.equals("stormy")) {
             weatherIcon.setImageResource(R.drawable.stormy);
-        } else if (icon.equals("windy")) {
+        } else  {
             weatherIcon.setImageResource(R.drawable.windy);
         }
-        //TODO refresh display
     }
-
-
 }
 
 

@@ -17,7 +17,7 @@ import com.google.android.gms.maps.model.LatLng;
 public class EventDetailsActivity extends FragmentActivity {
 
     private GoogleMap mMap;
-    private TextView eventName;
+    private TextView name;
     private TextView dateTime;
     private TextView place;
     private TextView url;
@@ -28,7 +28,7 @@ public class EventDetailsActivity extends FragmentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event_details);
 
-        eventName = (TextView) findViewById(R.id.event_name);
+        name = (TextView) findViewById(R.id.event_name);
         dateTime = (TextView) findViewById(R.id.date_time);
         place = (TextView) findViewById(R.id.place);
         url = (TextView) findViewById(R.id.url);
