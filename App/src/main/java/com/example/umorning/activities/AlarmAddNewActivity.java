@@ -121,6 +121,7 @@ public class AlarmAddNewActivity extends Activity {
     }
 
     public void onSavePressed(View view){
+
         Alarm updated = new Alarm(id, delay, name, address, city, country, startLatitude, startLongitude, endLatitude, endLongitude, location, date, activated, intent);
         db.updateAlarm(id,updated);
     }
