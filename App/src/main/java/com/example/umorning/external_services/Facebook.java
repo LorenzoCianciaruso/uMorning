@@ -107,8 +107,8 @@ public class Facebook {
                             JSONObject jsonVenue = json.getJSONObject("venue");
                             String city = jsonVenue.getString("city");
                             String country = jsonVenue.getString("country");
-                            String latitude = jsonVenue.getString("latitude");
-                            String longitude = jsonVenue.getString("longitude");
+                            double latitude = jsonVenue.getDouble("latitude");
+                            double longitude = jsonVenue.getDouble("longitude");
 
                             String[] start = startTime.split("T");
                             String dateStart = start[0];

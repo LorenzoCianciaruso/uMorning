@@ -23,10 +23,10 @@ public class AlarmAddNewActivity extends Activity {
     private String address;
     private String city;
     private String country;
-    private String startLatitude;
-    private String startLongitude;
-    private String endLatitude;
-    private String endLongitude;
+    private double startLatitude;
+    private double startLongitude;
+    private double endLatitude;
+    private double endLongitude;
     private String location;
     private Calendar date;
     private boolean activated;
@@ -121,7 +121,6 @@ public class AlarmAddNewActivity extends Activity {
     }
 
     public void onSavePressed(View view){
-
         Alarm updated = new Alarm(id, delay, name, address, city, country, startLatitude, startLongitude, endLatitude, endLongitude, location, date, activated, intent);
         db.updateAlarm(id,updated);
     }

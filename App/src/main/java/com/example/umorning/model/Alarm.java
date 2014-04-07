@@ -14,10 +14,10 @@ public class Alarm {
     private String address;
     private String city;
     private String country;
-    private String startLatitude;
-    private String startLongitude;
-    private String endLatitude;
-    private String endLongitude;
+    private double startLatitude;
+    private double startLongitude;
+    private double endLatitude;
+    private double endLongitude;
     private String locationName;
     private Calendar date;
     private boolean activated;
@@ -30,16 +30,16 @@ public class Alarm {
         this.address = "address";
         this.city = "city";
         this.country = "country";
-        this.startLatitude = "startLatitude";
-        this.startLongitude = "startLongitude";
-        this.endLatitude = "endLatitude";
-        this.endLongitude = "endLongitude";
+        this.startLatitude = 4;
+        this.startLongitude = 4;
+        this.endLatitude = 0;
+        this.endLongitude = 0;
         this.locationName = "locationName";
         this.date = new GregorianCalendar();
         this.activated = true;
     }
 
-    public Alarm (long id, long delay, String name, String address, String city, String country, String startLatitude, String startLongitude, String endLatitude, String endLongitude, String locationName, Calendar date, boolean activated, PendingIntent intent){        this.id= id;
+    public Alarm (long id, long delay, String name, String address, String city, String country, double startLatitude, double startLongitude, double endLatitude, double endLongitude, String locationName, Calendar date, boolean activated, PendingIntent intent){        this.id= id;
         this.id = id;
         this.delay = delay;
         this.name = name;
@@ -80,19 +80,19 @@ public class Alarm {
         return country;
     }
 
-    public String getStartLatitude() {
+    public double getStartLatitude() {
         return startLatitude;
     }
 
-    public String getStartLongitude() {
+    public double getStartLongitude() {
         return startLongitude;
     }
 
-    public String getEndLatitude() {
+    public double getEndLatitude() {
         return endLatitude;
     }
 
-    public String getEndLongitude() {
+    public double getEndLongitude() {
         return endLongitude;
     }
 

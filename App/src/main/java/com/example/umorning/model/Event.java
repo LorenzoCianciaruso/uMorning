@@ -8,8 +8,8 @@ public class Event {
     private String address;
     private String city;
     private String country;
-    private String latitude;
-    private String longitude;
+    private double latitude;
+    private double longitude;
     private String locationName;
     private String eventURL;
     private String getRequestURL;
@@ -17,7 +17,7 @@ public class Event {
     private String status;
     private boolean activation;
 
-    public Event(String name, String organizerName, String address, String city, String country, String latitude, String longitude, String locationName, String eventURL, String getRequestURL, Calendar date, String status) {
+    public Event(String name, String organizerName, String address, String city, String country, double latitude, double longitude, String locationName, String eventURL, String getRequestURL, Calendar date, String status) {
         this.name = name;
         this.organizerName = organizerName;
         this.address = address;
@@ -128,11 +128,11 @@ public class Event {
         return country;
     }
 
-    public String getLatitude() {
+    public double getLatitude() {
         return latitude;
     }
 
-    public String getLongitude() {
+    public double getLongitude() {
         return longitude;
     }
 

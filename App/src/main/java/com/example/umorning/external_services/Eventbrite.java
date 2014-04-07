@@ -8,7 +8,6 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 
@@ -77,8 +76,8 @@ public class Eventbrite {
             String country = jsonAddress.getString("country_name");
             String city = jsonAddress.getString("city");
             String address = jsonAddress.getString("address_1");
-            String latitude = jsonVenue.getString("latitude");
-            String longitude = jsonVenue.getString("longitude");
+            double latitude = jsonVenue.getDouble("latitude");
+            double longitude = jsonVenue.getDouble("longitude");
             String locationName = jsonVenue.getString("name");
             String url = jObject.getString("url");
             String startTime = jsonStart.getString("local");

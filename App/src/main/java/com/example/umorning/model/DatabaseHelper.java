@@ -45,10 +45,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             + KEY_ADDRESS + " TEXT,"
             + KEY_CITY + " TEXT,"
             + KEY_COUNTRY + " TEXT,"
-            + KEY_START_LATITUDE + " TEXT,"
-            + KEY_START_LONGITUDE + " TEXT,"
-            + KEY_END_LATITUDE + " TEXT,"
-            + KEY_END_LONGITUDE + " TEXT,"
+            + KEY_START_LATITUDE + " DOUBLE,"
+            + KEY_START_LONGITUDE + " DOUBLE,"
+            + KEY_END_LATITUDE + " DOUBLE,"
+            + KEY_END_LONGITUDE + " DOUBLE,"
             + KEY_LOCATION_NAME + " TEXT,"
             + KEY_DATE + " LONG,"
             + KEY_ACTIVATED + " INTEGER"
@@ -137,10 +137,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         String address = (c.getString(c.getColumnIndex(KEY_ADDRESS)));
         String city = (c.getString(c.getColumnIndex(KEY_CITY)));
         String country =  (c.getString(c.getColumnIndex(KEY_COUNTRY)));
-        String startLatitude = (c.getString(c.getColumnIndex(KEY_START_LATITUDE)));
-        String startLongitude = (c.getString(c.getColumnIndex(KEY_START_LONGITUDE)));
-        String endLatitude =(c.getString(c.getColumnIndex(KEY_END_LATITUDE)));
-        String endLongitude =(c.getString(c.getColumnIndex(KEY_END_LONGITUDE)));
+        double startLatitude = (c.getDouble(c.getColumnIndex(KEY_START_LATITUDE)));
+        double startLongitude = (c.getDouble(c.getColumnIndex(KEY_START_LONGITUDE)));
+        double endLatitude =(c.getDouble(c.getColumnIndex(KEY_END_LATITUDE)));
+        double endLongitude =(c.getDouble(c.getColumnIndex(KEY_END_LONGITUDE)));
         String location = (c.getString(c.getColumnIndex(KEY_LOCATION_NAME)));
         Calendar date = new GregorianCalendar();
         date.setTimeInMillis(c.getLong(c.getColumnIndex(KEY_DATE)));
