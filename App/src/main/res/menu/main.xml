@@ -19,4 +19,10 @@
         app:showAsAction="always"
         android:onClick="startAccountManager"/>
 
+    <item android:id="@+id/action_prova"
+        android:title="Prova"
+        android:orderInCategory="100"
+        app:showAsAction="always"
+        android:onClick="prova"/>
+
 </menu>

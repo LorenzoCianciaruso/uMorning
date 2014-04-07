@@ -69,6 +69,9 @@
             android:name="com.example.umorning.activities.EventDetailsActivity"
             android:label="@string/title_activity_event_details" >
         </activity>
+
+        <meta-data android:name="com.google.android.maps.v2.API_KEY"
+            android:value="AIzaSyDj6lm3eLSuOhG4rLXL66WUBg7C7XEDYcA"/>
     </application>
 
     <uses-permission android:name="android.permission.VIBRATE" />
@@ -79,5 +82,7 @@
     <uses-permission android:name="android.permission.USE_CREDENTIALS" />
     <uses-permission android:name="android.permission.READ_CALENDAR" />
     <uses-permission android:name="android.permission.WRITE_CALENDAR" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES"/>
 
 </manifest>
