@@ -49,15 +49,17 @@ public class AlarmsFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view,
                                     int i, long l) {
-
                 Intent myIntent = new Intent(getActivity(), AlarmAddNewActivity.class);
-                //alarms.get(i);
                 myIntent.putExtra("alarmId", alarms.get(i).getId());
-                //startActivity(myIntent);
                 startActivityForResult(myIntent,0);
-
             }
         });
+
+        //TODO è di demo togliere alla fine
+        for (Alarm a : alarms){
+            System.out.println("nome sveglia "+a.getName());
+            System.out.println("id sveglia "+a.getId());
+        }
 
     }
 
