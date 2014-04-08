@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import com.example.umorning.R;
 import com.example.umorning.external_services.GoogleGeocode;
@@ -91,17 +92,14 @@ public class AlarmAddNewActivity extends Activity {
             this.date = a.getDate();
             this.activated = a.isActivated();
         }
-
     }
 
     public void onSavePressed(View view) {
-
         //ottengo la posizione attuale
         GpsLocalizationService gps = new GpsLocalizationService(this);
         // controlla se il GPS è attivo
         if (gps.canGetLocation()) {
             //TODO gestire le coordinate 0 0 per adesso si può catchare l'eccezione
-
             gps.getLocation();
             startLatitude = gps.getLatitude();
             startLongitude = gps.getLongitude();
@@ -112,11 +110,9 @@ public class AlarmAddNewActivity extends Activity {
 
         new Thread(new Runnable() {
             public void run() {
-                saveAlarm();
+                ex();
             }
         }).start();
-
-
     }
 
     @Override
@@ -125,23 +121,19 @@ public class AlarmAddNewActivity extends Activity {
         overridePendingTransition(R.anim.fadein, R.anim.fadeout);
     }
 
-    private void saveAlarm() {
-
-
+    private void ex() {
         name = nameT.getText().toString();
         address = addressT.getText().toString();
         city = cityT.getText().toString();
         country = countryT.getText().toString();
 
-
         GoogleGeocode gg = new GoogleGeocode(address, city, country);
         endLatitude = gg.getLatitude();
         endLongitude = gg.getLongitude();
 
-
         //richiesta traffico
         GoogleTrafficRequest trafficRequest = new GoogleTrafficRequest(startLatitude, startLongitude, endLatitude, endLongitude);
-        long trafficMillis = new Long(trafficRequest.getTripDuration());
+        long trafficMillis = new Long(trafficRequest.getTripDurationInMillis());
 
         //ottengo l'ora della sveglia sottraendo traffico e tempo per prepararsi
         Calendar timeOfAlarm = new GregorianCalendar();
@@ -156,16 +148,16 @@ public class AlarmAddNewActivity extends Activity {
         alarmManager.set(AlarmManager.RTC_WAKEUP, timeOfAlarm.getTimeInMillis(), pendingIntent);
 
         //print di prova
-        System.out.println("allarme alle " + timeOfAlarm + " appuntamento alle " + date);
-
+        Toast.makeText(getApplicationContext(), "allarme alle " + timeOfAlarm + " appuntamento alle " + date, Toast.LENGTH_LONG).show();
+        System.out.println();
 
         Alarm updated = new Alarm(id, delay, name, address, city, country, startLatitude, startLongitude, endLatitude, endLongitude, location, date, activated);
         if (id == 0) {
-            db.addAlarm(updated);
+            id = db.addAlarm(updated);
         } else {
-            db.updateAlarm(id, updated);
+            id = db.updateAlarm(id, updated);
         }
-
-
+        System.out.println("SSSSSSS sveglia salvata con id" + id);
+        finish();
     }
 }

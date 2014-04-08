@@ -68,7 +68,7 @@ public class UpdateAlarmService extends Service {
                     //aggiornamento
                     //richiesta traffico
                     GoogleTrafficRequest trafficRequest = new GoogleTrafficRequest(startLatitude,startLongitude,endLatitude,endLongitude);
-                    long trafficMillis = new Long (trafficRequest.getTripDuration());
+                    long trafficMillis = new Long (trafficRequest.getTripDurationInMillis());
 
                     //ottengo l'ora della sveglia sottraendo traffico e tempo per prepararsi
                     Calendar timeOfAlarm = new GregorianCalendar();

@@ -63,8 +63,8 @@ public class GoogleTrafficRequest {
     //TODO tripdistance
 
 
-    public int getTripDuration() {
-        return tripDuration;
+    public int getTripDurationInMillis() {
+        return tripDuration*1000;
     }
 
     public int getTripDistance() {
