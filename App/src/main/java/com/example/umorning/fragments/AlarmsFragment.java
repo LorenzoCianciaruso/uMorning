@@ -34,7 +34,8 @@ public class AlarmsFragment extends Fragment {
     }
 
     @Override
-    public void onResume (){
+    public void onResume(){
+        super.onResume();
         DatabaseHelper db = new DatabaseHelper(getActivity()
                 .getApplicationContext());
         alarms = new ArrayList<Alarm>();
