@@ -1,5 +1,6 @@
 package com.example.umorning.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -9,6 +10,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.example.umorning.R;
+import com.example.umorning.activities.AlarmAddNewActivity;
 import com.example.umorning.model.Alarm;
 import com.example.umorning.model.DatabaseHelper;
 
@@ -45,6 +47,12 @@ public class AlarmsFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view,
                                     int i, long l) {
+
+                Intent myIntent = new Intent(getActivity(), AlarmAddNewActivity.class);
+                //alarms.get(i);
+                myIntent.putExtra("alarmId", alarms.get(i).getId());
+                //startActivity(myIntent);
+                startActivityForResult(myIntent,0);
 
             }
         });
