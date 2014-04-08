@@ -110,7 +110,7 @@ public class AlarmAddNewActivity extends Activity {
 
         new Thread(new Runnable() {
             public void run() {
-                ex();
+                saveAlarm();
             }
         }).start();
     }
@@ -121,7 +121,7 @@ public class AlarmAddNewActivity extends Activity {
         overridePendingTransition(R.anim.fadein, R.anim.fadeout);
     }
 
-    private void ex() {
+    private void saveAlarm() {
         name = nameT.getText().toString();
         address = addressT.getText().toString();
         city = cityT.getText().toString();
