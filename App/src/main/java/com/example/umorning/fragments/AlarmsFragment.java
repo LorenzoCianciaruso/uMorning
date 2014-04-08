@@ -29,17 +29,19 @@ public class AlarmsFragment extends Fragment {
 
         View rootView = inflater.inflate(R.layout.fragment_alarms, container,
                 false);
-
         super.onCreate(savedInstanceState);
+        return rootView;
+    }
 
+    @Override
+    public void onResume(){
+        super.onResume();
         DatabaseHelper db = new DatabaseHelper(getActivity()
                 .getApplicationContext());
         alarms = new ArrayList<Alarm>();
         alarms = db.getAllAlarms();
 
-        System.out.println("ZZZZZZZZZZZZZZ: ");
-
-        list = (ListView) rootView.findViewById(R.id.listView);
+        list = (ListView) getView().findViewById(R.id.listView);
         adapter = new AlarmsAdapter(getActivity(), alarms);
         list.setAdapter(adapter);
 
@@ -57,7 +59,6 @@ public class AlarmsFragment extends Fragment {
             }
         });
 
-        return rootView;
     }
 
 }
