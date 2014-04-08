@@ -56,6 +56,7 @@ public class Eventbrite {
 
         resource_uri = resource_uri + "?token=" + token;
         String response = new HttpRequest().getRequest(resource_uri);
+
         try {
             JSONObject jObject = new JSONObject(response);
 
@@ -98,6 +99,8 @@ public class Eventbrite {
 
 
             Calendar date = new GregorianCalendar(year,month,day,hour,minute);
+
+
 
             Event event = new Event(name, organizer, address, city, country, latitude, longitude, locationName, url, resource_uri, date, status);
 

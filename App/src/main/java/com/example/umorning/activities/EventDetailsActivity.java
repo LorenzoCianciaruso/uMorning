@@ -15,6 +15,7 @@ import com.example.umorning.model.Event;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.GoogleMapOptions;
 import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
@@ -55,28 +56,27 @@ public class EventDetailsActivity extends FragmentActivity {
         urlView.setText(url);
 
 
-        String text = "<a href=" +url+ " \">Link to the event</a>";
+        String text = "<a href=" + url + " \">Link to the event</a>";
         urlView.setMovementMethod(LinkMovementMethod.getInstance());
-        urlView.setText(Html.fromHtml(text));
 
+        urlView.setText(Html.fromHtml(text));
         organizerView.setText(organizer);
 
         GoogleMapOptions options = new GoogleMapOptions();
-        System.out.println(" ZZZZZZ  "+ latitude+ " " + longitude);
-        Marker marker = mMap.addMarker(new MarkerOptions().position(new LatLng(latitude, longitude)));
-        marker.setVisible(true);
         CameraPosition cp = new CameraPosition(new LatLng(latitude, longitude), 15, 0, 0);
-
-        //TODO prendere coordinate evento e settarle nella mappa
         options.zoomControlsEnabled(false).camera(cp);
+        mMap.addMarker(new MarkerOptions()
+                .position(new LatLng(latitude, longitude))
+                .visible(true)
+                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
 
         MapFragment mMapFragment = MapFragment.newInstance(options);
+
         FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
         fragmentTransaction.add(R.id.map, mMapFragment);
         fragmentTransaction.commit();
 
         setUpMapIfNeeded();
-
     }
 
     @Override
@@ -119,7 +119,7 @@ public class EventDetailsActivity extends FragmentActivity {
 
     }
 
-    public void addAlarm(View view){
+    public void addAlarm(View view) {
 
     }
 }

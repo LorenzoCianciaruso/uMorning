@@ -120,7 +120,7 @@ public class EventsFragment extends Fragment {
 
                     Event event = events.get(i);
 
-                    SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+                    SimpleDateFormat df = new SimpleDateFormat("E d MMMM yyyy HH:mm");
                     String formattedDate = df.format(event.getDate().getTime());
 
                     Intent intent = new Intent(getActivity(), EventDetailsActivity.class);
