@@ -1,13 +1,8 @@
 package com.example.umorning.model;
 
-import android.app.PendingIntent;
 import android.content.Intent;
-import android.content.SharedPreferences;
-
-import com.example.umorning.internal_services.AlarmService;
 
 import java.util.Calendar;
-import java.util.GregorianCalendar;
 
 public class Alarm {
 
@@ -24,9 +19,9 @@ public class Alarm {
     private String locationName;
     private Calendar date;
     private boolean activated;
-    private PendingIntent intent;
+    private Intent intent;
 
-    public Alarm(long id, long delay, String name, String address, String city, String country, double startLatitude, double startLongitude, double endLatitude, double endLongitude, String locationName, Calendar date, boolean activated, PendingIntent intent) {
+    public Alarm(long id, long delay, String name, String address, String city, String country, double startLatitude, double startLongitude, double endLatitude, double endLongitude, String locationName, Calendar date, boolean activated, Intent intent) {
         this.id = id;
         this.delay = delay;
         this.name = name;
@@ -95,7 +90,7 @@ public class Alarm {
         return date;
     }
 
-    public PendingIntent getIntent() {
+    public Intent getIntent() {
         return intent;
     }
 }

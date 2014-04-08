@@ -1,15 +1,14 @@
 package com.example.umorning.model;
 
-import android.app.PendingIntent;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.os.Parcel;
 import android.util.Log;
 
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -51,8 +50,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             + KEY_END_LONGITUDE + " DOUBLE,"
             + KEY_LOCATION_NAME + " TEXT,"
             + KEY_DATE + " LONG,"
-            + KEY_ACTIVATED + " INTEGER"
-            + KEY_INTENT + " BLOB"
+            + KEY_ACTIVATED + " INTEGER,"
+            + KEY_INTENT + " TEXT"
             + ")";
 
     public DatabaseHelper(Context context) {
@@ -77,12 +76,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     // Aggiungi un allarme
     public long addAlarm(Alarm alarm) {
-
-
         SQLiteDatabase db = this.getWritableDatabase();
-        db.execSQL("DROP TABLE " + TABLE_ALARM);
-
-        db.execSQL(CREATE_TABLE_ALARM);
         ContentValues values = getContentValues(alarm);
         long id = db.insert(TABLE_ALARM, null, values);
         System.out.println("efgsiiiiiiiiiiiiiiiiiiiii "+id);
@@ -137,7 +131,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     //trasforma un ogetto del db in un oggetto Alarm compatibile con il sistema
-    private Alarm fromCursorToAlarm(Cursor c) {
+    private Alarm fromCursorToAlarm(Cursor c) throws URISyntaxException {
         //creo i campi
         long id = (c.getInt(c.getColumnIndex(KEY_ALARM_ID)));
         long delay = (c.getLong(c.getColumnIndex(KEY_DELAY)));
@@ -159,12 +153,18 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         else{
             activated = true;
         }
-        PendingIntent intent;
+        Intent intent;
 
+/*
         byte[] blob = c.getBlob(c.getColumnIndex(KEY_INTENT));
         Parcel parcel = Parcel.obtain();
         parcel.readByteArray(blob);
         intent = parcel.readParcelable(Intent.class.getClassLoader());
+
+        intent = (PendingIntent) new Object();*/
+
+        String intentDescription =(c.getString(c.getColumnIndex(KEY_INTENT)));
+        intent =  Intent.parseUri(intentDescription, 0);
 
         Log.d("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", intent.toString());
 
@@ -173,7 +173,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return new Alarm(id, delay, name, address, city, country, startLatitude, startLongitude, endLatitude, endLongitude, location, date, activated, intent);
     }
 
-    private ContentValues getContentValues(Alarm alarm) {
+    private ContentValues getContentValues(Alarm alarm) throws URISyntaxException {
         ContentValues values = new ContentValues();
 
         values.put(KEY_DELAY, alarm.getDelay());
@@ -193,9 +193,22 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         else{
             values.put(KEY_ACTIVATED, 0);
         }
-        Parcel parcel = Parcel.obtain();
+        /*Parcel parcel = Parcel.obtain();
         alarm.getIntent().writeToParcel(parcel, 0);
         values.put(KEY_INTENT, parcel.createByteArray());
+       */
+
+        values.put(KEY_INTENT, alarm.getIntent().toUri(0));
+
+        try {
+            //>values.put(KEY_INTENT, alarm.getIntent().toUri(0));
+        }catch(URISyntaxException e){
+
+        }
+
+
+
+
         return values;
     }
 }
