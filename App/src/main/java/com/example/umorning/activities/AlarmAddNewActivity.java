@@ -163,13 +163,12 @@ public class AlarmAddNewActivity extends Activity {
 
         Alarm updated = new Alarm(id, delay, name, address, city, country, startLatitude, startLongitude, endLatitude, endLongitude, location, date, activated);
         if (id==0){
-            db.addAlarm(updated);
+            id=db.addAlarm(updated);
         }
         else{
-        db.updateAlarm(id,updated);
+        id =db.updateAlarm(id,updated);
         }
-
-        System.out.println("SSSSSSS sveglia salvata");
-
+        System.out.println("SSSSSSS sveglia salvata con id"+id);
+        finish();
     }
 }
