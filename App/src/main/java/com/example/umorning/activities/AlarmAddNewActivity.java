@@ -6,7 +6,6 @@ import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
@@ -27,6 +26,7 @@ public class AlarmAddNewActivity extends Activity {
     TimePicker timepicker;
     DatabaseHelper db;
 
+    //campi dell'interfaccia
     private TextView nameT;
     private TextView addressT;
     private TextView cityT;
@@ -51,11 +51,14 @@ public class AlarmAddNewActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_new_alarm);
         timepicker = (TimePicker) findViewById(R.id.timePicker1);
         timepicker.setIs24HourView(true);
         db = new DatabaseHelper(this);
+
+        id = getIntent().getLongExtra("alarmId",0);
 
         nameT = (TextView) findViewById(R.id.event_name);
         addressT = (TextView) findViewById(R.id.address);
@@ -88,9 +91,7 @@ public class AlarmAddNewActivity extends Activity {
             this.location = a.getLocationName();
             this.date = a.getDate();
             this.activated = a.isActivated();
-            this.intent=a.getIntent();
         }
-
 
     }
 
@@ -160,7 +161,7 @@ public class AlarmAddNewActivity extends Activity {
         System.out.println ("allarme alle "+timeOfAlarm+" appuntamento alle "+date);
 
 
-        Alarm updated = new Alarm(id, delay, name, address, city, country, startLatitude, startLongitude, endLatitude, endLongitude, location, date, activated, intent);
+        Alarm updated = new Alarm(id, delay, name, address, city, country, startLatitude, startLongitude, endLatitude, endLongitude, location, date, activated);
         if (id==0){
             db.addAlarm(updated);
         }
