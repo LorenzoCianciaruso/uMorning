@@ -19,9 +19,8 @@ public class Alarm {
     private String locationName;
     private Calendar date;
     private boolean activated;
-    private Intent intent;
 
-    public Alarm(long id, long delay, String name, String address, String city, String country, double startLatitude, double startLongitude, double endLatitude, double endLongitude, String locationName, Calendar date, boolean activated, Intent intent) {
+    public Alarm(long id, long delay, String name, String address, String city, String country, double startLatitude, double startLongitude, double endLatitude, double endLongitude, String locationName, Calendar date, boolean activated) {
         this.id = id;
         this.delay = delay;
         this.name = name;
@@ -35,7 +34,6 @@ public class Alarm {
         this.locationName = locationName;
         this.date = date;
         this.activated = activated;
-        this.intent = intent;
     }
 
     public long getId() {
@@ -90,7 +88,4 @@ public class Alarm {
         return date;
     }
 
-    public Intent getIntent() {
-        return intent;
-    }
 }

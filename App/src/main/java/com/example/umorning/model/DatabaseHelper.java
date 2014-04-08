@@ -2,13 +2,11 @@ package com.example.umorning.model;
 
 import android.content.ContentValues;
 import android.content.Context;
-import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
-import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -35,8 +33,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String KEY_LOCATION_NAME = "locationName";
     private static final String KEY_DATE = "date";
     private static final String KEY_ACTIVATED = "activated";
-    private static final String KEY_INTENT = "intent";
-    private static final String CREATE_TABLE_ALARM="CREATE TABLE " + TABLE_ALARM
+    private static final String CREATE_TABLE_ALARM = "CREATE TABLE " + TABLE_ALARM
             + "("
             + KEY_ALARM_ID + " LONG PRIMARY KEY,"
             + KEY_DELAY + " LONG,"
@@ -50,8 +47,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             + KEY_END_LONGITUDE + " DOUBLE,"
             + KEY_LOCATION_NAME + " TEXT,"
             + KEY_DATE + " LONG,"
-            + KEY_ACTIVATED + " INTEGER,"
-            + KEY_INTENT + " TEXT"
+            + KEY_ACTIVATED + " INTEGER"
             + ")";
 
     public DatabaseHelper(Context context) {
@@ -79,12 +75,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = getContentValues(alarm);
         long id = db.insert(TABLE_ALARM, null, values);
-        System.out.println("efgsiiiiiiiiiiiiiiiiiiiii "+id);
         return id;
     }
 
     //prendi allarme per id
-    public Alarm getAlarm(long alarm_id){
+    public Alarm getAlarm(long alarm_id) {
         SQLiteDatabase db = this.getReadableDatabase();
         String selectQuery = "SELECT  * FROM " + TABLE_ALARM + " WHERE "
                 + KEY_ALARM_ID + " = " + alarm_id;
@@ -95,8 +90,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     //prendi tutti gli allarmi come lista
-    public List<Alarm> getAllAlarms(){
-        List<Alarm> alarms=new ArrayList<Alarm>();
+    public List<Alarm> getAllAlarms() {
+        List<Alarm> alarms = new ArrayList<Alarm>();
         String selectQuery = "SELECT  * FROM " + TABLE_ALARM;
         Log.e(LOG, selectQuery);
 
@@ -120,60 +115,44 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         ContentValues values = getContentValues(alarm);
 
         return db.update(TABLE_ALARM, values, KEY_ALARM_ID + " = ?",
-                new String[] { String.valueOf(alarm.getId()) });
+                new String[]{String.valueOf(alarm.getId())});
     }
 
     //cancellare un allarme
-    public void deleteAlarm(long id){
+    public void deleteAlarm(long id) {
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_ALARM, KEY_ALARM_ID + " = ?",
-                new String[] { String.valueOf(id) });
+                new String[]{String.valueOf(id)});
     }
 
     //trasforma un ogetto del db in un oggetto Alarm compatibile con il sistema
-    private Alarm fromCursorToAlarm(Cursor c) throws URISyntaxException {
+    private Alarm fromCursorToAlarm(Cursor c) {
         //creo i campi
         long id = (c.getInt(c.getColumnIndex(KEY_ALARM_ID)));
         long delay = (c.getLong(c.getColumnIndex(KEY_DELAY)));
         String name = (c.getString(c.getColumnIndex(KEY_NAME)));
         String address = (c.getString(c.getColumnIndex(KEY_ADDRESS)));
         String city = (c.getString(c.getColumnIndex(KEY_CITY)));
-        String country =  (c.getString(c.getColumnIndex(KEY_COUNTRY)));
+        String country = (c.getString(c.getColumnIndex(KEY_COUNTRY)));
         double startLatitude = (c.getDouble(c.getColumnIndex(KEY_START_LATITUDE)));
         double startLongitude = (c.getDouble(c.getColumnIndex(KEY_START_LONGITUDE)));
-        double endLatitude =(c.getDouble(c.getColumnIndex(KEY_END_LATITUDE)));
-        double endLongitude =(c.getDouble(c.getColumnIndex(KEY_END_LONGITUDE)));
+        double endLatitude = (c.getDouble(c.getColumnIndex(KEY_END_LATITUDE)));
+        double endLongitude = (c.getDouble(c.getColumnIndex(KEY_END_LONGITUDE)));
         String location = (c.getString(c.getColumnIndex(KEY_LOCATION_NAME)));
         Calendar date = new GregorianCalendar();
         date.setTimeInMillis(c.getLong(c.getColumnIndex(KEY_DATE)));
         int activation = (c.getInt(c.getColumnIndex(KEY_ACTIVATED)));
         boolean activated;
-        if (activation ==0){
-            activated = false;        }
-        else{
+        if (activation == 0) {
+            activated = false;
+        } else {
             activated = true;
         }
-        Intent intent;
-
-/*
-        byte[] blob = c.getBlob(c.getColumnIndex(KEY_INTENT));
-        Parcel parcel = Parcel.obtain();
-        parcel.readByteArray(blob);
-        intent = parcel.readParcelable(Intent.class.getClassLoader());
-
-        intent = (PendingIntent) new Object();*/
-
-        String intentDescription =(c.getString(c.getColumnIndex(KEY_INTENT)));
-        intent =  Intent.parseUri(intentDescription, 0);
-
-        Log.d("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", intent.toString());
-
-
         //chiamo il costruttore
-        return new Alarm(id, delay, name, address, city, country, startLatitude, startLongitude, endLatitude, endLongitude, location, date, activated, intent);
+        return new Alarm(id, delay, name, address, city, country, startLatitude, startLongitude, endLatitude, endLongitude, location, date, activated);
     }
 
-    private ContentValues getContentValues(Alarm alarm) throws URISyntaxException {
+    private ContentValues getContentValues(Alarm alarm) {
         ContentValues values = new ContentValues();
 
         values.put(KEY_DELAY, alarm.getDelay());
@@ -189,26 +168,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put(KEY_DATE, alarm.getDate().getTimeInMillis());
         if (alarm.isActivated()) {
             values.put(KEY_ACTIVATED, 1);
-        }
-        else{
+        } else {
             values.put(KEY_ACTIVATED, 0);
         }
-        /*Parcel parcel = Parcel.obtain();
-        alarm.getIntent().writeToParcel(parcel, 0);
-        values.put(KEY_INTENT, parcel.createByteArray());
-       */
-
-        values.put(KEY_INTENT, alarm.getIntent().toUri(0));
-
-        try {
-            //>values.put(KEY_INTENT, alarm.getIntent().toUri(0));
-        }catch(URISyntaxException e){
-
-        }
-
-
-
-
         return values;
     }
 }
