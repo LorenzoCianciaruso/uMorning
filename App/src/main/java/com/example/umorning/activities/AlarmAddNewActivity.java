@@ -148,8 +148,8 @@ public class AlarmAddNewActivity extends Activity {
         alarmManager.set(AlarmManager.RTC_WAKEUP, timeOfAlarm.getTimeInMillis(), pendingIntent);
 
         //print di prova
-        Toast.makeText(getApplicationContext(), "allarme alle " + timeOfAlarm + " appuntamento alle " + date, Toast.LENGTH_LONG).show();
-        System.out.println();
+        //Toast.makeText(getApplicationContext(), "allarme alle " + timeOfAlarm + " appuntamento alle " + date, Toast.LENGTH_LONG).show();
+        System.out.println("CCCC "+timeOfAlarm +" "+date);
 
         Alarm updated = new Alarm(id, delay, name, address, city, country, startLatitude, startLongitude, endLatitude, endLongitude, location, date, activated);
         if (id == 0) {
