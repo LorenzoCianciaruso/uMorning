@@ -16,6 +16,7 @@ import com.google.android.gms.maps.GoogleMapOptions;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 public class EventDetailsActivity extends FragmentActivity {
@@ -60,7 +61,9 @@ public class EventDetailsActivity extends FragmentActivity {
         organizerView.setText(organizer);
 
         GoogleMapOptions options = new GoogleMapOptions();
-        mMap.addMarker(new MarkerOptions().position(new LatLng(latitude, longitude)).title(place));
+        System.out.println(" ZZZZZZ  "+ latitude+ " " + longitude);
+        Marker marker = mMap.addMarker(new MarkerOptions().position(new LatLng(latitude, longitude)));
+        marker.setVisible(true);
         CameraPosition cp = new CameraPosition(new LatLng(latitude, longitude), 15, 0, 0);
 
         //TODO prendere coordinate evento e settarle nella mappa
