@@ -1,5 +1,6 @@
 package com.example.umorning.fragments;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -7,17 +8,20 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
 import com.example.umorning.R;
+import com.example.umorning.activities.EventDetailsActivity;
 import com.example.umorning.external_services.Eventbrite;
 import com.example.umorning.external_services.Facebook;
 import com.example.umorning.external_services.HttpRequest;
 import com.example.umorning.internal_services.EventService;
 import com.example.umorning.model.Event;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -108,8 +112,33 @@ public class EventsFragment extends Fragment {
             }
             listAdapter = new ArrayAdapter<String>(getActivity(), R.layout.list_item_events, R.id.eventName,nameEvents);
             list_of_events.setAdapter(listAdapter);
+
+            list_of_events.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> adapterView, View view,
+                                        int i, long l) {
+
+                    Event event = events.get(i);
+
+                    SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+                    String formattedDate = df.format(event.getDate().getTime());
+
+                    Intent intent = new Intent(getActivity(), EventDetailsActivity.class);
+                    intent.putExtra("name", event.getName());
+                    intent.putExtra("place",event.getAddress());
+                    intent.putExtra("date", formattedDate);
+                    intent.putExtra("url",event.getEventURL());
+                    intent.putExtra("latitude",event.getLatitude());
+                    intent.putExtra("longitude",event.getLongitude());
+                    intent.putExtra("organizer",event.getOrganizer());
+                    startActivity(intent);
+
+                }
+            });
         }
     }
+
+
 /*
     private class AsyncTaskFacebook extends AsyncTask<Facebook, Void, List<Event>> {
 

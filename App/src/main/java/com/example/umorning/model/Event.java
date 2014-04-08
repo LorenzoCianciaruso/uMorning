@@ -4,7 +4,7 @@ import java.util.Calendar;
 
 public class Event {
     private String name;
-    private String organizerName;
+    private String organizer;
     private String address;
     private String city;
     private String country;
@@ -17,9 +17,9 @@ public class Event {
     private String status;
     private boolean activation;
 
-    public Event(String name, String organizerName, String address, String city, String country, double latitude, double longitude, String locationName, String eventURL, String getRequestURL, Calendar date, String status) {
+    public Event(String name, String organizer, String address, String city, String country, double latitude, double longitude, String locationName, String eventURL, String getRequestURL, Calendar date, String status) {
         this.name = name;
-        this.organizerName = organizerName;
+        this.organizer = organizer;
         this.address = address;
         this.city = city;
         this.country = country;
@@ -32,9 +32,9 @@ public class Event {
         this.status = status;
     }
 
-    public Event(String name, String organizerName, String locationName, Calendar date) {
+    public Event(String name, String organizer, String locationName, Calendar date) {
         this.name = name;
-        this.organizerName = organizerName;
+        this.organizer = organizer;
         this.locationName = locationName;
         this.date = date;
     }
@@ -112,8 +112,8 @@ public class Event {
         return name;
     }
 
-    public String getOrganizerName() {
-        return organizerName;
+    public String getOrganizer() {
+        return organizer;
     }
 
     public String getAddress() {

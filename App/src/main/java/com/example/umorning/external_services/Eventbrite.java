@@ -15,7 +15,6 @@ public class Eventbrite {
 
     String token;
 
-
     public Eventbrite(String token) {
         this.token = token;
     }

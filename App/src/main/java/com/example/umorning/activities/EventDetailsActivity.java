@@ -3,47 +3,71 @@ package com.example.umorning.activities;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.text.Html;
+import android.text.method.LinkMovementMethod;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
 import com.example.umorning.R;
+import com.example.umorning.model.Event;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.GoogleMapOptions;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 public class EventDetailsActivity extends FragmentActivity {
 
     private GoogleMap mMap;
-    private TextView name;
-    private TextView dateTime;
-    private TextView place;
-    private TextView url;
-
+    private TextView nameView;
+    private TextView dateTimeView;
+    private TextView placeView;
+    private TextView urlView;
+    private TextView organizerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event_details);
 
-        name = (TextView) findViewById(R.id.event_name);
-        dateTime = (TextView) findViewById(R.id.date_time);
-        place = (TextView) findViewById(R.id.place);
-        url = (TextView) findViewById(R.id.url);
+        String name = getIntent().getStringExtra("name");
+        double latitude = getIntent().getDoubleExtra("latitude", 45.0);
+        double longitude = getIntent().getDoubleExtra("longitude", 45.0);
+        String place = getIntent().getStringExtra("place");
+        String url = getIntent().getStringExtra("url");
+        String time = getIntent().getStringExtra("date");
+        String organizer = getIntent().getStringExtra("organizer");
+
+        nameView = (TextView) findViewById(R.id.event_name);
+        dateTimeView = (TextView) findViewById(R.id.date_time);
+        placeView = (TextView) findViewById(R.id.place);
+        urlView = (TextView) findViewById(R.id.url);
+        organizerView = (TextView) findViewById(R.id.organizer);
         mMap = ((MapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
 
+        nameView.setText(name);
+        dateTimeView.setText(time);
+        placeView.setText(place);
+        urlView.setText(url);
+
+
+        String text = "<a href=" +url+ " \">Link to the event</a>";
+        urlView.setMovementMethod(LinkMovementMethod.getInstance());
+        urlView.setText(Html.fromHtml(text));
+
+        organizerView.setText(organizer);
+
         GoogleMapOptions options = new GoogleMapOptions();
-        CameraPosition cp = new CameraPosition(new LatLng(45.0363, 9.35643),15,0,0);
+        mMap.addMarker(new MarkerOptions().position(new LatLng(latitude, longitude)).title(place));
+        CameraPosition cp = new CameraPosition(new LatLng(latitude, longitude), 15, 0, 0);
 
-
-        //TODO prendere coordinate eventoe settarle nella mappa
+        //TODO prendere coordinate evento e settarle nella mappa
         options.zoomControlsEnabled(false).camera(cp);
 
         MapFragment mMapFragment = MapFragment.newInstance(options);
-        FragmentTransaction fragmentTransaction =
-                getFragmentManager().beginTransaction();
+        FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
         fragmentTransaction.add(R.id.map, mMapFragment);
         fragmentTransaction.commit();
 
@@ -52,11 +76,10 @@ public class EventDetailsActivity extends FragmentActivity {
     }
 
     @Override
-    protected void onResume(){
+    protected void onResume() {
         super.onResume();
         setUpMapIfNeeded();
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

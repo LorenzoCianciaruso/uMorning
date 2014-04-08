@@ -79,7 +79,7 @@ public class EventService {
         }
         for (int i=0;i<events.size();i++){
             Event e = events.get(i);
-            System.out.println ("Nome "+e.getName()+" loc "+e.getLocationName()+" org "+e.getOrganizerName()+" date "+e.getDate());
+            System.out.println ("Nome "+e.getName()+" loc "+e.getLocationName()+" org "+e.getOrganizer()+" date "+e.getDate());
         }
         return events;
     }

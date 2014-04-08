@@ -62,8 +62,8 @@ public class UpdateAlarmService extends Service {
                     this.location = a.getLocationName();
                     this.date = a.getDate();
                     this.activated = a.isActivated();
-                    this.intent = a.getIntent();
-                    intent.cancel();
+
+
 
                     //aggiornamento
                     //richiesta traffico
@@ -83,7 +83,7 @@ public class UpdateAlarmService extends Service {
                     alarmManager.set(AlarmManager.RTC_WAKEUP, timeOfAlarm.getTimeInMillis(), intent);
 
                     //aggiorna l'allarme e lo salva nel DB
-                    Alarm updated = new Alarm(id, delay, name, address, city, country, startLatitude, startLongitude, endLatitude, endLongitude, location, date, activated, intent);
+                    Alarm updated = new Alarm(id, delay, name, address, city, country, startLatitude, startLongitude, endLatitude, endLongitude, location, date, activated);
                     db.updateAlarm(id,updated);
                 }
             }
