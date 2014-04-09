@@ -22,6 +22,7 @@ import com.facebook.Request;
 import com.facebook.RequestAsyncTask;
 import com.facebook.Response;
 import com.facebook.Session;
+import com.facebook.model.GraphUser;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.GoogleMapOptions;
 import com.google.android.gms.maps.MapFragment;
@@ -48,6 +49,10 @@ public class EventDetailsActivity extends FragmentActivity {
     private TextView organizerView;
     private Button shareButton;
     private Button addAlarmButton;
+    private String url;
+    private String name;
+    private String time;
+    private String place;
 
     private static final List<String> PERMISSIONS = Arrays.asList("publish_actions");
     private static final String PENDING_PUBLISH_KEY = "pendingPublishReauthorization";
@@ -58,12 +63,12 @@ public class EventDetailsActivity extends FragmentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event_details);
 
-        String name = getIntent().getStringExtra("name");
+        name = getIntent().getStringExtra("name");
         double latitude = getIntent().getDoubleExtra("latitude", 45.0);
         double longitude = getIntent().getDoubleExtra("longitude", 45.0);
-        String place = getIntent().getStringExtra("place");
-        String url = getIntent().getStringExtra("url");
-        String time = getIntent().getStringExtra("date");
+        place = getIntent().getStringExtra("place");
+        url = getIntent().getStringExtra("url");
+        time = getIntent().getStringExtra("date");
         String organizer = getIntent().getStringExtra("organizer");
 
         nameView = (TextView) findViewById(R.id.event_name);
@@ -169,14 +174,15 @@ public class EventDetailsActivity extends FragmentActivity {
             }
 
             Bundle postParams = new Bundle();
-            postParams.putString("name", "Facebook SDK for Android");
-            postParams.putString("caption", "Build great social apps and get more installs.");
-            postParams.putString("description", "The Facebook SDK for Android makes it easier and faster to develop Facebook integrated Android apps.");
-            postParams.putString("link", "https://developers.facebook.com/android");
-            postParams.putString("picture", "https://raw.github.com/fbsamples/ios-3.x-howtos/master/Images/iossdk_logo.png");
+            postParams.putString("name", "uMorning");
+            postParams.putString("caption", "Don't arrive late to your appointments, be smart!");
+            postParams.putString("description", "Activated an alarm for "+name+" at "+ place +" on "+time+" using uMorning." );
+            postParams.putString("link", url);
+            postParams.putString("picture", "https://cdn1.iconfinder.com/data/icons/devine_icons/512/PNG/System%20and%20Internet/Times%20and%20Dates.png");
 
             Request.Callback callback= new Request.Callback() {
                 public void onCompleted(Response response) {
+                    /*
                     JSONObject graphResponse = response
                             .getGraphObject()
                             .getInnerJSONObject();
@@ -185,12 +191,12 @@ public class EventDetailsActivity extends FragmentActivity {
                         postId = graphResponse.getString("id");
                     } catch (JSONException e) {
                        e.printStackTrace();
-                    }
+                    }*/
                     FacebookRequestError error = response.getError();
                     if (error != null) {
-                        System.out.println("EEEEE errore post");
+                        Toast.makeText(getApplicationContext(), "Error during posting", Toast.LENGTH_LONG).show();
                     } else {
-                       System.out.println("EEEE ok "+postId.toString());
+                        Toast.makeText(getApplicationContext(), "Post completed", Toast.LENGTH_LONG).show();
                     }
 
                 }
@@ -217,6 +223,7 @@ public class EventDetailsActivity extends FragmentActivity {
     public void addAlarm(View view) {
 
     }
+
 
     public void share(View view){
         publishStory();
