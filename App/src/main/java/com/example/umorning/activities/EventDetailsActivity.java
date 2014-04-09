@@ -48,15 +48,11 @@ public class EventDetailsActivity extends FragmentActivity {
     private TextView urlView;
     private TextView organizerView;
     private Button shareButton;
-    private Button addAlarmButton;
     private String url;
     private String name;
     private String time;
     private String place;
-
-    private static final List<String> PERMISSIONS = Arrays.asList("publish_actions");
-    private static final String PENDING_PUBLISH_KEY = "pendingPublishReauthorization";
-    private boolean pendingPublishReauthorization = false;
+    private Facebook fb;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,7 +61,7 @@ public class EventDetailsActivity extends FragmentActivity {
 
         name = getIntent().getStringExtra("name");
         double latitude = getIntent().getDoubleExtra("latitude", 45.0);
-        double longitude = getIntent().getDoubleExtra("longitude", 45.0);
+        double longitude = getIntent().getDoubleExtra("longitude", 9.0);
         place = getIntent().getStringExtra("place");
         url = getIntent().getStringExtra("url");
         time = getIntent().getStringExtra("date");
@@ -79,12 +75,10 @@ public class EventDetailsActivity extends FragmentActivity {
         shareButton = (Button) findViewById(R.id.shareButton);
         mMap = ((MapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
 
-
         nameView.setText(name);
         dateTimeView.setText(time);
         placeView.setText(place);
         urlView.setText(url);
-
 
         String text = "<a href=" + url + " \">Link to the event</a>";
         urlView.setMovementMethod(LinkMovementMethod.getInstance());
@@ -113,14 +107,13 @@ public class EventDetailsActivity extends FragmentActivity {
     protected void onResume() {
         super.onResume();
 
-        Facebook fb = new Facebook(this);
+        fb = new Facebook(this);
         //se è loggato in facebook
         if (fb.getSession() != null && fb.getSession().isOpened() == true) {
             shareButton.setVisibility(View.VISIBLE);
-        }else{
+        } else {
             shareButton.setVisibility(View.INVISIBLE);
         }
-
         setUpMapIfNeeded();
     }
 
@@ -152,80 +145,15 @@ public class EventDetailsActivity extends FragmentActivity {
             // Check if we were successful in obtaining the map.
             if (mMap != null) {
                 // The Map is verified. It is now safe to manipulate the map.
-
             }
         }
-
-    }
-
-    private void publishStory() {
-        Session session = Session.getActiveSession();
-
-        if (session != null){
-
-            // Check for publish permissions
-            List<String> permissions = session.getPermissions();
-            if (!isSubsetOf(PERMISSIONS, permissions)) {
-                pendingPublishReauthorization = true;
-                Session.NewPermissionsRequest newPermissionsRequest = new Session
-                        .NewPermissionsRequest(this, PERMISSIONS);
-                session.requestNewPublishPermissions(newPermissionsRequest);
-                return;
-            }
-
-            Bundle postParams = new Bundle();
-            postParams.putString("name", "uMorning");
-            postParams.putString("caption", "Don't arrive late to your appointments, be smart!");
-            postParams.putString("description", "Activated an alarm for "+name+" at "+ place +" on "+time+" using uMorning." );
-            postParams.putString("link", url);
-            postParams.putString("picture", "https://cdn1.iconfinder.com/data/icons/devine_icons/512/PNG/System%20and%20Internet/Times%20and%20Dates.png");
-
-            Request.Callback callback= new Request.Callback() {
-                public void onCompleted(Response response) {
-                    /*
-                    JSONObject graphResponse = response
-                            .getGraphObject()
-                            .getInnerJSONObject();
-                    String postId = null;
-                    try {
-                        postId = graphResponse.getString("id");
-                    } catch (JSONException e) {
-                       e.printStackTrace();
-                    }*/
-                    FacebookRequestError error = response.getError();
-                    if (error != null) {
-                        Toast.makeText(getApplicationContext(), "Error during posting", Toast.LENGTH_LONG).show();
-                    } else {
-                        Toast.makeText(getApplicationContext(), "Post completed", Toast.LENGTH_LONG).show();
-                    }
-
-                }
-            };
-
-            Request request = new Request(session, "me/feed", postParams,
-                    HttpMethod.POST, callback);
-
-            RequestAsyncTask task = new RequestAsyncTask(request);
-            task.execute();
-        }
-
-    }
-
-    private boolean isSubsetOf(Collection<String> subset, Collection<String> superset) {
-        for (String string : subset) {
-            if (!superset.contains(string)) {
-                return false;
-            }
-        }
-        return true;
     }
 
     public void addAlarm(View view) {
 
     }
 
-
-    public void share(View view){
-        publishStory();
+    public void share(View view) {
+        fb.publishStory(this, name, place, url, time);
     }
 }

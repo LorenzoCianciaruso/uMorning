@@ -2,12 +2,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingLeft="0dp"
-    android:paddingRight="0dp"
-    android:paddingTop="0dp"
-    android:paddingBottom="0dp"
+    android:paddingRight="1dp"
+    android:paddingTop="1dp"
+    android:paddingBottom="1dp"
     tools:context="com.example.umorning.activities.EventDetailsActivity"
-    android:focusableInTouchMode="true">
+    android:focusableInTouchMode="true"
+    android:padding="1dp"
+    android:paddingLeft="1dp">
 
 
     <LinearLayout

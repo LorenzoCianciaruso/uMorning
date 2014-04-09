@@ -1,10 +1,15 @@
 package com.example.umorning.external_services;
 
+import android.app.Activity;
 import android.content.Context;
+import android.os.Bundle;
+import android.widget.Toast;
 
 import com.example.umorning.model.Event;
+import com.facebook.FacebookRequestError;
 import com.facebook.HttpMethod;
 import com.facebook.Request;
+import com.facebook.RequestAsyncTask;
 import com.facebook.Response;
 import com.facebook.Session;
 import com.facebook.model.GraphObject;
@@ -14,7 +19,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
@@ -29,6 +36,9 @@ public class Facebook {
 
     private Session session;
     private Context cxt;
+    private static final List<String> PERMISSIONS = Arrays.asList("publish_actions");
+    private static final String PENDING_PUBLISH_KEY = "pendingPublishReauthorization";
+    private boolean pendingPublishReauthorization = false;
 
     public Facebook(Context cxt) {
         this.cxt = cxt;
@@ -46,8 +56,6 @@ public class Facebook {
     }
 
     public List<Event> getEventList() {
-
-
 
         new Request(
                 session,
@@ -105,10 +113,21 @@ public class Facebook {
                             String organizer = json.getJSONObject("owner").getString("name");
                             String startTime = json.getString("start_time");
                             JSONObject jsonVenue = json.getJSONObject("venue");
-                            String city = jsonVenue.getString("city");
-                            String country = jsonVenue.getString("country");
-                            double latitude = jsonVenue.getDouble("latitude");
-                            double longitude = jsonVenue.getDouble("longitude");
+                            String city = null;
+                            String country = null;
+                            double latitude;
+                            double longitude;
+
+                            try {
+                                city = jsonVenue.getString("city");
+                                country = jsonVenue.getString("country");
+                                latitude = jsonVenue.getDouble("latitude");
+                                longitude = jsonVenue.getDouble("longitude");
+                            } catch (JSONException e) {
+                                GoogleGeocode gg = new GoogleGeocode(address);
+                                latitude = gg.getLatitude();
+                                longitude = gg.getLongitude();
+                            }
 
                             String[] start = startTime.split("T");
                             String dateStart = start[0];
@@ -125,11 +144,15 @@ public class Facebook {
                             int minute = Integer.parseInt(hourStart.split(":")[1]);
 
                             Calendar date = new GregorianCalendar(year, month, day, hour, minute);
+                            long currentTime = System.currentTimeMillis();
 
+                            System.out.println("if " + date.getTimeInMillis() + " > " + currentTime + " then");
 
-                            Event event = new Event(name, organizer, address, city, country, latitude, longitude, null, null, null, date, null);
-
-                            eventsList.add(event);
+                            if (date.getTimeInMillis() > currentTime) {
+                                System.out.println("FFFFF aggiunto alla lista " + name);
+                                Event event = new Event(name, organizer, address, city, country, latitude, longitude, null, null, null, date, null);
+                                eventsList.add(event);
+                            }
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -138,5 +161,55 @@ public class Facebook {
         ).executeAndWait();
     }
 
+    public void publishStory(Activity activity, String name, String place, String url, String time) {
+        Session session = Session.getActiveSession();
+
+        if (session != null) {
+
+            List<String> permissions = session.getPermissions();
+            if (!isSubsetOf(PERMISSIONS, permissions)) {
+                pendingPublishReauthorization = true;
+                Session.NewPermissionsRequest newPermissionsRequest = new Session
+                        .NewPermissionsRequest(activity, PERMISSIONS);
+                session.requestNewPublishPermissions(newPermissionsRequest);
+                return;
+            }
+
+            Bundle postParams = new Bundle();
+            postParams.putString("name", "uMorning");
+            postParams.putString("caption", "Don't arrive late to your appointments, be smart!");
+            postParams.putString("description", "Activated an alarm for " + name + " at " + place + " on " + time + " using uMorning.");
+            postParams.putString("link", url);
+            postParams.putString("picture", "https://cdn1.iconfinder.com/data/icons/devine_icons/512/PNG/System%20and%20Internet/Times%20and%20Dates.png");
+
+            Request.Callback callback = new Request.Callback() {
+                public void onCompleted(Response response) {
+
+                    FacebookRequestError error = response.getError();
+                    if (error != null) {
+                        Toast.makeText(cxt.getApplicationContext(), "Error during posting", Toast.LENGTH_LONG).show();
+                    } else {
+                        Toast.makeText(cxt.getApplicationContext(), "Post completed", Toast.LENGTH_LONG).show();
+                    }
+                }
+            };
+
+            Request request = new Request(session, "me/feed", postParams,
+                    HttpMethod.POST, callback);
+
+            RequestAsyncTask task = new RequestAsyncTask(request);
+            task.execute();
+        }
+
+    }
+
+    private boolean isSubsetOf(Collection<String> subset, Collection<String> superset) {
+        for (String string : subset) {
+            if (!superset.contains(string)) {
+                return false;
+            }
+        }
+        return true;
+    }
 
 }
