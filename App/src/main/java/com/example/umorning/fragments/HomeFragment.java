@@ -67,7 +67,7 @@ public class HomeFragment extends Fragment {
 
             if (HttpRequest.isOnline(getActivity())) {
                 new AsyncTaskMeteoRequest().execute(latitude, longitude);
-                new AsyncTaskTrafficRequest().execute(latitude, longitude, 45.0, 9.0);
+                //new AsyncTaskTrafficRequest().execute(latitude, longitude, 45.0, 9.0);
             } else {
                 Toast.makeText(getActivity().getApplicationContext(), "No Internet Connection", Toast.LENGTH_LONG).show();
             }

@@ -125,6 +125,8 @@ public class Facebook {
                             int minute = Integer.parseInt(hourStart.split(":")[1]);
 
                             Calendar date = new GregorianCalendar(year, month, day, hour, minute);
+
+
                             Event event = new Event(name, organizer, address, city, country, latitude, longitude, null, null, null, date, null);
 
                             eventsList.add(event);
