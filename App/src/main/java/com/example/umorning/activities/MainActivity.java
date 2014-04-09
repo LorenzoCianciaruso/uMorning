@@ -92,7 +92,7 @@ public class MainActivity extends FragmentActivity implements
         Intent myIntent = new Intent(MainActivity.this, AlarmAddNewActivity.class);
         startActivity(myIntent);
         overridePendingTransition(R.anim.fadein, R.anim.fadeout);
-        System.out.println("cccccccccc");
+
     }
     public void startAccountManager(MenuItem item){
         Intent intent = new Intent(this, AccountManagerActivity.class);

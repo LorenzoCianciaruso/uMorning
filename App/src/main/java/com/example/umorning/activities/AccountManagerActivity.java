@@ -30,9 +30,11 @@ public class AccountManagerActivity extends Activity {
         uiHelper = new UiLifecycleHelper(this, callback);
         uiHelper.onCreate(savedInstanceState);
         List<String> requestPermission = Arrays.asList("user_events");
+        List<String> writePermission = Arrays.asList("publish_actions");
         LoginButton facebookLoginButton = (LoginButton) findViewById(R.id.authButton);
 
-        facebookLoginButton.setReadPermissions(requestPermission);
+        //facebookLoginButton.setReadPermissions(requestPermission);
+        facebookLoginButton.setPublishPermissions(writePermission);
     }
 
     @Override
