@@ -40,6 +40,7 @@ public class AlarmsFragment extends Fragment {
                 .getApplicationContext());
         alarms = new ArrayList<Alarm>();
         alarms = db.getAllAlarms();
+        db.deleteAlarm(4);
 
         list = (ListView) getView().findViewById(R.id.listView);
         adapter = new AlarmsAdapter(getActivity(), alarms);

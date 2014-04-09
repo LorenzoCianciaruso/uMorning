@@ -35,7 +35,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String KEY_ACTIVATED = "activated";
     private static final String CREATE_TABLE_ALARM = "CREATE TABLE " + TABLE_ALARM
             + "("
-            + KEY_ALARM_ID + " LONG PRIMARY KEY,"
+            + KEY_ALARM_ID + " INTEGER PRIMARY KEY,"
             + KEY_DELAY + " LONG,"
             + KEY_NAME + " TEXT,"
             + KEY_ADDRESS + " TEXT,"
@@ -79,7 +79,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     //prendi allarme per id
-    public Alarm getAlarm(long alarm_id) {
+    public Alarm getAlarm(int alarm_id) {
         SQLiteDatabase db = this.getReadableDatabase();
         String selectQuery = "SELECT  * FROM " + TABLE_ALARM + " WHERE "
                 + KEY_ALARM_ID + " = " + alarm_id;
@@ -109,7 +109,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     //aggiornare un allarme
-    public long updateAlarm(long id, Alarm alarm) {
+    public long updateAlarm(int id, Alarm alarm) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = getContentValues(alarm);
@@ -128,7 +128,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     //trasforma un ogetto del db in un oggetto Alarm compatibile con il sistema
     private Alarm fromCursorToAlarm(Cursor c) {
         //creo i campi
-        long id = (c.getInt(c.getColumnIndex(KEY_ALARM_ID)));
+        int id = (c.getInt(c.getColumnIndex(KEY_ALARM_ID)));
         long delay = (c.getLong(c.getColumnIndex(KEY_DELAY)));
         String name = (c.getString(c.getColumnIndex(KEY_NAME)));
         String address = (c.getString(c.getColumnIndex(KEY_ADDRESS)));

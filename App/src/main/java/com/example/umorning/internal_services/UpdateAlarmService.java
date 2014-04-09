@@ -22,7 +22,7 @@ public class UpdateAlarmService extends Service {
     DatabaseHelper db;
 
     //campi di alarm
-    private long id;
+    private int id;
     private long delay;
     private String name;
     private String address;

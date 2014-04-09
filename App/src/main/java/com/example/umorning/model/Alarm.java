@@ -1,12 +1,10 @@
 package com.example.umorning.model;
 
-import android.content.Intent;
-
 import java.util.Calendar;
 
 public class Alarm {
 
-    private long id;
+    private int id;
     private long delay; //tempo che l'utente ci mette a uscire di casa
     private String name;
     private String address;
@@ -20,7 +18,7 @@ public class Alarm {
     private Calendar date;
     private boolean activated;
 
-    public Alarm(long id, long delay, String name, String address, String city, String country, double startLatitude, double startLongitude, double endLatitude, double endLongitude, String locationName, Calendar date, boolean activated) {
+    public Alarm(int id, long delay, String name, String address, String city, String country, double startLatitude, double startLongitude, double endLatitude, double endLongitude, String locationName, Calendar date, boolean activated) {
         this.id = id;
         this.delay = delay;
         this.name = name;
@@ -36,7 +34,7 @@ public class Alarm {
         this.activated = activated;
     }
 
-    public long getId() {
+    public int getId() {
         return id;
     }
 
