@@ -40,7 +40,6 @@ public class AlarmsFragment extends Fragment {
                 .getApplicationContext());
         alarms = new ArrayList<Alarm>();
         alarms = db.getAllAlarms();
-        db.deleteAlarm(4);
 
         list = (ListView) getView().findViewById(R.id.listView);
         adapter = new AlarmsAdapter(getActivity(), alarms);
@@ -57,13 +56,6 @@ public class AlarmsFragment extends Fragment {
 
             }
         });
-
-        //TODO è di demo togliere alla fine
-        for (Alarm a : alarms){
-            System.out.println("nome sveglia "+a.getName());
-            System.out.println("id sveglia "+a.getId());
-        }
-
     }
 
 }

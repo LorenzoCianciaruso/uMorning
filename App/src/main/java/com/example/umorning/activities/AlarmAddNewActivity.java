@@ -68,7 +68,7 @@ public class AlarmAddNewActivity extends Activity {
         SharedPreferences prefs = getSharedPreferences("uMorning", 0);
         prefs.getLong("DELAY", 4);
 
-        //TODO settare i campi che devono essere settati delay, date,...
+        //TODO settare i campi che devono essere settati delay, date, activated...
     }
 
     public void onSavePressed(View view) {
@@ -109,26 +109,28 @@ public class AlarmAddNewActivity extends Activity {
         intent = PendingIntent.getService(this, 0, myIntent, 0);
         date = Calendar.getInstance();
 
-        //traduci indirizzo in cooerdinate
-        GoogleGeocode gg = new GoogleGeocode(address, city, country);
-        endLatitude = gg.getLatitude();
-        endLongitude = gg.getLongitude();
+        if (activated ==true) {
+            //traduci indirizzo in coordinate
+            GoogleGeocode gg = new GoogleGeocode(address, city, country);
+            endLatitude = gg.getLatitude();
+            endLongitude = gg.getLongitude();
 
-        //richiesta traffico
-        GoogleTrafficRequest trafficRequest = new GoogleTrafficRequest(startLatitude, startLongitude, endLatitude, endLongitude);
-        long trafficMillis = new Long(trafficRequest.getTripDurationInMillis());
+            //richiesta traffico
+            GoogleTrafficRequest trafficRequest = new GoogleTrafficRequest(startLatitude, startLongitude, endLatitude, endLongitude);
+            long trafficMillis = new Long(trafficRequest.getTripDurationInMillis());
 
-        //ottengo l'ora della sveglia sottraendo traffico e tempo per prepararsi
-        Calendar timeOfAlarm = new GregorianCalendar();
-        timeOfAlarm.setTimeInMillis(date.getTimeInMillis() - trafficMillis - delay);
+            //ottengo l'ora della sveglia sottraendo traffico e tempo per prepararsi
+            Calendar timeOfAlarm = new GregorianCalendar();
+            timeOfAlarm.setTimeInMillis(date.getTimeInMillis() - trafficMillis - delay);
 
-        //chiama un alarmservice
-        myIntent = new Intent(this, AlarmService.class);
-        PendingIntent pendingIntent = PendingIntent.getService(this, 0, myIntent, 0);
-        AlarmManager alarmManager = (AlarmManager) getSystemService(Service.ALARM_SERVICE);
+            //chiama un alarmservice
+            myIntent = new Intent(this, AlarmService.class);
+            PendingIntent pendingIntent = PendingIntent.getService(this, 0, myIntent, 0);
+            AlarmManager alarmManager = (AlarmManager) getSystemService(Service.ALARM_SERVICE);
 
-        //imposta l'ora e fa partire
-        alarmManager.set(AlarmManager.RTC_WAKEUP, timeOfAlarm.getTimeInMillis(), pendingIntent);
+            //imposta l'ora e fa partire
+            alarmManager.set(AlarmManager.RTC_WAKEUP, timeOfAlarm.getTimeInMillis(), pendingIntent);
+        }
 
         //salva nel db
         Alarm created = new Alarm(id, delay, name, address, city, country, startLatitude, startLongitude, endLatitude, endLongitude, location, date, activated);

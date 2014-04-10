@@ -23,14 +23,13 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 public class AlarmEditActivity extends Activity {
-    TimePicker timepicker;
-    DatabaseHelper db;
 
     //campi dell'interfaccia
     private TextView nameT;
     private TextView addressT;
     private TextView cityT;
     private TextView countryT;
+    private TimePicker timepicker;
 
     //campi di alarm
     private int id;
@@ -46,27 +45,44 @@ public class AlarmEditActivity extends Activity {
     private String location;
     private Calendar date;
     private boolean activated;
-    private PendingIntent intent;
-    Alarm toUpdate;
+
+    private Alarm toUpdate;
+    private DatabaseHelper db;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_add_new_alarm);
+
+        //getta tutti i puntatori alla grafica
         timepicker = (TimePicker) findViewById(R.id.timePicker1);
         timepicker.setIs24HourView(true);
-        db = new DatabaseHelper(this);
-
-        id = getIntent().getIntExtra("alarmId", 0);
-        toUpdate = db.getAlarm(id);
-
-        //
         nameT = (TextView) findViewById(R.id.event_name);
         addressT = (TextView) findViewById(R.id.address);
         cityT = (TextView) findViewById(R.id.city);
         countryT = (TextView) findViewById(R.id.country);
+
+        SharedPreferences prefs = getSharedPreferences("uMorning", 0);
+        delay = prefs.getLong("DELAY", 4);
+        date = Calendar.getInstance();
+        //settali
+
+        id = getIntent().getIntExtra("alarmId", 0);
+
+        db = new DatabaseHelper(this);
+        //solo se è una modifica
+        if (id !=0) {
+            toUpdate = db.getAlarm(id);
+            nameT.setText(toUpdate.getName());
+            addressT.setText(toUpdate.getAddress());
+            cityT.setText(toUpdate.getCity());
+            countryT.setText(toUpdate.getCountry());
+            //set delay
+            //set date
+            //set activation
+        }
     }
 
     public void onSavePressed(View view) {
@@ -74,7 +90,6 @@ public class AlarmEditActivity extends Activity {
         GpsLocalizationService gps = new GpsLocalizationService(this);
         // controlla se il GPS è attivo
         if (gps.canGetLocation()) {
-            //TODO gestire le coordinate 0 0 per adesso si può catchare l'eccezione
             gps.getLocation();
             startLatitude = gps.getLatitude();
             startLongitude = gps.getLongitude();
@@ -91,10 +106,16 @@ public class AlarmEditActivity extends Activity {
         }).start();
     }
 
+    public void onDeletePressed (View view) {
+        db.deleteAlarm(id);
+        finish();
+    }
+
     @Override
     public void onBackPressed() {
         super.onBackPressed();
         overridePendingTransition(R.anim.fadein, R.anim.fadeout);
+        finish();
     }
 
     private void saveAlarm() {
@@ -104,37 +125,40 @@ public class AlarmEditActivity extends Activity {
         city = cityT.getText().toString();
         country = countryT.getText().toString();
 
-        Intent myIntent = new Intent(this, AlarmService.class);
-        intent = PendingIntent.getService(this, 0, myIntent, 0);
-        SharedPreferences prefs = getSharedPreferences("uMorning", 0);
-        prefs.getLong("DELAY", 4);
-        date = Calendar.getInstance();
+        if (activated) {
 
-        //traduci indirizzo in cooerdinate
-        GoogleGeocode gg = new GoogleGeocode(address, city, country);
-        endLatitude = gg.getLatitude();
-        endLongitude = gg.getLongitude();
+            //TODO solo se non cambiano
+            if (true) {
+                //traduci indirizzo in coordinate
+                GoogleGeocode gg = new GoogleGeocode(address, city, country);
+                endLatitude = gg.getLatitude();
+                endLongitude = gg.getLongitude();
+            }
+            //richiesta traffico
+            GoogleTrafficRequest trafficRequest = new GoogleTrafficRequest(startLatitude, startLongitude, endLatitude, endLongitude);
+            long trafficMillis = new Long(trafficRequest.getTripDurationInMillis());
 
-        //richiesta traffico
-        GoogleTrafficRequest trafficRequest = new GoogleTrafficRequest(startLatitude, startLongitude, endLatitude, endLongitude);
-        long trafficMillis = new Long(trafficRequest.getTripDurationInMillis());
+            //ottengo l'ora della sveglia sottraendo traffico e tempo per prepararsi
+            Calendar timeOfAlarm = new GregorianCalendar();
+            timeOfAlarm.setTimeInMillis(date.getTimeInMillis() - trafficMillis - delay);
 
-        //ottengo l'ora della sveglia sottraendo traffico e tempo per prepararsi
-        Calendar timeOfAlarm = new GregorianCalendar();
-        timeOfAlarm.setTimeInMillis(date.getTimeInMillis() - trafficMillis - delay);
+            //chiama un alarmservice
+            Intent myIntent = new Intent(this, AlarmService.class);
+            PendingIntent pendingIntent = PendingIntent.getService(this, 0, myIntent, 0);
+            AlarmManager alarmManager = (AlarmManager) getSystemService(Service.ALARM_SERVICE);
 
-        //chiama un alarmservice
-        myIntent = new Intent(this, AlarmService.class);
-        PendingIntent pendingIntent = PendingIntent.getService(this, 0, myIntent, 0);
-        AlarmManager alarmManager = (AlarmManager) getSystemService(Service.ALARM_SERVICE);
+            //imposta l'ora e fa partire
+            alarmManager.set(AlarmManager.RTC_WAKEUP, timeOfAlarm.getTimeInMillis(), pendingIntent);
+        }
 
-        //imposta l'ora e fa partire
-        alarmManager.set(AlarmManager.RTC_WAKEUP, timeOfAlarm.getTimeInMillis(), pendingIntent);
-
-        //salva nel db
-
-        Alarm updated = new Alarm(toUpdate.getId(), delay, name, address, city, country, startLatitude, startLongitude, endLatitude, endLongitude, location, date, activated);
-        db.updateAlarm(updated);
+        //salva nel db aggiornando o creando
+        Alarm updated = new Alarm(id, delay, name, address, city, country, startLatitude, startLongitude, endLatitude, endLongitude, location, date, activated);
+        if (id == 0){
+            db.addAlarm(updated);
+        }
+        else {
+            db.updateAlarm(updated);
+        }
 
         //TODO print di debug
         System.out.println("SSSSSSS sveglia modificata con id  " + id);
