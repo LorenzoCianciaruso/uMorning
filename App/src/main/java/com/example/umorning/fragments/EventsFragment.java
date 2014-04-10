@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,11 +32,11 @@ public class EventsFragment extends Fragment {
     private List<Event> events;
     private ListView list_of_events;
     private ArrayAdapter<String> listAdapter;
+    private static final String KEY = "eventsList";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
 
     }
 
@@ -48,7 +49,13 @@ public class EventsFragment extends Fragment {
 
         View rootView = inflater.inflate(R.layout.fragment_events, container, false);
 
-        new AsyncTaskEvent().execute();
+
+        if(savedInstanceState!=null) {
+            Parcelable listParcel = savedInstanceState.getParcelable(KEY);
+            list_of_events.onRestoreInstanceState(listParcel);
+        }else {
+            new AsyncTaskEvent().execute();
+        }
         /*
         SharedPreferences prefs = getActivity().getSharedPreferences("uMorning", 0);
         String token = prefs.getString("EventbriteToken", "NotEventbriteLogged");
@@ -66,6 +73,12 @@ public class EventsFragment extends Fragment {
 
         new AsyncTaskEvent().execute();*/
         return rootView;
+    }
+
+    @Override
+    public void onPause(){
+        super.onPause();
+        onSaveInstanceState(new Bundle());
     }
 
     private class AsyncTaskEvent extends AsyncTask<Void, Void, List<Event>> {
@@ -140,6 +153,12 @@ public class EventsFragment extends Fragment {
                 }
             });
         }
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelable(KEY, list_of_events.onSaveInstanceState());
     }
 
 
