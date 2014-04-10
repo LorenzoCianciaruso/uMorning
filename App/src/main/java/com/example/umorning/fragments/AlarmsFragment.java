@@ -50,7 +50,7 @@ public class AlarmsFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view,
                                     int i, long l) {
-                Intent myIntent = new Intent(getActivity(), AlarmAddNewActivity.class);
+                Intent myIntent = new Intent(getActivity(), AlarmEditActivity.class);
                 myIntent.putExtra("alarmId", alarms.get(i).getId());
                 startActivityForResult(myIntent,0);
             }

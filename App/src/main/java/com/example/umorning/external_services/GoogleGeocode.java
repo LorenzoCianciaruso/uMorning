@@ -32,6 +32,12 @@ public class GoogleGeocode {
         fromAddressToCoordinates();
     }
 
+    public GoogleGeocode(String address){
+        formattedAddress = address.replace(" ", "+");
+
+        fromAddressToCoordinates();
+    }
+
 
 
     private void fromAddressToCoordinates( ){
