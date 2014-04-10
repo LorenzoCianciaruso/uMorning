@@ -14,7 +14,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_toRightOf="@+id/numberPicker" />
 
     <LinearLayout
         android:id="@+id/mLlayoutBottomButtons3"
@@ -86,5 +86,39 @@
         android:layout_alignEnd="@+id/city"
         android:hint="Country" />
 
+    <NumberPicker
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/numberPicker"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        />
+
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="New CheckBox"
+        android:id="@+id/checkBox"
+        android:layout_below="@+id/numberPicker"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="32dp" />
+
+    <DatePicker
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/datePicker"
+        android:calendarViewShown="false"
+        android:layout_above="@+id/event_name"
+        android:layout_toLeftOf="@+id/numberPicker" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Delete"
+        android:id="@+id/button"
+        android:layout_below="@+id/checkBox"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="76dp"
+        android:onClick="onDeletePressed"/>
 
 </RelativeLayout>

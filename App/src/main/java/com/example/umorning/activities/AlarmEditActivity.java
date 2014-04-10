@@ -8,6 +8,9 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.CheckBox;
+import android.widget.DatePicker;
+import android.widget.NumberPicker;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
@@ -29,7 +32,10 @@ public class AlarmEditActivity extends Activity {
     private TextView addressT;
     private TextView cityT;
     private TextView countryT;
-    private TimePicker timepicker;
+    private DatePicker datePicker;
+    private TimePicker timePicker;
+    private NumberPicker delayPicker;
+    private CheckBox activation;
 
     //campi di alarm
     private int id;
@@ -57,17 +63,23 @@ public class AlarmEditActivity extends Activity {
         setContentView(R.layout.activity_add_new_alarm);
 
         //getta tutti i puntatori alla grafica
-        timepicker = (TimePicker) findViewById(R.id.timePicker1);
-        timepicker.setIs24HourView(true);
+        datePicker = (DatePicker) findViewById(R.id.datePicker);
+        timePicker = (TimePicker) findViewById(R.id.timePicker1);
+        timePicker.setIs24HourView(true);
         nameT = (TextView) findViewById(R.id.event_name);
         addressT = (TextView) findViewById(R.id.address);
         cityT = (TextView) findViewById(R.id.city);
         countryT = (TextView) findViewById(R.id.country);
+        delayPicker =(NumberPicker) findViewById(R.id.numberPicker);
+        delayPicker.setMaxValue(480);
+        delayPicker.setMinValue(1);
+        activation = (CheckBox) findViewById(R.id.checkBox);
 
         SharedPreferences prefs = getSharedPreferences("uMorning", 0);
-        delay = prefs.getLong("DELAY", 4);
+        delay = prefs.getLong("DELAY", 30);
         date = Calendar.getInstance();
-        //settali
+        delayPicker.setValue((int) delay);
+        activation.setChecked(true);
 
         id = getIntent().getIntExtra("alarmId", 0);
 
@@ -79,10 +91,20 @@ public class AlarmEditActivity extends Activity {
             addressT.setText(toUpdate.getAddress());
             cityT.setText(toUpdate.getCity());
             countryT.setText(toUpdate.getCountry());
-            //set delay
-            //set date
-            //set activation
+            delayPicker.setValue((int) (toUpdate.getDelay()));
+            date=toUpdate.getDate();
+            activation.setChecked(toUpdate.isActivated());
         }
+
+        int year=date.get(Calendar.YEAR);
+        int month=date.get(Calendar.MONTH);
+        int day=date.get(Calendar.DAY_OF_MONTH);
+        int hour=date.get(Calendar.HOUR_OF_DAY);
+        int min=date.get(Calendar.MINUTE);
+        datePicker.updateDate(year, month, day);
+        timePicker.setCurrentHour(hour);
+        timePicker.setCurrentMinute(min);
+
     }
 
     public void onSavePressed(View view) {
@@ -124,6 +146,9 @@ public class AlarmEditActivity extends Activity {
         address = addressT.getText().toString();
         city = cityT.getText().toString();
         country = countryT.getText().toString();
+        activated=activation.isChecked();
+        delay=delayPicker.getValue();
+        date.set(datePicker.getYear(),datePicker.getMonth(),datePicker.getDayOfMonth(),timePicker.getCurrentHour(),timePicker.getCurrentMinute());
 
         if (activated) {
 
@@ -140,7 +165,7 @@ public class AlarmEditActivity extends Activity {
 
             //ottengo l'ora della sveglia sottraendo traffico e tempo per prepararsi
             Calendar timeOfAlarm = new GregorianCalendar();
-            timeOfAlarm.setTimeInMillis(date.getTimeInMillis() - trafficMillis - delay);
+            timeOfAlarm.setTimeInMillis(date.getTimeInMillis() - trafficMillis - (delay*1000*60));
 
             //chiama un alarmservice
             Intent myIntent = new Intent(this, AlarmService.class);

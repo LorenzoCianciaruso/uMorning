@@ -22,12 +22,12 @@ public class SettingsActivity extends Activity {
         number.setMaxValue(480);
         number.setMinValue(1);
         SharedPreferences prefs = getSharedPreferences("uMorning", 0);
-        long saved = prefs.getLong("DELAY",30*1000*60);
-        number.setValue((int) saved/1000/60);
+        long saved = prefs.getLong("DELAY",30);
+        number.setValue((int) saved);
     }
 
     public void saveSettings(View view){
-        userDelay=number.getValue()*60*1000;
+        userDelay=number.getValue();
         // salva nelle preferenze
         SharedPreferences prefs = getSharedPreferences("uMorning", 0);
         SharedPreferences.Editor editor = prefs.edit();
