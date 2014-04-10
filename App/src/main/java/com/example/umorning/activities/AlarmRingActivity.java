@@ -2,6 +2,7 @@ package com.example.umorning.activities;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
@@ -27,8 +28,9 @@ public class AlarmRingActivity extends Activity {
         // '-1' vibra una volta '0' vibra all'infinito
         v.vibrate(pattern, 0);
         //servizio suoneria
-        Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
-        Ringtone r = RingtoneManager.getRingtone(getApplicationContext(), notification);
+        SharedPreferences prefs = getSharedPreferences("uMorning", 0);
+        Uri tone = prefs.getUri("TONE", RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM));
+        Ringtone r = RingtoneManager.getRingtone(getApplicationContext(), tone);
         r.play();
     }
 
