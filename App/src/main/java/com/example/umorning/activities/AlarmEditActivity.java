@@ -23,7 +23,7 @@ import com.example.umorning.model.DatabaseHelper;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
-public class AlarmAddNewActivity extends Activity {
+public class AlarmEditActivity extends Activity {
     TimePicker timepicker;
     DatabaseHelper db;
 
@@ -60,16 +60,13 @@ public class AlarmAddNewActivity extends Activity {
         db = new DatabaseHelper(this);
 
         id = getIntent().getLongExtra("alarmId", 0);
+        Alarm toUpdate = db.getAlarm(id);
 
+        //
         nameT = (TextView) findViewById(R.id.event_name);
         addressT = (TextView) findViewById(R.id.address);
         cityT = (TextView) findViewById(R.id.city);
         countryT = (TextView) findViewById(R.id.country);
-
-        SharedPreferences prefs = getSharedPreferences("uMorning", 0);
-        prefs.getLong("DELAY", 4);
-
-        //TODO settare i campi che devono essere settati delay, date,...
     }
 
     public void onSavePressed(View view) {
@@ -106,8 +103,11 @@ public class AlarmAddNewActivity extends Activity {
         address = addressT.getText().toString();
         city = cityT.getText().toString();
         country = countryT.getText().toString();
+
         Intent myIntent = new Intent(this, AlarmService.class);
         intent = PendingIntent.getService(this, 0, myIntent, 0);
+        SharedPreferences prefs = getSharedPreferences("uMorning", 0);
+        prefs.getLong("DELAY", 4);
         date = Calendar.getInstance();
 
         //traduci indirizzo in cooerdinate
@@ -132,11 +132,11 @@ public class AlarmAddNewActivity extends Activity {
         alarmManager.set(AlarmManager.RTC_WAKEUP, timeOfAlarm.getTimeInMillis(), pendingIntent);
 
         //salva nel db
-        Alarm created = new Alarm(id, delay, name, address, city, country, startLatitude, startLongitude, endLatitude, endLongitude, location, date, activated);
-        id = db.addAlarm(updated);
+        Alarm updated = new Alarm(id, delay, name, address, city, country, startLatitude, startLongitude, endLatitude, endLongitude, location, date, activated);
+        db.addAlarm(updated);
 
         //TODO print di debug
-        System.out.println("SSSSSSS sveglia salvata con id  " + id);
+        System.out.println("SSSSSSS sveglia modificata con id  " + id);
         finish();
     }
 }
