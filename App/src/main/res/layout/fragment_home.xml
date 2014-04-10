@@ -42,8 +42,7 @@
                 android:text="Italy"
                 android:layout_margin="10dp"
                 android:textSize="20dp"
-                android:layout_gravity="center_horizontal"
-                android:inputType="textCapSentences"/>
+                android:layout_gravity="center_horizontal"/>
 
             <TextView
                 android:id="@+id/temperature"

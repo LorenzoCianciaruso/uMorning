@@ -10,7 +10,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.example.umorning.R;
-import com.example.umorning.activities.AlarmAddNewActivity;
+import com.example.umorning.activities.AlarmEditActivity;
 import com.example.umorning.model.Alarm;
 import com.example.umorning.model.DatabaseHelper;
 
@@ -52,7 +52,9 @@ public class AlarmsFragment extends Fragment {
                                     int i, long l) {
                 Intent myIntent = new Intent(getActivity(), AlarmEditActivity.class);
                 myIntent.putExtra("alarmId", alarms.get(i).getId());
+                System.out.println("sesesesesesesese " + alarms.get(i).getId());
                 startActivityForResult(myIntent,0);
+
             }
         });
 

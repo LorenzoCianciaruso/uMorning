@@ -1,23 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="70dp"
     android:orientation="horizontal"
     android:padding="5dip"
-    android:background="@drawable/background_alarms">
+    android:background="#FE4445">
 
 
     <LinearLayout android:id="@+id/thumbnail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="3dip"
         android:layout_alignParentLeft="true"
         android:layout_marginRight="5dip">
 
         <ImageView
             android:id="@+id/list_image"
-            android:layout_width="50dip"
-            android:layout_height="50dip"
+            android:layout_width="60dip"
+            android:layout_height="60dip"
             android:src="@drawable/alarm_icon"/>
 
     </LinearLayout>
@@ -28,9 +27,10 @@
         android:layout_height="wrap_content"
         android:text="11:45"
         android:typeface="sans"
-        android:textSize="35dip"
+        android:textSize="30dip"
         android:textStyle="bold"
-        android:textColor="#10bcc9"
+        android:textColor="#333333"
+        android:layout_alignTop="@+id/thumbnail"
         android:layout_above="@+id/alarmTitle"
         android:layout_toRightOf="@+id/thumbnail" />
 
@@ -38,24 +38,11 @@
         android:id="@+id/alarmTitle"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:textSize="10dip"
+        android:textSize="15dip"
         android:text="nome evento"
-        android:textColor="#10bcc9"
-        android:layout_alignBottom="@+id/button"
+        android:textColor="#333333"
+        android:layout_alignBottom="@+id/thumbnail"
         android:layout_alignLeft="@+id/eventName"
         android:layout_alignStart="@+id/eventName" />
-
-    <Button
-        style="?android:attr/buttonStyleSmall"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/button"
-        android:layout_alignParentTop="true"
-        android:layout_toLeftOf="@+id/switch1"
-        android:focusable="false"
-        android:src="@drawable/ic_action_new"
-        android:layout_alignRight="@+id/alarmTitle"
-        android:layout_alignEnd="@+id/alarmTitle"
-        android:focusableInTouchMode="false"/>
 
 </RelativeLayout>

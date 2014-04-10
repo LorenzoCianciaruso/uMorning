@@ -10,7 +10,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.TimePicker;
-import android.widget.Toast;
 
 import com.example.umorning.R;
 import com.example.umorning.external_services.GoogleGeocode;
@@ -34,7 +33,7 @@ public class AlarmAddNewActivity extends Activity {
     private TextView countryT;
 
     //campi di alarm
-    private long id;
+    private int id;
     private long delay;
     private String name;
     private String address;
@@ -59,7 +58,7 @@ public class AlarmAddNewActivity extends Activity {
         timepicker.setIs24HourView(true);
         db = new DatabaseHelper(this);
 
-        id = getIntent().getLongExtra("alarmId", 0);
+        id = getIntent().getIntExtra("alarmId", 0);
 
         nameT = (TextView) findViewById(R.id.event_name);
         addressT = (TextView) findViewById(R.id.address);
@@ -124,7 +123,7 @@ public class AlarmAddNewActivity extends Activity {
         timeOfAlarm.setTimeInMillis(date.getTimeInMillis() - trafficMillis - delay);
 
         //chiama un alarmservice
-        Intent myIntent = new Intent(this, AlarmService.class);
+        myIntent = new Intent(this, AlarmService.class);
         PendingIntent pendingIntent = PendingIntent.getService(this, 0, myIntent, 0);
         AlarmManager alarmManager = (AlarmManager) getSystemService(Service.ALARM_SERVICE);
 
@@ -133,7 +132,7 @@ public class AlarmAddNewActivity extends Activity {
 
         //salva nel db
         Alarm created = new Alarm(id, delay, name, address, city, country, startLatitude, startLongitude, endLatitude, endLongitude, location, date, activated);
-        id = db.addAlarm(updated);
+        id = (int) db.addAlarm(created);
 
         //TODO print di debug
         System.out.println("SSSSSSS sveglia salvata con id  " + id);

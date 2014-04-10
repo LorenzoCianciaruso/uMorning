@@ -84,7 +84,7 @@ public class UpdateAlarmService extends Service {
 
                     //aggiorna l'allarme e lo salva nel DB
                     Alarm updated = new Alarm(id, delay, name, address, city, country, startLatitude, startLongitude, endLatitude, endLongitude, location, date, activated);
-                    db.updateAlarm(id,updated);
+                    db.updateAlarm(updated);
                 }
             }
         }

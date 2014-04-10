@@ -84,8 +84,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         String selectQuery = "SELECT  * FROM " + TABLE_ALARM + " WHERE "
                 + KEY_ALARM_ID + " = " + alarm_id;
 
+        /*Cursor cursor = db.query(TABLE_CONTACTS, new String[] { KEY_ID,
+                        KEY_NAME }, KEY_ID + "=?", new String[] { String.valueOf(id) },
+                null, null, null, null);*/
+
         Log.e(LOG, selectQuery);
         Cursor c = db.rawQuery(selectQuery, null);
+        if (c != null)
+            c.moveToFirst();
         return fromCursorToAlarm(c);
     }
 
@@ -109,7 +115,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     //aggiornare un allarme
-    public long updateAlarm(int id, Alarm alarm) {
+    public long updateAlarm(Alarm alarm) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = getContentValues(alarm);

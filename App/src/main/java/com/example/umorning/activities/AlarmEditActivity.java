@@ -10,7 +10,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.TimePicker;
-import android.widget.Toast;
 
 import com.example.umorning.R;
 import com.example.umorning.external_services.GoogleGeocode;
@@ -34,7 +33,7 @@ public class AlarmEditActivity extends Activity {
     private TextView countryT;
 
     //campi di alarm
-    private long id;
+    private int id;
     private long delay;
     private String name;
     private String address;
@@ -48,6 +47,7 @@ public class AlarmEditActivity extends Activity {
     private Calendar date;
     private boolean activated;
     private PendingIntent intent;
+    Alarm toUpdate;
 
 
     @Override
@@ -59,8 +59,8 @@ public class AlarmEditActivity extends Activity {
         timepicker.setIs24HourView(true);
         db = new DatabaseHelper(this);
 
-        id = getIntent().getLongExtra("alarmId", 0);
-        Alarm toUpdate = db.getAlarm(id);
+        id = getIntent().getIntExtra("alarmId", 0);
+        toUpdate = db.getAlarm(id);
 
         //
         nameT = (TextView) findViewById(R.id.event_name);
@@ -124,7 +124,7 @@ public class AlarmEditActivity extends Activity {
         timeOfAlarm.setTimeInMillis(date.getTimeInMillis() - trafficMillis - delay);
 
         //chiama un alarmservice
-        Intent myIntent = new Intent(this, AlarmService.class);
+        myIntent = new Intent(this, AlarmService.class);
         PendingIntent pendingIntent = PendingIntent.getService(this, 0, myIntent, 0);
         AlarmManager alarmManager = (AlarmManager) getSystemService(Service.ALARM_SERVICE);
 
@@ -132,8 +132,9 @@ public class AlarmEditActivity extends Activity {
         alarmManager.set(AlarmManager.RTC_WAKEUP, timeOfAlarm.getTimeInMillis(), pendingIntent);
 
         //salva nel db
-        Alarm updated = new Alarm(id, delay, name, address, city, country, startLatitude, startLongitude, endLatitude, endLongitude, location, date, activated);
-        db.addAlarm(updated);
+
+        Alarm updated = new Alarm(toUpdate.getId(), delay, name, address, city, country, startLatitude, startLongitude, endLatitude, endLongitude, location, date, activated);
+        db.updateAlarm(updated);
 
         //TODO print di debug
         System.out.println("SSSSSSS sveglia modificata con id  " + id);
