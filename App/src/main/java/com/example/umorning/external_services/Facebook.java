@@ -143,13 +143,12 @@ public class Facebook {
                             int hour = Integer.parseInt(hourStart.split(":")[0]);
                             int minute = Integer.parseInt(hourStart.split(":")[1]);
 
-                            Calendar date = new GregorianCalendar(year, month, day, hour, minute);
+                            Calendar date = new GregorianCalendar(year, month-1, day, hour, minute);
+
                             long currentTime = System.currentTimeMillis();
 
-                            System.out.println("if " + date.getTimeInMillis() + " > " + currentTime + " then");
-
                             if (date.getTimeInMillis() > currentTime) {
-                                System.out.println("FFFFF aggiunto alla lista " + name);
+
                                 Event event = new Event(name, organizer, address, city, country, latitude, longitude, null, null, null, date, null);
                                 eventsList.add(event);
                             }

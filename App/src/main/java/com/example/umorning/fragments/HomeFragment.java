@@ -96,6 +96,11 @@ public class HomeFragment extends Fragment {
     private class AsyncTaskMeteoRequest extends AsyncTask<Double, Void, MetwitRequest> {
 
         @Override
+        protected void onPreExecute(){
+            getActivity().setProgressBarIndeterminateVisibility(true);
+        }
+
+        @Override
         protected MetwitRequest doInBackground(Double... params) {
 
             double latitude = params[0];
@@ -120,6 +125,8 @@ public class HomeFragment extends Fragment {
             editor.putString("Temperature", weatherInfo.getTemperature());
             editor.putString("Icon", weatherInfo.getIcon());
             editor.commit();
+
+            getActivity().setProgressBarIndeterminateVisibility(false);
 
             updateUI();
 

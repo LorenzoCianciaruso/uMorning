@@ -78,7 +78,12 @@ public class EventDetailsActivity extends FragmentActivity {
         nameView.setText(name);
         dateTimeView.setText(time);
         placeView.setText(place);
-        urlView.setText(url);
+
+        if(url!=null) {
+            urlView.setText(url);
+        }else{
+            urlView.setVisibility(View.INVISIBLE);
+        }
 
         String text = "<a href=" + url + " \">Link to the event</a>";
         urlView.setMovementMethod(LinkMovementMethod.getInstance());
