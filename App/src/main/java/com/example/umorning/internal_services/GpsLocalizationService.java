@@ -13,6 +13,8 @@ import android.os.IBinder;
 import android.provider.Settings;
 import android.util.Log;
 
+import com.google.android.gms.location.LocationClient;
+
 public class GpsLocalizationService extends Service implements LocationListener {
 
     private final Context mContext;
@@ -33,6 +35,7 @@ public class GpsLocalizationService extends Service implements LocationListener 
     private static final long MIN_TIME_BW_UPDATES = 1000 * 60 ;
 
     protected LocationManager locationManager;
+    private LocationClient locationClient;
 
     public GpsLocalizationService(Context context) {
         this.mContext = context;
@@ -106,23 +109,23 @@ public class GpsLocalizationService extends Service implements LocationListener 
 
 
     //Prendi latitude
-    public double getLatitude() throws IllegalStateException{
+    public double getLatitude(){
         if(location != null){
             latitude = location.getLatitude();
         }
-        if (longitude ==0&&latitude==0){
-           // throw new IllegalStateException();
+        if(latitude == 0){
+            latitude = locationClient.getLastLocation().getLatitude();
         }
         return latitude;
     }
 
     //prendi la longitudine
-    public double getLongitude() throws IllegalStateException{
+    public double getLongitude(){
         if(location != null){
             longitude = location.getLongitude();
         }
-        if (longitude ==0&&latitude==0){
-           // throw new IllegalStateException();
+        if(longitude == 0){
+            longitude = locationClient.getLastLocation().getLongitude();
         }
         return longitude;
     }
