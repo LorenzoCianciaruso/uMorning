@@ -45,6 +45,8 @@
         </activity>
         <activity android:name="com.example.umorning.activities.AlarmAddNewActivity" >
         </activity>
+        <activity android:name="com.example.umorning.activities.AlarmEditActivity" >
+        </activity>
         <activity
             android:name="com.example.umorning.activities.AccountManagerActivity"
             android:label="@string/title_activity_account_manager" >

@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Vibrator;
 import android.view.MenuItem;
@@ -29,8 +28,8 @@ public class AlarmRingActivity extends Activity {
         v.vibrate(pattern, 0);
         //servizio suoneria
         SharedPreferences prefs = getSharedPreferences("uMorning", 0);
-        Uri tone = prefs.getUri("TONE", RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM));
-        Ringtone r = RingtoneManager.getRingtone(getApplicationContext(), tone);
+//        Uri tone = prefs.getUri("TONE", RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM));
+        Ringtone r = RingtoneManager.getRingtone(getApplicationContext(), RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM));
         r.play();
     }
 
