@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -70,27 +71,29 @@ public class EventsFragment extends Fragment {
     private class AsyncTaskEvent extends AsyncTask<Void, Void, List<Event>> {
 
         @Override
+        protected void onPreExecute(){
+            getActivity().setProgressBarIndeterminateVisibility(true);
+        }
+
+        @Override
         protected List<Event> doInBackground(Void... params) {
-            events=new ArrayList<Event>();
-            SharedPreferences prefs = getActivity().getSharedPreferences("uMorning", 0);
-            String token = prefs.getString("EventbriteToken", "NotEventbriteLogged");
+            events = new ArrayList<Event>();
+
 
             //verifico connessione internet
-            if(HttpRequest.isOnline(getActivity())) {
-                //se è loggato in eventbrite
-                if (!token.equals("NotEventbriteLogged")) {
-                    //new AsyncTaskEventbrite().execute(token);
-                    Eventbrite eve = new Eventbrite(token);
-                    eve.getEventbriteOrders();
-                    events.addAll(eve.getEventList());
-                }
+            if (HttpRequest.isOnline(getActivity())) {
+
+                //new AsyncTaskEventbrite().execute(token);
+                Eventbrite eve = new Eventbrite(getActivity());
+                events.addAll(eve.getEventList());
+
                 Facebook fb = new Facebook(getActivity());
                 //se è loggato in facebook
                 if (fb.getSession() != null && fb.getSession().isOpened() == true) {
                     //new AsyncTaskFacebook().execute(fb);
                     events.addAll(fb.getEventList());
                 }
-            }else{
+            } else {
                 Toast.makeText(getActivity().getApplicationContext(), "No Internet Connection", Toast.LENGTH_LONG).show();
             }
             EventService eve = new EventService(getActivity());
@@ -100,17 +103,17 @@ public class EventsFragment extends Fragment {
 
         @Override
         protected void onPostExecute(List<Event> params) {
-            events=params;
+            events = params;
 
             list_of_events = (ListView) getActivity().findViewById(R.id.listViewEvents);
 
+            getActivity().setProgressBarIndeterminateVisibility(false);
+
             ArrayList<String> nameEvents = new ArrayList<String>();
-            for(Event x: events){
-                System.out.println("AAAAA");
-                System.out.println(x.getName());
+            for (Event x : events) {
                 nameEvents.add(x.getName());
             }
-            listAdapter = new ArrayAdapter<String>(getActivity(), R.layout.list_item_events, R.id.eventName,nameEvents);
+            listAdapter = new ArrayAdapter<String>(getActivity(), R.layout.list_item_events, R.id.eventName, nameEvents);
             list_of_events.setAdapter(listAdapter);
 
             list_of_events.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -126,12 +129,12 @@ public class EventsFragment extends Fragment {
 
                     Intent intent = new Intent(getActivity(), EventDetailsActivity.class);
                     intent.putExtra("name", event.getName());
-                    intent.putExtra("place",event.getAddress());
+                    intent.putExtra("place", event.getAddress());
                     intent.putExtra("date", formattedDate);
-                    intent.putExtra("url",event.getEventURL());
-                    intent.putExtra("latitude",event.getLatitude());
-                    intent.putExtra("longitude",event.getLongitude());
-                    intent.putExtra("organizer",event.getOrganizer());
+                    intent.putExtra("url", event.getEventURL());
+                    intent.putExtra("latitude", event.getLatitude());
+                    intent.putExtra("longitude", event.getLongitude());
+                    intent.putExtra("organizer", event.getOrganizer());
                     startActivity(intent);
 
                 }

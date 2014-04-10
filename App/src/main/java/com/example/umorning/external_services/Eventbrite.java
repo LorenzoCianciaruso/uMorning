@@ -1,5 +1,9 @@
 package com.example.umorning.external_services;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.widget.Toast;
+
 import com.example.umorning.model.Event;
 
 import org.json.JSONArray;
@@ -14,9 +18,21 @@ import java.util.List;
 public class Eventbrite {
 
     String token;
+    Context cxt;
 
-    public Eventbrite(String token) {
-        this.token = token;
+    public Eventbrite(Context cxt) {
+
+        this.cxt = cxt;
+
+        SharedPreferences prefs = this.cxt.getSharedPreferences("uMorning", 0);
+        token = prefs.getString("EventbriteToken", "NotEventbriteLogged");
+
+        if(! token.equals("NotEventbriteLogged")){
+            getEventbriteOrders();
+        }else{
+            Toast.makeText(cxt.getApplicationContext(), "Not logged in Eventbrite", Toast.LENGTH_LONG).show();
+        }
+
     }
 
     public List<Event> getEventList() {
@@ -25,7 +41,7 @@ public class Eventbrite {
 
     List<Event> eventList = new ArrayList<Event>();
 
-    public void getEventbriteOrders() {
+    private void getEventbriteOrders() {
 
                 String url = "https://www.eventbriteapi.com/v3/users/me/orders/?token=" + token;
                 String response = new HttpRequest().getRequest(url);
@@ -58,7 +74,12 @@ public class Eventbrite {
         String response = new HttpRequest().getRequest(resource_uri);
 
         try {
-            JSONObject jObject = new JSONObject(response);
+            JSONObject jObject=null;
+            try {
+                jObject = new JSONObject(response);
+            }catch(NullPointerException e){
+                Toast.makeText(cxt.getApplicationContext(), "Not logged in Eventbrite", Toast.LENGTH_LONG).show();
+            }
 
             JSONObject jsonName = jObject.getJSONObject("name");
 
