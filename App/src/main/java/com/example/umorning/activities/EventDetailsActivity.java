@@ -113,8 +113,8 @@ public class EventDetailsActivity extends FragmentActivity {
         super.onResume();
 
         fb = new Facebook(this);
-        //se è loggato in facebook
-        if (fb.getSession() != null && fb.getSession().isOpened() == true) {
+        //se esiste sessione attiva
+        if (fb.isLogged()) {
             shareButton.setVisibility(View.VISIBLE);
         } else {
             shareButton.setVisibility(View.INVISIBLE);

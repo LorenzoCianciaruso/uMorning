@@ -50,10 +50,10 @@ public class EventsFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_events, container, false);
 
 
-        if(savedInstanceState!=null) {
+        if (savedInstanceState != null) {
             Parcelable listParcel = savedInstanceState.getParcelable(KEY);
             list_of_events.onRestoreInstanceState(listParcel);
-        }else {
+        } else {
             new AsyncTaskEvent().execute();
         }
         /*
@@ -76,7 +76,7 @@ public class EventsFragment extends Fragment {
     }
 
     @Override
-    public void onPause(){
+    public void onPause() {
         super.onPause();
         onSaveInstanceState(new Bundle());
     }
@@ -84,7 +84,7 @@ public class EventsFragment extends Fragment {
     private class AsyncTaskEvent extends AsyncTask<Void, Void, List<Event>> {
 
         @Override
-        protected void onPreExecute(){
+        protected void onPreExecute() {
             getActivity().setProgressBarIndeterminateVisibility(true);
         }
 
@@ -101,11 +101,13 @@ public class EventsFragment extends Fragment {
                 events.addAll(eve.getEventList());
 
                 Facebook fb = new Facebook(getActivity());
-                //se è loggato in facebook
-                if (fb.getSession() != null && fb.getSession().isOpened() == true) {
+
+                //se esiste sessione attiva
+                if(fb.isLogged()) {
                     //new AsyncTaskFacebook().execute(fb);
                     events.addAll(fb.getEventList());
                 }
+
             } else {
                 Toast.makeText(getActivity().getApplicationContext(), "No Internet Connection", Toast.LENGTH_LONG).show();
             }

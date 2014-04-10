@@ -104,8 +104,5 @@ public class MainActivity extends FragmentActivity implements
         Intent intent = new Intent(this, SettingsActivity.class);
         startActivity(intent);
     }
-    public void prova(MenuItem item){
-        Intent intent = new Intent(this, EventDetailsActivity.class);
-        startActivity(intent);
-    }
+
 }

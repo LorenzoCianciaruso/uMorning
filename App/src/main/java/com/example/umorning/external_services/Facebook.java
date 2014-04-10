@@ -44,15 +44,20 @@ public class Facebook {
         this.cxt = cxt;
         session = Session.getActiveSession();
 
+
         if (session == null) {
             System.out.println("restore");
             session = Session.openActiveSessionFromCache(cxt);
         }
 
     }
-//
-    public List<Event> getEventsList() {
-        return eventsList;
+
+    public boolean isLogged() {
+        if(getSession() != null && getSession().isOpened() == true){
+            return true;
+        }else{
+            return false;
+        }
     }
 
     public List<Event> getEventList() {
@@ -210,5 +215,7 @@ public class Facebook {
         }
         return true;
     }
+
+
 
 }

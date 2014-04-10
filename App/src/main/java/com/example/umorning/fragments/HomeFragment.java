@@ -191,6 +191,8 @@ public class HomeFragment extends Fragment {
             weatherIcon.setImageResource(R.drawable.windy);
         }
     }
+
+
 }
 
 
