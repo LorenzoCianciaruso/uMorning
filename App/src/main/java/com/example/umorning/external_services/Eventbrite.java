@@ -30,8 +30,7 @@ public class Eventbrite {
         if(! token.equals("NotEventbriteLogged")){
             getEventbriteOrders();
         }else{
-            //TODO a cosa serve?
-            //Toast.makeText(cxt.getApplicationContext(), "Not logged in Eventbrite", Toast.LENGTH_LONG).show();
+            Toast.makeText(this.cxt.getApplicationContext(), "Not logged in Eventbrite", Toast.LENGTH_LONG).show();
         }
 
     }

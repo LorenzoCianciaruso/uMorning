@@ -1,28 +1,20 @@
 package com.example.umorning.activities;
 
 import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.ShareCompat;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ShareActionProvider;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import com.example.umorning.R;
 import com.example.umorning.external_services.Facebook;
-import com.example.umorning.model.Event;
-import com.facebook.FacebookRequestError;
-import com.facebook.HttpMethod;
-import com.facebook.Request;
-import com.facebook.RequestAsyncTask;
-import com.facebook.Response;
-import com.facebook.Session;
-import com.facebook.model.GraphUser;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.GoogleMapOptions;
 import com.google.android.gms.maps.MapFragment;
@@ -32,14 +24,8 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-import org.json.JSONException;
-import org.json.JSONObject;
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
-
-public class EventDetailsActivity extends FragmentActivity {
+public class EventDetailsActivity extends FragmentActivity{
 
     private GoogleMap mMap;
     private TextView nameView;
@@ -53,6 +39,7 @@ public class EventDetailsActivity extends FragmentActivity {
     private String time;
     private String place;
     private Facebook fb;
+    private ShareActionProvider mShareActionProvider;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -125,16 +112,19 @@ public class EventDetailsActivity extends FragmentActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
 
-        // Inflate the menu; this adds items to the action bar if it is present.
+
         getMenuInflater().inflate(R.menu.event_details, menu);
+        MenuItem item = menu.findItem(R.id.menu_item_share);
+        mShareActionProvider = (ShareActionProvider) item.getActionProvider();
+        Intent shareIntent = ShareCompat.IntentBuilder.from(this)
+                .setType("text/plain").setText("Facebook").getIntent();
+        mShareActionProvider.setShareIntent(shareIntent);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
+
         int id = item.getItemId();
         if (id == R.id.action_settings) {
             return true;
@@ -153,6 +143,7 @@ public class EventDetailsActivity extends FragmentActivity {
             }
         }
     }
+
 
     public void addAlarm(View view) {
 
