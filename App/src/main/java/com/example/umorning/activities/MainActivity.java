@@ -84,13 +84,6 @@ public class MainActivity extends FragmentActivity implements
     public void onTabUnselected(Tab tab, FragmentTransaction ft) {
     }
     public void openAddNewActivity(View v) {
-        /*switch(v.getId()) {
-            case R.id.addnewalarm:
-                Intent myIntent = new Intent(MainActivity.this, AlarmAddNewActivity.class);
-                startActivity(myIntent);
-                overridePendingTransition(R.anim.fadein, R.anim.fadeout);
-                break;
-        }*/
         Intent myIntent = new Intent(MainActivity.this, AlarmEditActivity.class);
         startActivity(myIntent);
         overridePendingTransition(R.anim.fadein, R.anim.fadeout);
