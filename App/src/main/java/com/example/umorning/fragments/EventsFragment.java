@@ -35,7 +35,7 @@ public class EventsFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        //new AsyncTaskEvent().execute();
+
     }
 
     @Override
@@ -120,7 +120,8 @@ public class EventsFragment extends Fragment {
 
                     Event event = events.get(i);
 
-                    SimpleDateFormat df = new SimpleDateFormat("E d MMMM yyyy HH:mm");
+                    SimpleDateFormat df = new SimpleDateFormat("c d LLLL yyyy HH:mm");
+
                     String formattedDate = df.format(event.getDate().getTime());
 
                     Intent intent = new Intent(getActivity(), EventDetailsActivity.class);

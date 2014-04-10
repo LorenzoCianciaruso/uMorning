@@ -97,10 +97,7 @@ public class Eventbrite {
             int hour = Integer.parseInt(hourMinuteSec[0]);
             int minute = Integer.parseInt(hourMinuteSec[1]);
 
-
-            Calendar date = new GregorianCalendar(year,month,day,hour,minute);
-
-
+            Calendar date = new GregorianCalendar(year,month-1,day,hour,minute);
 
             Event event = new Event(name, organizer, address, city, country, latitude, longitude, locationName, url, resource_uri, date, status);
 
