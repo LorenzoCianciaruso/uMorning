@@ -1,6 +1,7 @@
 package com.example.umorning.activities;
 
 import android.app.FragmentTransaction;
+import android.content.ClipData;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -13,6 +14,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ShareActionProvider;
 import android.widget.TextView;
+
 import com.example.umorning.R;
 import com.example.umorning.external_services.Facebook;
 import com.google.android.gms.maps.GoogleMap;
@@ -25,7 +27,7 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 
-public class EventDetailsActivity extends FragmentActivity{
+public class EventDetailsActivity extends FragmentActivity {
 
     private GoogleMap mMap;
     private TextView nameView;
@@ -33,7 +35,7 @@ public class EventDetailsActivity extends FragmentActivity{
     private TextView placeView;
     private TextView urlView;
     private TextView organizerView;
-    private Button shareButton;
+    private MenuItem shareFb;
     private String url;
     private String name;
     private String time;
@@ -59,16 +61,17 @@ public class EventDetailsActivity extends FragmentActivity{
         placeView = (TextView) findViewById(R.id.place);
         urlView = (TextView) findViewById(R.id.url);
         organizerView = (TextView) findViewById(R.id.organizer);
-        shareButton = (Button) findViewById(R.id.shareButton);
+
+
         mMap = ((MapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
 
         nameView.setText(name);
         dateTimeView.setText(time);
         placeView.setText(place);
 
-        if(url!=null) {
+        if (url != null) {
             urlView.setText(url);
-        }else{
+        } else {
             urlView.setVisibility(View.INVISIBLE);
         }
 
@@ -101,10 +104,9 @@ public class EventDetailsActivity extends FragmentActivity{
 
         fb = new Facebook(this);
         //se esiste sessione attiva
-        if (fb.isLogged()) {
-            shareButton.setVisibility(View.VISIBLE);
-        } else {
-            shareButton.setVisibility(View.INVISIBLE);
+        if (!fb.isLogged()) {
+            shareFb.setVisible(false);
+            shareFb.setEnabled(false);
         }
         setUpMapIfNeeded();
     }
@@ -112,13 +114,13 @@ public class EventDetailsActivity extends FragmentActivity{
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
 
-
         getMenuInflater().inflate(R.menu.event_details, menu);
         MenuItem item = menu.findItem(R.id.menu_item_share);
         mShareActionProvider = (ShareActionProvider) item.getActionProvider();
         Intent shareIntent = ShareCompat.IntentBuilder.from(this)
-                .setType("text/plain").setText("Facebook").getIntent();
+                .setType("text/plain").setText("").getIntent();
         mShareActionProvider.setShareIntent(shareIntent);
+        shareFb = menu.findItem(R.id.fb_share);
         return true;
     }
 
@@ -126,10 +128,13 @@ public class EventDetailsActivity extends FragmentActivity{
     public boolean onOptionsItemSelected(MenuItem item) {
 
         int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            return true;
+        if (id == R.id.fb_share) {
+            fb.publishStory(this, name, place, url, time);
+        } else if (id == R.id.add) {
+            //TODO add new alarm
         }
         return super.onOptionsItemSelected(item);
+
     }
 
     private void setUpMapIfNeeded() {
@@ -145,11 +150,4 @@ public class EventDetailsActivity extends FragmentActivity{
     }
 
 
-    public void addAlarm(View view) {
-
-    }
-
-    public void share(View view) {
-        fb.publishStory(this, name, place, url, time);
-    }
 }

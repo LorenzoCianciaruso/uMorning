@@ -10,6 +10,6 @@
     <string name="title_activity_web_view">Web</string>
     <string name="app_id">832717773409055</string>
     <string name="account_text">Syncronize all the events you are attending by logging in your Facebook and Eventbrite accounts!</string>
-    <string name="title_activity_event_details">Event\'s details</string>
+    <string name="title_activity_event_details"></string>
     <string name="google_api_key">AIzaSyDj6lm3eLSuOhG4rLXL66WUBg7C7XEDYcA</string>
 </resources>
