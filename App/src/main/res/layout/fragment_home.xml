@@ -66,6 +66,15 @@
             android:layout_alignTop="@+id/mLlayoutBottomButtons2" />
     </RelativeLayout>
 
+    <ProgressBar
+        android:id="@+id/pbHeaderProgress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="false"
+        android:layout_alignParentStart="false"
+        android:layout_centerInParent="true">
+    </ProgressBar>
+
     <TimePicker
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

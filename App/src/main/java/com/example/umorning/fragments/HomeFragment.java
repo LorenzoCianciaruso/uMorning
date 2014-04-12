@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,6 +27,8 @@ public class HomeFragment extends Fragment {
     private TextView country;
     private TextView locality;
     private TextView temperature;
+    private ProgressBar progress;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -53,6 +56,7 @@ public class HomeFragment extends Fragment {
         country = (TextView) getView().findViewById(R.id.country);
         temperature = (TextView) getView().findViewById(R.id.temperature);
         weatherIcon = (ImageView) getView().findViewById(R.id.weatherIcon);
+        progress = (ProgressBar) getView().findViewById(R.id.pbHeaderProgress);
 
         updateUI();
 
@@ -97,7 +101,8 @@ public class HomeFragment extends Fragment {
 
         @Override
         protected void onPreExecute(){
-            getActivity().setProgressBarIndeterminateVisibility(true);
+            //getActivity().setProgressBarIndeterminateVisibility(true);
+            progress.setVisibility(View.VISIBLE);
         }
 
         @Override
@@ -126,7 +131,8 @@ public class HomeFragment extends Fragment {
             editor.putString("Icon", weatherInfo.getIcon());
             editor.commit();
 
-            getActivity().setProgressBarIndeterminateVisibility(false);
+            //getActivity().setProgressBarIndeterminateVisibility(false);
+            progress.setVisibility(View.GONE);
 
             updateUI();
 

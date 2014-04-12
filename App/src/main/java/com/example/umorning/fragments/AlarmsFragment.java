@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 
 import com.example.umorning.R;
 import com.example.umorning.activities.AlarmEditActivity;
@@ -22,6 +23,7 @@ public class AlarmsFragment extends Fragment {
     ListView list;
     AlarmsAdapter adapter;
     private List<Alarm> alarms;
+    private ProgressBar progress;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -29,6 +31,7 @@ public class AlarmsFragment extends Fragment {
 
         View rootView = inflater.inflate(R.layout.fragment_alarms, container,
                 false);
+//        progress = (ProgressBar) getView().findViewById(R.id.pbHeaderProgress);
         super.onCreate(savedInstanceState);
         return rootView;
     }

@@ -111,10 +111,14 @@ public class GpsLocalizationService extends Service implements LocationListener 
     //Prendi latitude
     public double getLatitude(){
         if(location != null){
-            latitude = location.getLatitude();
+                latitude = location.getLatitude();
         }
         if(latitude == 0){
-            latitude = locationClient.getLastLocation().getLatitude();
+            try {
+                latitude = locationClient.getLastLocation().getLatitude();
+            }catch (NullPointerException e){
+
+            }
         }
         return latitude;
     }
@@ -122,10 +126,14 @@ public class GpsLocalizationService extends Service implements LocationListener 
     //prendi la longitudine
     public double getLongitude(){
         if(location != null){
-            longitude = location.getLongitude();
+                longitude = location.getLongitude();
         }
         if(longitude == 0){
-            longitude = locationClient.getLastLocation().getLongitude();
+            try {
+                longitude = locationClient.getLastLocation().getLongitude();
+            }catch (NullPointerException e){
+
+            }
         }
         return longitude;
     }

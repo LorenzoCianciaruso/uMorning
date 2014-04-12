@@ -30,7 +30,7 @@ public class Eventbrite {
         if(! token.equals("NotEventbriteLogged")){
             getEventbriteOrders();
         }else{
-            Toast.makeText(this.cxt.getApplicationContext(), "Not logged in Eventbrite", Toast.LENGTH_LONG).show();
+           //Toast.makeText(this.cxt.getApplicationContext(), "Not logged in Eventbrite", Toast.LENGTH_LONG).show();
         }
 
     }
@@ -78,7 +78,7 @@ public class Eventbrite {
             try {
                 jObject = new JSONObject(response);
             }catch(NullPointerException e){
-                Toast.makeText(cxt.getApplicationContext(), "Not logged in Eventbrite", Toast.LENGTH_LONG).show();
+              //  Toast.makeText(cxt.getApplicationContext(), "Not logged in Eventbrite", Toast.LENGTH_LONG).show();
             }
 
             JSONObject jsonName = jObject.getJSONObject("name");

@@ -13,6 +13,7 @@ import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.umorning.R;
@@ -33,12 +34,20 @@ public class EventsFragment extends Fragment {
     private ListView list_of_events;
     private ArrayAdapter<String> listAdapter;
     private static final String KEY = "eventsList";
+    private ProgressBar progress;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
     }
+
+     @Override
+     public void onStart(){
+         super.onStart();
+        progress = (ProgressBar) getView().findViewById(R.id.pbHeaderProgress);
+         new AsyncTaskEvent().execute();
+
+     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -48,13 +57,13 @@ public class EventsFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         View rootView = inflater.inflate(R.layout.fragment_events, container, false);
-
+     //   progress = (ProgressBar) getActivity().findViewById(R.id.pbHeaderProgress);
 
         if (savedInstanceState != null) {
-            Parcelable listParcel = savedInstanceState.getParcelable(KEY);
-            list_of_events.onRestoreInstanceState(listParcel);
+     //       Parcelable listParcel = savedInstanceState.getParcelable(KEY);
+     //       list_of_events.onRestoreInstanceState(listParcel);
         } else {
-            new AsyncTaskEvent().execute();
+    //        new AsyncTaskEvent().execute();
         }
         /*
         SharedPreferences prefs = getActivity().getSharedPreferences("uMorning", 0);
@@ -85,7 +94,8 @@ public class EventsFragment extends Fragment {
 
         @Override
         protected void onPreExecute() {
-            getActivity().setProgressBarIndeterminateVisibility(true);
+            //getActivity().setProgressBarIndeterminateVisibility(true);
+            progress.setVisibility(View.VISIBLE);
         }
 
         @Override
@@ -122,7 +132,8 @@ public class EventsFragment extends Fragment {
 
             list_of_events = (ListView) getActivity().findViewById(R.id.listViewEvents);
 
-            getActivity().setProgressBarIndeterminateVisibility(false);
+            //getActivity().setProgressBarIndeterminateVisibility(false);
+
 
             ArrayList<String> nameEvents = new ArrayList<String>();
             for (Event x : events) {
@@ -154,6 +165,10 @@ public class EventsFragment extends Fragment {
 
                 }
             });
+
+
+            progress.setVisibility(View.GONE);
+
         }
     }
 
