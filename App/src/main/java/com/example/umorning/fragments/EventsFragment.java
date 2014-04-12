@@ -57,14 +57,6 @@ public class EventsFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         View rootView = inflater.inflate(R.layout.fragment_events, container, false);
-     //   progress = (ProgressBar) getActivity().findViewById(R.id.pbHeaderProgress);
-
-        if (savedInstanceState != null) {
-     //       Parcelable listParcel = savedInstanceState.getParcelable(KEY);
-     //       list_of_events.onRestoreInstanceState(listParcel);
-        } else {
-    //        new AsyncTaskEvent().execute();
-        }
         /*
         SharedPreferences prefs = getActivity().getSharedPreferences("uMorning", 0);
         String token = prefs.getString("EventbriteToken", "NotEventbriteLogged");
@@ -132,9 +124,6 @@ public class EventsFragment extends Fragment {
 
             list_of_events = (ListView) getActivity().findViewById(R.id.listViewEvents);
 
-            //getActivity().setProgressBarIndeterminateVisibility(false);
-
-
             ArrayList<String> nameEvents = new ArrayList<String>();
             for (Event x : events) {
                 nameEvents.add(x.getName());
@@ -165,7 +154,6 @@ public class EventsFragment extends Fragment {
 
                 }
             });
-
 
             progress.setVisibility(View.GONE);
 

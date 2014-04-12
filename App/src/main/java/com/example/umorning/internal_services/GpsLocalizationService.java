@@ -32,7 +32,7 @@ public class GpsLocalizationService extends Service implements LocationListener 
     private static final long MIN_DISTANCE_CHANGE_FOR_UPDATES = 10;
 
     // Tempo minimo tra gli update in millisecondi
-    private static final long MIN_TIME_BW_UPDATES = 1000 * 60 ;
+    private static final long MIN_TIME_BW_UPDATES = 1000 * 60;
 
     protected LocationManager locationManager;
     private LocationClient locationClient;
@@ -101,52 +101,45 @@ public class GpsLocalizationService extends Service implements LocationListener 
 
     //TODO serve veramente
     //Stop using GPS listener
-    public void stopUsingGPS(){
-        if(locationManager != null){
+    public void stopUsingGPS() {
+        if (locationManager != null) {
             locationManager.removeUpdates(GpsLocalizationService.this);
         }
     }
 
 
     //Prendi latitude
-    public double getLatitude(){
-        if(location != null){
-                latitude = location.getLatitude();
+    public double getLatitude() throws NullPointerException {
+        if (location != null) {
+            latitude = location.getLatitude();
         }
-        if(latitude == 0){
-            try {
-                latitude = locationClient.getLastLocation().getLatitude();
-            }catch (NullPointerException e){
+        if (latitude == 0) {
+            latitude = locationClient.getLastLocation().getLatitude();
 
-            }
         }
         return latitude;
     }
 
     //prendi la longitudine
-    public double getLongitude(){
-        if(location != null){
-                longitude = location.getLongitude();
+    public double getLongitude() throws NullPointerException {
+        if (location != null) {
+            longitude = location.getLongitude();
         }
-        if(longitude == 0){
-            try {
-                longitude = locationClient.getLastLocation().getLongitude();
-            }catch (NullPointerException e){
-
-            }
+        if (longitude == 0) {
+            longitude = locationClient.getLastLocation().getLongitude();
         }
         return longitude;
     }
 
 
-     //Controlla se GPS/wifi sono abilitati
-     public boolean canGetLocation() {
+    //Controlla se GPS/wifi sono abilitati
+    public boolean canGetLocation() {
         return this.canGetLocation;
     }
 
 
     //Pop-up per aprire le impostazioni e abilitare il GPS
-    public void showSettingsAlert(){
+    public void showSettingsAlert() {
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(mContext);
 
         alertDialog.setTitle("GPS is activity_settings");
@@ -154,7 +147,7 @@ public class GpsLocalizationService extends Service implements LocationListener 
 
         // On pressing Settings button
         alertDialog.setPositiveButton("Settings", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog,int which) {
+            public void onClick(DialogInterface dialog, int which) {
                 Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
                 mContext.startActivity(intent);
             }

@@ -22,13 +22,13 @@ import com.google.android.gms.common.GooglePlayServicesUtil;
 
 public class HomeFragment extends Fragment {
 
-
     private ImageView weatherIcon;
     private TextView country;
     private TextView locality;
     private TextView temperature;
     private ProgressBar progress;
-
+    private double latitude;
+    private double longitude;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -43,9 +43,6 @@ public class HomeFragment extends Fragment {
     @Override
     public void onStart() {
 
-        double latitude;
-        double longitude;
-
         GpsLocalizationService gps;
         super.onStart();
 
@@ -57,21 +54,26 @@ public class HomeFragment extends Fragment {
         temperature = (TextView) getView().findViewById(R.id.temperature);
         weatherIcon = (ImageView) getView().findViewById(R.id.weatherIcon);
         progress = (ProgressBar) getView().findViewById(R.id.pbHeaderProgress);
+        progress.setVisibility(View.INVISIBLE);
 
         updateUI();
-
 
         // check if GPS enabled
         if (gps.canGetLocation()) {
 
-            latitude = gps.getLatitude();
-            longitude = gps.getLongitude();
+            try {
+                latitude = gps.getLatitude();
+                longitude = gps.getLongitude();
+            }catch(NullPointerException e){
+                SharedPreferences prefs = getActivity().getSharedPreferences("uMorning", 0);
+                latitude = Double.parseDouble(prefs.getString("Latitude", "45.529"));
+                longitude = Double.parseDouble(prefs.getString("Longitude", "9.0429"));
+            }
 
             Toast.makeText(getActivity().getApplicationContext(), "Your Location is - \nLat: " + latitude + "\nLong: " + longitude, Toast.LENGTH_LONG).show();
 
             if (HttpRequest.isOnline(getActivity())) {
-                new AsyncTaskMeteoRequest().execute(latitude, longitude);
-                //new AsyncTaskTrafficRequest().execute(latitude, longitude, 45.0, 9.0);
+                new AsyncTaskMeteoRequest().execute(latitude,longitude);
             } else {
                 Toast.makeText(getActivity().getApplicationContext(), "No Internet Connection", Toast.LENGTH_LONG).show();
             }
@@ -101,7 +103,6 @@ public class HomeFragment extends Fragment {
 
         @Override
         protected void onPreExecute(){
-            //getActivity().setProgressBarIndeterminateVisibility(true);
             progress.setVisibility(View.VISIBLE);
         }
 
@@ -129,36 +130,12 @@ public class HomeFragment extends Fragment {
             editor.putString("Country", weatherInfo.getCountry());
             editor.putString("Temperature", weatherInfo.getTemperature());
             editor.putString("Icon", weatherInfo.getIcon());
+            editor.putString("Latitude", String.valueOf(latitude));
+            editor.putString("Longitude", String.valueOf(longitude));
             editor.commit();
 
-            //getActivity().setProgressBarIndeterminateVisibility(false);
             progress.setVisibility(View.GONE);
-
             updateUI();
-
-        }
-    }
-
-    //TODO levare alla fine per adesso è qui così vediamo se crasha
-    private class AsyncTaskTrafficRequest extends AsyncTask<Double, Void, GoogleTrafficRequest> {
-
-        @Override
-        protected GoogleTrafficRequest doInBackground(Double... params) {
-
-            double startLatitude = params[0];
-            double startLongitude = params[1];
-            double endLatitude = params[2];
-            double endLongitude = params[3];
-
-            GoogleTrafficRequest trafficInfo = new GoogleTrafficRequest(startLatitude, startLongitude, endLatitude, endLongitude);
-
-            return trafficInfo;
-        }
-
-
-        @Override
-        protected void onPostExecute(GoogleTrafficRequest traffic) {
-
         }
     }
 
