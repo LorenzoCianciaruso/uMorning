@@ -5,6 +5,8 @@ import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 import android.provider.CalendarContract;
+
+import com.example.umorning.external_services.GoogleGeocode;
 import com.example.umorning.model.Event;
 
 import java.util.ArrayList;
@@ -55,8 +57,13 @@ public class EventService {
                 }
                 //prendi la location
                 String location = new String();
+                double latitude = 0;
+                double longitude = 0;
                 try {
                     location = mCursor.getString(mCursor.getColumnIndexOrThrow(CalendarContract.Events.EVENT_LOCATION));
+                    GoogleGeocode gg = new GoogleGeocode(location);
+                    latitude = gg.getLatitude();
+                    longitude = gg.getLongitude();
                 }
                 catch (IllegalArgumentException e){
                     ;
@@ -69,7 +76,7 @@ public class EventService {
                 catch (IllegalArgumentException e){
                     ;
                 }
-                Event e = new Event(title,organizer,location,date);
+                Event e = new Event(title, organizer,location, "","", latitude,longitude,location,null,null,date,null);
                 if (e.validEvent()){
                     if (e.futureEvent()) {
                         events.add(e);

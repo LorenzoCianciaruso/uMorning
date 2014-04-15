@@ -16,9 +16,11 @@ public class Alarm {
     private double endLongitude;
     private String locationName;
     private Calendar date;
+    private Calendar expectedTime;
     private boolean activated;
+    private boolean toDelete;
 
-    public Alarm(int id, long delay, String name, String address, String city, String country, double startLatitude, double startLongitude, double endLatitude, double endLongitude, String locationName, Calendar date, boolean activated) {
+    public Alarm(int id, long delay, String name, String address, String city, String country, double startLatitude, double startLongitude, double endLatitude, double endLongitude, String locationName, Calendar date, Calendar expectedTime, boolean activated, boolean toDelete) {
         this.id = id;
         this.delay = delay;
         this.name = name;
@@ -31,7 +33,9 @@ public class Alarm {
         this.endLongitude = endLongitude;
         this.locationName = locationName;
         this.date = date;
+        this.expectedTime = expectedTime;
         this.activated = activated;
+        this.toDelete = toDelete;
     }
 
     public int getId() {
@@ -82,8 +86,15 @@ public class Alarm {
         return activated;
     }
 
+    public boolean isToDelete () {
+        return toDelete;
+    }
+
     public Calendar getDate() {
         return date;
     }
 
+    public Calendar getExpectedTime() {
+        return expectedTime;
+    }
 }

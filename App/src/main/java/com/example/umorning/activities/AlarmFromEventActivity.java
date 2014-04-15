@@ -25,7 +25,7 @@ import com.example.umorning.model.DatabaseHelper;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
-public class AlarmEditActivity extends Activity {
+public class AlarmFromEventActivity extends Activity {
 
     //campi dell'interfaccia
     private TextView nameT;
@@ -87,6 +87,7 @@ public class AlarmEditActivity extends Activity {
         db = new DatabaseHelper(this);
         //solo se è una modifica
         if (id !=0) {
+            //TODO settarli con i campi dell'evento
             toUpdate = db.getAlarm(id);
             nameT.setText(toUpdate.getName());
             addressT.setText(toUpdate.getAddress());

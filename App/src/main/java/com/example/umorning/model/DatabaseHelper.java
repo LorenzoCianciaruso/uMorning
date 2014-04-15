@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.provider.CalendarContract;
 import android.util.Log;
 
 import java.util.ArrayList;
@@ -32,7 +33,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String KEY_END_LONGITUDE = "endLongitude";
     private static final String KEY_LOCATION_NAME = "locationName";
     private static final String KEY_DATE = "date";
+    private static final String KEY_DATE_ALARM = "dateAlarm";
     private static final String KEY_ACTIVATED = "activated";
+    private static final String KEY_TO_DELETE = "toDelete";
     private static final String CREATE_TABLE_ALARM = "CREATE TABLE " + TABLE_ALARM
             + "("
             + KEY_ALARM_ID + " INTEGER PRIMARY KEY,"
@@ -47,7 +50,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             + KEY_END_LONGITUDE + " DOUBLE,"
             + KEY_LOCATION_NAME + " TEXT,"
             + KEY_DATE + " LONG,"
-            + KEY_ACTIVATED + " INTEGER"
+            + KEY_DATE_ALARM + " LONG,"
+            + KEY_ACTIVATED + " INTEGER,"
+            + KEY_TO_DELETE + " INTEGER"
             + ")";
 
     public DatabaseHelper(Context context) {
@@ -143,6 +148,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         String location = (c.getString(c.getColumnIndex(KEY_LOCATION_NAME)));
         Calendar date = new GregorianCalendar();
         date.setTimeInMillis(c.getLong(c.getColumnIndex(KEY_DATE)));
+        Calendar expectedTime = new GregorianCalendar();
+        expectedTime.setTimeInMillis(c.getLong(c.getColumnIndex(KEY_DATE_ALARM)));
         int activation = (c.getInt(c.getColumnIndex(KEY_ACTIVATED)));
         boolean activated;
         if (activation == 0) {
@@ -150,8 +157,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         } else {
             activated = true;
         }
+        int deletion = (c.getInt(c.getColumnIndex(KEY_TO_DELETE)));
+        boolean toDelete;
+        if (deletion == 0) {
+            toDelete = false;
+        } else {
+            toDelete = true;
+        }
         //chiamo il costruttore
-        return new Alarm(id, delay, name, address, city, country, startLatitude, startLongitude, endLatitude, endLongitude, location, date, activated);
+        return new Alarm(id, delay, name, address, city, country, startLatitude, startLongitude, endLatitude, endLongitude, location, date, expectedTime, activated, toDelete);
     }
 
     private ContentValues getContentValues(Alarm alarm) {
@@ -168,7 +182,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put(KEY_END_LONGITUDE, alarm.getEndLongitude());
         values.put(KEY_LOCATION_NAME, alarm.getLocationName());
         values.put(KEY_DATE, alarm.getDate().getTimeInMillis());
+        values.put(KEY_DATE_ALARM, alarm.getExpectedTime().getTimeInMillis());
         if (alarm.isActivated()) {
+            values.put(KEY_ACTIVATED, 1);
+        } else {
+            values.put(KEY_ACTIVATED, 0);
+        }
+        if (alarm.isToDelete()) {
             values.put(KEY_ACTIVATED, 1);
         } else {
             values.put(KEY_ACTIVATED, 0);
