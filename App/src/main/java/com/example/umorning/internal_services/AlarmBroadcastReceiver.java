@@ -21,7 +21,7 @@ public class AlarmBroadcastReceiver extends Service {
     @Override
     public void onStart(Intent intent, int startId) {
         super.onStart(intent, startId);
-        int id = intent().getIntExtra("alarmId", 0);
+        int id = intent.getIntExtra("alarmId", 0);
         //riapri l'applicazione andando su alarm activity che suona e apre una finestra
         Intent dialogIntent = new Intent(getBaseContext(), AlarmRingActivity.class);
         dialogIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
