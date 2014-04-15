@@ -2,13 +2,12 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="70dp"
+    android:background="#FFFFFF"
     android:orientation="horizontal"
-    android:padding="5dip"
-    android:background="#FFFFFF">
-    <!-- android:background="#FE4445" -->
+    android:padding="5dip">
 
-
-    <LinearLayout android:id="@+id/thumbnail"
+    <RelativeLayout
+        android:id="@+id/left"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
@@ -18,34 +17,34 @@
             android:id="@+id/list_image"
             android:layout_width="60dip"
             android:layout_height="60dip"
-            android:src="@drawable/alarm_icon"/>
+            android:src="@drawable/alarm_icon" />
 
-    </LinearLayout>
+    </RelativeLayout>
 
     <TextView
         android:id="@+id/eventName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_above="@+id/alarmTitle"
+        android:layout_alignTop="@+id/left"
+        android:layout_toRightOf="@+id/left"
+        android:fontFamily="sans-serif-light"
         android:text="11:45"
-        android:typeface="sans"
+        android:textColor="#333333"
         android:textSize="30dip"
         android:textStyle="bold"
-        android:textColor="#333333"
-        android:layout_alignTop="@+id/thumbnail"
-        android:layout_above="@+id/alarmTitle"
-        android:layout_toRightOf="@+id/thumbnail"
-        android:fontFamily="sans-serif-light"  />
+        android:typeface="sans" />
 
     <TextView
         android:id="@+id/alarmTitle"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:textSize="15dip"
-        android:text="nome evento"
-        android:textColor="#333333"
-        android:layout_alignBottom="@+id/thumbnail"
+        android:layout_alignBottom="@+id/left"
         android:layout_alignLeft="@+id/eventName"
         android:layout_alignStart="@+id/eventName"
-        android:fontFamily="sans-serif-light"/>
+        android:fontFamily="sans-serif-light"
+        android:text="nome evento"
+        android:textColor="#333333"
+        android:textSize="15dip" />
 
 </RelativeLayout>

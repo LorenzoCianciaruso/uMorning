@@ -22,7 +22,6 @@
         android:id="@+id/listViewEvents"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:dividerHeight="5.0sp">
-    </ListView>
+        android:dividerHeight="5.0sp"></ListView>
 
 </RelativeLayout>
