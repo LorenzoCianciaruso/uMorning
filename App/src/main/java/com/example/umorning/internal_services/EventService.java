@@ -61,9 +61,7 @@ public class EventService {
                 double longitude = 0;
                 try {
                     location = mCursor.getString(mCursor.getColumnIndexOrThrow(CalendarContract.Events.EVENT_LOCATION));
-                    GoogleGeocode gg = new GoogleGeocode(location);
-                    latitude = gg.getLatitude();
-                    longitude = gg.getLongitude();
+
                 }
                 catch (IllegalArgumentException e){
                     ;
@@ -76,7 +74,7 @@ public class EventService {
                 catch (IllegalArgumentException e){
                     ;
                 }
-                Event e = new Event(title, organizer,location, "","", latitude,longitude,location,null,null,date,null);
+                Event e = new Event(title, organizer,location, null,null, 0,0,location,null,null,date,null);
                 if (e.validEvent()){
                     if (e.futureEvent()) {
                         events.add(e);
