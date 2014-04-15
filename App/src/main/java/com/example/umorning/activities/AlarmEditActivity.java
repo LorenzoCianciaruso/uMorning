@@ -181,7 +181,7 @@ public class AlarmEditActivity extends Activity {
         if (expectedTime.after((Calendar.getInstance().getTimeInMillis()+60*60*1000))) {
             //chiama un alarmservice
             Intent myIntent = new Intent(this, AlarmBroadcastReceiver.class);
-            myIntent.putExtra("AlarmId", id);
+            myIntent.putExtra("alarmId", id);
             PendingIntent intent = PendingIntent.getService(this, 0, myIntent, 0);
             AlarmManager alarmManager = (AlarmManager) getSystemService(Service.ALARM_SERVICE);
 
