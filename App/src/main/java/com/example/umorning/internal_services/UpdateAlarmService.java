@@ -40,7 +40,6 @@ public class UpdateAlarmService extends Service {
                 double startLongitude = a.getStartLongitude();
                 double endLatitude = a.getEndLatitude();
                 double endLongitude = a.getEndLongitude();
-                String location = a.getLocationName();
                 Calendar date = a.getDate();
                 boolean activated = a.isActivated();
                 boolean toDelete = a.isToDelete();
@@ -65,7 +64,7 @@ public class UpdateAlarmService extends Service {
                     alarmManager.set(AlarmManager.RTC_WAKEUP, expectedTime.getTimeInMillis(), intent);
                 }
                 //aggiorna l'allarme e lo salva nel DB
-                Alarm updated = new Alarm(id, delay, name, address, city, country, startLatitude, startLongitude, endLatitude, endLongitude, location, date, expectedTime, activated, toDelete);
+                Alarm updated = new Alarm(id, delay, name, address, city, country, startLatitude, startLongitude, endLatitude, endLongitude, date, expectedTime, activated, toDelete);
                 db.updateAlarm(updated);
             }
         }

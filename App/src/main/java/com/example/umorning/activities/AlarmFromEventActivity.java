@@ -182,7 +182,7 @@ public class AlarmFromEventActivity extends Activity {
 
         toDelete=false;
         //salva nel db aggiornando o creando
-        Alarm updated = new Alarm(id, delay, name, address, city, country, startLatitude, startLongitude, endLatitude, endLongitude, location, date, expectedTime, activated, toDelete);
+        Alarm updated = new Alarm(id, delay, name, address, city, country, startLatitude, startLongitude, endLatitude, endLongitude, date, expectedTime, activated, toDelete);
         if (id == 0){
             db.addAlarm(updated);
         }
