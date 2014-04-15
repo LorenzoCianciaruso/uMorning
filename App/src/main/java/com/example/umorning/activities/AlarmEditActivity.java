@@ -50,8 +50,10 @@ public class AlarmEditActivity extends Activity {
     private double endLongitude;
     private String location;
     private Calendar date;
+    private Calendar expectedTime;
     private boolean activated;
     private boolean toDelete;
+
 
     private Alarm toUpdate;
     private DatabaseHelper db;
@@ -94,6 +96,7 @@ public class AlarmEditActivity extends Activity {
             countryT.setText(toUpdate.getCountry());
             delayPicker.setValue((int) (toUpdate.getDelay()));
             date=toUpdate.getDate();
+            expectedTime=toUpdate.getExpectedTime();
             activation.setChecked(toUpdate.isActivated());
         }
 
@@ -160,26 +163,26 @@ public class AlarmEditActivity extends Activity {
             }
             //richiesta traffico
             GoogleTrafficRequest trafficRequest = new GoogleTrafficRequest(startLatitude, startLongitude, endLatitude, endLongitude);
-            long trafficMillis = new Long(trafficRequest.getTripDurationInMillis());
+            long trafficMillis = trafficRequest.getTripDurationInMillis();
 
             //ottengo l'ora della sveglia sottraendo traffico e tempo per prepararsi
-            Calendar timeOfAlarm = new GregorianCalendar();
-            timeOfAlarm.setTimeInMillis(date.getTimeInMillis() - trafficMillis - (delay*1000*60));
-            System.out.println("AAAAA "+timeOfAlarm);
+            expectedTime.setTimeInMillis(date.getTimeInMillis() - trafficMillis - (delay * 1000 * 60));
 
-            //chiama un alarmservice
-            Intent myIntent = new Intent(this, AlarmBroadcastReceiver.class);
-            PendingIntent pendingIntent = PendingIntent.getService(this, 0, myIntent, 0);
-            AlarmManager alarmManager = (AlarmManager) getSystemService(Service.ALARM_SERVICE);
+            if (expectedTime.after((Calendar.getInstance().getTimeInMillis()+60*60*1000))) {
+                //chiama un alarmservice
+                Intent myIntent = new Intent(this, AlarmBroadcastReceiver.class);
+                myIntent.putExtra("AlarmId", toUpdate.getId());
+                PendingIntent intent = PendingIntent.getService(this, 0, myIntent, 0);
+                AlarmManager alarmManager = (AlarmManager) getSystemService(Service.ALARM_SERVICE);
 
-            //imposta l'ora e fa partire
-            alarmManager.set(AlarmManager.RTC_WAKEUP, timeOfAlarm.getTimeInMillis(), pendingIntent);
-
+                //imposta l'ora e fa partire
+                alarmManager.set(AlarmManager.RTC_WAKEUP, expectedTime.getTimeInMillis(), intent);
+            }
         }
 
         toDelete=false;
         //salva nel db aggiornando o creando
-        Alarm updated = new Alarm(id, delay, name, address, city, country, startLatitude, startLongitude, endLatitude, endLongitude, location, date, activated, toDelete);
+        Alarm updated = new Alarm(id, delay, name, address, city, country, startLatitude, startLongitude, endLatitude, endLongitude, location, date, expectedTime, activated, toDelete);
         if (id == 0){
             db.addAlarm(updated);
         }
