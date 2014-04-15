@@ -79,6 +79,7 @@ public class AlarmEditActivity extends Activity {
         SharedPreferences prefs = getSharedPreferences("uMorning", 0);
         delay = prefs.getLong("DELAY", 30);
         date = Calendar.getInstance();
+        expectedTime = Calendar.getInstance();
         delayPicker.setValue((int) delay);
         activation.setChecked(true);
 
@@ -178,7 +179,8 @@ public class AlarmEditActivity extends Activity {
             db.updateAlarm(updated);
         }
 
-        if (expectedTime.after((Calendar.getInstance().getTimeInMillis()+60*60*1000))) {
+        //if (expectedTime.after((Calendar.getInstance().getTimeInMillis()+60*60*1000))) {
+            if(true){
             //chiama un alarmservice
             Intent myIntent = new Intent(this, AlarmBroadcastReceiver.class);
             myIntent.putExtra("AlarmId", id);
@@ -186,7 +188,7 @@ public class AlarmEditActivity extends Activity {
             AlarmManager alarmManager = (AlarmManager) getSystemService(Service.ALARM_SERVICE);
 
             //imposta l'ora e fa partire
-            alarmManager.set(AlarmManager.RTC_WAKEUP, expectedTime.getTimeInMillis(), intent);
+            alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), intent);
         }
 
 
