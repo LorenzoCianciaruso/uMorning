@@ -23,7 +23,7 @@ public class AlarmsFragment extends Fragment {
     private ListView list;
     private AlarmsAdapter adapter;
     private List<Alarm> alarms;
-    private ProgressBar progress;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -31,7 +31,7 @@ public class AlarmsFragment extends Fragment {
 
         View rootView = inflater.inflate(R.layout.fragment_alarms, container,
                 false);
-//        progress = (ProgressBar) getView().findViewById(R.id.pbHeaderProgress);
+
         super.onCreate(savedInstanceState);
         return rootView;
     }

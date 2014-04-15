@@ -117,6 +117,7 @@ public class EventDetailsActivity extends FragmentActivity {
         getMenuInflater().inflate(R.menu.event_details, menu);
         MenuItem item = menu.findItem(R.id.menu_item_share);
         mShareActionProvider = (ShareActionProvider) item.getActionProvider();
+
         Intent shareIntent = ShareCompat.IntentBuilder.from(this)
                 .setType("text/plain").setText("").getIntent();
         mShareActionProvider.setShareIntent(shareIntent);

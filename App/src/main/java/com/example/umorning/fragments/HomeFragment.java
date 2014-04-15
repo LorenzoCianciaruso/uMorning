@@ -115,6 +115,7 @@ public class HomeFragment extends Fragment {
 
             //richiesta meteo
             weatherInfo = new MetwitRequest(latitude, longitude);
+
             //restituisce oggetto meteo contenente informazioni
             return weatherInfo;
         }
@@ -133,8 +134,9 @@ public class HomeFragment extends Fragment {
             editor.putString("Latitude", String.valueOf(latitude));
             editor.putString("Longitude", String.valueOf(longitude));
             editor.commit();
-
             progress.setVisibility(View.GONE);
+
+
             updateUI();
         }
     }

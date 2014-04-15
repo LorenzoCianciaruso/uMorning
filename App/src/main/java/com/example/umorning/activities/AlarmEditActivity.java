@@ -17,7 +17,7 @@ import android.widget.TimePicker;
 import com.example.umorning.R;
 import com.example.umorning.external_services.GoogleGeocode;
 import com.example.umorning.external_services.GoogleTrafficRequest;
-import com.example.umorning.internal_services.AlarmService;
+import com.example.umorning.internal_services.AlarmBroadcastReceiver;
 import com.example.umorning.internal_services.GpsLocalizationService;
 import com.example.umorning.model.Alarm;
 import com.example.umorning.model.DatabaseHelper;
@@ -168,7 +168,7 @@ public class AlarmEditActivity extends Activity {
             timeOfAlarm.setTimeInMillis(date.getTimeInMillis() - trafficMillis - (delay*1000*60));
 
             //chiama un alarmservice
-            Intent myIntent = new Intent(this, AlarmService.class);
+            Intent myIntent = new Intent(this, AlarmBroadcastReceiver.class);
             PendingIntent pendingIntent = PendingIntent.getService(this, 0, myIntent, 0);
             AlarmManager alarmManager = (AlarmManager) getSystemService(Service.ALARM_SERVICE);
 
