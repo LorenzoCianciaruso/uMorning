@@ -118,8 +118,8 @@ public class Facebook {
                             String organizer = json.getJSONObject("owner").getString("name");
                             String startTime = json.getString("start_time");
                             JSONObject jsonVenue = json.getJSONObject("venue");
-                            String city = null;
-                            String country = null;
+                            String city = "";
+                            String country = "";
                             double latitude;
                             double longitude;
 

@@ -113,7 +113,6 @@ public class EventDetailsActivity extends FragmentActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-
         getMenuInflater().inflate(R.menu.event_details, menu);
         MenuItem item = menu.findItem(R.id.menu_item_share);
         mShareActionProvider = (ShareActionProvider) item.getActionProvider();
@@ -127,15 +126,14 @@ public class EventDetailsActivity extends FragmentActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
         int id = item.getItemId();
         if (id == R.id.fb_share) {
             fb.publishStory(this, name, place, url, time);
         } else if (id == R.id.add) {
-            //TODO add new alarm
+
+
         }
         return super.onOptionsItemSelected(item);
-
     }
 
     private void setUpMapIfNeeded() {

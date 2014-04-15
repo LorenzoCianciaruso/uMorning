@@ -13,8 +13,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.umorning.R;
-import com.example.umorning.external_services.GoogleGeocode;
-import com.example.umorning.external_services.GoogleTrafficRequest;
 import com.example.umorning.external_services.HttpRequest;
 import com.example.umorning.external_services.MetwitRequest;
 import com.example.umorning.internal_services.GpsLocalizationService;

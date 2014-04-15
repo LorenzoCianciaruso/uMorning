@@ -35,7 +35,7 @@
             </intent-filter>
         </activity>
 
-        <service android:name="com.example.umorning.internal_services.AlarmService" />
+        <service android:name="com.example.umorning.internal_services.AlarmBroadcastReceiver" />
         <service android:name="com.example.umorning.internal_services.GpsLocalizationService" />
 
         <activity
@@ -82,7 +82,7 @@
             android:screenOrientation="portrait">
         </activity>
 
-        <receiver android:name="AlarmBroadcastReceiver" >
+        <receiver android:name="com.example.umorning.internal_services.AlarmBroadcastReceiver" >
         </receiver>
 
         <meta-data android:name="com.google.android.maps.v2.API_KEY"

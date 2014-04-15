@@ -25,9 +25,12 @@ public class GoogleGeocode {
 
     public GoogleGeocode(String address, String city, String country) {
 
-        formattedAddress = address + ",+" + city + ",+" + country;
 
-        formattedAddress = address.replace(" ", "+");
+        formattedAddress = address + " , " + city + " , " + country;
+
+        formattedAddress = formattedAddress.replace(" ", "+");
+
+        System.out.println("FFFFF "+formattedAddress);
 
         fromAddressToCoordinates();
     }
@@ -48,6 +51,7 @@ public class GoogleGeocode {
         try {
             JSONObject jObject;
             try {
+                System.out.println(result.toString());
                 jObject = new JSONObject(result);
                 JSONObject jLocation = jObject.getJSONArray("results").getJSONObject(0).getJSONObject("geometry").getJSONObject("location");
                 latitude = jLocation.getDouble("lat");
