@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="70dp"
-    android:background="#EEEEEE"
+    android:background="#FFFFFF"
     android:orientation="horizontal"
     android:padding="5dip">
 
@@ -29,8 +29,8 @@
         android:layout_alignTop="@+id/left"
         android:layout_toRightOf="@+id/left"
         android:fontFamily="sans-serif-light"
-        android:text="11:45"
-        android:textColor="#33B5E5"
+        android:text="09:00"
+        android:textColor="#333333"
         android:textSize="30dip"
         android:textStyle="bold"
         android:typeface="sans" />
@@ -43,8 +43,8 @@
         android:layout_alignLeft="@+id/alarmTime"
         android:layout_alignStart="@+id/alarmTime"
         android:fontFamily="sans-serif-light"
-        android:text="nome evento o descrizione"
-        android:textColor="#33B5E5"
+        android:text="alarm title"
+        android:textColor="#333333"
         android:textSize="15dip" />
 
 </RelativeLayout>
