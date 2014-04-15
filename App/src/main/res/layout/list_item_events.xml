@@ -29,7 +29,7 @@
         android:layout_alignTop="@+id/left"
         android:layout_toRightOf="@+id/left"
         android:fontFamily="sans-serif-light"
-        android:text="11:45"
+        android:text="09:00"
         android:textColor="#333333"
         android:textSize="30dip"
         android:textStyle="bold"
@@ -43,7 +43,7 @@
         android:layout_alignLeft="@+id/eventName"
         android:layout_alignStart="@+id/eventName"
         android:fontFamily="sans-serif-light"
-        android:text="nome evento"
+        android:text="alarm title"
         android:textColor="#333333"
         android:textSize="15dip" />
 

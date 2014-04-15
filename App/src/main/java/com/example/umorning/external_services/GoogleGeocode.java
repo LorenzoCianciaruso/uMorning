@@ -16,14 +16,14 @@ public class GoogleGeocode {
 
     //TODO se non serve da coordinate a indirizzo, toglierlo
 
-    public GoogleGeocode(double latitude, double longitude){
+    public GoogleGeocode(double latitude, double longitude) {
         this.latitude = latitude;
         this.longitude = longitude;
 
         fromCoordinatesToAddress();
     }
 
-    public GoogleGeocode(String address, String city, String country){
+    public GoogleGeocode(String address, String city, String country) {
 
         formattedAddress = address + ",+" + city + ",+" + country;
 
@@ -32,27 +32,30 @@ public class GoogleGeocode {
         fromAddressToCoordinates();
     }
 
-    public GoogleGeocode(String address){
+    public GoogleGeocode(String address) {
         formattedAddress = address.replace(" ", "+");
 
         fromAddressToCoordinates();
     }
 
 
+    private void fromAddressToCoordinates() {
 
-    private void fromAddressToCoordinates( ){
-
-        String url = "https://maps.googleapis.com/maps/api/geocode/json?address="+formattedAddress+"&sensor=true&key=AIzaSyDj6lm3eLSuOhG4rLXL66WUBg7C7XEDYcA";
+        String url = "https://maps.googleapis.com/maps/api/geocode/json?address=" + formattedAddress + "&sensor=true&key=AIzaSyDj6lm3eLSuOhG4rLXL66WUBg7C7XEDYcA";
 
         String result = new HttpRequest().getRequest(url);
 
         try {
-            JSONObject jObject = new JSONObject(result);
-
-            JSONObject jLocation = jObject.getJSONArray("results").getJSONObject(0).getJSONObject("geometry").getJSONObject("location");
-
-            latitude = jLocation.getDouble("lat");
-            longitude = jLocation.getDouble("lng");
+            JSONObject jObject;
+            try {
+                jObject = new JSONObject(result);
+                JSONObject jLocation = jObject.getJSONArray("results").getJSONObject(0).getJSONObject("geometry").getJSONObject("location");
+                latitude = jLocation.getDouble("lat");
+                longitude = jLocation.getDouble("lng");
+            } catch (NullPointerException e) {
+                latitude = 45.2751;
+                longitude = 9.1129;
+            }
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -61,9 +64,9 @@ public class GoogleGeocode {
 
     }
 
-    private void fromCoordinatesToAddress( ){
+    private void fromCoordinatesToAddress() {
 
-        String url = "https://maps.googleapis.com/maps/api/geocode/json?latlng="+latitude+","+longitude+"&sensor=true&key=AIzaSyDj6lm3eLSuOhG4rLXL66WUBg7C7XEDYcA";
+        String url = "https://maps.googleapis.com/maps/api/geocode/json?latlng=" + latitude + "," + longitude + "&sensor=true&key=AIzaSyDj6lm3eLSuOhG4rLXL66WUBg7C7XEDYcA";
 
         String result = new HttpRequest().getRequest(url);
 

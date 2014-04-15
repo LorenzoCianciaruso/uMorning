@@ -1,21 +1,17 @@
 package com.example.umorning.fragments;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
-
 import com.example.umorning.R;
 import com.example.umorning.activities.EventDetailsActivity;
 import com.example.umorning.external_services.Eventbrite;
@@ -33,7 +29,6 @@ public class EventsFragment extends Fragment {
     private List<Event> events;
     private ListView list_of_events;
     private ArrayAdapter<String> listAdapter;
-    private static final String KEY = "eventsList";
     private ProgressBar progress;
 
     @Override
@@ -163,7 +158,7 @@ public class EventsFragment extends Fragment {
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putParcelable(KEY, list_of_events.onSaveInstanceState());
+
     }
 
 
