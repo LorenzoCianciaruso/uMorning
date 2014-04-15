@@ -166,6 +166,7 @@ public class AlarmEditActivity extends Activity {
             //ottengo l'ora della sveglia sottraendo traffico e tempo per prepararsi
             Calendar timeOfAlarm = new GregorianCalendar();
             timeOfAlarm.setTimeInMillis(date.getTimeInMillis() - trafficMillis - (delay*1000*60));
+            System.out.println("AAAAA "+timeOfAlarm);
 
             //chiama un alarmservice
             Intent myIntent = new Intent(this, AlarmBroadcastReceiver.class);
@@ -174,6 +175,7 @@ public class AlarmEditActivity extends Activity {
 
             //imposta l'ora e fa partire
             alarmManager.set(AlarmManager.RTC_WAKEUP, timeOfAlarm.getTimeInMillis(), pendingIntent);
+
         }
 
         //salva nel db aggiornando o creando
@@ -183,10 +185,12 @@ public class AlarmEditActivity extends Activity {
         }
         else {
             db.updateAlarm(updated);
+
         }
 
         //TODO print di debug
         System.out.println("SSSSSSS sveglia modificata con id  " + id);
+
         finish();
     }
 }

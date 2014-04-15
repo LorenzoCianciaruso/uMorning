@@ -43,8 +43,6 @@ public class GoogleTrafficRequest {
         }
         String result = new HttpRequest().getRequest(url);
 
-        System.out.println("BBBBBBBBBBBBBBBB "+result.toString());
-
         try {
             JSONObject jObject = new JSONObject(result);
             JSONArray jsonRows = jObject.getJSONArray("rows");
