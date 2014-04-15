@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background_alarms"
+    android:background="#F0EFF4"
     android:orientation="vertical"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
@@ -13,25 +13,24 @@
         android:id="@+id/listView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
         android:layout_above="@+id/footer"
-        android:dividerHeight="5.0sp">
-    </ListView>
+        android:layout_alignParentTop="true"
+        android:dividerHeight="5.0sp"></ListView>
 
     <RelativeLayout
         android:id="@+id/footer"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:orientation="vertical" >
+        android:orientation="vertical">
 
         <Button
             android:id="@+id/addnewalarm"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Add New Alarm"
-            android:onClick="openAddNewActivity"/>
+            android:onClick="openAddNewActivity"
+            android:text="Add New Alarm" />
 
     </RelativeLayout>
 
