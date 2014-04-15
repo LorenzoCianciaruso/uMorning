@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -16,7 +17,12 @@ import com.example.umorning.R;
 import com.example.umorning.external_services.HttpRequest;
 import com.example.umorning.external_services.MetwitRequest;
 import com.example.umorning.internal_services.GpsLocalizationService;
+import com.example.umorning.model.Alarm;
+import com.example.umorning.model.DatabaseHelper;
 import com.google.android.gms.common.GooglePlayServicesUtil;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class HomeFragment extends Fragment {
 
@@ -27,6 +33,11 @@ public class HomeFragment extends Fragment {
     private ProgressBar progress;
     private double latitude;
     private double longitude;
+
+    private ListView list;
+    private AlarmsAdapter adapter;
+    private List<Alarm> alarms;
+    private List<Alarm> activatedAlarms;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -95,6 +106,27 @@ public class HomeFragment extends Fragment {
             dialog.show();
         }
         */
+
+        DatabaseHelper db = new DatabaseHelper(getActivity()
+                .getApplicationContext());
+        alarms = new ArrayList<Alarm>();
+        activatedAlarms = new ArrayList<Alarm>();
+        alarms = db.getAllAlarms();
+
+        //inserisco in activatedAlarms i primi 5 alarmi attivi di alarms
+        for(Alarm a: alarms){
+            if (a.isActivated()){
+                activatedAlarms.add(a);
+                if(activatedAlarms.size()==5)
+                    break;
+            }
+        }
+
+        list = (ListView) getView().findViewById(R.id.listEventsActivated);
+        adapter = new AlarmsAdapter(getActivity(), activatedAlarms);
+        list.setAdapter(adapter);
+
+
     }
 
     private class AsyncTaskMeteoRequest extends AsyncTask<Double, Void, MetwitRequest> {
@@ -145,6 +177,9 @@ public class HomeFragment extends Fragment {
         String cou = prefs.getString("Country", " ");
         String temp = prefs.getString("Temperature", " ");
         String icon = prefs.getString("Icon", " ");
+
+        cou = "(" + cou + ")";
+        temp = temp + "°C";
 
         //assegna variabili
         locality.setText(loc);

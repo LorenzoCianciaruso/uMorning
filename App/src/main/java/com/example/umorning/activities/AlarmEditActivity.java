@@ -15,7 +15,6 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 
 import com.example.umorning.R;
-import com.example.umorning.external_services.GoogleGeocode;
 import com.example.umorning.external_services.GoogleTrafficRequest;
 import com.example.umorning.internal_services.AlarmBroadcastReceiver;
 import com.example.umorning.internal_services.GpsLocalizationService;
@@ -23,7 +22,6 @@ import com.example.umorning.model.Alarm;
 import com.example.umorning.model.DatabaseHelper;
 
 import java.util.Calendar;
-import java.util.GregorianCalendar;
 
 public class AlarmEditActivity extends Activity {
 
@@ -155,12 +153,12 @@ public class AlarmEditActivity extends Activity {
         date.set(datePicker.getYear(),datePicker.getMonth(),datePicker.getDayOfMonth(),timePicker.getCurrentHour(),timePicker.getCurrentMinute());
 
         if (activated) {
-            if (address!=toUpdate.getAddress()||city!=toUpdate.getCity()||country!=toUpdate.getCountry()) {
+            /*if (address!=toUpdate.getAddress()||city!=toUpdate.getCity()||country!=toUpdate.getCountry()) {
                 //traduci indirizzo in coordinate
                 GoogleGeocode gg = new GoogleGeocode(address, city, country);
                 endLatitude = gg.getLatitude();
                 endLongitude = gg.getLongitude();
-            }
+            }*/
             //richiesta traffico
             GoogleTrafficRequest trafficRequest = new GoogleTrafficRequest(startLatitude, startLongitude, endLatitude, endLongitude);
             long trafficMillis = trafficRequest.getTripDurationInMillis();
@@ -171,7 +169,7 @@ public class AlarmEditActivity extends Activity {
             if (expectedTime.after((Calendar.getInstance().getTimeInMillis()+60*60*1000))) {
                 //chiama un alarmservice
                 Intent myIntent = new Intent(this, AlarmBroadcastReceiver.class);
-                myIntent.putExtra("AlarmId", toUpdate.getId());
+                myIntent.putExtra("AlarmId", id);
                 PendingIntent intent = PendingIntent.getService(this, 0, myIntent, 0);
                 AlarmManager alarmManager = (AlarmManager) getSystemService(Service.ALARM_SERVICE);
 
@@ -190,6 +188,7 @@ public class AlarmEditActivity extends Activity {
             db.updateAlarm(updated);
 
         }
+
 
         //TODO print di debug
         System.out.println("SSSSSSS sveglia modificata con id  " + id);
