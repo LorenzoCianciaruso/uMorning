@@ -166,27 +166,27 @@ public class AlarmEditActivity extends Activity {
             //ottengo l'ora della sveglia sottraendo traffico e tempo per prepararsi
             expectedTime.setTimeInMillis(date.getTimeInMillis() - trafficMillis - (delay * 1000 * 60));
 
-            if (expectedTime.after((Calendar.getInstance().getTimeInMillis()+60*60*1000))) {
-                //chiama un alarmservice
-                Intent myIntent = new Intent(this, AlarmBroadcastReceiver.class);
-                myIntent.putExtra("AlarmId", id);
-                PendingIntent intent = PendingIntent.getService(this, 0, myIntent, 0);
-                AlarmManager alarmManager = (AlarmManager) getSystemService(Service.ALARM_SERVICE);
-
-                //imposta l'ora e fa partire
-                alarmManager.set(AlarmManager.RTC_WAKEUP, expectedTime.getTimeInMillis(), intent);
-            }
         }
 
         toDelete=false;
         //salva nel db aggiornando o creando
         Alarm updated = new Alarm(id, delay, name, address, city, country, startLatitude, startLongitude, endLatitude, endLongitude, location, date, expectedTime, activated, toDelete);
         if (id == 0){
-            db.addAlarm(updated);
+            id = (int) db.addAlarm(updated);
         }
         else {
             db.updateAlarm(updated);
+        }
 
+        if (expectedTime.after((Calendar.getInstance().getTimeInMillis()+60*60*1000))) {
+            //chiama un alarmservice
+            Intent myIntent = new Intent(this, AlarmBroadcastReceiver.class);
+            myIntent.putExtra("AlarmId", id);
+            PendingIntent intent = PendingIntent.getService(this, 0, myIntent, 0);
+            AlarmManager alarmManager = (AlarmManager) getSystemService(Service.ALARM_SERVICE);
+
+            //imposta l'ora e fa partire
+            alarmManager.set(AlarmManager.RTC_WAKEUP, expectedTime.getTimeInMillis(), intent);
         }
 
 
