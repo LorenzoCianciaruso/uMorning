@@ -82,11 +82,15 @@
             android:screenOrientation="portrait">
         </activity>
 
+        <receiver android:name="AlarmBroadcastReceiver" >
+        </receiver>
+
         <meta-data android:name="com.google.android.maps.v2.API_KEY"
             android:value="AIzaSyDj6lm3eLSuOhG4rLXL66WUBg7C7XEDYcA"/>
     </application>
 
     <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="com.android.alarm.permission.SET_ALARM"/>
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
