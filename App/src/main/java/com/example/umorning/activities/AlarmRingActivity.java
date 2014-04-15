@@ -10,6 +10,8 @@ import android.os.Vibrator;
 import android.view.MenuItem;
 
 import com.example.umorning.R;
+import com.example.umorning.model.Alarm;
+import com.example.umorning.model.DatabaseHelper;
 
 public class AlarmRingActivity extends Activity {
 
@@ -18,8 +20,13 @@ public class AlarmRingActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_alarm_ring);
 
-           //TODO mettere bottoni stop e snooze poi bisogna trovare il modo di fare dei metodi che lo facciano
+        int id = getIntent().getIntExtra("alarmId", 0);
 
+        DatabaseHelper db = new DatabaseHelper(this);
+        Alarm alarm = db.getAlarm(id);
+
+        //TODO mettere bottoni stop e snooze poi bisogna trovare il modo di fare dei metodi che lo facciano
+        //TODO settare nella grafica il nome della sveglia
         //servizio vibrazione
         Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
         // ogni elemento alterna vibrazione, pausa, vibrazione, pausa...

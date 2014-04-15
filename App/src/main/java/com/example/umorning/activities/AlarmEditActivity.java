@@ -15,6 +15,7 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 
 import com.example.umorning.R;
+import com.example.umorning.external_services.GoogleGeocode;
 import com.example.umorning.external_services.GoogleTrafficRequest;
 import com.example.umorning.internal_services.AlarmBroadcastReceiver;
 import com.example.umorning.internal_services.GpsLocalizationService;
@@ -46,7 +47,6 @@ public class AlarmEditActivity extends Activity {
     private double startLongitude;
     private double endLatitude;
     private double endLongitude;
-    private String location;
     private Calendar date;
     private Calendar expectedTime;
     private boolean activated;
@@ -154,12 +154,12 @@ public class AlarmEditActivity extends Activity {
         date.set(datePicker.getYear(),datePicker.getMonth(),datePicker.getDayOfMonth(),timePicker.getCurrentHour(),timePicker.getCurrentMinute());
 
         if (activated) {
-            /*if (address!=toUpdate.getAddress()||city!=toUpdate.getCity()||country!=toUpdate.getCountry()) {
+            if (id!=0 || address!=toUpdate.getAddress()||city!=toUpdate.getCity()||country!=toUpdate.getCountry()) {
                 //traduci indirizzo in coordinate
                 GoogleGeocode gg = new GoogleGeocode(address, city, country);
                 endLatitude = gg.getLatitude();
                 endLongitude = gg.getLongitude();
-            }*/
+            }
             //richiesta traffico
             GoogleTrafficRequest trafficRequest = new GoogleTrafficRequest(startLatitude, startLongitude, endLatitude, endLongitude);
             long trafficMillis = trafficRequest.getTripDurationInMillis();
@@ -171,7 +171,7 @@ public class AlarmEditActivity extends Activity {
 
         toDelete=false;
         //salva nel db aggiornando o creando
-        Alarm updated = new Alarm(id, delay, name, address, city, country, startLatitude, startLongitude, endLatitude, endLongitude, location, date, expectedTime, activated, toDelete);
+        Alarm updated = new Alarm(id, delay, name, address, city, country, startLatitude, startLongitude, endLatitude, endLongitude, date, expectedTime, activated, toDelete);
         if (id == 0){
             id = (int) db.addAlarm(updated);
         }
