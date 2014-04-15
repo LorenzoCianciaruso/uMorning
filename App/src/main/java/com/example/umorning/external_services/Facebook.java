@@ -46,7 +46,6 @@ public class Facebook {
 
 
         if (session == null) {
-            System.out.println("restore");
             session = Session.openActiveSessionFromCache(cxt);
         }
 
@@ -154,7 +153,7 @@ public class Facebook {
 
                             if (date.getTimeInMillis() > currentTime) {
 
-                                Event event = new Event(name, organizer, address, city, country, latitude, longitude, null, null, null, date, null);
+                                Event event = new Event(name, organizer, address, city, country, latitude, longitude, null, date, null);
                                 eventsList.add(event);
                             }
                         } catch (JSONException e) {

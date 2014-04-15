@@ -30,8 +30,6 @@ public class GoogleGeocode {
 
         formattedAddress = formattedAddress.replace(" ", "+");
 
-        System.out.println("FFFFF "+formattedAddress);
-
         fromAddressToCoordinates();
     }
 
@@ -51,7 +49,7 @@ public class GoogleGeocode {
         try {
             JSONObject jObject;
             try {
-                System.out.println(result.toString());
+
                 jObject = new JSONObject(result);
                 JSONObject jLocation = jObject.getJSONArray("results").getJSONObject(0).getJSONObject("geometry").getJSONObject("location");
                 latitude = jLocation.getDouble("lat");

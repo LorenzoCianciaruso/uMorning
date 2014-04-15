@@ -78,9 +78,6 @@ public class HomeFragment extends Fragment {
                 latitude = Double.parseDouble(prefs.getString("Latitude", "45.529"));
                 longitude = Double.parseDouble(prefs.getString("Longitude", "9.0429"));
             }
-
-            Toast.makeText(getActivity().getApplicationContext(), "Your Location is - \nLat: " + latitude + "\nLong: " + longitude, Toast.LENGTH_LONG).show();
-
             if (HttpRequest.isOnline(getActivity())) {
                 new AsyncTaskMeteoRequest().execute(latitude,longitude);
             } else {
@@ -116,7 +113,7 @@ public class HomeFragment extends Fragment {
         //inserisco in activatedAlarms i primi 5 alarmi attivi di alarms
         for(Alarm a: alarms){
             if (a.isActivated()){
-                activatedAlarms.add(a);
+               activatedAlarms.add(a);
                 if(activatedAlarms.size()==5)
                     break;
             }
@@ -125,7 +122,6 @@ public class HomeFragment extends Fragment {
         list = (ListView) getView().findViewById(R.id.listEventsActivated);
         adapter = new AlarmsAdapter(getActivity(), activatedAlarms);
         list.setAdapter(adapter);
-
 
     }
 

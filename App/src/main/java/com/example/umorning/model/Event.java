@@ -10,14 +10,11 @@ public class Event {
     private String country;
     private double latitude;
     private double longitude;
-    private String locationName;
     private String eventURL;
-    private String getRequestURL;
     private Calendar date;
     private String status;
-    private boolean activation;
 
-    public Event(String name, String organizer, String address, String city, String country, double latitude, double longitude, String locationName, String eventURL, String getRequestURL, Calendar date, String status) {
+    public Event(String name, String organizer, String address, String city, String country, double latitude, double longitude, String eventURL, Calendar date, String status) {
         this.name = name;
         this.organizer = organizer;
         this.address = address;
@@ -25,18 +22,9 @@ public class Event {
         this.country = country;
         this.latitude = latitude;
         this.longitude = longitude;
-        this.locationName = locationName;
         this.eventURL = eventURL;
-        this.getRequestURL = getRequestURL;
         this.date = date;
         this.status = status;
-    }
-
-    public Event(String name, String organizer, String locationName, Calendar date) {
-        this.name = name;
-        this.organizer = organizer;
-        this.locationName = locationName;
-        this.date = date;
     }
 
     //controlla che l'evento non sia spam
@@ -96,17 +84,6 @@ public class Event {
         return false;
     }
 
-    //controlla che i campi fondamentali per la sveglia siano definiti
-    public boolean checkForAlarm() {
-        if (this.date != null && this.locationName != null && this.name != null) {
-            return true;
-        }
-        return false;
-    }
-
-    public void setActivation(boolean activation) {
-        this.activation = activation;
-    }
 
     public String getName() {
         return name;
@@ -140,10 +117,6 @@ public class Event {
         return eventURL;
     }
 
-    public String getGetRequestURL() {
-        return getRequestURL;
-    }
-
     public Calendar getDate() {
         return date;
     }
@@ -152,12 +125,8 @@ public class Event {
         return status;
     }
 
-    public String getLocationName() {
-        return locationName;
-    }
 
-    public boolean activation() {
-        return activation;
-    }
+
+
 
 }

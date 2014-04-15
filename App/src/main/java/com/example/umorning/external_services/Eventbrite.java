@@ -99,7 +99,6 @@ public class Eventbrite {
             String address = jsonAddress.getString("address_1");
             double latitude = jsonVenue.getDouble("latitude");
             double longitude = jsonVenue.getDouble("longitude");
-            String locationName = jsonVenue.getString("name");
             String url = jObject.getString("url");
             String startTime = jsonStart.getString("local");
             String status = jObject.getString("status");
@@ -120,7 +119,7 @@ public class Eventbrite {
 
             Calendar date = new GregorianCalendar(year,month-1,day,hour,minute);
 
-            Event event = new Event(name, organizer, address, city, country, latitude, longitude, locationName, url, resource_uri, date, status);
+            Event event = new Event(name, organizer, address, city, country, latitude, longitude, url, date, status);
 
             return event;
 

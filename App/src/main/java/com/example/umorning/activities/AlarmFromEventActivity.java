@@ -190,10 +190,6 @@ public class AlarmFromEventActivity extends Activity {
             db.updateAlarm(updated);
 
         }
-
-        //TODO print di debug
-        System.out.println("SSSSSSS sveglia modificata con id  " + id);
-
         finish();
     }
 

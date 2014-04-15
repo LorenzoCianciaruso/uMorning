@@ -191,10 +191,6 @@ public class AlarmEditActivity extends Activity {
             alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), intent);
         }
 
-
-        //TODO print di debug
-        System.out.println("SSSSSSS sveglia modificata con id  " + id);
-
         finish();
     }
 }

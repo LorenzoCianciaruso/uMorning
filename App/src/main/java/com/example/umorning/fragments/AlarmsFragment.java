@@ -54,7 +54,6 @@ public class AlarmsFragment extends Fragment {
                                     int i, long l) {
                 Intent myIntent = new Intent(getActivity(), AlarmEditActivity.class);
                 myIntent.putExtra("alarmId", alarms.get(i).getId());
-                System.out.println("sesesesesesesese " + alarms.get(i).getId());
                 startActivityForResult(myIntent,0);
 
             }
