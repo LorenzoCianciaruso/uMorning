@@ -20,8 +20,8 @@ import java.util.List;
 
 public class AlarmsFragment extends Fragment {
 
-    ListView list;
-    AlarmsAdapter adapter;
+    private ListView list;
+    private AlarmsAdapter adapter;
     private List<Alarm> alarms;
     private ProgressBar progress;
 
