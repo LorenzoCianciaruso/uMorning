@@ -18,11 +18,11 @@ public class AlarmBroadcastReceiver extends Service {
     public void onStart(Intent intent, int startId) {
         super.onStart(intent, startId);
         int id = intent.getIntExtra("alarmId", 0);
-        System.out.println("BBBBBBBBBBBBBBB: " + id);
         //riapri l'applicazione andando su alarm activity che suona e apre una finestra
-        Intent dialogIntent = new Intent(getBaseContext(), AlarmRingActivity.class);
-        dialogIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        getApplication().startActivity(dialogIntent);
+        Intent ringIntent = new Intent(getBaseContext(), AlarmRingActivity.class);
+        ringIntent.putExtra("alarmId",id);
+        ringIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(ringIntent);
 
     }
 

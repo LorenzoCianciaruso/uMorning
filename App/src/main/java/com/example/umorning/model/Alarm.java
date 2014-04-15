@@ -14,13 +14,12 @@ public class Alarm {
     private double startLongitude;
     private double endLatitude;
     private double endLongitude;
-    private String locationName;
     private Calendar date;
     private Calendar expectedTime;
     private boolean activated;
     private boolean toDelete;
 
-    public Alarm(int id, long delay, String name, String address, String city, String country, double startLatitude, double startLongitude, double endLatitude, double endLongitude, String locationName, Calendar date, Calendar expectedTime, boolean activated, boolean toDelete) {
+    public Alarm(int id, long delay, String name, String address, String city, String country, double startLatitude, double startLongitude, double endLatitude, double endLongitude, Calendar date, Calendar expectedTime, boolean activated, boolean toDelete) {
         this.id = id;
         this.delay = delay;
         this.name = name;
@@ -31,7 +30,6 @@ public class Alarm {
         this.startLongitude = startLongitude;
         this.endLatitude = endLatitude;
         this.endLongitude = endLongitude;
-        this.locationName = locationName;
         this.date = date;
         this.expectedTime = expectedTime;
         this.activated = activated;
@@ -76,10 +74,6 @@ public class Alarm {
 
     public double getEndLongitude() {
         return endLongitude;
-    }
-
-    public String getLocationName() {
-        return locationName;
     }
 
     public boolean isActivated() {
