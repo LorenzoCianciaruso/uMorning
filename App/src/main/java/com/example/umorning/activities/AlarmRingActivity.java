@@ -8,6 +8,8 @@ import android.media.RingtoneManager;
 import android.os.Bundle;
 import android.os.Vibrator;
 import android.view.MenuItem;
+import android.widget.DatePicker;
+import android.widget.TextView;
 
 import com.example.umorning.R;
 import com.example.umorning.model.Alarm;
@@ -24,6 +26,10 @@ public class AlarmRingActivity extends Activity {
 
         DatabaseHelper db = new DatabaseHelper(this);
         Alarm alarm = db.getAlarm(id);
+
+        TextView text = (TextView)findViewById(R.id.text);
+
+        text.setText("alzati sta suonando la sveglia "+alarm.getName()+" con id "+ alarm.getId());
 
         //TODO mettere bottoni stop e snooze poi bisogna trovare il modo di fare dei metodi che lo facciano
         //TODO settare nella grafica il nome della sveglia
