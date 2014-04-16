@@ -22,6 +22,8 @@ import com.example.umorning.model.DatabaseHelper;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class HomeFragment extends Fragment {
@@ -100,11 +102,10 @@ public class HomeFragment extends Fragment {
             if (a.isActivated()){
                activatedAlarms.add(a);
              }
-            Collections.sort(activatedAlarms,new Comparator<Alarm>() {
+            Collections.sort(activatedAlarms, new Comparator<Alarm>() {
                 @Override
-                public int compare(Alarm  a1, Alarm  a2)
-                {
-                    return  a1.getExpectedTime().compareTo(a2.getExpectedTime());
+                public int compare(Alarm a1, Alarm a2) {
+                    return a1.getExpectedTime().compareTo(a2.getExpectedTime());
                 }
             });
             activatedAlarms.subList(0,4);
