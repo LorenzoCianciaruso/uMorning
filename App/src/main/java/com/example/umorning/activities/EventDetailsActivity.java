@@ -2,6 +2,7 @@ package com.example.umorning.activities;
 
 import android.app.FragmentTransaction;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.ShareCompat;
@@ -15,12 +16,14 @@ import android.widget.TextView;
 
 import com.example.umorning.R;
 import com.example.umorning.external_services.Facebook;
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.GoogleMapOptions;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 
@@ -39,6 +42,8 @@ public class EventDetailsActivity extends FragmentActivity {
     private String place;
     private Facebook fb;
     private ShareActionProvider mShareActionProvider;
+    private double latitude;
+    private double longitude;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,8 +51,8 @@ public class EventDetailsActivity extends FragmentActivity {
         setContentView(R.layout.activity_event_details);
 
         name = getIntent().getStringExtra("name");
-        double latitude = getIntent().getDoubleExtra("latitude", 45.0);
-        double longitude = getIntent().getDoubleExtra("longitude", 9.0);
+        latitude = getIntent().getDoubleExtra("latitude", 45.0);
+        longitude = getIntent().getDoubleExtra("longitude", 9.0);
         place = getIntent().getStringExtra("place");
         url = getIntent().getStringExtra("url");
         time = getIntent().getStringExtra("date");
@@ -58,7 +63,6 @@ public class EventDetailsActivity extends FragmentActivity {
         placeView = (TextView) findViewById(R.id.place);
         urlView = (TextView) findViewById(R.id.url);
         organizerView = (TextView) findViewById(R.id.organizer);
-
 
         mMap = ((MapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
 
@@ -78,29 +82,15 @@ public class EventDetailsActivity extends FragmentActivity {
         urlView.setText(Html.fromHtml(text));
         organizerView.setText(organizer);
 
-        GoogleMapOptions options = new GoogleMapOptions();
-        CameraPosition cp = new CameraPosition(new LatLng(latitude, longitude), 15, 0, 0);
-        options.zoomControlsEnabled(false).camera(cp);
-        mMap.addMarker(new MarkerOptions()
-                .position(new LatLng(latitude, longitude))
-                .visible(true)
-                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
-
-        MapFragment mMapFragment = MapFragment.newInstance(options);
-
-        FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-        fragmentTransaction.add(R.id.map, mMapFragment);
-        fragmentTransaction.commit();
-
         setUpMapIfNeeded();
+
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-
-        fb = new Facebook(this);
         //se esiste sessione attiva
+        fb = new Facebook(this);
         setUpMapIfNeeded();
     }
 
@@ -109,7 +99,6 @@ public class EventDetailsActivity extends FragmentActivity {
         getMenuInflater().inflate(R.menu.event_details, menu);
         MenuItem item = menu.findItem(R.id.menu_item_share);
         mShareActionProvider = (ShareActionProvider) item.getActionProvider();
-
         Intent shareIntent = ShareCompat.IntentBuilder.from(this)
                 .setType("text/plain").setText("").getIntent();
         mShareActionProvider.setShareIntent(shareIntent);
@@ -134,14 +123,12 @@ public class EventDetailsActivity extends FragmentActivity {
     }
 
     private void setUpMapIfNeeded() {
-        // Do a null check to confirm that we have not already instantiated the map.
-        if (mMap == null) {
-            mMap = ((MapFragment) getFragmentManager().findFragmentById(R.id.map))
-                    .getMap();
-            // Check if we were successful in obtaining the map.
-            if (mMap != null) {
-                // The Map is verified. It is now safe to manipulate the map.
-            }
+
+        if (mMap != null) {
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(latitude,longitude), 15));
+            mMap.addMarker(new MarkerOptions()
+                    .position(new LatLng(latitude, longitude))
+                    .title(name));
         }
     }
 

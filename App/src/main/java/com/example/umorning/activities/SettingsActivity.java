@@ -9,7 +9,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.NumberPicker;
-
 import com.example.umorning.R;
 
 public class SettingsActivity extends Activity {
@@ -50,6 +49,7 @@ public class SettingsActivity extends Activity {
                 Ringtone ringtone = RingtoneManager.getRingtone(this, alarms[i]);
                 String ringToneName = ringtone.getTitle(this);
                 System.out.println(ringToneName);
+                System.out.println(alarms[i]);
             }
             alarmsCursor.close();
         }

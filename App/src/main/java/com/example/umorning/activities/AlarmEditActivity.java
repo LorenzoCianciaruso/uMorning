@@ -154,7 +154,8 @@ public class AlarmEditActivity extends Activity {
         date.set(datePicker.getYear(), datePicker.getMonth(), datePicker.getDayOfMonth(), timePicker.getCurrentHour(), timePicker.getCurrentMinute());
 
         if (activated) {
-            if (id != 0 && (!address.equals(toUpdate.getAddress()) || !city.equals(toUpdate.getCity()) || !country.equals(toUpdate.getCountry()))) {
+            if (id==0 ||(id!=0 && (!address.equals(toUpdate.getAddress())||!city.equals(toUpdate.getCity())||!country.equals(toUpdate.getCountry())))) {
+
                 //traduci indirizzo in coordinate
                 GoogleGeocode gg = new GoogleGeocode(address, city, country);
                 endLatitude = gg.getLatitude();
@@ -174,13 +175,14 @@ public class AlarmEditActivity extends Activity {
         Alarm updated = new Alarm(id, delay, name, address, city, country, startLatitude, startLongitude, endLatitude, endLongitude, date, expectedTime, activated, toDelete);
         if (id == 0) {
             id = (int) db.addAlarm(updated);
-        } else {
+        }
+        else {
             db.updateAlarm(updated);
         }
 
         SharedPreferences prefs = getSharedPreferences("uMorning", 0);
-        long refreshRate = prefs.getLong("REFRESH", 60);
-        if (expectedTime.after((System.currentTimeMillis() + refreshRate * 60 * 1000))) {
+        long refreshRate = prefs.getLong("REFRESH",60);
+        //if (expectedTime.after((System.currentTimeMillis()+refreshRate*60*1000))) {
             //chiama un alarmservice
             Intent myIntent = new Intent(this, AlarmBroadcastReceiver.class);
             myIntent.putExtra("alarmId", id);
@@ -189,7 +191,7 @@ public class AlarmEditActivity extends Activity {
 
             //imposta l'ora e fa partire
             alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), intent);
-        }
+       // }
         finish();
     }
 }

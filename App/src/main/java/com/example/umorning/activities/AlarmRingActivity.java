@@ -27,9 +27,9 @@ public class AlarmRingActivity extends Activity {
         DatabaseHelper db = new DatabaseHelper(this);
         Alarm alarm = db.getAlarm(id);
 
-        TextView text = (TextView)findViewById(R.id.text);
+       // TextView text = (TextView)findViewById(R.id.text);
 
-        text.setText("alzati sta suonando la sveglia "+alarm.getName()+" con id "+ alarm.getId());
+        //text.setText("alzati sta suonando la sveglia "+alarm.getName()+" con id "+ alarm.getId());
 
         //TODO mettere bottoni stop e snooze poi bisogna trovare il modo di fare dei metodi che lo facciano
         //servizio vibrazione

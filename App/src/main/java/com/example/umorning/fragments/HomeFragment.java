@@ -137,10 +137,18 @@ public class HomeFragment extends Fragment {
 
             double latitude = params[0];
             double longitude = params[1];
-            MetwitRequest weatherInfo = null;
-
-            //richiesta meteo
-            weatherInfo = new MetwitRequest(latitude, longitude);
+            MetwitRequest weatherInfo;
+            try {
+                //richiesta meteo
+                weatherInfo = new MetwitRequest(latitude, longitude);
+            }catch(NullPointerException e ){
+                SharedPreferences prefs = getActivity().getSharedPreferences("uMorning", 0);
+                weatherInfo = new MetwitRequest();
+                weatherInfo.setLocality(prefs.getString("Locality", " "));
+                weatherInfo.setCountry(prefs.getString("Country", " "));
+                weatherInfo.setTemperature(prefs.getString("Temperature", " "));
+                weatherInfo.setIcon(prefs.getString("Icon", " "));
+            }
 
             //restituisce oggetto meteo contenente informazioni
             return weatherInfo;

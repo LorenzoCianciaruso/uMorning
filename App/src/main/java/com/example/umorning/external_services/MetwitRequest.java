@@ -9,8 +9,6 @@ public class MetwitRequest {
 
     private double latitude;
     private double longitude;
-
-
     private String icon;
     private String temperature;
     private String locality;
@@ -21,7 +19,9 @@ public class MetwitRequest {
 
     private String country;
 
-    public MetwitRequest(double latitude, double longitude) {
+    public MetwitRequest(){}
+
+    public MetwitRequest(double latitude, double longitude) throws  NullPointerException{
         this.latitude = latitude;
         this.longitude = longitude;
 
@@ -29,12 +29,14 @@ public class MetwitRequest {
     }
 
     //start thread che invia richiesta http a metwit
-    private void askForWeather() {
+    private void askForWeather() throws NullPointerException{
         String url = "https://api.metwit.com/v2/weather/?location_lat=" + latitude + "&location_lng=" + longitude;
         String result = new HttpRequest().getRequest(url);
 
         try {
             JSONObject jObject = new JSONObject(result);
+
+
             JSONObject jsonWeather = jObject.getJSONArray("objects").getJSONObject(0);
             locality = jsonWeather.getJSONObject("location").getString("locality");
             country = jsonWeather.getJSONObject("location").getString("country");
@@ -61,6 +63,22 @@ public class MetwitRequest {
 
     public String getLocality() {
         return locality;
+    }
+
+    public void setIcon(String icon) {
+        this.icon = icon;
+    }
+
+    public void setTemperature(String temperature) {
+        this.temperature = temperature;
+    }
+
+    public void setLocality(String locality) {
+        this.locality = locality;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
     }
 
 
