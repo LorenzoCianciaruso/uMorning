@@ -5,10 +5,10 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Vibrator;
 import android.view.MenuItem;
-import android.widget.DatePicker;
 import android.widget.TextView;
 
 import com.example.umorning.R;
@@ -32,7 +32,6 @@ public class AlarmRingActivity extends Activity {
         text.setText("alzati sta suonando la sveglia "+alarm.getName()+" con id "+ alarm.getId());
 
         //TODO mettere bottoni stop e snooze poi bisogna trovare il modo di fare dei metodi che lo facciano
-        //TODO settare nella grafica il nome della sveglia
         //servizio vibrazione
         Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
         // ogni elemento alterna vibrazione, pausa, vibrazione, pausa...
@@ -41,8 +40,8 @@ public class AlarmRingActivity extends Activity {
         v.vibrate(pattern, 0);
         //servizio suoneria
         SharedPreferences prefs = getSharedPreferences("uMorning", 0);
-        //Uri tone = prefs.getUri("TONE", RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM));
-        Ringtone r = RingtoneManager.getRingtone(getApplicationContext(), RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM));
+        Uri tone = Uri.parse( prefs.getString("TONE", RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM).toString()));
+        Ringtone r = RingtoneManager.getRingtone(getApplicationContext(), tone);
         r.play();
     }
 

@@ -3,6 +3,7 @@ package com.example.umorning.activities;
 import android.app.Activity;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
@@ -44,8 +45,11 @@ public class SettingsActivity extends Activity {
         if (alarmsCursor.moveToFirst()) {
             Uri[] alarms = new Uri[alarmsCount];
             while (!alarmsCursor.isAfterLast() && alarmsCursor.moveToNext()) {
-                int currentPosition = alarmsCursor.getPosition();
-                alarms[currentPosition] = ringtoneMgr.getRingtoneUri(currentPosition);
+                int i = alarmsCursor.getPosition();
+                alarms[i] = ringtoneMgr.getRingtoneUri(i);
+                Ringtone ringtone = RingtoneManager.getRingtone(this, alarms[i]);
+                String ringToneName = ringtone.getTitle(this);
+                System.out.println(ringToneName);
             }
             alarmsCursor.close();
         }
