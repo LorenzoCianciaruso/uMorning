@@ -71,7 +71,7 @@ public class AlarmEditActivity extends Activity {
         addressT = (TextView) findViewById(R.id.address);
         cityT = (TextView) findViewById(R.id.city);
         countryT = (TextView) findViewById(R.id.country);
-        delayPicker =(NumberPicker) findViewById(R.id.numberPicker);
+        delayPicker = (NumberPicker) findViewById(R.id.numberPicker);
         delayPicker.setMaxValue(480);
         delayPicker.setMinValue(1);
         activation = (CheckBox) findViewById(R.id.checkBox);
@@ -87,27 +87,27 @@ public class AlarmEditActivity extends Activity {
 
         db = new DatabaseHelper(this);
         //solo se è una modifica
-        if (id !=0) {
+        if (id != 0) {
             toUpdate = db.getAlarm(id);
             nameT.setText(toUpdate.getName());
             addressT.setText(toUpdate.getAddress());
             cityT.setText(toUpdate.getCity());
             countryT.setText(toUpdate.getCountry());
             delayPicker.setValue((int) (toUpdate.getDelay()));
-            date=toUpdate.getDate();
-            expectedTime=toUpdate.getExpectedTime();
+            date = toUpdate.getDate();
+            expectedTime = toUpdate.getExpectedTime();
             activation.setChecked(toUpdate.isActivated());
         }
 
-        int year=date.get(Calendar.YEAR);
-        int month=date.get(Calendar.MONTH);
-        int day=date.get(Calendar.DAY_OF_MONTH);
-        int hour=date.get(Calendar.HOUR_OF_DAY);
-        int min=date.get(Calendar.MINUTE);
+        int year = date.get(Calendar.YEAR);
+        int month = date.get(Calendar.MONTH);
+        int day = date.get(Calendar.DAY_OF_MONTH);
+        int hour = date.get(Calendar.HOUR_OF_DAY);
+        int min = date.get(Calendar.MINUTE);
         datePicker.updateDate(year, month, day);
         timePicker.setCurrentHour(hour);
         timePicker.setCurrentMinute(min);
-
+        System.out.println("WIDTH: " + timePicker.getMeasuredWidth() + " HEIGHT: " + timePicker.getHeight());
     }
 
     public void onSavePressed(View view) {
@@ -131,7 +131,7 @@ public class AlarmEditActivity extends Activity {
         }).start();
     }
 
-    public void onDeletePressed (View view) {
+    public void onDeletePressed(View view) {
         db.deleteAlarm(id);
         finish();
     }
@@ -149,12 +149,12 @@ public class AlarmEditActivity extends Activity {
         address = addressT.getText().toString();
         city = cityT.getText().toString();
         country = countryT.getText().toString();
-        activated=activation.isChecked();
-        delay=delayPicker.getValue();
-        date.set(datePicker.getYear(),datePicker.getMonth(),datePicker.getDayOfMonth(),timePicker.getCurrentHour(),timePicker.getCurrentMinute());
+        activated = activation.isChecked();
+        delay = delayPicker.getValue();
+        date.set(datePicker.getYear(), datePicker.getMonth(), datePicker.getDayOfMonth(), timePicker.getCurrentHour(), timePicker.getCurrentMinute());
 
         if (activated) {
-            if (id!=0 && (!address.equals(toUpdate.getAddress())||!city.equals(toUpdate.getCity())||!country.equals(toUpdate.getCountry()))) {
+            if (id != 0 && (!address.equals(toUpdate.getAddress()) || !city.equals(toUpdate.getCity()) || !country.equals(toUpdate.getCountry()))) {
                 //traduci indirizzo in coordinate
                 GoogleGeocode gg = new GoogleGeocode(address, city, country);
                 endLatitude = gg.getLatitude();
@@ -169,19 +169,18 @@ public class AlarmEditActivity extends Activity {
 
         }
 
-        toDelete=false;
+        toDelete = false;
         //salva nel db aggiornando o creando
         Alarm updated = new Alarm(id, delay, name, address, city, country, startLatitude, startLongitude, endLatitude, endLongitude, date, expectedTime, activated, toDelete);
-        if (id == 0){
+        if (id == 0) {
             id = (int) db.addAlarm(updated);
-        }
-        else {
+        } else {
             db.updateAlarm(updated);
         }
 
         SharedPreferences prefs = getSharedPreferences("uMorning", 0);
-        long refreshRate = prefs.getLong("REFRESH",60);
-        if (expectedTime.after((System.currentTimeMillis()+refreshRate*60*1000))) {
+        long refreshRate = prefs.getLong("REFRESH", 60);
+        if (expectedTime.after((System.currentTimeMillis() + refreshRate * 60 * 1000))) {
             //chiama un alarmservice
             Intent myIntent = new Intent(this, AlarmBroadcastReceiver.class);
             myIntent.putExtra("alarmId", id);

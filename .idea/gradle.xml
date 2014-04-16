@@ -7,10 +7,10 @@
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
         <option name="modules">
           <set>
-            <option value="C:\Users\Francesco\AndStudio\uMorning" />
-            <option value="C:\Users\Francesco\AndStudio\uMorning\App" />
-            <option value="C:\Users\Francesco\AndStudio\uMorning\libraries" />
-            <option value="C:\Users\Francesco\AndStudio\uMorning\libraries\facebook" />
+            <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/App" />
+            <option value="$PROJECT_DIR$/libraries" />
+            <option value="$PROJECT_DIR$/libraries/facebook" />
           </set>
         </option>
       </GradleProjectSettings>

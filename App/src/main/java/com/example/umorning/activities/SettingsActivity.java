@@ -23,7 +23,7 @@ public class SettingsActivity extends Activity {
         setContentView(R.layout.activity_settings);
 
         //delay
-        delayPicker = (NumberPicker) findViewById(R.id.refreshPicker);
+        delayPicker = (NumberPicker) findViewById(R.id.delayPicker);
         delayPicker.setMaxValue(480);
         delayPicker.setMinValue(1);
         SharedPreferences prefs = getSharedPreferences("uMorning", 0);
@@ -31,7 +31,7 @@ public class SettingsActivity extends Activity {
         delayPicker.setValue((int) saved);
 
         //refresh rate
-        refreshPicker = (NumberPicker) findViewById(R.id.numberPicker);
+        refreshPicker = (NumberPicker) findViewById(R.id.refreshPicker);
         refreshPicker.setMaxValue(180);
         refreshPicker.setMinValue(15);
         saved = prefs.getLong("REFRESH", 60);
