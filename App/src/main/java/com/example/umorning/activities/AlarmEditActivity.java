@@ -154,7 +154,7 @@ public class AlarmEditActivity extends Activity {
         date.set(datePicker.getYear(),datePicker.getMonth(),datePicker.getDayOfMonth(),timePicker.getCurrentHour(),timePicker.getCurrentMinute());
 
         if (activated) {
-            if (id!=0 || address!=toUpdate.getAddress()||city!=toUpdate.getCity()||country!=toUpdate.getCountry()) {
+            if (id!=0 && (address!=toUpdate.getAddress()||city!=toUpdate.getCity()||country!=toUpdate.getCountry())) {
                 //traduci indirizzo in coordinate
                 GoogleGeocode gg = new GoogleGeocode(address, city, country);
                 endLatitude = gg.getLatitude();
