@@ -3,19 +3,25 @@ package com.example.umorning.activities;
 import android.annotation.SuppressLint;
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
+import android.app.AlarmManager;
 import android.app.FragmentTransaction;
+import android.app.PendingIntent;
+import android.app.Service;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
 
 import com.example.umorning.R;
+import com.example.umorning.internal_services.UpdateAlarmService;
 import com.example.umorning.model.DatabaseHelper;
 import com.example.umorning.tabswipeadapter.TabsPagerAdapter;
+
+import java.util.Calendar;
 
 public class MainActivity extends FragmentActivity implements
         ActionBar.TabListener {
@@ -23,13 +29,11 @@ public class MainActivity extends FragmentActivity implements
     private ViewPager viewPager;
     private TabsPagerAdapter mAdapter;
     private ActionBar actionBar;
-    private DatabaseHelper db;
     private String[] tabs = { "Home", "Alarms", "Events" };
 
     @SuppressLint("NewApi") @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-       // requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
         setContentView(R.layout.activity);
 
         viewPager = (ViewPager) findViewById(R.id.pager);
@@ -62,6 +66,15 @@ public class MainActivity extends FragmentActivity implements
             public void onPageScrollStateChanged(int arg0) {
             }
         });
+
+        //chiama un nuovo update al tempo impostato dall'utente
+        Intent updateIntent = new Intent(getApplicationContext(), UpdateAlarmService.class);
+        SharedPreferences prefs = getSharedPreferences("uMorning", 0);
+        long refreshRate = prefs.getLong("REFRESH", 60);
+        PendingIntent intent = PendingIntent.getService(this, 0, updateIntent, 0);
+        AlarmManager alarmManager = (AlarmManager) getSystemService(Service.ALARM_SERVICE);
+        alarmManager.set(AlarmManager.RTC_WAKEUP, Calendar.getInstance().getTimeInMillis() + (refreshRate * 60 * 1000), intent);
+
     }
 
     @Override

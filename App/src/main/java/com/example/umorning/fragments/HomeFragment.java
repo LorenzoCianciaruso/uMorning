@@ -88,21 +88,6 @@ public class HomeFragment extends Fragment {
             // Chiedi all'utente di andare nelle impostazioni
             gps.showSettingsAlert();
         }
-        final int checkPlayStatus = GooglePlayServicesUtil.isGooglePlayServicesAvailable(getActivity());
-
-        /*
-        if (checkPlayStatus != ConnectionResult.SUCCESS) {
-            Dialog dialog = GooglePlayServicesUtil.getErrorDialog(checkPlayStatus, this, 69, new DialogInterface.OnCancelListener() {
-                @Override
-                public void onCancel(DialogInterface dialog) {
-
-                    //SDK obbligatorio
-                    finish();
-                }
-            });
-            dialog.show();
-        }
-        */
 
         DatabaseHelper db = new DatabaseHelper(getActivity()
                 .getApplicationContext());
@@ -114,9 +99,15 @@ public class HomeFragment extends Fragment {
         for(Alarm a: alarms){
             if (a.isActivated()){
                activatedAlarms.add(a);
-                if(activatedAlarms.size()==5)
-                    break;
-            }
+             }
+            Collections.sort(activatedAlarms,new Comparator<Alarm>() {
+                @Override
+                public int compare(Alarm  a1, Alarm  a2)
+                {
+                    return  a1.getExpectedTime().compareTo(a2.getExpectedTime());
+                }
+            });
+            activatedAlarms.subList(0,4);
         }
 
         list = (ListView) getView().findViewById(R.id.listEventsActivated);
@@ -209,12 +200,10 @@ public class HomeFragment extends Fragment {
             weatherIcon.setImageResource(R.drawable.snowy);
         } else if (icon.equals("stormy")) {
             weatherIcon.setImageResource(R.drawable.stormy);
-        } else  {
+        } else {
             weatherIcon.setImageResource(R.drawable.windy);
         }
     }
-
-
 }
 
 

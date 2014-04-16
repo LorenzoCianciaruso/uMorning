@@ -1,4 +1,4 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -9,37 +9,98 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".AddNewAlarm">
 
-    <LinearLayout
-        android:id="@+id/mLlayoutBottomButtons3"
+    <RelativeLayout
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:orientation="vertical">
+        android:layout_height="fill_parent">
 
-        <Button
-            android:id="@+id/button1"
-            android:layout_width="match_parent"
+        <RelativeLayout
+            android:id="@+id/infoDelay"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:onClick="saveSettings"
-            android:text="Save"
+            android:layout_alignParentTop="true"
+            android:background="#ffffff"
+            android:orientation="horizontal"
+            android:padding="10dp">
 
-            />
-    </LinearLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:fontFamily="sans-serif-light"
+                android:text="Set delay" />
 
-    <NumberPicker
-        android:id="@+id/delayPicker"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true" />
+            <NumberPicker
+                android:id="@+id/delayPicker"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true" />
+        </RelativeLayout>
 
-    <NumberPicker
-        android:id="@+id/refreshPicker"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/delayPicker"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp" />
+        <RelativeLayout
+            android:id="@+id/infoRefresh"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/infoDelay"
+            android:background="#ffffff"
+            android:orientation="horizontal"
+            android:padding="10dp">
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:fontFamily="sans-serif-light"
+                android:text="Set refresh" />
 
-</RelativeLayout>
+            <NumberPicker
+                android:id="@+id/refreshPicker"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="10dp" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/infoSounds"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/infoRefresh"
+            android:background="#ffffff"
+            android:orientation="horizontal"
+            android:padding="10dp">
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/infoButtons"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/infoSounds"
+            android:background="#ffffff"
+            android:orientation="horizontal"
+            android:padding="10dp">
+
+            <Button
+                android:id="@+id/button1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:onClick="saveSettings"
+                android:text="Save" />
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+</ScrollView>
