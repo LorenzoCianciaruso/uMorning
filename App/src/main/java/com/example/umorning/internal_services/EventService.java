@@ -61,15 +61,6 @@ public class EventService {
                 double longitude = 0;
                 try {
                     location = mCursor.getString(mCursor.getColumnIndexOrThrow(CalendarContract.Events.EVENT_LOCATION));
-                    //TODO itera su tutti gli eventi nel calendario prima di filtrarli, bisogna fare geocode solo per quelli che servono, dove??
-                    /*
-                    if(location == null){
-                        location = "";
-                    }
-                    GoogleGeocode gg = new GoogleGeocode(location);
-                    latitude = gg.getLatitude();
-                    longitude = gg.getLongitude();
-                    */
                 }
                 catch (IllegalArgumentException e){
                     ;
@@ -85,7 +76,14 @@ public class EventService {
                 Event e = new Event(title, organizer,location, null ,null, latitude,longitude,null,date,null);
                 if (e.validEvent()){
                     if (e.futureEvent()) {
-                        events.add(e);
+                        location = e.getAddress();
+                        if(location == null){
+                            location = "";
+                        }
+                        GoogleGeocode gg = new GoogleGeocode(location);
+                        Event event = new Event(e.getName(), e.getOrganizer(), e.getAddress(), null, null, gg.getLatitude(), gg.getLongitude(), null, e.getDate(),null);
+                        events.add(event);
+
                     }
                 }
             } while (mCursor.moveToNext());
