@@ -181,9 +181,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             values.put(KEY_ACTIVATED, 0);
         }
         if (alarm.isToDelete()) {
-            values.put(KEY_ACTIVATED, 1);
+            values.put(KEY_TO_DELETE, 1);
         } else {
-            values.put(KEY_ACTIVATED, 0);
+            values.put(KEY_TO_DELETE, 0);
         }
         return values;
     }
