@@ -99,15 +99,6 @@ public class GpsLocalizationService extends Service implements LocationListener 
         return location;
     }
 
-    //TODO serve veramente
-    //Stop using GPS listener
-    public void stopUsingGPS() {
-        if (locationManager != null) {
-            locationManager.removeUpdates(GpsLocalizationService.this);
-        }
-    }
-
-
     //Prendi latitude
     public double getLatitude() throws NullPointerException {
         if (location != null) {

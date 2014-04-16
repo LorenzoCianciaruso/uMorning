@@ -18,11 +18,17 @@ public class SettingsActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
 
-        number=(NumberPicker) findViewById(R.id.numberPicker);
+        number=(NumberPicker) findViewById(R.id.refreshPicker);
         number.setMaxValue(480);
         number.setMinValue(1);
         SharedPreferences prefs = getSharedPreferences("uMorning", 0);
         long saved = prefs.getLong("DELAY",30);
+        number.setValue((int) saved);
+
+        number=(NumberPicker) findViewById(R.id.numberPicker);
+        number.setMaxValue(180);
+        number.setMinValue(15);
+        saved = prefs.getLong("REFRESH",60);
         number.setValue((int) saved);
     }
 

@@ -4,6 +4,7 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.IBinder;
 import android.widget.Toast;
 
@@ -20,6 +21,12 @@ public class UpdateAlarmService extends Service {
 
     @Override
     public void onCreate() {
+    }
+
+    @Override
+    public void onStart (Intent receivedIntent, int boh) {
+        super.onStart(receivedIntent, boh);
+        System.out.println ("BLIBBuferuyerfiusef");
         //apri l'applicazione e aggiorna le sveglie
         GpsLocalizationService gps = new GpsLocalizationService(this);
         DatabaseHelper db = new DatabaseHelper(getApplicationContext());
@@ -47,13 +54,13 @@ public class UpdateAlarmService extends Service {
                 //aggiornamento
                 //richiesta traffico
                 GoogleTrafficRequest trafficRequest = new GoogleTrafficRequest(startLatitude, startLongitude, endLatitude, endLongitude);
-                long trafficMillis = new Long(trafficRequest.getTripDurationInMillis());
+                long trafficMillis = trafficRequest.getTripDurationInMillis();
 
                 //ottengo l'ora della sveglia sottraendo traffico e tempo per prepararsi
                 Calendar expectedTime = new GregorianCalendar();
                 expectedTime.setTimeInMillis(date.getTimeInMillis() - trafficMillis - (delay * 1000 * 60));
 
-                if (expectedTime.after((Calendar.getInstance().getTimeInMillis()+60*60*1000))) {
+                if (expectedTime.after((Calendar.getInstance().getTimeInMillis() + 60 * 60 * 1000))) {
                     //chiama un alarmservice
                     Intent myIntent = new Intent(this, AlarmBroadcastReceiver.class);
                     myIntent.putExtra("AlarmId", a.getId());
@@ -68,11 +75,14 @@ public class UpdateAlarmService extends Service {
                 db.updateAlarm(updated);
             }
         }
-        //chiama un nuovo update tra un'ora
-        Intent updateIntent = new Intent(this, UpdateAlarmService.class);
+        //chiama un nuovo update al tempo impostato dall'utente
+        Intent updateIntent = new Intent(getApplicationContext(), UpdateAlarmService.class);
+        SharedPreferences prefs = getSharedPreferences("uMorning", 0);
+        long refreshRate = prefs.getLong("REFRESH", 60);
         PendingIntent intent = PendingIntent.getService(this, 0, updateIntent, 0);
         AlarmManager alarmManager = (AlarmManager) getSystemService(Service.ALARM_SERVICE);
-        alarmManager.set(AlarmManager.RTC_WAKEUP, Calendar.getInstance().getTimeInMillis() + (60 * 60 * 1000), intent);
+        alarmManager.set(AlarmManager.RTC_WAKEUP, Calendar.getInstance().getTimeInMillis() + (refreshRate * 60 * 1000), intent);
+
     }
 
     @Override

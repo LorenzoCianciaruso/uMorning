@@ -35,7 +35,7 @@ public class AlarmRingActivity extends Activity {
         v.vibrate(pattern, 0);
         //servizio suoneria
         SharedPreferences prefs = getSharedPreferences("uMorning", 0);
-//        Uri tone = prefs.getUri("TONE", RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM));
+        //Uri tone = prefs.getUri("TONE", RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM));
         Ringtone r = RingtoneManager.getRingtone(getApplicationContext(), RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM));
         r.play();
     }

@@ -60,7 +60,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
         sqLiteDatabase.execSQL(CREATE_TABLE_ALARM);
-        System.out.println("onCreate DB");
     }
 
     @Override
@@ -69,15 +68,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TABLE_ALARM);
         // crea nuove tabelle
         onCreate(sqLiteDatabase);
-        System.out.println("onUpgrade DB");
     }
 
     // Aggiungi un allarme
     public long addAlarm(Alarm alarm) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = getContentValues(alarm);
-        long id = db.insert(TABLE_ALARM, null, values);
-        return id;
+        return db.insert(TABLE_ALARM, null, values);
     }
 
     //prendi allarme per id
@@ -103,7 +100,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         Cursor c = db.rawQuery(selectQuery, null);
 
         // aggiungili alla lista
-        if (c.moveToFirst()) {
+        if (c!=null && c.moveToFirst()) {
             do {
                 Alarm a = fromCursorToAlarm(c);
                 alarms.add(a);

@@ -14,8 +14,6 @@ public class GoogleGeocode {
     private String number;
     private String formattedAddress;
 
-    //TODO se non serve da coordinate a indirizzo, toglierlo
-
     public GoogleGeocode(double latitude, double longitude) {
         this.latitude = latitude;
         this.longitude = longitude;

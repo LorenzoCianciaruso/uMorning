@@ -27,7 +27,7 @@ public class EventService {
         String[] projection = new String[] { "calendar_id", "title", "description",
                 "dtstart", "dtend", "eventLocation" };
 
-        ContentResolver cr= cxt.getApplicationContext().getContentResolver();
+        ContentResolver cr = cxt.getApplicationContext().getContentResolver();
 
         Cursor mCursor = cr.query(Uri.parse("content://com.android.calendar/events"),
                 projection,
@@ -65,6 +65,7 @@ public class EventService {
                 catch (IllegalArgumentException e){
                     ;
                 }
+
                 //prendi organizzatore
                 String organizer = new String();
                 try {
@@ -87,10 +88,6 @@ public class EventService {
                     }
                 }
             } while (mCursor.moveToNext());
-        }
-        for (int i=0;i<events.size();i++){
-            Event e = events.get(i);
-
         }
         return events;
     }

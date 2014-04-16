@@ -154,7 +154,7 @@ public class AlarmEditActivity extends Activity {
         date.set(datePicker.getYear(),datePicker.getMonth(),datePicker.getDayOfMonth(),timePicker.getCurrentHour(),timePicker.getCurrentMinute());
 
         if (activated) {
-            if (id!=0 && (address!=toUpdate.getAddress()||city!=toUpdate.getCity()||country!=toUpdate.getCountry())) {
+            if (id!=0 && (!address.equals(toUpdate.getAddress())||!city.equals(toUpdate.getCity())||!country.equals(toUpdate.getCountry()))) {
                 //traduci indirizzo in coordinate
                 GoogleGeocode gg = new GoogleGeocode(address, city, country);
                 endLatitude = gg.getLatitude();
@@ -179,8 +179,9 @@ public class AlarmEditActivity extends Activity {
             db.updateAlarm(updated);
         }
 
-        //if (expectedTime.after((Calendar.getInstance().getTimeInMillis()+60*60*1000))) {
-            if(true){
+        SharedPreferences prefs = getSharedPreferences("uMorning", 0);
+        long refreshRate = prefs.getLong("REFRESH",60);
+        if (expectedTime.after((System.currentTimeMillis()+refreshRate*60*1000))) {
             //chiama un alarmservice
             Intent myIntent = new Intent(this, AlarmBroadcastReceiver.class);
             myIntent.putExtra("alarmId", id);
@@ -190,7 +191,6 @@ public class AlarmEditActivity extends Activity {
             //imposta l'ora e fa partire
             alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), intent);
         }
-
         finish();
     }
 }
