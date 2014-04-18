@@ -3,6 +3,7 @@ package com.example.umorning.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.ShareCompat;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
@@ -16,6 +17,7 @@ import com.example.umorning.external_services.Facebook;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
@@ -108,7 +110,7 @@ public class EventDetailsActivity extends FragmentActivity {
 
     private void setUpMapIfNeeded() {
         if (mMap == null) {
-            mMap = ((MapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
+            mMap = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map)).getMap();
             if (mMap != null) {
                 mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(latitude, longitude), 15));
                 mMap.addMarker(new MarkerOptions()
