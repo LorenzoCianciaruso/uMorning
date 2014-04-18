@@ -3,6 +3,7 @@ package com.example.umorning.fragments;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,19 +30,24 @@ public class EventsFragment extends Fragment {
     private ListView list_of_events;
     private ArrayAdapter<String> listAdapter;
     private ProgressBar progress;
-    private AsyncTaskEvent retrieveingEvents;
+    private AsyncTaskEvent retrievingEvents;
+    private final static String LIST_VIEW_KEY = "key";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if(savedInstanceState!=null) {
+            Parcelable listParcelable = savedInstanceState.getParcelable(LIST_VIEW_KEY);
+            list_of_events.onRestoreInstanceState(listParcelable);
+        }
     }
 
      @Override
      public void onStart(){
          super.onStart();
         progress = (ProgressBar) getView().findViewById(R.id.pbHeaderProgress);
-         retrieveingEvents = new AsyncTaskEvent();
-         retrieveingEvents.execute();
+         retrievingEvents = new AsyncTaskEvent();
+         retrievingEvents.execute();
 
      }
 
@@ -124,28 +130,33 @@ public class EventsFragment extends Fragment {
             }
             listAdapter = new ArrayAdapter<String>(getActivity(), R.layout.list_item_events, R.id.eventName, nameEvents);
             list_of_events.setAdapter(listAdapter);
-            list_of_events.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> adapterView, View view,
-                                        int i, long l) {
 
-                    Event event = events.get(i);
+                list_of_events.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> adapterView, View view,
+                                            int i, long l) {
+                        try {
+                            Event event = events.get(i);
 
-                    SimpleDateFormat df = new SimpleDateFormat("c d LLLL yyyy HH:mm");
-                    String formattedDate = df.format(event.getDate().getTime());
+                            SimpleDateFormat df = new SimpleDateFormat("c d LLLL yyyy HH:mm");
+                            String formattedDate = df.format(event.getDate().getTime());
 
-                    Intent intent = new Intent(getActivity(), EventDetailsActivity.class);
-                    intent.putExtra("name", event.getName());
-                    intent.putExtra("place", event.getAddress());
-                    intent.putExtra("date", formattedDate);
-                    intent.putExtra("url", event.getEventURL());
-                    intent.putExtra("latitude", event.getLatitude());
-                    intent.putExtra("longitude", event.getLongitude());
-                    intent.putExtra("organizer", event.getOrganizer());
-                    startActivity(intent);
+                            Intent intent = new Intent(getActivity(), EventDetailsActivity.class);
+                            intent.putExtra("name", event.getName());
+                            intent.putExtra("place", event.getAddress());
+                            intent.putExtra("date", formattedDate);
+                            intent.putExtra("url", event.getEventURL());
+                            intent.putExtra("latitude", event.getLatitude());
+                            intent.putExtra("longitude", event.getLongitude());
+                            intent.putExtra("organizer", event.getOrganizer());
+                            startActivity(intent);
+                        }catch(IndexOutOfBoundsException e){
+                            e.printStackTrace();
+                        }
 
-                }
-            });
+                    }
+                });
+
             progress.setVisibility(View.GONE);
         }
     }
@@ -153,14 +164,15 @@ public class EventsFragment extends Fragment {
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
+        outState.putParcelable(LIST_VIEW_KEY, list_of_events.onSaveInstanceState());
     }
 
     @Override
     public void onDestroyView(){
         super.onDestroyView();
-        if (retrieveingEvents != null) {
-            if (!retrieveingEvents.isCancelled()) {
-                retrieveingEvents.cancel(true);
+        if (retrievingEvents != null) {
+            if (!retrievingEvents.isCancelled()) {
+                retrievingEvents.cancel(true);
             }
         }
     }

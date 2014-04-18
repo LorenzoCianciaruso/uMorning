@@ -47,20 +47,24 @@ public class Eventbrite {
                 String response = new HttpRequest().getRequest(url);
 
                 try {
-                    JSONObject jObject = new JSONObject(response);
-                    JSONArray jsonOrders = jObject.getJSONArray("orders");
+                    try {
+                        JSONObject jObject = new JSONObject(response);
+                        JSONArray jsonOrders = jObject.getJSONArray("orders");
 
-                    for (int i = 0; i < jsonOrders.length(); i++) {
-                        JSONObject jsonOrder = jsonOrders.getJSONObject(i);
-                        JSONObject jsonEvent = jsonOrder.getJSONObject("event");
-                        String resource_uri = jsonEvent.getString("resource_uri");
-                        Event event = getEventbriteEvent(resource_uri);
+                        for (int i = 0; i < jsonOrders.length(); i++) {
+                            JSONObject jsonOrder = jsonOrders.getJSONObject(i);
+                            JSONObject jsonEvent = jsonOrder.getJSONObject("event");
+                            String resource_uri = jsonEvent.getString("resource_uri");
+                            Event event = getEventbriteEvent(resource_uri);
 
-                        if (event.getStatus().equals("live")) {
-                            eventList.add(event);
-                        }else{
-                            break;
+                            if (event.getStatus().equals("live")) {
+                                eventList.add(event);
+                            } else {
+                                break;
+                            }
                         }
+                    }catch(NullPointerException e){
+                        e.printStackTrace();
                     }
 
                 } catch (JSONException e) {
