@@ -19,7 +19,6 @@ import com.example.umorning.external_services.Facebook;
 import com.example.umorning.external_services.HttpRequest;
 import com.example.umorning.internal_services.EventService;
 import com.example.umorning.model.Event;
-
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -83,7 +82,6 @@ public class EventsFragment extends Fragment {
 
         @Override
         protected void onPreExecute() {
-            //getActivity().setProgressBarIndeterminateVisibility(true);
             progress.setVisibility(View.VISIBLE);
         }
 
@@ -118,7 +116,6 @@ public class EventsFragment extends Fragment {
         @Override
         protected void onPostExecute(List<Event> params) {
             events = params;
-
             list_of_events = (ListView) getActivity().findViewById(R.id.listViewEvents);
 
             ArrayList<String> nameEvents = new ArrayList<String>();
@@ -127,7 +124,6 @@ public class EventsFragment extends Fragment {
             }
             listAdapter = new ArrayAdapter<String>(getActivity(), R.layout.list_item_events, R.id.eventName, nameEvents);
             list_of_events.setAdapter(listAdapter);
-
             list_of_events.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> adapterView, View view,
@@ -136,7 +132,6 @@ public class EventsFragment extends Fragment {
                     Event event = events.get(i);
 
                     SimpleDateFormat df = new SimpleDateFormat("c d LLLL yyyy HH:mm");
-
                     String formattedDate = df.format(event.getDate().getTime());
 
                     Intent intent = new Intent(getActivity(), EventDetailsActivity.class);
@@ -151,16 +146,13 @@ public class EventsFragment extends Fragment {
 
                 }
             });
-
             progress.setVisibility(View.GONE);
-
         }
     }
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-
     }
 
     @Override
@@ -171,9 +163,7 @@ public class EventsFragment extends Fragment {
                 retrieveingEvents.cancel(true);
             }
         }
-
     }
-
 
 /*
     private class AsyncTaskFacebook extends AsyncTask<Facebook, Void, List<Event>> {
