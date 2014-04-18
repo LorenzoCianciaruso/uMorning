@@ -19,7 +19,6 @@ import com.example.umorning.external_services.MetwitRequest;
 import com.example.umorning.internal_services.GpsLocalizationService;
 import com.example.umorning.model.Alarm;
 import com.example.umorning.model.DatabaseHelper;
-import com.google.android.gms.common.GooglePlayServicesUtil;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -109,7 +108,8 @@ public class HomeFragment extends Fragment {
                     return a1.getExpectedTime().compareTo(a2.getExpectedTime());
                 }
             });
-            activatedAlarms.subList(0,4);
+            if(activatedAlarms.size()>5)
+                activatedAlarms.subList(0,4);
         }
 
         list = (ListView) getView().findViewById(R.id.listEventsActivated);

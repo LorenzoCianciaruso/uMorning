@@ -2,7 +2,6 @@ package com.example.umorning.external_services;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.widget.Toast;
 
 import com.example.umorning.model.Event;
 
@@ -123,7 +122,7 @@ public class Eventbrite {
 
             Calendar date = new GregorianCalendar(year,month-1,day,hour,minute);
 
-            Event event = new Event(name, organizer, address, city, country, latitude, longitude, url, date, status);
+            Event event = new Event(name, organizer, address, city, country, latitude, longitude, url, date, status, 2);
 
             return event;
 

@@ -22,7 +22,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collection;
-import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 
@@ -153,7 +152,7 @@ public class Facebook {
 
                             if (date.getTimeInMillis() > currentTime) {
 
-                                Event event = new Event(name, organizer, address, city, country, latitude, longitude, null, date, null);
+                                Event event = new Event(name, organizer, address, city, country, latitude, longitude, null, date, null, 1);
                                 eventsList.add(event);
                             }
                         } catch (JSONException e) {

@@ -74,7 +74,7 @@ public class EventService {
                 catch (IllegalArgumentException e){
                     ;
                 }
-                Event e = new Event(title, organizer,location, null ,null, latitude,longitude,null,date,null);
+                Event e = new Event(title, organizer,location, null ,null, latitude,longitude,null,date,null,0);
                 if (e.validEvent()){
                     if (e.futureEvent()) {
                         location = e.getAddress();
@@ -82,7 +82,7 @@ public class EventService {
                             location = "";
                         }
                         GoogleGeocode gg = new GoogleGeocode(location);
-                        Event event = new Event(e.getName(), e.getOrganizer(), e.getAddress(), null, null, gg.getLatitude(), gg.getLongitude(), null, e.getDate(),null);
+                        Event event = new Event(e.getName(), e.getOrganizer(), e.getAddress(), null, null, gg.getLatitude(), gg.getLongitude(), null, e.getDate(),null, 0);
                         events.add(event);
 
                     }

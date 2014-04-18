@@ -33,6 +33,8 @@ public class EventsFragment extends Fragment {
     private AsyncTaskEvent retrievingEvents;
     private final static String LIST_VIEW_KEY = "key";
 
+    private EventsAdapter adapter;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -128,8 +130,10 @@ public class EventsFragment extends Fragment {
             for (Event x : events) {
                 nameEvents.add(x.getName());
             }
-            listAdapter = new ArrayAdapter<String>(getActivity(), R.layout.list_item_events, R.id.eventName, nameEvents);
-            list_of_events.setAdapter(listAdapter);
+            /*listAdapter = new ArrayAdapter<String>(getActivity(), R.layout.list_item_events, R.id.eventName, nameEvents);
+            list_of_events.setAdapter(listAdapter);*/
+            adapter = new EventsAdapter(getActivity(), events);
+            list_of_events.setAdapter(adapter);
 
                 list_of_events.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
