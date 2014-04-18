@@ -35,7 +35,7 @@ public class HomeFragment extends Fragment {
     private ProgressBar progress;
     private double latitude;
     private double longitude;
-
+    private AsyncTaskMeteoRequest metwitRequest;
     private ListView list;
     private AlarmsAdapter adapter;
     private List<Alarm> alarms;
@@ -81,7 +81,8 @@ public class HomeFragment extends Fragment {
                 longitude = Double.parseDouble(prefs.getString("Longitude", "9.0429"));
             }
             if (HttpRequest.isOnline(getActivity())) {
-                new AsyncTaskMeteoRequest().execute(latitude,longitude);
+                metwitRequest = new AsyncTaskMeteoRequest();
+                metwitRequest.execute(latitude,longitude);
             } else {
                 Toast.makeText(getActivity().getApplicationContext(), "No Internet Connection", Toast.LENGTH_LONG).show();
             }
@@ -114,6 +115,17 @@ public class HomeFragment extends Fragment {
         list = (ListView) getView().findViewById(R.id.listEventsActivated);
         adapter = new AlarmsAdapter(getActivity(), activatedAlarms);
         list.setAdapter(adapter);
+
+    }
+
+    @Override
+    public void onDestroyView(){
+        super.onDestroyView();
+        if (metwitRequest != null) {
+            if (!metwitRequest.isCancelled()) {
+                metwitRequest.cancel(true);
+            }
+        }
 
     }
 

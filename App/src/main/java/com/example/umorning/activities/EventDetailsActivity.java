@@ -1,9 +1,9 @@
 package com.example.umorning.activities;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.ShareCompat;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
@@ -12,14 +12,19 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ShareActionProvider;
 import android.widget.TextView;
+
 import com.example.umorning.R;
 import com.example.umorning.external_services.Facebook;
+import com.example.umorning.model.Alarm;
+import com.example.umorning.model.DatabaseHelper;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 
 public class EventDetailsActivity extends FragmentActivity {
 
@@ -32,6 +37,8 @@ public class EventDetailsActivity extends FragmentActivity {
     private ShareActionProvider mShareActionProvider;
     private double latitude;
     private double longitude;
+    private DatabaseHelper db;
+    private int id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,19 +63,17 @@ public class EventDetailsActivity extends FragmentActivity {
         dateTimeView.setText(time);
         placeView.setText(place);
 
+        db = new DatabaseHelper(this);
+
         if (url != null) {
             urlView.setText(url);
         } else {
             urlView.setVisibility(View.INVISIBLE);
         }
-
         String text = "<a href=" + url + " \">Link to the event</a>";
         urlView.setMovementMethod(LinkMovementMethod.getInstance());
         urlView.setText(Html.fromHtml(text));
         organizerView.setText(organizer);
-
-        setUpMapIfNeeded();
-
     }
 
     @Override
@@ -76,7 +81,7 @@ public class EventDetailsActivity extends FragmentActivity {
         super.onResume();
         //se esiste sessione attiva
         fb = new Facebook(this);
-        //setUpMapIfNeeded();
+        setUpMap();
     }
 
     @Override
@@ -97,27 +102,48 @@ public class EventDetailsActivity extends FragmentActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        if (id == R.id.fb_share) {
+        int idItem = item.getItemId();
+        if (idItem == R.id.fb_share) {
             fb.publishStory(this, name, place, url, time);
-        } else if (id == R.id.add) {
+        } else if (idItem == R.id.add) {
 
-        //TODO QUI
+            //salva nel db
+            SharedPreferences prefs = getSharedPreferences("uMorning", 0);
+            long delay = prefs.getLong("DELAY", 30);
+            Calendar date = new GregorianCalendar();
+            date.setTimeInMillis(System.currentTimeMillis());
+            Alarm alarm = new Alarm(id, delay, name, place, "", "", 0, 0, latitude, longitude, date, null, true, false);
+            db = new DatabaseHelper(this);
+            id = (int) db.addAlarm(alarm);
+            Intent myIntent = new Intent(this, AlarmEditActivity.class);
+            myIntent.putExtra("alarmId", id);
+            myIntent.putExtra("fromEvent", 1);
+            startActivityForResult(myIntent, 0);
 
         }
         return super.onOptionsItemSelected(item);
     }
 
-    private void setUpMapIfNeeded() {
-        if (mMap == null) {
+    private void setUpMap() {
+        if (mMap == null)
             mMap = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map)).getMap();
-            if (mMap != null) {
-                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(latitude, longitude), 15));
-                mMap.addMarker(new MarkerOptions()
-                        .position(new LatLng(latitude, longitude))
-                        .title(name));
-            }
+        if (mMap != null) {
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(latitude, longitude), 15));
+            mMap.addMarker(new MarkerOptions()
+                    .position(new LatLng(latitude, longitude))
+                    .title(name));
         }
+
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(R.anim.fadein, R.anim.fadeout);
+        if (getIntent().getIntExtra("fromEvent", 0) == 1) {
+            db.deleteAlarm(id);
+        }
+        finish();
     }
 
 }

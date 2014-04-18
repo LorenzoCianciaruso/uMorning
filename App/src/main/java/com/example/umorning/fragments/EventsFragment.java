@@ -30,6 +30,7 @@ public class EventsFragment extends Fragment {
     private ListView list_of_events;
     private ArrayAdapter<String> listAdapter;
     private ProgressBar progress;
+    private AsyncTaskEvent retrieveingEvents;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -40,7 +41,8 @@ public class EventsFragment extends Fragment {
      public void onStart(){
          super.onStart();
         progress = (ProgressBar) getView().findViewById(R.id.pbHeaderProgress);
-         new AsyncTaskEvent().execute();
+         retrieveingEvents = new AsyncTaskEvent();
+         retrieveingEvents.execute();
 
      }
 
@@ -158,6 +160,17 @@ public class EventsFragment extends Fragment {
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
+
+    }
+
+    @Override
+    public void onDestroyView(){
+        super.onDestroyView();
+        if (retrieveingEvents != null) {
+            if (!retrieveingEvents.isCancelled()) {
+                retrieveingEvents.cancel(true);
+            }
+        }
 
     }
 
