@@ -155,6 +155,7 @@ public class EventsFragment extends Fragment {
     @Override
     public void onDestroyView(){
         super.onDestroyView();
+        events=null;
         if (retrievingEvents != null) {
             if (!retrievingEvents.isCancelled()) {
                 retrievingEvents.cancel(true);
