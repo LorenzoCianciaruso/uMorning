@@ -3,9 +3,11 @@ package com.example.umorning.fragments;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -26,32 +28,30 @@ import java.util.List;
 
 public class EventsFragment extends Fragment {
 
-    private List<Event> events;
+    private static List<Event> events=null;
     private ListView list_of_events;
     private ArrayAdapter<String> listAdapter;
     private ProgressBar progress;
     private AsyncTaskEvent retrievingEvents;
-    private final static String LIST_VIEW_KEY = "key";
-
     private EventsAdapter adapter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if(savedInstanceState!=null) {
-            Parcelable listParcelable = savedInstanceState.getParcelable(LIST_VIEW_KEY);
-            list_of_events.onRestoreInstanceState(listParcelable);
-        }
+        setHasOptionsMenu(true);
     }
 
-     @Override
-     public void onStart(){
-         super.onStart();
+    @Override
+    public void onStart(){
+        super.onStart();
         progress = (ProgressBar) getView().findViewById(R.id.pbHeaderProgress);
-         retrievingEvents = new AsyncTaskEvent();
-         retrievingEvents.execute();
-
-     }
+        if(events==null) {
+            retrievingEvents = new AsyncTaskEvent();
+            retrievingEvents.execute();
+        }else{
+            retrievingEvents.onPostExecute(events);
+        }
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -80,12 +80,6 @@ public class EventsFragment extends Fragment {
         return rootView;
     }
 
-    @Override
-    public void onPause() {
-        super.onPause();
-        onSaveInstanceState(new Bundle());
-    }
-
     private class AsyncTaskEvent extends AsyncTask<Void, Void, List<Event>> {
 
         @Override
@@ -104,7 +98,6 @@ public class EventsFragment extends Fragment {
                 //new AsyncTaskEventbrite().execute(token);
                 Eventbrite eve = new Eventbrite(getActivity());
                 events.addAll(eve.getEventList());
-
                 Facebook fb = new Facebook(getActivity());
 
                 //se esiste sessione attiva
@@ -139,7 +132,6 @@ public class EventsFragment extends Fragment {
                     @Override
                     public void onItemClick(AdapterView<?> adapterView, View view,
                                             int i, long l) {
-                        try {
                             Event event = events.get(i);
 
                             SimpleDateFormat df = new SimpleDateFormat("c d LLLL yyyy HH:mm");
@@ -154,21 +146,10 @@ public class EventsFragment extends Fragment {
                             intent.putExtra("longitude", event.getLongitude());
                             intent.putExtra("organizer", event.getOrganizer());
                             startActivity(intent);
-                        }catch(IndexOutOfBoundsException e){
-                            e.printStackTrace();
-                        }
-
                     }
                 });
-
             progress.setVisibility(View.GONE);
         }
-    }
-
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        outState.putParcelable(LIST_VIEW_KEY, list_of_events.onSaveInstanceState());
     }
 
     @Override
@@ -179,6 +160,21 @@ public class EventsFragment extends Fragment {
                 retrievingEvents.cancel(true);
             }
         }
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        getActivity().getMenuInflater().inflate(R.menu.fragment_event, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int idItem = item.getItemId();
+        if (idItem == R.id.refresh) {
+           new AsyncTaskEvent().execute();
+        }
+        return super.onOptionsItemSelected(item);
     }
 
 /*
