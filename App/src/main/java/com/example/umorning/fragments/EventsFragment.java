@@ -15,6 +15,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
+
 import com.example.umorning.R;
 import com.example.umorning.activities.EventDetailsActivity;
 import com.example.umorning.external_services.Eventbrite;
@@ -22,13 +23,14 @@ import com.example.umorning.external_services.Facebook;
 import com.example.umorning.external_services.HttpRequest;
 import com.example.umorning.internal_services.EventService;
 import com.example.umorning.model.Event;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
 public class EventsFragment extends Fragment {
 
-    private static List<Event> events=null;
+    private static List<Event> events = null;
     private ListView list_of_events;
     private ArrayAdapter<String> listAdapter;
     private ProgressBar progress;
@@ -42,13 +44,13 @@ public class EventsFragment extends Fragment {
     }
 
     @Override
-    public void onStart(){
+    public void onStart() {
         super.onStart();
         progress = (ProgressBar) getView().findViewById(R.id.pbHeaderProgress);
-        if(events==null) {
+        if (events == null) {
             retrievingEvents = new AsyncTaskEvent();
             retrievingEvents.execute();
-        }else{
+        } else {
             retrievingEvents.onPostExecute(events);
         }
     }
@@ -101,7 +103,7 @@ public class EventsFragment extends Fragment {
                 Facebook fb = new Facebook(getActivity());
 
                 //se esiste sessione attiva
-                if(fb.isLogged()) {
+                if (fb.isLogged()) {
                     //new AsyncTaskFacebook().execute(fb);
                     events.addAll(fb.getEventList());
                 }
@@ -128,34 +130,34 @@ public class EventsFragment extends Fragment {
             adapter = new EventsAdapter(getActivity(), events);
             list_of_events.setAdapter(adapter);
 
-                list_of_events.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> adapterView, View view,
-                                            int i, long l) {
-                            Event event = events.get(i);
+            list_of_events.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> adapterView, View view,
+                                        int i, long l) {
+                    Event event = events.get(i);
 
-                            SimpleDateFormat df = new SimpleDateFormat("c d LLLL yyyy HH:mm");
-                            String formattedDate = df.format(event.getDate().getTime());
+                    SimpleDateFormat df = new SimpleDateFormat("c d LLLL yyyy HH:mm");
+                    String formattedDate = df.format(event.getDate().getTime());
 
-                            Intent intent = new Intent(getActivity(), EventDetailsActivity.class);
-                            intent.putExtra("name", event.getName());
-                            intent.putExtra("place", event.getAddress());
-                            intent.putExtra("date", formattedDate);
-                            intent.putExtra("url", event.getEventURL());
-                            intent.putExtra("latitude", event.getLatitude());
-                            intent.putExtra("longitude", event.getLongitude());
-                            intent.putExtra("organizer", event.getOrganizer());
-                            startActivity(intent);
-                    }
-                });
+                    Intent intent = new Intent(getActivity(), EventDetailsActivity.class);
+                    intent.putExtra("name", event.getName());
+                    intent.putExtra("place", event.getAddress());
+                    intent.putExtra("date", formattedDate);
+                    intent.putExtra("url", event.getEventURL());
+                    intent.putExtra("latitude", event.getLatitude());
+                    intent.putExtra("longitude", event.getLongitude());
+                    intent.putExtra("organizer", event.getOrganizer());
+                    startActivity(intent);
+                }
+            });
             progress.setVisibility(View.GONE);
         }
     }
 
     @Override
-    public void onDestroyView(){
+    public void onDestroyView() {
         super.onDestroyView();
-        events=null;
+        events = null;
         if (retrievingEvents != null) {
             if (!retrievingEvents.isCancelled()) {
                 retrievingEvents.cancel(true);
@@ -173,7 +175,8 @@ public class EventsFragment extends Fragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         int idItem = item.getItemId();
         if (idItem == R.id.refresh) {
-           new AsyncTaskEvent().execute();
+            retrievingEvents = new AsyncTaskEvent();
+            retrievingEvents.execute();
         }
         return super.onOptionsItemSelected(item);
     }
