@@ -24,18 +24,18 @@
         android:id="@+id/eventName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/alarmTitle"
+        android:layout_above="@+id/eventDate"
         android:layout_alignTop="@+id/left"
         android:layout_toRightOf="@+id/left"
         android:fontFamily="sans-serif-light"
-        android:text="09:00"
+        android:text="Event Name"
         android:textColor="#333333"
         android:textSize="30dip"
         android:textStyle="bold"
         android:typeface="sans" />
 
     <TextView
-        android:id="@+id/alarmTitle"
+        android:id="@+id/eventDate"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/left"

@@ -1,18 +1,19 @@
 package com.example.umorning.fragments;
 
-        import android.app.Activity;
-        import android.content.Context;
-        import android.view.LayoutInflater;
-        import android.view.View;
-        import android.view.ViewGroup;
-        import android.widget.BaseAdapter;
-        import android.widget.ImageView;
-        import android.widget.TextView;
+import android.app.Activity;
+import android.content.Context;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
+import android.widget.ImageView;
+import android.widget.TextView;
 
-        import com.example.umorning.R;
-        import com.example.umorning.model.Event;
+import com.example.umorning.R;
+import com.example.umorning.model.Event;
 
-        import java.util.List;
+import java.text.SimpleDateFormat;
+import java.util.List;
 
 public class EventsAdapter extends BaseAdapter {
 
@@ -45,20 +46,23 @@ public class EventsAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         View row = convertView;
         if (convertView == null) {
-            //row = inflater.inflate(R.layout.list_item_alarms, null);
             row = inflater.inflate(R.layout.list_item_events, null);
         }
 
-        ImageView icon = (ImageView) row.findViewById(R.id.eventIcon);
         TextView name = (TextView) row.findViewById(R.id.eventName);
-        TextView time = (TextView) row.findViewById(R.id.alarmTime);
+        TextView date = (TextView) row.findViewById(R.id.eventDate);
+        ImageView icon = (ImageView) row.findViewById(R.id.eventIcon);
 
         Event e;
         e = events.get(position);
 
+        //Titolo evento
         name.setText(e.getName());
-        // time.setText(e.getName());
-
+        //Ora e data dell'evento
+        SimpleDateFormat df = new SimpleDateFormat("c d LLLL yyyy HH:mm");
+        String formattedDate = df.format(e.getDate().getTime());
+        date.setText(formattedDate);
+        //Evento di google/facebook/eventbrite
         Integer[] mThumbIds = {R.drawable.calendar_icon, R.drawable.facebook_icon, R.drawable.eventb_icon};
         icon.setBackgroundResource(mThumbIds[e.getType()]);
 

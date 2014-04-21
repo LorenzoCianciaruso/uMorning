@@ -11,18 +11,19 @@ import android.widget.TextView;
 import com.example.umorning.R;
 import com.example.umorning.model.Alarm;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 public class AlarmsAdapter extends BaseAdapter {
 
     private Activity activity;
     private List<Alarm> alarms;
-    private static LayoutInflater inflater=null;
+    private static LayoutInflater inflater = null;
 
-    AlarmsAdapter(Activity activity, List<Alarm> alarms){
-        this.activity=activity;
-        this.alarms=alarms;
-        inflater = (LayoutInflater)activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+    AlarmsAdapter(Activity activity, List<Alarm> alarms) {
+        this.activity = activity;
+        this.alarms = alarms;
+        inflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
     @Override
@@ -42,19 +43,21 @@ public class AlarmsAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        View row=convertView;
-        if(convertView==null) {
+        View row = convertView;
+        if (convertView == null) {
             row = inflater.inflate(R.layout.list_item_alarms, null);
         }
-
-        TextView title = (TextView)row.findViewById(R.id.alarmTitle);
-        TextView time = (TextView)row.findViewById(R.id.alarmTime);
+        TextView time = (TextView) row.findViewById(R.id.alarmTime);
+        TextView title = (TextView) row.findViewById(R.id.alarmTitle);
 
         Alarm a;
-        a=alarms.get(position);
-
+        a = alarms.get(position);
+        //Ora e data dell'allarme
+        SimpleDateFormat df = new SimpleDateFormat("HH:mm (d/LL/yyyy)");
+        String formattedDate = df.format(a.getDate().getTime());
+        time.setText(formattedDate);
+        //Titolo allarme
         title.setText(a.getName());
-        time.setText(String.valueOf(a.getId()));
 
         return row;
     }
