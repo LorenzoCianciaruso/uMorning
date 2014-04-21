@@ -48,8 +48,12 @@ public class EventsFragment extends Fragment {
         super.onStart();
         progress = (ProgressBar) getView().findViewById(R.id.pbHeaderProgress);
         if (events == null) {
-            retrievingEvents = new AsyncTaskEvent();
-            retrievingEvents.execute();
+            if (HttpRequest.isOnline(getActivity())) {
+                retrievingEvents = new AsyncTaskEvent();
+                retrievingEvents.execute();
+            }else{
+                Toast.makeText(getActivity(), "No Internet Connection", Toast.LENGTH_LONG);
+            }
         } else {
             retrievingEvents.onPostExecute(events);
         }
@@ -107,9 +111,6 @@ public class EventsFragment extends Fragment {
                     //new AsyncTaskFacebook().execute(fb);
                     events.addAll(fb.getEventList());
                 }
-
-            } else {
-                Toast.makeText(getActivity().getApplicationContext(), "No Internet Connection", Toast.LENGTH_LONG).show();
             }
             EventService eve = new EventService(getActivity());
             events.addAll(eve.getEvent());
