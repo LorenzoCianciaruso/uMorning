@@ -3,94 +3,93 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#F0EFF4"
-    android:paddingRight="1dp"
-    android:paddingTop="1dp"
-    android:paddingBottom="1dp"
-    tools:context="com.example.umorning.activities.EventDetailsActivity"
     android:focusableInTouchMode="true"
     android:padding="1dp"
-    android:paddingLeft="1dp">
+    android:paddingBottom="1dp"
+    android:paddingLeft="1dp"
+    android:paddingRight="1dp"
+    android:paddingTop="1dp"
+    tools:context="com.example.umorning.activities.EventDetailsActivity">
 
 
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent">
+        android:layout_height="fill_parent"
+        android:orientation="vertical">
 
         <fragment xmlns:android="http://schemas.android.com/apk/res/android"
             android:id="@+id/map"
             android:name="com.google.android.gms.maps.MapFragment"
+            class="com.google.android.gms.maps.SupportMapFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_margin="0dp"
-            android:layout_weight="1"
-            class="com.google.android.gms.maps.SupportMapFragment"
-            />
+            android:layout_weight="1" />
 
         <LinearLayout
-            android:orientation="vertical"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:gravity="bottom"
+            android:layout_margin="10dp"
             android:layout_weight="2"
-            android:layout_margin="10dp">
+            android:gravity="bottom"
+            android:orientation="vertical">
 
             <TextView
+                android:id="@+id/event_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="Nome Evento"
                 android:fontFamily="sans-serif-light"
-                android:id="@+id/event_name"
-                android:maxLines="2" />
+                android:maxLines="2"
+                android:text="Nome Evento"
+                android:textAppearance="?android:attr/textAppearanceLarge" />
 
             <LinearLayout
-                android:orientation="horizontal"
                 android:layout_width="match_parent"
-                android:layout_height="fill_parent">
+                android:layout_height="fill_parent"
+                android:orientation="horizontal">
 
                 <LinearLayout
-                    android:orientation="vertical"
                     android:layout_width="match_parent"
                     android:layout_height="fill_parent"
+                    android:layout_marginTop="5dp"
                     android:layout_weight="1"
-                    android:layout_marginTop="5dp">
+                    android:orientation="vertical">
 
                     <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textAppearance="?android:attr/textAppearanceMedium"
-                        android:text="Data e ora"
-                        android:fontFamily="sans-serif-light"
                         android:id="@+id/date_time"
-                        android:layout_weight="1" />
-
-                    <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textAppearance="?android:attr/textAppearanceMedium"
-                        android:text="Luogo"
+                        android:layout_weight="1"
                         android:fontFamily="sans-serif-light"
+                        android:text="Data e ora"
+                        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+                    <TextView
                         android:id="@+id/place"
-                        android:layout_weight="1" />
-
-                    <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textAppearance="?android:attr/textAppearanceMedium"
-                        android:text="Organizzatore"
+                        android:layout_weight="1"
                         android:fontFamily="sans-serif-light"
+                        android:text="Luogo"
+                        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+                    <TextView
                         android:id="@+id/organizer"
-                        android:layout_weight="1" />
-
-                    <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textAppearance="?android:attr/textAppearanceMedium"
-                        android:text="URL"
+                        android:layout_weight="1"
                         android:fontFamily="sans-serif-light"
+                        android:text="Organizzatore"
+                        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+                    <TextView
                         android:id="@+id/url"
-                        android:layout_weight="1" />
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:fontFamily="sans-serif-light"
+                        android:text="URL"
+                        android:textAppearance="?android:attr/textAppearanceMedium" />
                 </LinearLayout>
 
             </LinearLayout>

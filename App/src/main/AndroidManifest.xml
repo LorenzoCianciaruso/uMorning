@@ -82,6 +82,11 @@
             android:screenOrientation="portrait">
         </activity>
 
+        <activity
+            android:name="com.example.umorning.activities.AlarmDetailsActivity"
+            android:screenOrientation="portrait">
+        </activity>
+
         <receiver android:name="com.example.umorning.internal_services.AlarmBroadcastReceiver" >
         </receiver>
 

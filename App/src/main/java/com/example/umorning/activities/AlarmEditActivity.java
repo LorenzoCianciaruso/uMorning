@@ -97,6 +97,9 @@ public class AlarmEditActivity extends Activity {
             date = toUpdate.getDate();
             expectedTime = toUpdate.getExpectedTime();
             activation.setChecked(toUpdate.isActivated());
+            //TODO
+            endLatitude=toUpdate.getEndLatitude();
+            endLongitude=toUpdate.getEndLongitude();
         }
 
         int year = date.get(Calendar.YEAR);

@@ -1,0 +1,23 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.example.umorning.activities.EventDetailsActivity">
+
+    <item
+        android:id="@+id/menu_item_share"
+        android:showAsAction="always"
+        android:title="Share"
+        android:actionProviderClass="android.widget.ShareActionProvider" />
+
+    <item
+        android:id="@+id/fb_share"
+        android:icon="@drawable/fb_icon_share"
+        android:title="Share on Facebook"
+        android:showAsAction="always" />
+
+    <item
+        android:id="@+id/edit"
+        android:icon="@drawable/ic_action_edit"
+        android:title="Activate alarm"
+        android:showAsAction="always" />
+
+</menu>

@@ -8,10 +8,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.ProgressBar;
 
 import com.example.umorning.R;
-import com.example.umorning.activities.AlarmEditActivity;
+import com.example.umorning.activities.AlarmDetailsActivity;
 import com.example.umorning.model.Alarm;
 import com.example.umorning.model.DatabaseHelper;
 
@@ -52,9 +51,14 @@ public class AlarmsFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view,
                                     int i, long l) {
-                Intent myIntent = new Intent(getActivity(), AlarmEditActivity.class);
+                /*Intent myIntent = new Intent(getActivity(), AlarmEditActivity.class);
+                myIntent.putExtra("alarmId", alarms.get(i).getId());
+                startActivityForResult(myIntent,0);*/
+
+                Intent myIntent = new Intent(getActivity(), AlarmDetailsActivity.class);
                 myIntent.putExtra("alarmId", alarms.get(i).getId());
                 startActivityForResult(myIntent,0);
+
 
             }
         });
