@@ -133,7 +133,7 @@ public class EventDetailsActivity extends FragmentActivity {
                     .position(new LatLng(latitude, longitude))
                     .title(name));
         }
-
+        mMap.setMyLocationEnabled(true);
     }
 
     @Override

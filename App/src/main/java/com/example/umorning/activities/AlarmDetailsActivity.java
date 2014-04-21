@@ -112,6 +112,9 @@ public class AlarmDetailsActivity extends FragmentActivity {
                     .title(name));
         }
 
+        mMap.getUiSettings().setCompassEnabled(true);
+        mMap.setMyLocationEnabled(true);
+
     }
 
 }
