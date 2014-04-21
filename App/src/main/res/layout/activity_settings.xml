@@ -78,6 +78,24 @@
             android:orientation="horizontal"
             android:padding="10dp">
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:fontFamily="sans-serif-light"
+                android:text="Select Ringtone" />
+
+            <TextView
+                android:id="@+id/selectedRingtone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:layout_marginTop="10dp"
+                android:onClick="selectRingtone" />
+
         </RelativeLayout>
 
         <RelativeLayout
