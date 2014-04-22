@@ -21,26 +21,26 @@
             android:id="@+id/locality"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
             android:fontFamily="sans-serif-light"
             android:gravity="center"
             android:text="Milano"
             android:textSize="60sp"
-            android:textStyle="bold"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/country"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            android:layout_alignBottom="@+id/locality"
+            android:layout_toRightOf="@+id/locality"
             android:fontFamily="sans-serif-light"
             android:gravity="center"
-            android:text="Italy"
-            android:textSize="35dp"
             android:paddingLeft="15dp"
-            android:layout_alignBottom="@+id/locality"
-            android:layout_toRightOf="@+id/locality" />
+            android:text="Italy"
+            android:textSize="35dp" />
 
     </RelativeLayout>
 
@@ -48,32 +48,50 @@
         android:id="@+id/infoWeather"
         android:layout_width="fill_parent"
         android:layout_height="120dp"
-        android:background="#ffffff"
-        android:orientation="horizontal"
-        android:layout_below="@+id/infoLocation"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true">
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/infoLocation"
+        android:background="#ffffff"
+        android:orientation="horizontal">
 
         <ImageView
             android:id="@+id/weatherIcon"
             android:layout_width="120dp"
             android:layout_height="150dp"
-            android:layout_alignParentLeft="true"/>
+            android:layout_alignParentLeft="true" />
 
         <TextView
             android:id="@+id/temperature"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
             android:fontFamily="sans-serif-light"
             android:gravity="center"
             android:text="30°C"
-            android:textSize="100dp"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true" />
-
+            android:textSize="100dp" />
 
     </RelativeLayout>
 
+    <RelativeLayout
+        android:id="@+id/infoTitle"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/infoWeather"
+        android:layout_marginTop="20dp"
+        android:background="#ffffff"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-light"
+            android:text="Next alarms"
+            android:textSize="30dp" />
+
+    </RelativeLayout>
 
 
     <ProgressBar
@@ -90,7 +108,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/infoWeather"
+        android:layout_below="@+id/infoTitle"
         android:dividerHeight="5.0sp"
         android:paddingTop="20dp"></ListView>
 

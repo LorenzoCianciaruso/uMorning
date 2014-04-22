@@ -1,5 +1,6 @@
 package com.example.umorning.fragments;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -7,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
@@ -14,6 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.umorning.R;
+import com.example.umorning.activities.AlarmDetailsActivity;
 import com.example.umorning.external_services.HttpRequest;
 import com.example.umorning.external_services.MetwitRequest;
 import com.example.umorning.internal_services.GpsLocalizationService;
@@ -111,13 +114,25 @@ public class HomeFragment extends Fragment {
         }
 
         if (activatedAlarms.size() > 5) {
-            activatedAlarms=activatedAlarms.subList(0, 5);
+            activatedAlarms = activatedAlarms.subList(0, 5);
 
         }
 
         list = (ListView) getView().findViewById(R.id.listEventsActivated);
         adapter = new AlarmsAdapter(getActivity(), activatedAlarms);
         list.setAdapter(adapter);
+
+        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view,
+                                    int i, long l) {
+
+                Intent myIntent = new Intent(getActivity(), AlarmDetailsActivity.class);
+                myIntent.putExtra("alarmId", activatedAlarms.get(i).getId());
+                startActivityForResult(myIntent, 0);
+
+            }
+        });
 
     }
 

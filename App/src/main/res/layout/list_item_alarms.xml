@@ -43,6 +43,7 @@
         android:layout_alignLeft="@+id/alarmTime"
         android:layout_alignStart="@+id/alarmTime"
         android:fontFamily="sans-serif-light"
+        android:maxLines="1"
         android:text="alarm title"
         android:textColor="#333333"
         android:textSize="15dip" />
