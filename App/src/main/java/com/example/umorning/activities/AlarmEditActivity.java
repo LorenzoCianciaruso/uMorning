@@ -172,7 +172,7 @@ public class AlarmEditActivity extends Activity {
 
             //ottengo l'ora della sveglia sottraendo traffico e tempo per prepararsi
             expectedTime.setTimeInMillis(date.getTimeInMillis() - trafficMillis - (delay * 1000 * 60));
-
+            System.out.println("EEEEEEE "+ expectedTime.toString());
         }
 
         toDelete = false;
@@ -187,16 +187,16 @@ public class AlarmEditActivity extends Activity {
 
         SharedPreferences prefs = getSharedPreferences("uMorning", 0);
         long refreshRate = prefs.getLong("REFRESH",60);
-        //if (expectedTime.after((System.currentTimeMillis()+refreshRate*60*1000))) {
+
+          if(expectedTime.getTimeInMillis() < (System.currentTimeMillis()+(refreshRate*60*1000)))  {
             //chiama un alarmservice
             Intent myIntent = new Intent(this, AlarmBroadcastReceiver.class);
             myIntent.putExtra("alarmId", id);
             PendingIntent intent = PendingIntent.getService(this, 0, myIntent, 0);
             AlarmManager alarmManager = (AlarmManager) getSystemService(Service.ALARM_SERVICE);
-
             //imposta l'ora e fa partire
-            alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), intent);
-       // }
+            alarmManager.set(AlarmManager.RTC_WAKEUP, expectedTime.getTimeInMillis(), intent);
+        }
         finish();
     }
 }

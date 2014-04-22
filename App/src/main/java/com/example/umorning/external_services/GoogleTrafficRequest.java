@@ -42,7 +42,6 @@ public class GoogleTrafficRequest {
             url = "https://maps.googleapis.com/maps/api/distancematrix/json?origins=" + startLatitude + "," + startLongitude + "&destinations=" + arrivalLocation + "&mode=driving&language=en-US&sensor=false&key=AIzaSyDj6lm3eLSuOhG4rLXL66WUBg7C7XEDYcA";
         }
         String result = new HttpRequest().getRequest(url);
-        System.out.println(result.toString());
 
         try {
             JSONObject jObject = new JSONObject(result);
