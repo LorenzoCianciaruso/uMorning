@@ -95,7 +95,6 @@ public class EventsFragment extends Fragment {
         protected List<Event> doInBackground(Void... params) {
             events = new ArrayList<Event>();
 
-
             //verifico connessione internet
             if (HttpRequest.isOnline(getActivity())) {
 

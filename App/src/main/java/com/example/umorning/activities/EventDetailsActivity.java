@@ -113,7 +113,6 @@ public class EventDetailsActivity extends FragmentActivity {
         if (idItem == R.id.fb_share) {
             fb.publishStory(this, name, place, url, time);
         } else if (idItem == R.id.add) {
-
             //salva nel db
             SharedPreferences prefs = getSharedPreferences("uMorning", 0);
             long delay = prefs.getLong("DELAY", 30);
@@ -124,7 +123,6 @@ public class EventDetailsActivity extends FragmentActivity {
             myIntent.putExtra("alarmId", id);
             myIntent.putExtra("fromEvent", 1);
             startActivityForResult(myIntent, 0);
-
         }
         return super.onOptionsItemSelected(item);
     }
