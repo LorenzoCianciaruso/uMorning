@@ -14,22 +14,64 @@
         android:layout_height="fill_parent">
 
         <TextClock
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:id="@+id/textClock"
             android:layout_weight="2"
             android:textStyle="normal"
             android:typeface="normal"
             android:visibility="visible"
             android:textColor="#ffffff"
-            android:textColorHighlight="#ffffff" />
+            android:textIsSelectable="false"
+            android:textSize="80dp"
+            android:fontFamily="sans-serif-light"
+            android:gravity="center_vertical|center_horizontal" />
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="2"
+            android:layout_gravity="center"
+            android:gravity="center_vertical|center_horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="Large Text"
+                android:id="@+id/name"
+                android:fontFamily="sans-serif-light"
+                android:gravity="center_vertical|center_horizontal"
+                android:textColor="#ffffff" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Medium Text"
+                android:id="@+id/time"
+                android:fontFamily="sans-serif-light"
+                android:gravity="center_vertical|center_horizontal"
+                android:textColor="#ffffff" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Medium Text"
+                android:id="@+id/address"
+                android:fontFamily="sans-serif-light"
+                android:gravity="center_vertical|center_horizontal"
+                android:textColor="#ffffff" />
+        </LinearLayout>
 
         <Button
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:text="New Button"
             android:id="@+id/stop"
-            android:layout_weight="1"
+            android:layout_weight="2"
             android:onClick="stopAlarm"/>
     </LinearLayout>
 </FrameLayout>

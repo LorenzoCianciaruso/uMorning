@@ -2,29 +2,35 @@ package com.example.umorning.activities;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Vibrator;
+import android.provider.ContactsContract;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
-import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.umorning.R;
 import com.example.umorning.model.Alarm;
 import com.example.umorning.model.DatabaseHelper;
 
+import java.text.SimpleDateFormat;
+
 public class AlarmRingActivity extends Activity {
 
     private Vibrator v;
     private Ringtone r;
-    private Button stopButton;
     private int id;
-
+    private TextView nameView;
+    private TextView addressView;
+    private TextView timeView;
+    private Alarm alarm;
+    private DatabaseHelper dbHelp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,8 +38,21 @@ public class AlarmRingActivity extends Activity {
         getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
         getActionBar().hide();
         setContentView(R.layout.activity_alarm_ring);
-        stopButton = (Button) findViewById(R.id.stop);
         id = getIntent().getIntExtra("alarmId", 0);
+
+        dbHelp = new DatabaseHelper(this);
+        alarm = dbHelp.getAlarm(id);
+
+        nameView = (TextView) findViewById(R.id.name);
+        addressView = (TextView) findViewById(R.id.address);
+        timeView = (TextView) findViewById(R.id.time);
+        nameView.setText(alarm.getName());
+        addressView.setText(alarm.getAddress());
+        SimpleDateFormat df = new SimpleDateFormat("c d LLLL yyyy HH:mm");
+        String time = df.format(alarm.getDate().getTime());
+        timeView.setText(time);
+
+        System.out.println("AAAAAAAAAAAA "+alarm.getAddress() + " " + time + " " + alarm.getName() );
         //servizio vibrazione
         v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
         // ogni elemento alterna vibrazione, pausa, vibrazione, pausa...
@@ -57,14 +76,12 @@ public class AlarmRingActivity extends Activity {
     }
 
     public void stopAlarm(View view) {
-        DatabaseHelper dbHelp = new DatabaseHelper(this);
-        Alarm alarm = dbHelp.getAlarm(id);
         alarm.setActivated(false);
         dbHelp.updateAlarm(alarm);
         v.cancel();
         r.stop();
         finish();
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
     }
-
-
 }
