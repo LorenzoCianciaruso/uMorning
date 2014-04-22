@@ -25,10 +25,6 @@ public class AlarmDetailsActivity extends FragmentActivity {
 
     private int id;
     private GoogleMap mMap;
-    private String url;
-    private String name;
-    private String time;
-    private String place;
     private Facebook fb;
     private ShareActionProvider mShareActionProvider;
     private double latitude;
@@ -92,10 +88,10 @@ public class AlarmDetailsActivity extends FragmentActivity {
 
         switch (item.getItemId()) {
             case R.id.edit: {
-                System.out.println("AAAASSSSSSSAAAAAAAA");
                 Intent myIntent = new Intent(this, AlarmEditActivity.class);
                 myIntent.putExtra("alarmId", id);
-                startActivityForResult(myIntent,0);
+                startActivityForResult(myIntent, 0);
+                finish();
             }
         }
 
@@ -108,8 +104,8 @@ public class AlarmDetailsActivity extends FragmentActivity {
         if (mMap != null) {
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(latitude, longitude), 15));
             mMap.addMarker(new MarkerOptions()
-                    .position(new LatLng(latitude, longitude))
-                    .title(name));
+                            .position(new LatLng(latitude, longitude))
+            );
         }
 
         mMap.getUiSettings().setCompassEnabled(true);
