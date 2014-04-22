@@ -158,7 +158,6 @@ public class AlarmEditActivity extends Activity {
 
         if (activated) {
             if (id==0 ||(id!=0 && (!address.equals(toUpdate.getAddress())||!city.equals(toUpdate.getCity())||!country.equals(toUpdate.getCountry())))) {
-                    System.out.println("GGGGG geocode");
                 //traduci indirizzo in coordinate
                 GoogleGeocode gg = new GoogleGeocode(address, city, country);
                 endLatitude = gg.getLatitude();
