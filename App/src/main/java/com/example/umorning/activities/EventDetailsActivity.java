@@ -112,7 +112,7 @@ public class EventDetailsActivity extends FragmentActivity {
             long delay = prefs.getLong("DELAY", 30);
             Calendar date = new GregorianCalendar();
             date.setTimeInMillis(System.currentTimeMillis());
-            Alarm alarm = new Alarm(id, delay, name, place, "", "", 0, 0, latitude, longitude, date, null, true, false);
+            Alarm alarm = new Alarm(id, delay, name, place, "", "", 0, 0, latitude, longitude, date, date, true, false);
             db = new DatabaseHelper(this);
             id = (int) db.addAlarm(alarm);
             Intent myIntent = new Intent(this, AlarmEditActivity.class);

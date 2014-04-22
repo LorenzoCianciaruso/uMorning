@@ -74,14 +74,14 @@ public class HomeFragment extends Fragment {
             try {
                 latitude = gps.getLatitude();
                 longitude = gps.getLongitude();
-            }catch(NullPointerException e){
+            } catch (NullPointerException e) {
                 SharedPreferences prefs = getActivity().getSharedPreferences("uMorning", 0);
                 latitude = Double.parseDouble(prefs.getString("Latitude", "45.529"));
                 longitude = Double.parseDouble(prefs.getString("Longitude", "9.0429"));
             }
             if (HttpRequest.isOnline(getActivity())) {
                 metwitRequest = new AsyncTaskMeteoRequest();
-                metwitRequest.execute(latitude,longitude);
+                metwitRequest.execute(latitude, longitude);
             } else {
                 Toast.makeText(getActivity().getApplicationContext(), "No Internet Connection", Toast.LENGTH_LONG).show();
             }
@@ -98,18 +98,21 @@ public class HomeFragment extends Fragment {
         alarms = db.getAllAlarms();
 
         //inserisco in activatedAlarms i primi 5 alarmi attivi di alarms
-        for(Alarm a: alarms){
-            if (a.isActivated()){
-               activatedAlarms.add(a);
-             }
+        for (Alarm a : alarms) {
+            if (a.isActivated()) {
+                activatedAlarms.add(a);
+            }
             Collections.sort(activatedAlarms, new Comparator<Alarm>() {
                 @Override
                 public int compare(Alarm a1, Alarm a2) {
                     return a1.getExpectedTime().compareTo(a2.getExpectedTime());
                 }
             });
-            if(activatedAlarms.size()>5)
-                activatedAlarms.subList(0,4);
+        }
+
+        if (activatedAlarms.size() > 5) {
+            activatedAlarms=activatedAlarms.subList(0, 5);
+
         }
 
         list = (ListView) getView().findViewById(R.id.listEventsActivated);
@@ -119,7 +122,7 @@ public class HomeFragment extends Fragment {
     }
 
     @Override
-    public void onDestroyView(){
+    public void onDestroyView() {
         super.onDestroyView();
         if (metwitRequest != null) {
             if (!metwitRequest.isCancelled()) {
@@ -132,7 +135,7 @@ public class HomeFragment extends Fragment {
     private class AsyncTaskMeteoRequest extends AsyncTask<Double, Void, MetwitRequest> {
 
         @Override
-        protected void onPreExecute(){
+        protected void onPreExecute() {
             progress.setVisibility(View.VISIBLE);
         }
 
@@ -145,7 +148,7 @@ public class HomeFragment extends Fragment {
             try {
                 //richiesta meteo
                 weatherInfo = new MetwitRequest(latitude, longitude);
-            }catch(NullPointerException e ){
+            } catch (NullPointerException e) {
                 SharedPreferences prefs = getActivity().getSharedPreferences("uMorning", 0);
                 weatherInfo = new MetwitRequest();
                 weatherInfo.setLocality(prefs.getString("Locality", " "));
