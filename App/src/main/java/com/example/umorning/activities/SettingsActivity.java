@@ -57,8 +57,8 @@ public class SettingsActivity extends Activity {
         RingtoneManager ringtoneMgr = new RingtoneManager(this);
         ringtoneMgr.setType(RingtoneManager.TYPE_ALARM);
 
-
-        Ringtone defaultRingtone = RingtoneManager.getRingtone(this, RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM));
+        Uri uriDefault = Uri.parse( prefs.getString("TONE", RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM).toString()));
+        Ringtone defaultRingtone = RingtoneManager.getRingtone(this, uriDefault);
         String ringtoneName = defaultRingtone.getTitle(this);
         selectedRingtone.setText(ringtoneName);
         selectedRingtone.setClickable(true);
@@ -106,7 +106,10 @@ public class SettingsActivity extends Activity {
         SharedPreferences.Editor editor = prefs.edit();
         editor.putLong("DELAY", userDelay);
         editor.putLong("REFRESH", refreshRate);
+        Uri uri=fromTitleToUri(ringtonePicked);
+        editor.putString("TONE", uri.toString());
         editor.commit();
+        finish();
     }
 
     public void selectRingtone(View view) {
