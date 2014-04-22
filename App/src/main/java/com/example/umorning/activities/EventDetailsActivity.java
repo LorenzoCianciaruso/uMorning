@@ -23,6 +23,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
@@ -31,6 +32,7 @@ public class EventDetailsActivity extends FragmentActivity {
     private GoogleMap mMap;
     private String url;
     private String name;
+    private Calendar date;
     private String time;
     private String place;
     private Facebook fb;
@@ -50,7 +52,7 @@ public class EventDetailsActivity extends FragmentActivity {
         longitude = getIntent().getDoubleExtra("longitude", 9.0);
         place = getIntent().getStringExtra("place");
         url = getIntent().getStringExtra("url");
-        time = getIntent().getStringExtra("date");
+        long dateInMillis = getIntent().getLongExtra("dateInMillis", 0000);
         String organizer = getIntent().getStringExtra("organizer");
 
         TextView nameView = (TextView) findViewById(R.id.event_name);
@@ -58,6 +60,11 @@ public class EventDetailsActivity extends FragmentActivity {
         TextView placeView = (TextView) findViewById(R.id.place);
         TextView urlView = (TextView) findViewById(R.id.url);
         TextView organizerView = (TextView) findViewById(R.id.organizer);
+
+        date = new GregorianCalendar();
+        date.setTimeInMillis(dateInMillis);
+        SimpleDateFormat df = new SimpleDateFormat("c d LLLL yyyy HH:mm");
+        time = df.format(date.getTime());
 
         nameView.setText(name);
         dateTimeView.setText(time);
@@ -90,7 +97,7 @@ public class EventDetailsActivity extends FragmentActivity {
         MenuItem item = menu.findItem(R.id.menu_item_share);
         mShareActionProvider = (ShareActionProvider) item.getActionProvider();
         Intent shareIntent = ShareCompat.IntentBuilder.from(this)
-                .setType("text/plain").setText("").getIntent();
+                .setType("text/plain").setText("I'm using uMorning! Try it!").getIntent();
         mShareActionProvider.setShareIntent(shareIntent);
         MenuItem shareFb = menu.findItem(R.id.fb_share);
         if (!fb.isLogged()) {
@@ -110,8 +117,6 @@ public class EventDetailsActivity extends FragmentActivity {
             //salva nel db
             SharedPreferences prefs = getSharedPreferences("uMorning", 0);
             long delay = prefs.getLong("DELAY", 30);
-            Calendar date = new GregorianCalendar();
-            date.setTimeInMillis(System.currentTimeMillis());
             Alarm alarm = new Alarm(id, delay, name, place, "", "", 0, 0, latitude, longitude, date, date, true, false);
             db = new DatabaseHelper(this);
             id = (int) db.addAlarm(alarm);

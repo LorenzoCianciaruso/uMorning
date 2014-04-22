@@ -15,7 +15,6 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
-
 import com.example.umorning.R;
 import com.example.umorning.activities.EventDetailsActivity;
 import com.example.umorning.external_services.Eventbrite;
@@ -23,14 +22,12 @@ import com.example.umorning.external_services.Facebook;
 import com.example.umorning.external_services.HttpRequest;
 import com.example.umorning.internal_services.EventService;
 import com.example.umorning.model.Event;
-
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
 public class EventsFragment extends Fragment {
 
-    private static List<Event> events = null;
+    static private List<Event> events;
     private ListView list_of_events;
     private ArrayAdapter<String> listAdapter;
     private ProgressBar progress;
@@ -136,14 +133,10 @@ public class EventsFragment extends Fragment {
                 public void onItemClick(AdapterView<?> adapterView, View view,
                                         int i, long l) {
                     Event event = events.get(i);
-
-                    SimpleDateFormat df = new SimpleDateFormat("c d LLLL yyyy HH:mm");
-                    String formattedDate = df.format(event.getDate().getTime());
-
                     Intent intent = new Intent(getActivity(), EventDetailsActivity.class);
                     intent.putExtra("name", event.getName());
                     intent.putExtra("place", event.getAddress());
-                    intent.putExtra("date", formattedDate);
+                    intent.putExtra("dateInMillis", event.getDate().getTimeInMillis());
                     intent.putExtra("url", event.getEventURL());
                     intent.putExtra("latitude", event.getLatitude());
                     intent.putExtra("longitude", event.getLongitude());
