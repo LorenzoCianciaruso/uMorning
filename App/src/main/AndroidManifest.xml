@@ -43,7 +43,8 @@
             android:label="@string/title_activity_prova" >
             android:screenOrientation="portrait"
         </activity>
-        <activity android:name="com.example.umorning.activities.AlarmEditActivity" >
+        <activity android:name="com.example.umorning.activities.AlarmEditActivity"
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name="com.example.umorning.activities.AccountManagerActivity"
