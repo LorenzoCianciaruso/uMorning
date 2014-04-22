@@ -136,6 +136,7 @@ public class HomeFragment extends Fragment {
 
         @Override
         protected void onPreExecute() {
+            progress.bringToFront();
             progress.setVisibility(View.VISIBLE);
         }
 
