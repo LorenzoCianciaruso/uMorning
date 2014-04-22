@@ -143,6 +143,9 @@ public class AlarmEditActivity extends Activity {
     public void onBackPressed() {
         super.onBackPressed();
         overridePendingTransition(R.anim.fadein, R.anim.fadeout);
+        if (getIntent().getIntExtra("fromEvent", 0)==1){
+            db.deleteAlarm(id);
+        }
         finish();
     }
 
