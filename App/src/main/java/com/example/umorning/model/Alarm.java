@@ -91,4 +91,8 @@ public class Alarm {
     public Calendar getExpectedTime() {
         return expectedTime;
     }
+
+    public void setActivated(boolean activated) {
+        this.activated = activated;
+    }
 }

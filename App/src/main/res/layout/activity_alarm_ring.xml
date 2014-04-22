@@ -3,16 +3,33 @@
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#000000"
     tools:context="com.example.umorning.activities.AlarmRingActivity"
     tools:ignore="MergeRootFrame">
 
-    <TextView
-        android:layout_width="fill_parent"
-        android:id="@+id/text"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:gravity="center"
-        android:text="Alzati"
-        android:textSize="20dp" />
 
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
+
+        <TextClock
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:id="@+id/textClock"
+            android:layout_weight="2"
+            android:textStyle="normal"
+            android:typeface="normal"
+            android:visibility="visible"
+            android:textColor="#ffffff"
+            android:textColorHighlight="#ffffff" />
+
+        <Button
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:text="New Button"
+            android:id="@+id/stop"
+            android:layout_weight="1"
+            android:onClick="stopAlarm"/>
+    </LinearLayout>
 </FrameLayout>
