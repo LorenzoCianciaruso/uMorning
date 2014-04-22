@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.media.Ringtone;
@@ -50,6 +51,7 @@ public class SettingsActivity extends Activity {
         saved = prefs.getLong("REFRESH", 60);
         refreshPicker.setValue((int) saved);
 
+        /*
         //ringtone
         ringtonesListUri = new ArrayList<Uri>();
         ringtones = new ArrayList<String>();
@@ -73,8 +75,6 @@ public class SettingsActivity extends Activity {
                 ringtonesListUri.add(alarms[i]);
                 Ringtone ringtone = RingtoneManager.getRingtone(this, alarms[i]);
                 ringtones.add(ringtone.getTitle(this));
-
-
             }
             alarmsCursor.close();
 
@@ -95,6 +95,26 @@ public class SettingsActivity extends Activity {
             });
             return builder.create();
         }
+    }*/
+
+        String uri = null;
+        Intent intent = new Intent(RingtoneManager.ACTION_RINGTONE_PICKER);
+        intent.putExtra(RingtoneManager.EXTRA_RINGTONE_TYPE,
+                RingtoneManager.TYPE_NOTIFICATION);
+        intent.putExtra(RingtoneManager.EXTRA_RINGTONE_TITLE, "Select Tone");
+
+        SharedPreferences settings = getSharedPreferences("uMorning", 0);
+        uri = settings.getString("ringtone", "none");
+
+        if (!uri.equals("none")) {
+            intent.putExtra(RingtoneManager.EXTRA_RINGTONE_EXISTING_URI,
+                    Uri.parse(uri));
+        } else {
+            intent.putExtra(RingtoneManager.EXTRA_RINGTONE_EXISTING_URI,
+                    (Uri) null);
+        }
+        startActivityForResult(intent, 999);
+
     }
 
     public void saveSettings(View view) {
@@ -112,10 +132,10 @@ public class SettingsActivity extends Activity {
         finish();
     }
 
-    public void selectRingtone(View view) {
+    /*public void selectRingtone(View view) {
         SelectRingtone r = new SelectRingtone();
         r.show(getFragmentManager(), "ringtone");
-    }
+    }*/
 
     private Uri fromTitleToUri(String title) {
         for (Uri u : ringtonesListUri)
