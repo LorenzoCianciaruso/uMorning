@@ -25,7 +25,6 @@ public class SettingsActivity extends Activity {
 
     private NumberPicker delayPicker;
     private NumberPicker refreshPicker;
-
     private TextView selectedRingtone;
     private List<String> ringtones;
     private List<Uri> ringtonesListUri;

@@ -428,7 +428,7 @@ public final class NativeProtocol {
         if (type.equalsIgnoreCase(ERROR_USER_CANCELED)) {
             return new FacebookOperationCanceledException(description);
         }
-        /* TODO parse error values and create appropriate exception class */
+
         return new FacebookException(description);
     }
 
