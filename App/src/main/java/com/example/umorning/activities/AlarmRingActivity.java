@@ -1,5 +1,7 @@
 package com.example.umorning.activities;
 
+import android.animation.AnimatorInflater;
+import android.animation.AnimatorSet;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -13,6 +15,9 @@ import android.provider.ContactsContract;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.umorning.R;
@@ -52,7 +57,6 @@ public class AlarmRingActivity extends Activity {
         String time = df.format(alarm.getDate().getTime());
         timeView.setText(time);
 
-        System.out.println("AAAAAAAAAAAA "+alarm.getAddress() + " " + time + " " + alarm.getName() );
         //servizio vibrazione
         v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
         // ogni elemento alterna vibrazione, pausa, vibrazione, pausa...
@@ -64,6 +68,7 @@ public class AlarmRingActivity extends Activity {
         Uri tone = Uri.parse(prefs.getString("TONE", RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM).toString()));
         r = RingtoneManager.getRingtone(getApplicationContext(), tone);
         r.play();
+
     }
 
     @Override

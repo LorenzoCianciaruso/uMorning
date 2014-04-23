@@ -44,9 +44,9 @@ public class EventsFragment extends Fragment {
     public void onStart() {
         super.onStart();
         progress = (ProgressBar) getView().findViewById(R.id.pbHeaderProgress);
+        retrievingEvents = new AsyncTaskEvent();
         if (events == null) {
             if (HttpRequest.isOnline(getActivity())) {
-                retrievingEvents = new AsyncTaskEvent();
                 retrievingEvents.execute();
             }else{
                 Toast.makeText(getActivity(), "No Internet Connection", Toast.LENGTH_LONG);

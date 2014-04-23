@@ -13,10 +13,12 @@ import android.widget.DatePicker;
 import android.widget.NumberPicker;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import com.example.umorning.R;
 import com.example.umorning.external_services.GoogleGeocode;
 import com.example.umorning.external_services.GoogleTrafficRequest;
+import com.example.umorning.external_services.HttpRequest;
 import com.example.umorning.internal_services.AlarmBroadcastReceiver;
 import com.example.umorning.internal_services.GpsLocalizationService;
 import com.example.umorning.model.Alarm;
@@ -110,7 +112,7 @@ public class AlarmEditActivity extends Activity {
         datePicker.updateDate(year, month, day);
         timePicker.setCurrentHour(hour);
         timePicker.setCurrentMinute(min);
-        System.out.println("WIDTH: " + timePicker.getMeasuredWidth() + " HEIGHT: " + timePicker.getHeight());
+
     }
 
     public void onSavePressed(View view) {
@@ -166,13 +168,18 @@ public class AlarmEditActivity extends Activity {
                 endLatitude = gg.getLatitude();
                 endLongitude = gg.getLongitude();
             }
+            long trafficMillis = 0;
             //richiesta traffico
-            GoogleTrafficRequest trafficRequest = new GoogleTrafficRequest(startLatitude, startLongitude, endLatitude, endLongitude);
-            long trafficMillis = trafficRequest.getTripDurationInMillis();
+            if(HttpRequest.isOnline(this)) {
+                GoogleTrafficRequest trafficRequest = new GoogleTrafficRequest(startLatitude, startLongitude, endLatitude, endLongitude);
+                trafficMillis = trafficRequest.getTripDurationInMillis();
+            }else{
+                Toast.makeText(this, "No internet Connection", Toast.LENGTH_SHORT);
+            }
 
             //ottengo l'ora della sveglia sottraendo traffico e tempo per prepararsi
             expectedTime.setTimeInMillis(date.getTimeInMillis() - trafficMillis - (delay * 1000 * 60));
-            System.out.println("EEEEEEE "+ expectedTime.toString());
+
         }
 
         toDelete = false;

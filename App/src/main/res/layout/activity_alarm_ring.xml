@@ -92,6 +92,7 @@
                 android:onClick="stopAlarm"
                 android:background="@drawable/stop_alarm"
                 android:layout_gravity="center" />
+
         </FrameLayout>
 
     </LinearLayout>
