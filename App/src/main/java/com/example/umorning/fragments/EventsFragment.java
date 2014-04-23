@@ -15,6 +15,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
+
 import com.example.umorning.R;
 import com.example.umorning.activities.EventDetailsActivity;
 import com.example.umorning.external_services.Eventbrite;
@@ -23,6 +24,7 @@ import com.example.umorning.external_services.HttpRequest;
 import com.example.umorning.internal_services.EventService;
 import com.example.umorning.model.Alarm;
 import com.example.umorning.model.Event;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -51,7 +53,7 @@ public class EventsFragment extends Fragment {
         if (events == null) {
             if (HttpRequest.isOnline(getActivity())) {
                 retrievingEvents.execute();
-            }else{
+            } else {
                 Toast.makeText(getActivity(), "No Internet Connection", Toast.LENGTH_LONG);
             }
         } else {

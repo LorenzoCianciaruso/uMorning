@@ -19,9 +19,10 @@ public class MetwitRequest {
 
     private String country;
 
-    public MetwitRequest(){}
+    public MetwitRequest() {
+    }
 
-    public MetwitRequest(double latitude, double longitude) throws  NullPointerException{
+    public MetwitRequest(double latitude, double longitude) throws NullPointerException {
         this.latitude = latitude;
         this.longitude = longitude;
 
@@ -29,7 +30,7 @@ public class MetwitRequest {
     }
 
     //start thread che invia richiesta http a metwit
-    private void askForWeather() throws NullPointerException{
+    private void askForWeather() throws NullPointerException {
         String url = "https://api.metwit.com/v2/weather/?location_lat=" + latitude + "&location_lng=" + longitude;
         String result = new HttpRequest().getRequest(url);
 

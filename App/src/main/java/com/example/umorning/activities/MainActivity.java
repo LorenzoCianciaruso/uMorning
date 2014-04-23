@@ -29,9 +29,10 @@ public class MainActivity extends FragmentActivity implements
     private ViewPager viewPager;
     private TabsPagerAdapter mAdapter;
     private ActionBar actionBar;
-    private String[] tabs = { "Home", "Alarms", "Events" };
+    private String[] tabs = {"Home", "Alarms", "Events"};
 
-    @SuppressLint("NewApi") @Override
+    @SuppressLint("NewApi")
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity);
@@ -90,24 +91,27 @@ public class MainActivity extends FragmentActivity implements
 
     @Override
     public void onTabSelected(Tab tab, FragmentTransaction ft) {
-       // mostra i fragment
+        // mostra i fragment
         viewPager.setCurrentItem(tab.getPosition());
     }
 
     @Override
     public void onTabUnselected(Tab tab, FragmentTransaction ft) {
     }
+
     public void openAddNewActivity(View v) {
         Intent myIntent = new Intent(MainActivity.this, AlarmEditActivity.class);
         startActivity(myIntent);
         overridePendingTransition(R.anim.fadein, R.anim.fadeout);
 
     }
-    public void startAccountManager(MenuItem item){
+
+    public void startAccountManager(MenuItem item) {
         Intent intent = new Intent(this, AccountManagerActivity.class);
         startActivity(intent);
     }
-    public void startSettingsManager(MenuItem item){
+
+    public void startSettingsManager(MenuItem item) {
         Intent intent = new Intent(this, SettingsActivity.class);
         startActivity(intent);
     }

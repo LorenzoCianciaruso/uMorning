@@ -36,7 +36,7 @@ public class AlarmsFragment extends Fragment {
     }
 
     @Override
-    public void onResume(){
+    public void onResume() {
         super.onResume();
         DatabaseHelper db = new DatabaseHelper(getActivity()
                 .getApplicationContext());
@@ -57,7 +57,7 @@ public class AlarmsFragment extends Fragment {
 
                 Intent myIntent = new Intent(getActivity(), AlarmDetailsActivity.class);
                 myIntent.putExtra("alarmId", alarms.get(i).getId());
-                startActivityForResult(myIntent,0);
+                startActivityForResult(myIntent, 0);
 
 
             }

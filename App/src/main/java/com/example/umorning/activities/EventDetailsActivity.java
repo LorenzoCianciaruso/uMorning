@@ -97,7 +97,7 @@ public class EventDetailsActivity extends FragmentActivity {
         MenuItem item = menu.findItem(R.id.menu_item_share);
         mShareActionProvider = (ShareActionProvider) item.getActionProvider();
         Intent shareIntent = ShareCompat.IntentBuilder.from(this)
-                .setType("text/plain").setText("I'm using uMorning! Try it! I activated an alarm for "+name+" on"+ time +" at "+place+"!! Don't arrive late to your appointments, be smart!").getIntent();
+                .setType("text/plain").setText("I'm using uMorning! Try it! I activated an alarm for " + name + " on" + time + " at " + place + "!! Don't arrive late to your appointments, be smart!").getIntent();
         mShareActionProvider.setShareIntent(shareIntent);
         MenuItem shareFb = menu.findItem(R.id.fb_share);
         if (!fb.isLogged()) {

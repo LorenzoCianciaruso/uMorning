@@ -22,7 +22,7 @@ public class WebViewActivity extends Activity {
         myWebView.getSettings().setJavaScriptEnabled(true);
         myWebView.getSettings().setLoadsImagesAutomatically(true);
 
-             myWebView.setWebViewClient(new WebViewClient() {
+        myWebView.setWebViewClient(new WebViewClient() {
 
             @Override
             public void onLoadResource(WebView view, String url) {

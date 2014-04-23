@@ -72,7 +72,7 @@ public class AccountManagerActivity extends Activity {
         super.onResume();
         Session session = Session.getActiveSession();
         if (session != null &&
-                (session.isOpened() || session.isClosed()) ) {
+                (session.isOpened() || session.isClosed())) {
             onSessionStateChange(session, session.getState(), null);
         }
         uiHelper.onResume();
@@ -86,7 +86,7 @@ public class AccountManagerActivity extends Activity {
     }
 
     @Override
-      public void onPause() {
+    public void onPause() {
         super.onPause();
         uiHelper.onPause();
     }

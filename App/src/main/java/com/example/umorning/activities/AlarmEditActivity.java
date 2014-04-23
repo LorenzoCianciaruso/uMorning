@@ -105,8 +105,8 @@ public class AlarmEditActivity extends Activity {
             expectedTime = toUpdate.getExpectedTime();
             activation.setChecked(toUpdate.isActivated());
             //TODO
-            endLatitude=toUpdate.getEndLatitude();
-            endLongitude=toUpdate.getEndLongitude();
+            endLatitude = toUpdate.getEndLatitude();
+            endLongitude = toUpdate.getEndLongitude();
         }
 
         int year = date.get(Calendar.YEAR);
@@ -152,7 +152,7 @@ public class AlarmEditActivity extends Activity {
     public void onBackPressed() {
         super.onBackPressed();
         overridePendingTransition(R.anim.fadein, R.anim.fadeout);
-        if (getIntent().getIntExtra("fromEvent", 0)==1){
+        if (getIntent().getIntExtra("fromEvent", 0) == 1) {
             db.deleteAlarm(id);
         }
         finish();
@@ -169,7 +169,7 @@ public class AlarmEditActivity extends Activity {
         date.set(datePicker.getYear(), datePicker.getMonth(), datePicker.getDayOfMonth(), timePicker.getCurrentHour(), timePicker.getCurrentMinute());
 
         if (activated) {
-            if (id==0 ||(id!=0 && (!address.equals(toUpdate.getAddress())||!city.equals(toUpdate.getCity())||!country.equals(toUpdate.getCountry())))) {
+            if (id == 0 || (id != 0 && (!address.equals(toUpdate.getAddress()) || !city.equals(toUpdate.getCity()) || !country.equals(toUpdate.getCountry())))) {
                 //traduci indirizzo in coordinate
                 GoogleGeocode gg = new GoogleGeocode(address, city, country);
                 endLatitude = gg.getLatitude();
@@ -177,10 +177,10 @@ public class AlarmEditActivity extends Activity {
             }
             long trafficMillis = 0;
             //richiesta traffico
-            if(HttpRequest.isOnline(this)) {
+            if (HttpRequest.isOnline(this)) {
                 GoogleTrafficRequest trafficRequest = new GoogleTrafficRequest(startLatitude, startLongitude, endLatitude, endLongitude);
                 trafficMillis = trafficRequest.getTripDurationInMillis();
-            }else{
+            } else {
                 Toast.makeText(this, "No internet Connection", Toast.LENGTH_SHORT);
             }
 
@@ -194,15 +194,14 @@ public class AlarmEditActivity extends Activity {
         Alarm updated = new Alarm(id, delay, name, address, city, country, startLatitude, startLongitude, endLatitude, endLongitude, date, expectedTime, activated, toDelete);
         if (id == 0) {
             id = (int) db.addAlarm(updated);
-        }
-        else {
+        } else {
             db.updateAlarm(updated);
         }
 
         SharedPreferences prefs = getSharedPreferences("uMorning", 0);
-        long refreshRate = prefs.getLong("REFRESH",60);
+        long refreshRate = prefs.getLong("REFRESH", 60);
 
-          if(expectedTime.getTimeInMillis() < (System.currentTimeMillis()+(refreshRate*60*1000)) && activated)  {
+        if (expectedTime.getTimeInMillis() < (System.currentTimeMillis() + (refreshRate * 60 * 1000)) && activated) {
             //chiama un alarmservice
             Intent myIntent = new Intent(this, AlarmBroadcastReceiver.class);
             myIntent.putExtra("alarmId", id);

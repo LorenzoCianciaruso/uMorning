@@ -59,8 +59,8 @@ public class HttpRequest {
         }
 
 
-       return null;
-            }
+        return null;
+    }
 
     static public boolean isOnline(Context cxt) {
         ConnectivityManager cm =
@@ -73,6 +73,5 @@ public class HttpRequest {
     }
 
 
-
-    }
+}
 

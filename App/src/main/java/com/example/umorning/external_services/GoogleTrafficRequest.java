@@ -59,7 +59,7 @@ public class GoogleTrafficRequest {
     }
 
     public int getTripDurationInMillis() {
-        return tripDuration*1000;
+        return tripDuration * 1000;
     }
 
     public int getTripDistance() {
