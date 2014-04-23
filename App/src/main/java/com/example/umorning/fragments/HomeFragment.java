@@ -6,6 +6,9 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -42,11 +45,11 @@ public class HomeFragment extends Fragment {
     private AlarmsAdapter adapter;
     private List<Alarm> alarms;
     private List<Alarm> activatedAlarms;
+    private GpsLocalizationService gps;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
         setHasOptionsMenu(true);
         super.onCreate(savedInstanceState);
         return inflater.inflate(R.layout.fragment_home, container, false);
@@ -55,10 +58,7 @@ public class HomeFragment extends Fragment {
 
     @Override
     public void onStart() {
-
-        GpsLocalizationService gps;
         super.onStart();
-
         gps = new GpsLocalizationService(getActivity());
 
         //trova riferimenti layout
@@ -68,7 +68,6 @@ public class HomeFragment extends Fragment {
         weatherIcon = (ImageView) getView().findViewById(R.id.weatherIcon);
         progress = (ProgressBar) getView().findViewById(R.id.pbHeaderProgress);
         progress.setVisibility(View.INVISIBLE);
-
         updateUI();
 
         // check if GPS enabled
@@ -115,13 +114,11 @@ public class HomeFragment extends Fragment {
 
         if (activatedAlarms.size() > 5) {
             activatedAlarms = activatedAlarms.subList(0, 5);
-
         }
 
         list = (ListView) getView().findViewById(R.id.listEventsActivated);
         adapter = new AlarmsAdapter(getActivity(), activatedAlarms);
         list.setAdapter(adapter);
-
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view,
@@ -145,6 +142,24 @@ public class HomeFragment extends Fragment {
             }
         }
 
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        getActivity().getMenuInflater().inflate(R.menu.fragment_menu, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int idItem = item.getItemId();
+        if (idItem == R.id.refresh) {
+            latitude = gps.getLatitude();
+            longitude = gps.getLongitude();
+            metwitRequest = new AsyncTaskMeteoRequest();
+            metwitRequest.execute(latitude, longitude);
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     private class AsyncTaskMeteoRequest extends AsyncTask<Double, Void, MetwitRequest> {

@@ -41,6 +41,7 @@ public class MainActivity extends FragmentActivity implements
         mAdapter = new TabsPagerAdapter(getSupportFragmentManager());
 
         viewPager.setAdapter(mAdapter);
+        viewPager.setOffscreenPageLimit(2);
         actionBar.setHomeButtonEnabled(false);
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 

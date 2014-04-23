@@ -162,13 +162,14 @@ public class EventsFragment extends Fragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
-        getActivity().getMenuInflater().inflate(R.menu.fragment_event, menu);
+        getActivity().getMenuInflater().inflate(R.menu.fragment_menu, menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int idItem = item.getItemId();
         if (idItem == R.id.refresh) {
+            events.clear();
             retrievingEvents = new AsyncTaskEvent();
             retrievingEvents.execute();
         }
