@@ -48,14 +48,12 @@ public class EventsAdapter extends BaseAdapter {
         if (convertView == null) {
             row = inflater.inflate(R.layout.list_item_events, null);
         }
-
         TextView name = (TextView) row.findViewById(R.id.eventName);
         TextView date = (TextView) row.findViewById(R.id.eventDate);
         ImageView icon = (ImageView) row.findViewById(R.id.eventIcon);
 
         Event e;
         e = events.get(position);
-
         //Titolo evento
         name.setText(e.getName());
         //Ora e data dell'evento
@@ -63,8 +61,8 @@ public class EventsAdapter extends BaseAdapter {
         String formattedDate = df.format(e.getDate().getTime());
         date.setText(formattedDate);
         //Evento di google/facebook/eventbrite
-        Integer[] mThumbIds = {R.drawable.calendar_icon, R.drawable.facebook_icon, R.drawable.eventb_icon};
-        icon.setBackgroundResource(mThumbIds[e.getType()]);
+        Integer[] paths = {R.drawable.calendar_icon, R.drawable.facebook_icon, R.drawable.eventb_icon};
+        icon.setBackgroundResource(paths[e.getType()]);
 
         return row;
     }

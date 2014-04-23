@@ -14,10 +14,9 @@
         android:layout_marginRight="5dip">
 
         <ImageView
-            android:id="@+id/image_alarm"
+            android:id="@+id/alarmIcon"
             android:layout_width="60dip"
-            android:layout_height="60dip"
-            android:src="@drawable/alarm_icon" />
+            android:layout_height="60dip" />
 
     </RelativeLayout>
 
