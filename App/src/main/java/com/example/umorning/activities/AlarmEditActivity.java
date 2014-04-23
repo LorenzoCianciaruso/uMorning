@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.NumberPicker;
@@ -37,6 +38,7 @@ public class AlarmEditActivity extends Activity {
     private TimePicker timePicker;
     private NumberPicker delayPicker;
     private CheckBox activation;
+    private Button saveButton;
 
     //campi di alarm
     private int id;
@@ -77,6 +79,7 @@ public class AlarmEditActivity extends Activity {
         delayPicker.setMaxValue(480);
         delayPicker.setMinValue(1);
         activation = (CheckBox) findViewById(R.id.checkBox);
+        saveButton = (Button) findViewById(R.id.button1);
 
         SharedPreferences prefs = getSharedPreferences("uMorning", 0);
         delay = prefs.getLong("DELAY", 30);
@@ -84,6 +87,7 @@ public class AlarmEditActivity extends Activity {
         expectedTime = Calendar.getInstance();
         delayPicker.setValue((int) delay);
         activation.setChecked(true);
+        saveButton.setEnabled(true);
 
         id = getIntent().getIntExtra("alarmId", 0);
 
@@ -116,6 +120,7 @@ public class AlarmEditActivity extends Activity {
     }
 
     public void onSavePressed(View view) {
+        saveButton.setEnabled(false);
         //ottengo la posizione attuale
         GpsLocalizationService gps = new GpsLocalizationService(this);
         // controlla se il GPS è attivo
