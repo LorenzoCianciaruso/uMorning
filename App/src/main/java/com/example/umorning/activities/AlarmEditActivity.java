@@ -202,7 +202,7 @@ public class AlarmEditActivity extends Activity {
         SharedPreferences prefs = getSharedPreferences("uMorning", 0);
         long refreshRate = prefs.getLong("REFRESH",60);
 
-          if(expectedTime.getTimeInMillis() < (System.currentTimeMillis()+(refreshRate*60*1000)))  {
+          if(expectedTime.getTimeInMillis() < (System.currentTimeMillis()+(refreshRate*60*1000)) && activated)  {
             //chiama un alarmservice
             Intent myIntent = new Intent(this, AlarmBroadcastReceiver.class);
             myIntent.putExtra("alarmId", id);
