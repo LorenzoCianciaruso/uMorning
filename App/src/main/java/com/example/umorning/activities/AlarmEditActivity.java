@@ -56,10 +56,8 @@ public class AlarmEditActivity extends Activity {
     private boolean activated;
     private boolean toDelete;
 
-
     private Alarm toUpdate;
     private DatabaseHelper db;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
