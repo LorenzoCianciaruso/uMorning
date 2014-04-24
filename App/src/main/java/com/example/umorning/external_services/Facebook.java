@@ -28,11 +28,6 @@ import java.util.List;
 public class Facebook {
 
     private List<Event> eventsList = new ArrayList<Event>();
-
-    public Session getSession() {
-        return session;
-    }
-
     private Session session;
     private Context cxt;
     private static final List<String> PERMISSIONS = Arrays.asList("publish_actions");
@@ -214,6 +209,8 @@ public class Facebook {
         return true;
     }
 
-
+    public Session getSession() {
+        return session;
+    }
 
 }

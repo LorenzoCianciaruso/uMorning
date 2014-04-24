@@ -21,8 +21,7 @@ import com.example.umorning.activities.EventDetailsActivity;
 import com.example.umorning.external_services.Eventbrite;
 import com.example.umorning.external_services.Facebook;
 import com.example.umorning.external_services.HttpRequest;
-import com.example.umorning.internal_services.EventService;
-import com.example.umorning.model.Alarm;
+import com.example.umorning.internal_services.CalendarRetrievalEngine;
 import com.example.umorning.model.Event;
 
 import java.util.ArrayList;
@@ -114,7 +113,7 @@ public class EventsFragment extends Fragment {
                     events.addAll(fb.getEventList());
                 }
             }
-            EventService eve = new EventService(getActivity());
+            CalendarRetrievalEngine eve = new CalendarRetrievalEngine(getActivity());
             events.addAll(eve.getEvent());
             Collections.sort(events, new Comparator<Event>() {
                 @Override

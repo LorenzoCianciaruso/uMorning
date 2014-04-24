@@ -21,7 +21,7 @@ import com.example.umorning.external_services.GoogleGeocode;
 import com.example.umorning.external_services.GoogleTrafficRequest;
 import com.example.umorning.external_services.HttpRequest;
 import com.example.umorning.internal_services.AlarmBroadcastReceiver;
-import com.example.umorning.internal_services.GpsLocalizationService;
+import com.example.umorning.internal_services.GpsLocalization;
 import com.example.umorning.model.Alarm;
 import com.example.umorning.model.DatabaseHelper;
 
@@ -124,7 +124,7 @@ public class AlarmEditActivity extends Activity {
         saveButton.setEnabled(false);
         deleteButton.setEnabled(false);
         //ottengo la posizione attuale
-        GpsLocalizationService gps = new GpsLocalizationService(this);
+        GpsLocalization gps = new GpsLocalization(this);
         // controlla se il GPS è attivo
         if (gps.canGetLocation()) {
             gps.getLocation();
@@ -197,10 +197,10 @@ public class AlarmEditActivity extends Activity {
         } else {
             db.updateAlarm(updated);
         }
-
+        //considera il refresh rate
         SharedPreferences prefs = getSharedPreferences("uMorning", 0);
         long refreshRate = prefs.getLong("REFRESH", 60);
-
+        //metti la sveglia se è in questo segmento temporale
         if (expectedTime.getTimeInMillis() < (System.currentTimeMillis() + (refreshRate * 60 * 1000)) && activated) {
             //chiama un alarmservice
             Intent myIntent = new Intent(this, AlarmBroadcastReceiver.class);

@@ -26,9 +26,8 @@ public class UpdateAlarmService extends Service {
     @Override
     public void onStart (Intent receivedIntent, int boh) {
         super.onStart(receivedIntent, boh);
-        System.out.println ("BLIBBuferuyerfiusef");
         //apri l'applicazione e aggiorna le sveglie
-        GpsLocalizationService gps = new GpsLocalizationService(this);
+        GpsLocalization gps = new GpsLocalization(this);
         DatabaseHelper db = new DatabaseHelper(getApplicationContext());
         List<Alarm> alarms = db.getAllAlarms();
 
@@ -60,13 +59,16 @@ public class UpdateAlarmService extends Service {
                 Calendar expectedTime = new GregorianCalendar();
                 expectedTime.setTimeInMillis(date.getTimeInMillis() - trafficMillis - (delay * 1000 * 60));
 
-                if (expectedTime.after((Calendar.getInstance().getTimeInMillis() + 60 * 60 * 1000))) {
+                //considera il refresh rate
+                SharedPreferences prefs = getSharedPreferences("uMorning", 0);
+                long refreshRate = prefs.getLong("REFRESH", 60);
+                //metti la sveglia se è in questo segmento temporale
+                if (expectedTime.getTimeInMillis() < (System.currentTimeMillis() + (refreshRate * 60 * 1000)) && activated) {
                     //chiama un alarmservice
                     Intent myIntent = new Intent(this, AlarmBroadcastReceiver.class);
-                    myIntent.putExtra("AlarmId", a.getId());
+                    myIntent.putExtra("alarmId", id);
                     PendingIntent intent = PendingIntent.getService(this, 0, myIntent, 0);
                     AlarmManager alarmManager = (AlarmManager) getSystemService(Service.ALARM_SERVICE);
-
                     //imposta l'ora e fa partire
                     alarmManager.set(AlarmManager.RTC_WAKEUP, expectedTime.getTimeInMillis(), intent);
                 }
@@ -81,7 +83,7 @@ public class UpdateAlarmService extends Service {
         long refreshRate = prefs.getLong("REFRESH", 60);
         PendingIntent intent = PendingIntent.getService(this, 0, updateIntent, 0);
         AlarmManager alarmManager = (AlarmManager) getSystemService(Service.ALARM_SERVICE);
-        alarmManager.set(AlarmManager.RTC_WAKEUP, Calendar.getInstance().getTimeInMillis() + (refreshRate * 60 * 1000), intent);
+        alarmManager.set(AlarmManager.RTC_WAKEUP, (System.currentTimeMillis() + (refreshRate * 60 * 1000)), intent);
 
     }
 

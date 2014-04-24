@@ -26,14 +26,6 @@ public class GoogleTrafficRequest {
         this.askForTraffic();
     }
 
-    public GoogleTrafficRequest(double startLatitude, double startLongitude, String arrivalLocation) {
-        this.startLatitude = startLatitude;
-        this.startLongitude = startLongitude;
-        this.arrivalLocation = arrivalLocation;
-
-        this.askForTraffic();
-    }
-
     private void askForTraffic() {
         String url;
         if (arrivalLocation == null) {
