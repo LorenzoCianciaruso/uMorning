@@ -18,10 +18,7 @@ import android.view.View;
 
 import com.example.umorning.R;
 import com.example.umorning.internal_services.UpdateAlarmService;
-import com.example.umorning.model.DatabaseHelper;
 import com.example.umorning.tabswipeadapter.TabsPagerAdapter;
-
-import java.util.Calendar;
 
 public class MainActivity extends FragmentActivity implements
         ActionBar.TabListener {
@@ -112,6 +109,25 @@ public class MainActivity extends FragmentActivity implements
     public void startSettingsManager(MenuItem item) {
         Intent intent = new Intent(this, SettingsActivity.class);
         startActivity(intent);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_settings:
+                Intent i = new Intent(this, UserSettingActivity.class);
+                startActivityForResult(i, 1);
+                break;
+        }
+        if (item.getItemId() == android.R.id.home) {
+            return true;
+        }
+        return true;
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
 }
