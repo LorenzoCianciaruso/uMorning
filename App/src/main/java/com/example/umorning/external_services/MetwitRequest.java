@@ -12,21 +12,19 @@ public class MetwitRequest {
     private String icon;
     private String temperature;
     private String locality;
-
-    public String getCountry() {
-        return country;
-    }
-
     private String country;
-
-    public MetwitRequest() {
-    }
 
     public MetwitRequest(double latitude, double longitude) throws NullPointerException {
         this.latitude = latitude;
         this.longitude = longitude;
-
         askForWeather();
+    }
+
+    public MetwitRequest(String icon, String temperature, String locality, String country) {
+        this.icon = icon;
+        this.temperature = temperature;
+        this.locality = locality;
+        this.country = country;
     }
 
     //start thread che invia richiesta http a metwit
@@ -66,20 +64,8 @@ public class MetwitRequest {
         return locality;
     }
 
-    public void setIcon(String icon) {
-        this.icon = icon;
-    }
-
-    public void setTemperature(String temperature) {
-        this.temperature = temperature;
-    }
-
-    public void setLocality(String locality) {
-        this.locality = locality;
-    }
-
-    public void setCountry(String country) {
-        this.country = country;
+    public String getCountry() {
+        return country;
     }
 
 

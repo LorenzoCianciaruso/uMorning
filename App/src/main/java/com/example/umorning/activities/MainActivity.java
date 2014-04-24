@@ -76,7 +76,6 @@ public class MainActivity extends FragmentActivity implements
         PendingIntent intent = PendingIntent.getService(this, 0, updateIntent, 0);
         AlarmManager alarmManager = (AlarmManager) getSystemService(Service.ALARM_SERVICE);
         alarmManager.set(AlarmManager.RTC_WAKEUP, (System.currentTimeMillis() + (refreshRate * 60 * 1000)), intent);
-
     }
 
     @Override
@@ -103,7 +102,6 @@ public class MainActivity extends FragmentActivity implements
         Intent myIntent = new Intent(MainActivity.this, AlarmEditActivity.class);
         startActivity(myIntent);
         overridePendingTransition(R.anim.fadein, R.anim.fadeout);
-
     }
 
     public void startAccountManager(MenuItem item) {

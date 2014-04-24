@@ -22,7 +22,7 @@ import com.example.umorning.R;
 import com.example.umorning.activities.AlarmDetailsActivity;
 import com.example.umorning.external_services.HttpRequest;
 import com.example.umorning.external_services.MetwitRequest;
-import com.example.umorning.internal_services.GpsLocalizationService;
+import com.example.umorning.internal_services.GpsLocalization;
 import com.example.umorning.model.Alarm;
 import com.example.umorning.model.DatabaseHelper;
 
@@ -45,7 +45,7 @@ public class HomeFragment extends Fragment {
     private AlarmsAdapter adapter;
     private List<Alarm> alarms;
     private List<Alarm> activatedAlarms;
-    private GpsLocalizationService gps;
+    private GpsLocalization gps;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -59,7 +59,7 @@ public class HomeFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        gps = new GpsLocalizationService(getActivity());
+        gps = new GpsLocalization(getActivity());
 
         //trova riferimenti layout
         locality = (TextView) getView().findViewById(R.id.locality);
@@ -181,11 +181,7 @@ public class HomeFragment extends Fragment {
                 weatherInfo = new MetwitRequest(latitude, longitude);
             } catch (NullPointerException e) {
                 SharedPreferences prefs = getActivity().getSharedPreferences("uMorning", 0);
-                weatherInfo = new MetwitRequest();
-                weatherInfo.setLocality(prefs.getString("Locality", " "));
-                weatherInfo.setCountry(prefs.getString("Country", " "));
-                weatherInfo.setTemperature(prefs.getString("Temperature", " "));
-                weatherInfo.setIcon(prefs.getString("Icon", " "));
+                weatherInfo = new MetwitRequest(prefs.getString("Icon", " "),prefs.getString("Temperature", " "),prefs.getString("Locality", " "),prefs.getString("Country", " "));
             }
 
             //restituisce oggetto meteo contenente informazioni

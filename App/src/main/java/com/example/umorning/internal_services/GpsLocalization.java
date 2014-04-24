@@ -15,7 +15,7 @@ import android.util.Log;
 
 import com.google.android.gms.location.LocationClient;
 
-public class GpsLocalizationService extends Service implements LocationListener {
+public class GpsLocalization extends Service implements LocationListener {
 
     private final Context mContext;
 
@@ -37,7 +37,7 @@ public class GpsLocalizationService extends Service implements LocationListener 
     protected LocationManager locationManager;
     private LocationClient locationClient;
 
-    public GpsLocalizationService(Context context) {
+    public GpsLocalization(Context context) {
         this.mContext = context;
         getLocation();
     }

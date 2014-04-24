@@ -26,9 +26,8 @@ public class UpdateAlarmService extends Service {
     @Override
     public void onStart (Intent receivedIntent, int boh) {
         super.onStart(receivedIntent, boh);
-        System.out.println ("BLIBBuferuyerfiusef");
         //apri l'applicazione e aggiorna le sveglie
-        GpsLocalizationService gps = new GpsLocalizationService(this);
+        GpsLocalization gps = new GpsLocalization(this);
         DatabaseHelper db = new DatabaseHelper(getApplicationContext());
         List<Alarm> alarms = db.getAllAlarms();
 

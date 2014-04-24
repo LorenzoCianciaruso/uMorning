@@ -14,11 +14,11 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
 
-public class EventService {
+public class CalendarRetrievalEngine {
 
     private Context cxt;
 
-    public EventService(Context cxt){
+    public CalendarRetrievalEngine(Context cxt){
         this.cxt=cxt;
     }
     public List<Event> getEvent(){

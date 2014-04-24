@@ -18,6 +18,7 @@ public class Eventbrite {
 
     String token;
     Context cxt;
+    List<Event> eventList = new ArrayList<Event>();
 
     public Eventbrite(Context cxt) {
 
@@ -33,12 +34,6 @@ public class Eventbrite {
         }
 
     }
-
-    public List<Event> getEventList() {
-        return eventList;
-    }
-
-    List<Event> eventList = new ArrayList<Event>();
 
     private void getEventbriteOrders() {
 
@@ -132,6 +127,10 @@ public class Eventbrite {
 
 
         return null;
+    }
+
+    public List<Event> getEventList() {
+        return eventList;
     }
 
 }

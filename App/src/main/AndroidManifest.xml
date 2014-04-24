@@ -36,7 +36,7 @@
         </activity>
 
         <service android:name="com.example.umorning.internal_services.AlarmBroadcastReceiver" />
-        <service android:name="com.example.umorning.internal_services.GpsLocalizationService" />
+        <service android:name=".internal_services.GpsLocalization" />
 
         <activity
             android:name="com.example.umorning.activities.AlarmRingActivity"

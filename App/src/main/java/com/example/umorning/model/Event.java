@@ -15,19 +15,6 @@ public class Event {
     private String status;
     private int type;
 
-    public Event(String name, String organizer, String address, String city, String country, double latitude, double longitude, String eventURL, Calendar date, String status) {
-        this.name = name;
-        this.organizer = organizer;
-        this.address = address;
-        this.city = city;
-        this.country = country;
-        this.latitude = latitude;
-        this.longitude = longitude;
-        this.eventURL = eventURL;
-        this.date = date;
-        this.status = status;
-    }
-
     public Event(String name, String organizer, String address, String city, String country, double latitude, double longitude, String eventURL, Calendar date, String status, int type) {
         this.name = name;
         this.organizer = organizer;

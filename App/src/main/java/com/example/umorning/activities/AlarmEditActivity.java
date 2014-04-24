@@ -21,7 +21,7 @@ import com.example.umorning.external_services.GoogleGeocode;
 import com.example.umorning.external_services.GoogleTrafficRequest;
 import com.example.umorning.external_services.HttpRequest;
 import com.example.umorning.internal_services.AlarmBroadcastReceiver;
-import com.example.umorning.internal_services.GpsLocalizationService;
+import com.example.umorning.internal_services.GpsLocalization;
 import com.example.umorning.model.Alarm;
 import com.example.umorning.model.DatabaseHelper;
 
@@ -124,7 +124,7 @@ public class AlarmEditActivity extends Activity {
         saveButton.setEnabled(false);
         deleteButton.setEnabled(false);
         //ottengo la posizione attuale
-        GpsLocalizationService gps = new GpsLocalizationService(this);
+        GpsLocalization gps = new GpsLocalization(this);
         // controlla se il GPS è attivo
         if (gps.canGetLocation()) {
             gps.getLocation();
