@@ -9,7 +9,6 @@ import android.text.Html;
 import android.text.method.LinkMovementMethod;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.ShareActionProvider;
 import android.widget.TextView;
 
@@ -66,21 +65,41 @@ public class EventDetailsActivity extends FragmentActivity {
         SimpleDateFormat df = new SimpleDateFormat("c d LLLL yyyy HH:mm");
         time = df.format(date.getTime());
 
-        nameView.setText(name);
+
+        if (!name.equals("")) {
+            nameView.setText(name);
+        } else {
+            nameView.setHeight(0);
+        }
+
+        if (!place.equals("")) {
+            placeView.setText(place);
+        } else {
+            placeView.setHeight(0);
+        }
+
+        if (url!=null) {
+            urlView.setText(url);
+        } else {
+            urlView.setHeight(0);
+        }
+
+        if (!organizer.equals("")) {
+            organizerView.setText(organizer);
+        } else {
+            organizerView.setHeight(0);
+        }
+
         dateTimeView.setText(time);
-        placeView.setText(place);
+
 
         db = new DatabaseHelper(this);
 
-        if (url != null) {
-            urlView.setText(url);
-        } else {
-            urlView.setVisibility(View.INVISIBLE);
-        }
+
         String text = "<a href=" + url + " \">Link to the event</a>";
         urlView.setMovementMethod(LinkMovementMethod.getInstance());
         urlView.setText(Html.fromHtml(text));
-        organizerView.setText(organizer);
+
     }
 
     @Override

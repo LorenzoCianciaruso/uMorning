@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory android:title="USER PREFERENCES">
+
+        <com.example.umorning.activities.NumberPickerPreference
+            android:defaultValue="30"
+            android:dialogMessage="Set delay (min)"
+            android:key="delay_picker"
+            android:max="480"
+            android:summary="@string/pref_delay"
+            android:title="Set Delay" />
+
+        <com.example.umorning.activities.NumberPickerPreference
+            android:defaultValue="60"
+            android:dialogMessage="Set refresh (min)"
+            android:key="refresh_picker"
+            android:max="180"
+            android:summary="@string/pref_refresh"
+            android:title="Set Refresh" />
+
+        <RingtonePreference
+            android:key="ringtone_picker"
+            android:ringtoneType="all"
+            android:summary="sadsadsadasd"
+            android:title="Select Ringtone" />
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="ALTRO">
+        <Preference
+            android:key="renameCourses"
+            android:title="Info">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:targetClass="com.example.umorning.activities.InfoActivity"
+                android:targetPackage="com.example.umorning" />
+        </Preference>
+    </PreferenceCategory>
+</PreferenceScreen>

@@ -1,4 +1,4 @@
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -18,7 +18,8 @@
         <RelativeLayout
             android:id="@+id/infoMap"
             android:layout_width="fill_parent"
-            android:layout_height="350dp"
+            android:layout_height="wrap_content"
+            android:layout_above="@id/infoAlarm"
             android:layout_alignParentTop="true"
             android:background="#ffffff"
             android:orientation="horizontal"
@@ -39,12 +40,11 @@
             android:id="@+id/infoAlarm"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
             android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_below="@+id/infoMap"
             android:background="#ffffff"
             android:orientation="horizontal"
-            android:padding="10dp">
+            android:padding="20dp">
 
             <TextView
                 android:id="@+id/event_name"
@@ -52,6 +52,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="sans-serif-light"
                 android:maxLines="2"
+                android:paddingBottom="10dp"
                 android:text="Nome Evento"
                 android:textAppearance="?android:attr/textAppearanceLarge" />
 
@@ -62,6 +63,7 @@
                 android:layout_below="@+id/event_name"
                 android:layout_weight="1"
                 android:fontFamily="sans-serif-light"
+                android:paddingBottom="10dp"
                 android:text="Data e ora"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
 
@@ -72,8 +74,9 @@
                 android:layout_below="@+id/date_time"
                 android:layout_weight="1"
                 android:fontFamily="sans-serif-light"
+                android:paddingBottom="10dp"
                 android:text="Luogo"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
         </RelativeLayout>
     </RelativeLayout>
-</ScrollView>
+</RelativeLayout>

@@ -1,24 +1,29 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".MainActivity"
-    android:orientation="horizontal">
+    android:orientation="horizontal"
+    tools:context=".MainActivity">
+    <!--
+        <item
+            android:id="@+id/action_settings"
+            android:onClick="startSettingsManager"
+            android:orderInCategory="100"
+            android:showAsAction="never"
+            android:title="@string/action_settings" />
+    -->
+    <item
+        android:id="@+id/action_accounts"
+        android:onClick="startAccountManager"
+        android:orderInCategory="100"
+        android:title="Accounts"
+        app:showAsAction="always" />
 
     <item
-        android:id="@+id/action_settings"
+        android:id="@+id/menu_settings"
+        android:icon="@android:drawable/ic_menu_preferences"
         android:orderInCategory="100"
         android:showAsAction="never"
-        android:title="@string/action_settings"
-        android:onClick="startSettingsManager"/>
-
-
-
-    <item android:id="@+id/action_accounts"
-        android:title="Accounts"
-        android:orderInCategory="100"
-        app:showAsAction="always"
-        android:onClick="startAccountManager"/>
-
+        android:title="Settings" />
 
 
 </menu>

@@ -46,8 +46,18 @@ public class AlarmDetailsActivity extends FragmentActivity {
         TextView dateTimeView = (TextView) findViewById(R.id.date_time);
         TextView placeView = (TextView) findViewById(R.id.place);
 
-        nameView.setText(current.getName());
-        placeView.setText(current.getAddress());
+        if (!current.getName().equals("")) {
+            nameView.setText(current.getName());
+        } else {
+            nameView.setHeight(0);
+        }
+
+        if (!current.getAddress().equals("")) {
+            placeView.setText(current.getAddress());
+        } else {
+            placeView.setHeight(0);
+        }
+
         SimpleDateFormat df = new SimpleDateFormat("c d LLLL yyyy HH:mm");
         String formattedDate = df.format(current.getDate().getTime());
         dateTimeView.setText(formattedDate);

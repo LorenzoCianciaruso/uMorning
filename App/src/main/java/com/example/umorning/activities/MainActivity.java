@@ -18,7 +18,6 @@ import android.view.View;
 
 import com.example.umorning.R;
 import com.example.umorning.internal_services.UpdateAlarmService;
-import com.example.umorning.model.DatabaseHelper;
 import com.example.umorning.tabswipeadapter.TabsPagerAdapter;
 
 import java.util.Calendar;
@@ -68,7 +67,6 @@ public class MainActivity extends FragmentActivity implements
             public void onPageScrollStateChanged(int arg0) {
             }
         });
-
         //chiama un nuovo update al tempo impostato dall'utente
         Intent updateIntent = new Intent(getApplicationContext(), UpdateAlarmService.class);
         SharedPreferences prefs = getSharedPreferences("uMorning", 0);
@@ -76,7 +74,6 @@ public class MainActivity extends FragmentActivity implements
         PendingIntent intent = PendingIntent.getService(this, 0, updateIntent, 0);
         AlarmManager alarmManager = (AlarmManager) getSystemService(Service.ALARM_SERVICE);
         alarmManager.set(AlarmManager.RTC_WAKEUP, Calendar.getInstance().getTimeInMillis() + (refreshRate * 60 * 1000), intent);
-
     }
 
     @Override
@@ -103,7 +100,6 @@ public class MainActivity extends FragmentActivity implements
         Intent myIntent = new Intent(MainActivity.this, AlarmEditActivity.class);
         startActivity(myIntent);
         overridePendingTransition(R.anim.fadein, R.anim.fadeout);
-
     }
 
     public void startAccountManager(MenuItem item) {
@@ -116,4 +112,28 @@ public class MainActivity extends FragmentActivity implements
         startActivity(intent);
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+
+            case R.id.menu_settings:
+                Intent i = new Intent(this, UserSettingActivity.class);
+                startActivityForResult(i, 1);
+                break;
+        }
+        if (item.getItemId() == android.R.id.home) {
+            return true;
+        }
+        return true;
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        switch (requestCode) {
+            case 1:
+                break;
+        }
+    }
 }
