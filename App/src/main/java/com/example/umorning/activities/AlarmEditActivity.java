@@ -18,7 +18,7 @@ import android.widget.Toast;
 
 import com.example.umorning.R;
 import com.example.umorning.external_services.GoogleGeocode;
-import com.example.umorning.external_services.GoogleTrafficRequest;
+import com.example.umorning.external_services.GoogleTraffic;
 import com.example.umorning.external_services.HttpRequest;
 import com.example.umorning.internal_services.AlarmBroadcastReceiver;
 import com.example.umorning.internal_services.GpsLocalization;
@@ -178,7 +178,7 @@ public class AlarmEditActivity extends Activity {
             long trafficMillis = 0;
             //richiesta traffico
             if (HttpRequest.isOnline(this)) {
-                GoogleTrafficRequest trafficRequest = new GoogleTrafficRequest(startLatitude, startLongitude, endLatitude, endLongitude);
+                GoogleTraffic trafficRequest = new GoogleTraffic(startLatitude, startLongitude, endLatitude, endLongitude);
                 trafficMillis = trafficRequest.getTripDurationInMillis();
             } else {
                 Toast.makeText(this, "No internet Connection", Toast.LENGTH_SHORT);

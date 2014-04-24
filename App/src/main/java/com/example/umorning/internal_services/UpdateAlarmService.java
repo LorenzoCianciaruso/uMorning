@@ -8,7 +8,7 @@ import android.content.SharedPreferences;
 import android.os.IBinder;
 import android.widget.Toast;
 
-import com.example.umorning.external_services.GoogleTrafficRequest;
+import com.example.umorning.external_services.GoogleTraffic;
 import com.example.umorning.model.Alarm;
 import com.example.umorning.model.DatabaseHelper;
 
@@ -52,7 +52,7 @@ public class UpdateAlarmService extends Service {
 
                 //aggiornamento
                 //richiesta traffico
-                GoogleTrafficRequest trafficRequest = new GoogleTrafficRequest(startLatitude, startLongitude, endLatitude, endLongitude);
+                GoogleTraffic trafficRequest = new GoogleTraffic(startLatitude, startLongitude, endLatitude, endLongitude);
                 long trafficMillis = trafficRequest.getTripDurationInMillis();
 
                 //ottengo l'ora della sveglia sottraendo traffico e tempo per prepararsi

@@ -21,7 +21,7 @@ import android.widget.Toast;
 import com.example.umorning.R;
 import com.example.umorning.activities.AlarmDetailsActivity;
 import com.example.umorning.external_services.HttpRequest;
-import com.example.umorning.external_services.MetwitRequest;
+import com.example.umorning.external_services.Metwit;
 import com.example.umorning.internal_services.GpsLocalization;
 import com.example.umorning.model.Alarm;
 import com.example.umorning.model.DatabaseHelper;
@@ -70,28 +70,7 @@ public class HomeFragment extends Fragment {
         progress.setVisibility(View.INVISIBLE);
         updateUI();
 
-        // check if GPS enabled
-        if (gps.canGetLocation()) {
-
-            try {
-                latitude = gps.getLatitude();
-                longitude = gps.getLongitude();
-            } catch (NullPointerException e) {
-                SharedPreferences prefs = getActivity().getSharedPreferences("uMorning", 0);
-                latitude = Double.parseDouble(prefs.getString("Latitude", "45.529"));
-                longitude = Double.parseDouble(prefs.getString("Longitude", "9.0429"));
-            }
-            if (HttpRequest.isOnline(getActivity())) {
-                metwitRequest = new AsyncTaskMeteoRequest();
-                metwitRequest.execute(latitude, longitude);
-            } else {
-                Toast.makeText(getActivity().getApplicationContext(), "No Internet Connection", Toast.LENGTH_LONG).show();
-            }
-
-        } else {
-            // Chiedi all'utente di andare nelle impostazioni
-            gps.showSettingsAlert();
-        }
+        startMetwitRequest();
 
         DatabaseHelper db = new DatabaseHelper(getActivity()
                 .getApplicationContext());
@@ -127,10 +106,8 @@ public class HomeFragment extends Fragment {
                 Intent myIntent = new Intent(getActivity(), AlarmDetailsActivity.class);
                 myIntent.putExtra("alarmId", activatedAlarms.get(i).getId());
                 startActivityForResult(myIntent, 0);
-
             }
         });
-
     }
 
     @Override
@@ -141,7 +118,6 @@ public class HomeFragment extends Fragment {
                 metwitRequest.cancel(true);
             }
         }
-
     }
 
     @Override
@@ -154,15 +130,36 @@ public class HomeFragment extends Fragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         int idItem = item.getItemId();
         if (idItem == R.id.refresh) {
-            latitude = gps.getLatitude();
-            longitude = gps.getLongitude();
-            metwitRequest = new AsyncTaskMeteoRequest();
-            metwitRequest.execute(latitude, longitude);
+            startMetwitRequest();
         }
         return super.onOptionsItemSelected(item);
     }
 
-    private class AsyncTaskMeteoRequest extends AsyncTask<Double, Void, MetwitRequest> {
+    private void startMetwitRequest(){
+        // check if GPS enabled
+        if (gps.canGetLocation()) {
+            try {
+                latitude = gps.getLatitude();
+                longitude = gps.getLongitude();
+            } catch (NullPointerException e) {
+                SharedPreferences prefs = getActivity().getSharedPreferences("uMorning", 0);
+                latitude = Double.parseDouble(prefs.getString("Latitude", "45.529"));
+                longitude = Double.parseDouble(prefs.getString("Longitude", "9.0429"));
+            }
+            if (HttpRequest.isOnline(getActivity())) {
+                metwitRequest = new AsyncTaskMeteoRequest();
+                metwitRequest.execute(latitude, longitude);
+            } else {
+                Toast.makeText(getActivity().getApplicationContext(), "No Internet Connection", Toast.LENGTH_LONG).show();
+            }
+
+        } else {
+            // Chiedi all'utente di andare nelle impostazioni
+            gps.showSettingsAlert();
+        }
+    }
+
+    private class AsyncTaskMeteoRequest extends AsyncTask<Double, Void, Metwit> {
 
         @Override
         protected void onPreExecute() {
@@ -171,17 +168,17 @@ public class HomeFragment extends Fragment {
         }
 
         @Override
-        protected MetwitRequest doInBackground(Double... params) {
+        protected Metwit doInBackground(Double... params) {
 
             double latitude = params[0];
             double longitude = params[1];
-            MetwitRequest weatherInfo;
+            Metwit weatherInfo;
             try {
                 //richiesta meteo
-                weatherInfo = new MetwitRequest(latitude, longitude);
+                weatherInfo = new Metwit(latitude, longitude);
             } catch (NullPointerException e) {
                 SharedPreferences prefs = getActivity().getSharedPreferences("uMorning", 0);
-                weatherInfo = new MetwitRequest(prefs.getString("Icon", " "),prefs.getString("Temperature", " "),prefs.getString("Locality", " "),prefs.getString("Country", " "));
+                weatherInfo = new Metwit(prefs.getString("Icon", " "),prefs.getString("Temperature", " "),prefs.getString("Locality", " "),prefs.getString("Country", " "));
             }
 
             //restituisce oggetto meteo contenente informazioni
@@ -190,7 +187,7 @@ public class HomeFragment extends Fragment {
 
 
         @Override
-        protected void onPostExecute(MetwitRequest weatherInfo) {
+        protected void onPostExecute(Metwit weatherInfo) {
 
             //salvo ultime informazioni
             SharedPreferences settings = getActivity().getSharedPreferences("uMorning", 0);
@@ -203,7 +200,6 @@ public class HomeFragment extends Fragment {
             editor.putString("Longitude", String.valueOf(longitude));
             editor.commit();
             progress.setVisibility(View.GONE);
-
 
             updateUI();
         }

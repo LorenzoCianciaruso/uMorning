@@ -5,7 +5,7 @@ import com.example.umorning.external_services.HttpRequest;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class MetwitRequest {
+public class Metwit {
 
     private double latitude;
     private double longitude;
@@ -14,13 +14,13 @@ public class MetwitRequest {
     private String locality;
     private String country;
 
-    public MetwitRequest(double latitude, double longitude) throws NullPointerException {
+    public Metwit(double latitude, double longitude) throws NullPointerException {
         this.latitude = latitude;
         this.longitude = longitude;
         askForWeather();
     }
 
-    public MetwitRequest(String icon, String temperature, String locality, String country) {
+    public Metwit(String icon, String temperature, String locality, String country) {
         this.icon = icon;
         this.temperature = temperature;
         this.locality = locality;
