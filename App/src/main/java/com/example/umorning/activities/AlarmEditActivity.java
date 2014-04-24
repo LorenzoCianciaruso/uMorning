@@ -197,10 +197,10 @@ public class AlarmEditActivity extends Activity {
         } else {
             db.updateAlarm(updated);
         }
-
+        //considera il refresh rate
         SharedPreferences prefs = getSharedPreferences("uMorning", 0);
         long refreshRate = prefs.getLong("REFRESH", 60);
-
+        //metti la sveglia se è in questo segmento temporale
         if (expectedTime.getTimeInMillis() < (System.currentTimeMillis() + (refreshRate * 60 * 1000)) && activated) {
             //chiama un alarmservice
             Intent myIntent = new Intent(this, AlarmBroadcastReceiver.class);

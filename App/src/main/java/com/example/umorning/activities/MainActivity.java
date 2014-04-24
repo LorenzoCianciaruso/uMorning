@@ -75,7 +75,7 @@ public class MainActivity extends FragmentActivity implements
         long refreshRate = prefs.getLong("REFRESH", 60);
         PendingIntent intent = PendingIntent.getService(this, 0, updateIntent, 0);
         AlarmManager alarmManager = (AlarmManager) getSystemService(Service.ALARM_SERVICE);
-        alarmManager.set(AlarmManager.RTC_WAKEUP, Calendar.getInstance().getTimeInMillis() + (refreshRate * 60 * 1000), intent);
+        alarmManager.set(AlarmManager.RTC_WAKEUP, (System.currentTimeMillis() + (refreshRate * 60 * 1000)), intent);
 
     }
 
