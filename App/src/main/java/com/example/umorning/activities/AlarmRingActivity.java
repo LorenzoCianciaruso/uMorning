@@ -15,6 +15,7 @@ import android.provider.ContactsContract;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
+import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
@@ -56,6 +57,13 @@ public class AlarmRingActivity extends Activity {
         SimpleDateFormat df = new SimpleDateFormat("c d LLLL yyyy HH:mm");
         String time = df.format(alarm.getDate().getTime());
         timeView.setText(time);
+
+        //sblocca lo schermo
+        final Window win = getWindow();
+        win.addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED
+                | WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);
+        win.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON
+                | WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON);
 
         //servizio vibrazione
         v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
