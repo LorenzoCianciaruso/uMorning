@@ -1,5 +1,6 @@
 package com.example.umorning.activities;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.os.Parcel;
@@ -113,6 +114,11 @@ public class NumberPickerPreference extends DialogPreference {
             persistInt(value);
             notifyChanged();
         }
+    }
+
+    @Override
+    public Dialog getDialog() {
+        return super.getDialog();
     }
 
     @Override

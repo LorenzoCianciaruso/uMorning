@@ -20,4 +20,10 @@
         android:title="Activate alarm"
         android:showAsAction="always" />
 
+    <item
+        android:id="@+id/delete"
+        android:icon="@drawable/ic_action_discard"
+        android:title="Delete alarm"
+        android:showAsAction="always" />
+
 </menu>

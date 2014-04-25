@@ -1,5 +1,7 @@
 package com.example.umorning.activities;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -24,6 +26,7 @@ import java.text.SimpleDateFormat;
 public class AlarmDetailsActivity extends FragmentActivity {
 
     private int id;
+    private int toDeleteId;
     private GoogleMap mMap;
     private Facebook fb;
     private ShareActionProvider mShareActionProvider;
@@ -37,7 +40,7 @@ public class AlarmDetailsActivity extends FragmentActivity {
         setContentView(R.layout.alarm_details);
 
         id = getIntent().getIntExtra("alarmId", 0);
-
+        toDeleteId=id;
         db = new DatabaseHelper(this);
 
         Alarm current = db.getAlarm(id);
@@ -102,7 +105,40 @@ public class AlarmDetailsActivity extends FragmentActivity {
                 myIntent.putExtra("alarmId", id);
                 startActivityForResult(myIntent, 0);
                 finish();
+                break;
             }
+
+            case R.id.delete:{
+                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+
+                // set title
+                alertDialogBuilder.setTitle("Delete Alarm");
+
+                // set dialog message
+                alertDialogBuilder
+                        .setMessage("Click yes to delete alarm!")
+                        .setCancelable(false)
+                        .setPositiveButton("Yes",new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog,int id) {
+                                //Alarm toDelete = db.getAlarm(id);
+                                db.deleteAlarm(toDeleteId);
+                                finish();
+                                dialog.cancel();
+                            }
+                        })
+                        .setNegativeButton("No",new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog,int id) {
+                                dialog.cancel();
+                            }
+                        });
+
+                // create alert dialog
+                AlertDialog alertDialog = alertDialogBuilder.create();
+
+                // show it
+                alertDialog.show();
+            }
+
         }
 
         return super.onOptionsItemSelected(item);

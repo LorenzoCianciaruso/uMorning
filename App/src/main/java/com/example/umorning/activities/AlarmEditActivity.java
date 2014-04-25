@@ -2,16 +2,24 @@ package com.example.umorning.activities;
 
 import android.app.Activity;
 import android.app.AlarmManager;
+import android.app.AlertDialog;
+import android.app.DatePickerDialog;
 import android.app.PendingIntent;
 import android.app.Service;
+import android.app.TimePickerDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.v4.app.ShareCompat;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
+import android.widget.ImageButton;
 import android.widget.NumberPicker;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -27,19 +35,19 @@ import com.example.umorning.model.DatabaseHelper;
 
 import java.util.Calendar;
 
-public class AlarmEditActivity extends Activity {
+public class AlarmEditActivity extends Activity implements
+        View.OnClickListener {
 
     //campi dell'interfaccia
     private TextView nameT;
     private TextView addressT;
     private TextView cityT;
     private TextView countryT;
-    private DatePicker datePicker;
-    private TimePicker timePicker;
-    private NumberPicker delayPicker;
+
+    //private NumberPicker delayPicker;
     private CheckBox activation;
-    private Button saveButton;
-    private Button deleteButton;
+    private ImageButton saveButton;
+    private ImageButton deleteButton;
 
     //campi di alarm
     private int id;
@@ -60,32 +68,43 @@ public class AlarmEditActivity extends Activity {
     private Alarm toUpdate;
     private DatabaseHelper db;
 
+    /* minute, hour, day, mont, year */
+    private int min;
+    private int hour;
+    private int day;
+    private int month;
+    private int year;
+
+    /* time, date and delay picker */
+    private TextView timePickerText;
+    private TextView datePickerText;
+    private TextView delayPickerText;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_add_new_alarm);
 
-        //getta tutti i puntatori alla grafica
-        datePicker = (DatePicker) findViewById(R.id.datePicker);
-        timePicker = (TimePicker) findViewById(R.id.timePicker1);
-        timePicker.setIs24HourView(true);
+        // EditText
         nameT = (TextView) findViewById(R.id.event_name);
         addressT = (TextView) findViewById(R.id.address);
         cityT = (TextView) findViewById(R.id.city);
         countryT = (TextView) findViewById(R.id.country);
-        delayPicker = (NumberPicker) findViewById(R.id.numberPicker);
-        delayPicker.setMaxValue(480);
-        delayPicker.setMinValue(1);
+        // TextView (Pickers)
+        datePickerText = (TextView) findViewById(R.id.textDatePicker);
+        timePickerText = (TextView) findViewById(R.id.textTimePicker);
+        delayPickerText = (TextView) findViewById(R.id.textDelayPicker);
+        // On/Off
         activation = (CheckBox) findViewById(R.id.checkBox);
-        saveButton = (Button) findViewById(R.id.button1);
-        deleteButton = (Button) findViewById(R.id.button);
+        // Button
+        saveButton = (ImageButton) findViewById(R.id.saveButton);
+        deleteButton = (ImageButton) findViewById(R.id.deleteButton);
 
         SharedPreferences prefs = getSharedPreferences("uMorning", 0);
         delay = prefs.getLong("DELAY", 30);
         date = Calendar.getInstance();
         expectedTime = Calendar.getInstance();
-        delayPicker.setValue((int) delay);
+
         activation.setChecked(true);
         saveButton.setEnabled(true);
         deleteButton.setEnabled(true);
@@ -93,6 +112,7 @@ public class AlarmEditActivity extends Activity {
         id = getIntent().getIntExtra("alarmId", 0);
 
         db = new DatabaseHelper(this);
+
         //solo se è una modifica
         if (id != 0) {
             toUpdate = db.getAlarm(id);
@@ -100,7 +120,8 @@ public class AlarmEditActivity extends Activity {
             addressT.setText(toUpdate.getAddress());
             cityT.setText(toUpdate.getCity());
             countryT.setText(toUpdate.getCountry());
-            delayPicker.setValue((int) (toUpdate.getDelay()));
+
+            delay = toUpdate.getDelay();
             date = toUpdate.getDate();
             expectedTime = toUpdate.getExpectedTime();
             activation.setChecked(toUpdate.isActivated());
@@ -109,20 +130,30 @@ public class AlarmEditActivity extends Activity {
             endLongitude = toUpdate.getEndLongitude();
         }
 
-        int year = date.get(Calendar.YEAR);
-        int month = date.get(Calendar.MONTH);
-        int day = date.get(Calendar.DAY_OF_MONTH);
-        int hour = date.get(Calendar.HOUR_OF_DAY);
-        int min = date.get(Calendar.MINUTE);
-        datePicker.updateDate(year, month, day);
-        timePicker.setCurrentHour(hour);
-        timePicker.setCurrentMinute(min);
+        year = date.get(Calendar.YEAR);
+        month = date.get(Calendar.MONTH);
+        day = date.get(Calendar.DAY_OF_MONTH);
+        hour = date.get(Calendar.HOUR_OF_DAY);
+        min = date.get(Calendar.MINUTE);
 
+
+        datePickerText.setText(day + "/" + (month + 1) + "/" + year);
+        if (min < 10)
+            timePickerText.setText(hour + ":0" + min);
+        else
+            timePickerText.setText(hour + ":" + min);
+        delayPickerText.setText(delay + " minutes");
+
+        timePickerText.setOnClickListener(this);
+        datePickerText.setOnClickListener(this);
+        delayPickerText.setOnClickListener(this);
     }
 
     public void onSavePressed(View view) {
-        saveButton.setEnabled(false);
-        deleteButton.setEnabled(false);
+        /*saveButton.setEnabled(false);
+        deleteButton.setEnabled(false);*/
+        saveButton.setClickable(false);
+        deleteButton.setClickable(false);
         //ottengo la posizione attuale
         GpsLocalization gps = new GpsLocalization(this);
         // controlla se il GPS è attivo
@@ -165,8 +196,7 @@ public class AlarmEditActivity extends Activity {
         city = cityT.getText().toString();
         country = countryT.getText().toString();
         activated = activation.isChecked();
-        delay = delayPicker.getValue();
-        date.set(datePicker.getYear(), datePicker.getMonth(), datePicker.getDayOfMonth(), timePicker.getCurrentHour(), timePicker.getCurrentMinute());
+        date.set(year, month, day, hour, min);
 
         if (activated) {
             if (id == 0 || (id != 0 && (!address.equals(toUpdate.getAddress()) || !city.equals(toUpdate.getCity()) || !country.equals(toUpdate.getCountry())))) {
@@ -212,4 +242,112 @@ public class AlarmEditActivity extends Activity {
         }
         finish();
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.edit_alarm_details, menu);
+        MenuItem item = menu.findItem(R.id.menu_item_share);
+        Intent shareIntent = ShareCompat.IntentBuilder.from(this)
+                .setType("text/plain").setText("").getIntent();
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId()) {
+            case R.id.remove: {
+                db.deleteAlarm(id);
+                finish();
+                break;
+            }
+            case R.id.accept: {
+                new Thread(new Runnable() {
+                    public void run() {
+                        saveAlarm();
+                    }
+                }).start();
+            }
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onClick(View v) {
+        final Calendar c = Calendar.getInstance();
+        if (v == timePickerText) {
+            TimePickerDialog tpd = new TimePickerDialog(this,
+                    new TimePickerDialog.OnTimeSetListener() {
+                        @Override
+                        public void onTimeSet(TimePicker view, int hh,
+                                              int mm) {
+                            // Visualizzo l'ora
+                            if (mm < 10)
+                                timePickerText.setText(hh + ":0" + mm);
+                            else
+                                timePickerText.setText(hh + ":" + mm);
+                            // Salvo in min e hour
+                            hour = hh;
+                            min = mm;
+                        }
+                    }, hour, min, true
+            );
+            tpd.setTitle("Set time");
+            tpd.show();
+        }
+        if (v == datePickerText) {
+            DatePickerDialog dpd = new DatePickerDialog(this,
+                    new DatePickerDialog.OnDateSetListener() {
+                        @Override
+                        public void onDateSet(DatePicker view, int y, int m, int d) {
+                            datePickerText.setText(d + "/" + (m + 1) + "/" + y);
+                            year = y;
+                            month = m;
+                            day = d;
+                        }
+                    }, year, month, day
+            );
+            dpd.setTitle("Set date");
+            dpd.show();
+        }
+        if (v == delayPickerText) {
+            RelativeLayout linearLayout = new RelativeLayout(this);
+            final NumberPicker aNumberPicker = new NumberPicker(this);
+            aNumberPicker.setMaxValue(480);
+            aNumberPicker.setMinValue(1);
+            aNumberPicker.setValue((int) delay);
+            RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
+                    50, 50);
+            RelativeLayout.LayoutParams numPicerParams = new RelativeLayout.LayoutParams(
+                    RelativeLayout.LayoutParams.WRAP_CONTENT,
+                    RelativeLayout.LayoutParams.WRAP_CONTENT);
+            numPicerParams.addRule(RelativeLayout.CENTER_HORIZONTAL);
+
+            linearLayout.setLayoutParams(params);
+            linearLayout.addView(aNumberPicker, numPicerParams);
+
+            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+            alertDialogBuilder.setTitle("Set delay");
+            alertDialogBuilder.setView(linearLayout);
+            alertDialogBuilder
+                    .setCancelable(false)
+                    .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            delay = aNumberPicker.getValue();
+                            delayPickerText.setText(delay + " minutes");
+                        }
+                    })
+                    .setNegativeButton("Cancel",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    dialog.cancel();
+                                }
+                            }
+                    );
+            AlertDialog alertDialog = alertDialogBuilder.create();
+            alertDialog.show();
+        }
+
+    }
+
 }
