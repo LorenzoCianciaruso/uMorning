@@ -19,7 +19,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.umorning.R;
+import com.example.umorning.activities.AccountManagerActivity;
 import com.example.umorning.activities.AlarmDetailsActivity;
+import com.example.umorning.activities.UserSettingActivity;
 import com.example.umorning.external_services.HttpRequest;
 import com.example.umorning.external_services.Metwit;
 import com.example.umorning.internal_services.GpsLocalization;
@@ -128,14 +130,27 @@ public class HomeFragment extends Fragment {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        int idItem = item.getItemId();
-        if (idItem == R.id.refresh) {
-            startMetwitRequest();
+        switch (item.getItemId()) {
+            case R.id.refresh: {
+                startMetwitRequest();
+                break;
+            }
+            case R.id.action_accounts: {
+                Intent i = new Intent(getActivity(), AccountManagerActivity.class);
+                startActivity(i);
+                break;
+            }
+            case R.id.menu_settings: {
+                Intent i = new Intent(getActivity(), UserSettingActivity.class);
+                startActivityForResult(i, 1);
+                break;
+            }
+
         }
         return super.onOptionsItemSelected(item);
     }
 
-    private void startMetwitRequest(){
+    private void startMetwitRequest() {
         // check if GPS enabled
         if (gps.canGetLocation()) {
             try {
@@ -178,7 +193,7 @@ public class HomeFragment extends Fragment {
                 weatherInfo = new Metwit(latitude, longitude);
             } catch (NullPointerException e) {
                 SharedPreferences prefs = getActivity().getSharedPreferences("uMorning", 0);
-                weatherInfo = new Metwit(prefs.getString("Icon", " "),prefs.getString("Temperature", " "),prefs.getString("Locality", " "),prefs.getString("Country", " "));
+                weatherInfo = new Metwit(prefs.getString("Icon", " "), prefs.getString("Temperature", " "), prefs.getString("Locality", " "), prefs.getString("Country", " "));
             }
 
             //restituisce oggetto meteo contenente informazioni

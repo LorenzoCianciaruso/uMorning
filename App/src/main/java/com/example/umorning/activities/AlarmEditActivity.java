@@ -257,7 +257,10 @@ public class AlarmEditActivity extends Activity implements
 
         switch (item.getItemId()) {
             case R.id.remove: {
-                db.deleteAlarm(id);
+                overridePendingTransition(R.anim.fadein, R.anim.fadeout);
+                if (getIntent().getIntExtra("fromEvent", 0) == 1) {
+                    db.deleteAlarm(id);
+                }
                 finish();
                 break;
             }

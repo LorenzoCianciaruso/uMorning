@@ -3,20 +3,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="horizontal"
     tools:context=".MainActivity">
-    <!--
-        <item
-            android:id="@+id/action_settings"
-            android:onClick="startSettingsManager"
-            android:orderInCategory="100"
-            android:showAsAction="never"
-            android:title="@string/action_settings" />
-    -->
-    <item
+
+    <!--<item
         android:id="@+id/action_accounts"
         android:onClick="startAccountManager"
         android:orderInCategory="100"
         android:title="Accounts"
-        app:showAsAction="always" />
+        app:showAsAction="always" />-->
+
+    <item
+        android:id="@+id/action_accounts"
+        android:orderInCategory="100"
+        android:showAsAction="never"
+        android:title="Accounts" />
 
     <item
         android:id="@+id/menu_settings"

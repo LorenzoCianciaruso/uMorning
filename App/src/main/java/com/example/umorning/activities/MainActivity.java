@@ -13,7 +13,6 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 
 import com.example.umorning.R;
@@ -100,7 +99,7 @@ public class MainActivity extends FragmentActivity implements
         startActivity(myIntent);
         overridePendingTransition(R.anim.fadein, R.anim.fadeout);
     }
-
+/*
     public void startAccountManager(MenuItem item) {
         Intent intent = new Intent(this, AccountManagerActivity.class);
         startActivity(intent);
@@ -109,8 +108,8 @@ public class MainActivity extends FragmentActivity implements
     public void startSettingsManager(MenuItem item) {
         Intent intent = new Intent(this, SettingsActivity.class);
         startActivity(intent);
-    }
-
+    }*/
+/*
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -123,7 +122,7 @@ public class MainActivity extends FragmentActivity implements
             return true;
         }
         return true;
-    }
+    }*/
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

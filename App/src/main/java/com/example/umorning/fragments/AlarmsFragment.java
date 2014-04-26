@@ -4,13 +4,16 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.example.umorning.R;
+import com.example.umorning.activities.AccountManagerActivity;
 import com.example.umorning.activities.AlarmDetailsActivity;
+import com.example.umorning.activities.UserSettingActivity;
 import com.example.umorning.model.Alarm;
 import com.example.umorning.model.DatabaseHelper;
 
@@ -23,14 +26,13 @@ public class AlarmsFragment extends Fragment {
     private AlarmsAdapter adapter;
     private List<Alarm> alarms;
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         View rootView = inflater.inflate(R.layout.fragment_alarms, container,
                 false);
-
+        setHasOptionsMenu(true);
         super.onCreate(savedInstanceState);
         return rootView;
     }
@@ -51,17 +53,27 @@ public class AlarmsFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view,
                                     int i, long l) {
-                /*Intent myIntent = new Intent(getActivity(), AlarmEditActivity.class);
-                myIntent.putExtra("alarmId", alarms.get(i).getId());
-                startActivityForResult(myIntent,0);*/
-
                 Intent myIntent = new Intent(getActivity(), AlarmDetailsActivity.class);
                 myIntent.putExtra("alarmId", alarms.get(i).getId());
                 startActivityForResult(myIntent, 0);
-
-
             }
         });
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_accounts: {
+                Intent i = new Intent(getActivity(), AccountManagerActivity.class);
+                startActivity(i);
+                break;
+            }
+            case R.id.menu_settings: {
+                Intent i = new Intent(getActivity(), UserSettingActivity.class);
+                startActivityForResult(i, 1);
+                break;
+            }
+        }
+        return super.onOptionsItemSelected(item);
+    }
 }

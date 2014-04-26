@@ -17,7 +17,9 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.umorning.R;
+import com.example.umorning.activities.AccountManagerActivity;
 import com.example.umorning.activities.EventDetailsActivity;
+import com.example.umorning.activities.UserSettingActivity;
 import com.example.umorning.external_services.Eventbrite;
 import com.example.umorning.external_services.Facebook;
 import com.example.umorning.external_services.HttpRequest;
@@ -177,12 +179,26 @@ public class EventsFragment extends Fragment {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        int idItem = item.getItemId();
-        if (idItem == R.id.refresh) {
-            events.clear();
-            retrievingEvents = new AsyncTaskEvent();
-            retrievingEvents.execute();
+        switch (item.getItemId()) {
+            case R.id.refresh: {
+                events.clear();
+                retrievingEvents = new AsyncTaskEvent();
+                retrievingEvents.execute();
+                break;
+            }
+            case R.id.action_accounts: {
+                Intent i = new Intent(getActivity(), AccountManagerActivity.class);
+                startActivity(i);
+                break;
+            }
+            case R.id.menu_settings: {
+                Intent i = new Intent(getActivity(), UserSettingActivity.class);
+                startActivityForResult(i, 1);
+                break;
+            }
+
         }
+
         return super.onOptionsItemSelected(item);
     }
 

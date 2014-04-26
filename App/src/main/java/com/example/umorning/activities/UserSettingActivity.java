@@ -37,9 +37,6 @@ public class UserSettingActivity extends PreferenceActivity {
         refreshPicker = (NumberPickerPreference) findPreference("refresh_picker");
         delayPicker = (NumberPickerPreference) findPreference("delay_picker");
 
-        /*refreshPicker.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);*/
-        //myNumberPicker.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
-        //refreshPicker.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
 
         refreshPicker.setSummary("" + refreshPicker.getValue() + " minutes");
         delayPicker.setSummary("" + delayPicker.getValue() + " minutes");
@@ -61,14 +58,33 @@ public class UserSettingActivity extends PreferenceActivity {
         yourTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                saveAll();
                 finish();
             }
         });
+
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+        saveAll();
+    }
+
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        saveAll();
+    }
+
+    private void saveAll() {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
 
         ringtoneUri = Uri.parse(prefs.getString("ringtone_picker", "<unset>"));
@@ -81,13 +97,5 @@ public class UserSettingActivity extends PreferenceActivity {
         editor.putLong("REFRESH", refreshPicker.getValue());
         editor.putString("TONE", ringtoneUri.toString());
         editor.commit();
-    }
-
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
     }
 }
