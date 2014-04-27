@@ -265,11 +265,24 @@ public class AlarmEditActivity extends Activity implements
                 break;
             }
             case R.id.accept: {
+                //ottengo la posizione attuale
+                GpsLocalization gps = new GpsLocalization(this);
+                // controlla se il GPS è attivo
+                if (gps.canGetLocation()) {
+                    gps.getLocation();
+                    startLatitude = gps.getLatitude();
+                    startLongitude = gps.getLongitude();
+                } else {
+                    // Chiedi all'utente di andare nelle impostazioni
+                    gps.showSettingsAlert();
+                }
+                //il salvataggio in un thread perchè deve accedere a internet
                 new Thread(new Runnable() {
                     public void run() {
                         saveAlarm();
                     }
                 }).start();
+                break;
             }
         }
         return super.onOptionsItemSelected(item);

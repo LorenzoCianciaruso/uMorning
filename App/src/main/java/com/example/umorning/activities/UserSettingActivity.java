@@ -1,7 +1,6 @@
 package com.example.umorning.activities;
 
 import android.content.SharedPreferences;
-import android.content.res.Resources;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
@@ -10,8 +9,6 @@ import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
 import android.preference.RingtonePreference;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.TextView;
 
 import com.example.umorning.R;
 
@@ -52,7 +49,7 @@ public class UserSettingActivity extends PreferenceActivity {
         sp = PreferenceManager.getDefaultSharedPreferences(this);
         ringtonePicker.getOnPreferenceClickListener();
 
-        int titleId = Resources.getSystem().getIdentifier("action_bar_title", "id", "android");
+        /*int titleId = Resources.getSystem().getIdentifier("action_bar_title", "id", "android");
         TextView yourTextView = (TextView) findViewById(titleId);
         yourTextView.setClickable(true);
         yourTextView.setOnClickListener(new View.OnClickListener() {
@@ -61,7 +58,7 @@ public class UserSettingActivity extends PreferenceActivity {
                 saveAll();
                 finish();
             }
-        });
+        });*/
 
     }
 
@@ -73,6 +70,8 @@ public class UserSettingActivity extends PreferenceActivity {
 
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
+            saveAll();
+            finish();
             return true;
         }
         return super.onOptionsItemSelected(item);

@@ -27,6 +27,10 @@ public class AccountManagerActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_account_manager);
 
+        getActionBar().setDisplayHomeAsUpEnabled(true);
+        getActionBar().setDisplayShowHomeEnabled(false);
+        getActionBar().setTitle("Accounts");
+
         uiHelper = new UiLifecycleHelper(this, callback);
         uiHelper.onCreate(savedInstanceState);
         List<String> writePermission = Arrays.asList("publish_actions");
@@ -36,8 +40,8 @@ public class AccountManagerActivity extends Activity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        if (id == R.id.action_settings) {
+        if (item.getItemId() == android.R.id.home) {
+            finish();
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -49,6 +53,7 @@ public class AccountManagerActivity extends Activity {
         b.putString("url", "https://www.eventbrite.com/oauth/authorize?response_type=token&client_id=AWF7I3D2E3CAVX6QNW");
         intent.putExtras(b);
         startActivity(intent);
+        //TODO serve?
         finish();
     }
 
