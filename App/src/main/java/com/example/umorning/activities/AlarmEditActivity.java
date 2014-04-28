@@ -174,8 +174,7 @@ public class AlarmEditActivity extends Activity implements
     }
 
     public void onDeletePressed(View view) {
-        db.deleteAlarm(id);
-        finish();
+        onBackPressed();
     }
 
     @Override
