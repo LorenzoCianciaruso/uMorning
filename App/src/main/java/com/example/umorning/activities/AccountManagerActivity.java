@@ -53,7 +53,6 @@ public class AccountManagerActivity extends Activity {
         b.putString("url", "https://www.eventbrite.com/oauth/authorize?response_type=token&client_id=AWF7I3D2E3CAVX6QNW");
         intent.putExtras(b);
         startActivity(intent);
-        //TODO serve?
         finish();
     }
 

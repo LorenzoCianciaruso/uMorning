@@ -125,7 +125,6 @@ public class AlarmEditActivity extends Activity implements
             date = toUpdate.getDate();
             expectedTime = toUpdate.getExpectedTime();
             activation.setChecked(toUpdate.isActivated());
-            //TODO
             endLatitude = toUpdate.getEndLatitude();
             endLongitude = toUpdate.getEndLongitude();
         }
