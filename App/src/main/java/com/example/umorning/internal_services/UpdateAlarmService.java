@@ -24,17 +24,16 @@ public class UpdateAlarmService extends Service {
     }
 
     @Override
-    public void onStart (Intent receivedIntent, int boh) {
-        super.onStart(receivedIntent, boh);
+    public void onStart(Intent receivedIntent, int par) {
+        super.onStart(receivedIntent, par);
         //apri l'applicazione e aggiorna le sveglie
         GpsLocalization gps = new GpsLocalization(this);
+        gps.getLocation();
         DatabaseHelper db = new DatabaseHelper(getApplicationContext());
         List<Alarm> alarms = db.getAllAlarms();
 
         for (Alarm a : alarms) {
-            if (a.isToDelete()) {
-                db.deleteAlarm(a.getId());
-            } else if (gps.canGetLocation && a.isActivated()) {
+            if (gps.canGetLocation() && a.isActivated()) {
                 //copio l'allarme in locale
                 int id = a.getId();
                 long delay = a.getDelay();
@@ -48,7 +47,6 @@ public class UpdateAlarmService extends Service {
                 double endLongitude = a.getEndLongitude();
                 Calendar date = a.getDate();
                 boolean activated = a.isActivated();
-                boolean toDelete = a.isToDelete();
 
                 //aggiornamento
                 //richiesta traffico
@@ -73,8 +71,24 @@ public class UpdateAlarmService extends Service {
                     alarmManager.set(AlarmManager.RTC_WAKEUP, expectedTime.getTimeInMillis(), intent);
                 }
                 //aggiorna l'allarme e lo salva nel DB
-                Alarm updated = new Alarm(id, delay, name, address, city, country, startLatitude, startLongitude, endLatitude, endLongitude, date, expectedTime, activated, toDelete);
+                Alarm updated = new Alarm(id, delay, name, address, city, country, startLatitude, startLongitude, endLatitude, endLongitude, date, expectedTime, activated);
                 db.updateAlarm(updated);
+            } else
+            //no gps
+            {
+                //considera il refresh rate
+                SharedPreferences prefs = getSharedPreferences("uMorning", 0);
+                long refreshRate = prefs.getLong("REFRESH", 60);
+                //metti la sveglia se è in questo segmento temporale
+                if (a.getExpectedTime().getTimeInMillis() < (System.currentTimeMillis() + (refreshRate * 60 * 1000)) && a.isActivated()) {
+                    //chiama un alarmservice
+                    Intent myIntent = new Intent(this, AlarmBroadcastReceiver.class);
+                    myIntent.putExtra("alarmId", a.getId());
+                    PendingIntent intent = PendingIntent.getService(this, 0, myIntent, 0);
+                    AlarmManager alarmManager = (AlarmManager) getSystemService(Service.ALARM_SERVICE);
+                    //imposta l'ora e fa partire
+                    alarmManager.set(AlarmManager.RTC_WAKEUP, a.getExpectedTime().getTimeInMillis(), intent);
+                }
             }
         }
         //chiama un nuovo update al tempo impostato dall'utente

@@ -135,7 +135,7 @@ public class EventDetailsActivity extends FragmentActivity {
             //salva nel db
             SharedPreferences prefs = getSharedPreferences("uMorning", 0);
             long delay = prefs.getLong("DELAY", 30);
-            Alarm alarm = new Alarm(id, delay, name, place, "", "", 0, 0, latitude, longitude, date, date, true, false);
+            Alarm alarm = new Alarm(id, delay, name, place, "", "", 0, 0, latitude, longitude, date, date, true);
             db = new DatabaseHelper(this);
             id = (int) db.addAlarm(alarm);
             Intent myIntent = new Intent(this, AlarmEditActivity.class);

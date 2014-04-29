@@ -1,7 +1,5 @@
 package com.example.umorning.activities;
 
-import android.animation.AnimatorInflater;
-import android.animation.AnimatorSet;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -11,14 +9,10 @@ import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Vibrator;
-import android.provider.ContactsContract;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.umorning.R;
@@ -31,10 +25,6 @@ public class AlarmRingActivity extends Activity {
 
     private Vibrator v;
     private Ringtone r;
-    private int id;
-    private TextView nameView;
-    private TextView addressView;
-    private TextView timeView;
     private Alarm alarm;
     private DatabaseHelper dbHelp;
 
@@ -44,38 +34,42 @@ public class AlarmRingActivity extends Activity {
         getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
         getActionBar().hide();
         setContentView(R.layout.activity_alarm_ring);
-        id = getIntent().getIntExtra("alarmId", 0);
+        int id = getIntent().getIntExtra("alarmId", 0);
 
         dbHelp = new DatabaseHelper(this);
         alarm = dbHelp.getAlarm(id);
+        if (alarm == null){
+            finish();
+        }
+        else {
+            TextView nameView = (TextView) findViewById(R.id.name);
+            TextView addressView = (TextView) findViewById(R.id.address);
+            TextView timeView = (TextView) findViewById(R.id.time);
+            nameView.setText(alarm.getName());
+            addressView.setText(alarm.getAddress());
+            SimpleDateFormat df = new SimpleDateFormat("c d LLLL yyyy HH:mm");
+            String time = df.format(alarm.getDate().getTime());
+            timeView.setText(time);
 
-        nameView = (TextView) findViewById(R.id.name);
-        addressView = (TextView) findViewById(R.id.address);
-        timeView = (TextView) findViewById(R.id.time);
-        nameView.setText(alarm.getName());
-        addressView.setText(alarm.getAddress());
-        SimpleDateFormat df = new SimpleDateFormat("c d LLLL yyyy HH:mm");
-        String time = df.format(alarm.getDate().getTime());
-        timeView.setText(time);
+            //sblocca lo schermo
+            final Window win = getWindow();
+            win.addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED
+                    | WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);
+            win.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON
+                    | WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON);
 
-        //sblocca lo schermo
-        final Window win = getWindow();
-        win.addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED
-                | WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);
-        win.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON
-                | WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON);
-
-        //servizio vibrazione
-        v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
-        // ogni elemento alterna vibrazione, pausa, vibrazione, pausa...
-        long[] pattern = {0, 500, 110, 500, 110, 450, 110, 200, 110, 170, 40, 450, 110, 200, 110, 170, 40, 500};
-        // '-1' vibra una volta '0' vibra all'infinito
-        v.vibrate(pattern, 0);
-        //servizio suoneria
-        SharedPreferences prefs = getSharedPreferences("uMorning", 0);
-        Uri tone = Uri.parse(prefs.getString("TONE", RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM).toString()));
-        r = RingtoneManager.getRingtone(getApplicationContext(), tone);
-        r.play();
+            //servizio vibrazione
+            v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+            // ogni elemento alterna vibrazione, pausa, vibrazione, pausa...
+            long[] pattern = {0, 500, 110, 500, 110, 450, 110, 200, 110, 170, 40, 450, 110, 200, 110, 170, 40, 500};
+            // '-1' vibra una volta '0' vibra all'infinito
+            v.vibrate(pattern, 0);
+            //servizio suoneria
+            SharedPreferences prefs = getSharedPreferences("uMorning", 0);
+            Uri tone = Uri.parse(prefs.getString("TONE", RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM).toString()));
+            r = RingtoneManager.getRingtone(getApplicationContext(), tone);
+            r.play();
+        }
 
     }
 

@@ -20,13 +20,13 @@ public class GpsLocalization extends Service implements LocationListener {
     private final Context mContext;
 
     // flags
-    boolean isGPSEnabled = false;
-    boolean isNetworkEnabled = false;
-    boolean canGetLocation = false;
+    private boolean isGPSEnabled = false;
+    private boolean isNetworkEnabled = false;
+    private boolean canGetLocation = false;
 
-    Location location;
-    double latitude;
-    double longitude;
+    private Location location;
+    private double latitude;
+    private double longitude;
 
     // Distanza minima per generare un update in metri
     private static final long MIN_DISTANCE_CHANGE_FOR_UPDATES = 10;

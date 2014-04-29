@@ -63,7 +63,6 @@ public class AlarmEditActivity extends Activity implements
     private Calendar date;
     private Calendar expectedTime;
     private boolean activated;
-    private boolean toDelete;
 
     private Alarm toUpdate;
     private DatabaseHelper db;
@@ -217,9 +216,8 @@ public class AlarmEditActivity extends Activity implements
 
         }
 
-        toDelete = false;
         //salva nel db aggiornando o creando
-        Alarm updated = new Alarm(id, delay, name, address, city, country, startLatitude, startLongitude, endLatitude, endLongitude, date, expectedTime, activated, toDelete);
+        Alarm updated = new Alarm(id, delay, name, address, city, country, startLatitude, startLongitude, endLatitude, endLongitude, date, expectedTime, activated);
         if (id == 0) {
             id = (int) db.addAlarm(updated);
         } else {
