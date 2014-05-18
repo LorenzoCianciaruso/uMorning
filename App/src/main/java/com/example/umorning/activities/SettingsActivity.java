@@ -12,6 +12,8 @@ import android.widget.NumberPicker;
 import android.widget.TextView;
 
 import com.example.umorning.R;
+import com.example.umorning.model.Badge;
+import com.example.umorning.model.DatabaseHelper;
 
 public class SettingsActivity extends Activity {
 
@@ -47,6 +49,9 @@ public class SettingsActivity extends Activity {
         ringtone = RingtoneManager.getRingtone(this, ringtoneUri);
         selectedRingtone.setText(ringtone.getTitle(this));
 
+        DatabaseHelper db = new DatabaseHelper(this);
+        db.aquireBadge(Badge.SETTINGS);
+
     }
 
     public void saveSettings(View view) {
@@ -59,6 +64,14 @@ public class SettingsActivity extends Activity {
         editor.putLong("REFRESH", refreshRate);
         editor.putString("TONE", ringtoneUri.toString());
         editor.commit();
+        if (userDelay < 15){
+            DatabaseHelper db = new DatabaseHelper(this);
+            db.aquireBadge(Badge.SHORT_PREP_TIME);
+            }
+        if (userDelay > 120){
+            DatabaseHelper db = new DatabaseHelper(this);
+            db.aquireBadge(Badge.SHORT_PREP_TIME);
+        }
         finish();
     }
 
@@ -98,5 +111,7 @@ public class SettingsActivity extends Activity {
         SharedPreferences.Editor editor = prefs.edit();
         editor.putString("TONE", ringtoneUri.toString());
         editor.commit();
+        DatabaseHelper dbHelper = new DatabaseHelper(this);
+        dbHelper.aquireBadge(Badge.RINGTONE);
     }
 }

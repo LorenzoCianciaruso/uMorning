@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import com.example.umorning.R;
 import com.example.umorning.model.Alarm;
+import com.example.umorning.model.Badge;
 import com.example.umorning.model.DatabaseHelper;
 
 import java.text.SimpleDateFormat;
@@ -69,6 +70,8 @@ public class AlarmRingActivity extends Activity {
             Uri tone = Uri.parse(prefs.getString("TONE", RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM).toString()));
             r = RingtoneManager.getRingtone(getApplicationContext(), tone);
             r.play();
+
+            dbHelp.aquireBadge(Badge.FIRST_RING);
         }
 
     }

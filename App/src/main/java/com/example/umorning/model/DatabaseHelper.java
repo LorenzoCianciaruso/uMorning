@@ -79,6 +79,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
         sqLiteDatabase.execSQL(CREATE_TABLE_ALARM);
         sqLiteDatabase.execSQL(CREATE_TABLE_BADGE);
+        List<Badge> toAdd = Badge.createBadges();
+        for (Badge b : toAdd){
+            this.addBadge(b);
+        }
+        this.aquireBadge(Badge.FIRST_USAGE);
     }
 
     @Override
@@ -96,7 +101,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public long addAlarm(Alarm alarm) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = getContentValues(alarm);
-        return db.insert(TABLE_ALARM, null, values);
+        long num = db.insert(TABLE_ALARM, null, values);
+        switch ((int)num){
+            case (5):
+                this.aquireBadge(Badge.FIVE_ALARMS);
+                break;
+            case (100):
+                this.aquireBadge(Badge.HUNDRED_ALARMS);
+                break;
+        }
+        return num;
     }
 
     //prendi allarme per id
@@ -231,7 +245,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
         return fromCursorToBadge(c);
     }
-    //prendi badge per id
+
+    //acquisisci un badge per id
     public void aquireBadge(int badge_id) {
         SQLiteDatabase db = this.getReadableDatabase();
         String selectQuery = "SELECT  * FROM " + TABLE_BADGE + " WHERE "
@@ -242,9 +257,21 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             c.moveToFirst();
         }
         Badge toUpdate = fromCursorToBadge(c);
-        ContentValues values = getContentValues(toUpdate);
-        db.update(TABLE_ALARM, values, KEY_ALARM_ID + " = ?",
-                new String[]{String.valueOf(toUpdate.getId())});
+        if (!toUpdate.isAcquired()){
+            toUpdate.acquire();
+            ContentValues values = getContentValues(toUpdate);
+            db.update(TABLE_BADGE, values, KEY_BADGE_ID + " = ?",
+                    new String[]{String.valueOf(toUpdate.getId())});
+            //TODO pop up che comuniche che è stato preso un badge
+        }
+
+    }
+
+    // Aggiungi un allarme
+    public long addBadge(Badge badge) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = getContentValues(badge);
+        return db.insert(TABLE_BADGE, null, values);
     }
 
     //trasforma un ogetto del db in un oggetto Badge compatibile con il sistema
@@ -272,7 +299,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put(KEY_BADGE_ID, badge.getId());
         values.put(KEY_BADGE_NAME, badge.getName());
         values.put(KEY_BADGE_DESCRIPTION, badge.getDescription());
-        values.put(KEY_BADGE_ICON_AQUIRED, badge.getIconAquired());
+        values.put(KEY_BADGE_ICON_AQUIRED, badge.getIconAcquired());
         values.put(KEY_BADGE_ICON_PENDING, badge.getIconPending());
         if (badge.isAcquired()) {
             values.put(KEY_BADGE_ACQUIRED, 1);
