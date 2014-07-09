@@ -38,7 +38,7 @@ public class Eventbrite {
     private void getEventbriteOrders() {
 
         String url = "https://www.eventbriteapi.com/v3/users/me/orders/?token=" + token;
-        String response = new HttpRequest().getRequest(url);
+        String response = new HttpRequests().getRequest(url);
 
         try {
             try {
@@ -69,7 +69,7 @@ public class Eventbrite {
     private Event getEventbriteEvent(String resource_uri) {
 
         resource_uri = resource_uri + "?token=" + token;
-        String response = new HttpRequest().getRequest(resource_uri);
+        String response = new HttpRequests().getRequest(resource_uri);
 
         try {
             JSONObject jObject = null;

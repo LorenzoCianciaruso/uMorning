@@ -22,7 +22,7 @@ import com.example.umorning.activities.EventDetailsActivity;
 import com.example.umorning.activities.UserSettingActivity;
 import com.example.umorning.external_services.Eventbrite;
 import com.example.umorning.external_services.Facebook;
-import com.example.umorning.external_services.HttpRequest;
+import com.example.umorning.external_services.HttpRequests;
 import com.example.umorning.internal_services.CalendarRetrievalEngine;
 import com.example.umorning.model.Event;
 
@@ -52,7 +52,7 @@ public class EventsFragment extends Fragment {
         progress = (ProgressBar) getView().findViewById(R.id.pbHeaderProgress);
         retrievingEvents = new AsyncTaskEvent();
         if (events == null) {
-            if (HttpRequest.isOnline(getActivity())) {
+            if (HttpRequests.isOnline(getActivity())) {
                 retrievingEvents.execute();
             } else {
                 Toast.makeText(getActivity(), "No Internet Connection", Toast.LENGTH_LONG);
@@ -102,7 +102,7 @@ public class EventsFragment extends Fragment {
             events = new ArrayList<Event>();
 
             //verifico connessione internet
-            if (HttpRequest.isOnline(getActivity())) {
+            if (HttpRequests.isOnline(getActivity())) {
 
                 //new AsyncTaskEventbrite().execute(token);
                 Eventbrite eve = new Eventbrite(getActivity());

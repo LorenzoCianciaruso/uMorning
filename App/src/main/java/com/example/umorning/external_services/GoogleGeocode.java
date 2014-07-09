@@ -42,7 +42,7 @@ public class GoogleGeocode {
 
         String url = "https://maps.googleapis.com/maps/api/geocode/json?address=" + formattedAddress + "&sensor=true&key=AIzaSyDj6lm3eLSuOhG4rLXL66WUBg7C7XEDYcA";
 
-        String result = new HttpRequest().getRequest(url);
+        String result = new HttpRequests().getRequest(url);
 
         try {
             JSONObject jObject;
@@ -68,7 +68,7 @@ public class GoogleGeocode {
 
         String url = "https://maps.googleapis.com/maps/api/geocode/json?latlng=" + latitude + "," + longitude + "&sensor=true&key=AIzaSyDj6lm3eLSuOhG4rLXL66WUBg7C7XEDYcA";
 
-        String result = new HttpRequest().getRequest(url);
+        String result = new HttpRequests().getRequest(url);
 
         try {
             JSONObject jObject = new JSONObject(result);

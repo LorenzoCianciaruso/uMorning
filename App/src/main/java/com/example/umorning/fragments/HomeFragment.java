@@ -17,16 +17,16 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.example.umorning.R;
 import com.example.umorning.activities.AccountManagerActivity;
 import com.example.umorning.activities.AlarmDetailsActivity;
 import com.example.umorning.activities.UserSettingActivity;
-import com.example.umorning.external_services.HttpRequest;
+import com.example.umorning.external_services.HttpRequests;
 import com.example.umorning.external_services.Metwit;
 import com.example.umorning.internal_services.GpsLocalization;
 import com.example.umorning.model.Alarm;
 import com.example.umorning.model.DatabaseHelper;
+import com.example.umorning.model.WeatherForecasts;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -161,7 +161,7 @@ public class HomeFragment extends Fragment {
                 latitude = Double.parseDouble(prefs.getString("Latitude", "45.529"));
                 longitude = Double.parseDouble(prefs.getString("Longitude", "9.0429"));
             }
-            if (HttpRequest.isOnline(getActivity())) {
+            if (HttpRequests.isOnline(getActivity())) {
                 metwitRequest = new AsyncTaskMeteoRequest();
                 metwitRequest.execute(latitude, longitude);
             } else {
@@ -174,7 +174,7 @@ public class HomeFragment extends Fragment {
         }
     }
 
-    private class AsyncTaskMeteoRequest extends AsyncTask<Double, Void, Metwit> {
+    private class AsyncTaskMeteoRequest extends AsyncTask<Double, Void, WeatherForecasts> {
 
         @Override
         protected void onPreExecute() {
@@ -183,34 +183,38 @@ public class HomeFragment extends Fragment {
         }
 
         @Override
-        protected Metwit doInBackground(Double... params) {
+        protected WeatherForecasts doInBackground(Double... params) {
 
             double latitude = params[0];
             double longitude = params[1];
-            Metwit weatherInfo;
+            Metwit metwitManager;
+            WeatherForecasts weather;
             try {
                 //richiesta meteo
-                weatherInfo = new Metwit(latitude, longitude);
+                metwitManager = new Metwit(latitude, longitude);
+                weather = metwitManager.askForWeather();
+
             } catch (NullPointerException e) {
                 SharedPreferences prefs = getActivity().getSharedPreferences("uMorning", 0);
-                weatherInfo = new Metwit(prefs.getString("Icon", " "), prefs.getString("Temperature", " "), prefs.getString("Locality", " "), prefs.getString("Country", " "));
+                //metwitManager = new Metwit(prefs.getString("Icon", " "), prefs.getString("Temperature", " "), prefs.getString("Locality", " "), prefs.getString("Country", " "));
+                weather = new WeatherForecasts(latitude,longitude,prefs.getString("Icon", " "), prefs.getString("Temperature", " "), prefs.getString("Locality", " "), prefs.getString("Country", " "));
             }
 
             //restituisce oggetto meteo contenente informazioni
-            return weatherInfo;
+            return weather;
         }
 
 
         @Override
-        protected void onPostExecute(Metwit weatherInfo) {
+        protected void onPostExecute(WeatherForecasts weather) {
 
             //salvo ultime informazioni
             SharedPreferences settings = getActivity().getSharedPreferences("uMorning", 0);
             SharedPreferences.Editor editor = settings.edit();
-            editor.putString("Locality", weatherInfo.getLocality());
-            editor.putString("Country", weatherInfo.getCountry());
-            editor.putString("Temperature", weatherInfo.getTemperature());
-            editor.putString("Icon", weatherInfo.getIcon());
+            editor.putString("Locality", weather.getLocality());
+            editor.putString("Country", weather.getCountry());
+            editor.putString("Temperature", weather.getTemperature());
+            editor.putString("Icon", weather.getIcon());
             editor.putString("Latitude", String.valueOf(latitude));
             editor.putString("Longitude", String.valueOf(longitude));
             editor.commit();
@@ -259,19 +263,6 @@ public class HomeFragment extends Fragment {
         }
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

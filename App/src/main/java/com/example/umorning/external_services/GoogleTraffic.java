@@ -33,7 +33,7 @@ public class GoogleTraffic {
         } else {
             url = "https://maps.googleapis.com/maps/api/distancematrix/json?origins=" + startLatitude + "," + startLongitude + "&destinations=" + arrivalLocation + "&mode=driving&language=en-US&sensor=false&key=AIzaSyDj6lm3eLSuOhG4rLXL66WUBg7C7XEDYcA";
         }
-        String result = new HttpRequest().getRequest(url);
+        String result = new HttpRequests().getRequest(url);
 
         try {
             JSONObject jObject = new JSONObject(result);

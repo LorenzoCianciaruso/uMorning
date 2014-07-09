@@ -21,10 +21,10 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 
 
-public class HttpRequest {
+public class HttpRequests {
 
 
-    public HttpRequest() {
+    public HttpRequests() {
     }
 
     public String getRequest(String url) {
