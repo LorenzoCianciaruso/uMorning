@@ -26,6 +26,8 @@ import com.example.umorning.external_services.Metwit;
 import com.example.umorning.internal_services.GpsLocalization;
 import com.example.umorning.model.Alarm;
 import com.example.umorning.model.DatabaseHelper;
+import com.example.umorning.model.Metag;
+import com.example.umorning.model.MetagsEnum;
 import com.example.umorning.model.WeatherForecasts;
 
 import java.util.ArrayList;
@@ -145,6 +147,12 @@ public class HomeFragment extends Fragment {
                 startActivityForResult(i, 1);
                 break;
             }
+            case R.id.post_metag: {
+                //TODO postmetag
+               // Intent i = new Intent(getActivity(), PostMetagActivity.class);
+               // startActivityForResult(i, 1);
+                break;
+            }
 
         }
         return super.onOptionsItemSelected(item);
@@ -240,23 +248,24 @@ public class HomeFragment extends Fragment {
         temperature.setText(temp);
 
         //setta l'icona
-        if (icon.equals("sunny")) {
+        //TODO da aggiornare con i nuovi nomi
+        if (icon.equals(MetagsEnum.SUNNY.getValue())) {
             weatherIcon.setImageResource(R.drawable.sunny);
-        } else if (icon.equals("clear_moon")) {
+        } else if (icon.equals(MetagsEnum.CLEAR_MOON.getValue())) {
             weatherIcon.setImageResource(R.drawable.clear_moon);
-        } else if (icon.equals("cloudy")) {
+        } else if (icon.equals(MetagsEnum.CLOUDY.getValue())) {
             weatherIcon.setImageResource(R.drawable.cloudy);
-        } else if (icon.equals("foggy")) {
+        } else if (icon.equals(MetagsEnum.FOGGY.getValue())) {
             weatherIcon.setImageResource(R.drawable.foggy);
-        } else if (icon.equals("partly_moon")) {
+        } else if (icon.equals(MetagsEnum.PARTLY_MOON.getValue())) {
             weatherIcon.setImageResource(R.drawable.partly_moon);
-        } else if (icon.equals("partly_sunny")) {
+        } else if (icon.equals(MetagsEnum.PARTLY_SUNNY.getValue())) {
             weatherIcon.setImageResource(R.drawable.partly_sunny);
-        } else if (icon.equals("rainy")) {
+        } else if (icon.equals(MetagsEnum.RAINY.getValue())) {
             weatherIcon.setImageResource(R.drawable.rainy);
-        } else if (icon.equals("snowy")) {
+        } else if (icon.equals(MetagsEnum.SNOWY.getValue())) {
             weatherIcon.setImageResource(R.drawable.snowy);
-        } else if (icon.equals("stormy")) {
+        } else if (icon.equals(MetagsEnum.STORMY.getValue())) {
             weatherIcon.setImageResource(R.drawable.stormy);
         } else {
             weatherIcon.setImageResource(R.drawable.windy);

@@ -196,6 +196,12 @@ public class EventsFragment extends Fragment {
                 startActivityForResult(i, 1);
                 break;
             }
+            case R.id.post_metag: {
+                //TODO postmetag
+                //Intent i = new Intent(getActivity(), PostMetagActivity.class);
+                //startActivityForResult(i, 1);
+                break;
+            }
 
         }
 

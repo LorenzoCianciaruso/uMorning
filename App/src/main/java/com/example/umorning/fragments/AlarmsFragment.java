@@ -73,6 +73,12 @@ public class AlarmsFragment extends Fragment {
                 startActivityForResult(i, 1);
                 break;
             }
+            case R.id.post_metag: {
+                //TODO post metag
+                //Intent i = new Intent(getActivity(), PostMetagActivity.class);
+                //startActivityForResult(i, 1);
+                break;
+            }
         }
         return super.onOptionsItemSelected(item);
     }

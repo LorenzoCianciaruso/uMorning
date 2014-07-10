@@ -1,7 +1,9 @@
 package com.example.umorning.external_services;
 
+import com.example.umorning.model.Metag;
 import com.example.umorning.model.WeatherForecasts;
 import com.github.kevinsawicki.http.HttpRequest;
+import com.google.gson.Gson;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -62,7 +64,7 @@ public class Metwit {
         return weathFor;
     }
 
-    private String getAuthorizationToken(){
+    public String getAuthorizationToken(){
 
         String url = "https://api.metwit.com/token/";
 
@@ -84,26 +86,20 @@ public class Metwit {
 
     }
 
-    public void postMetag( ) {
+    public void postMetag( Metag metag ) {
 
-        //TODO da mettere a posto parametro in input
-        String url = "https://api.metwit.com/metags/";
+        String url = "https://api.metwit.com/v2/metags/";
 
-        //TODO prendere latitudine longitude meteo e parsare secondo la richiesta da fare
-
-        String json = "";
-
-        new Thread(new Runnable() {
-            public void run(){
-                getAuthorizationToken();
-            }
-        }).start();
+        Gson gson = new Gson();
+        String json = gson.toJson(metag);
 
         HttpRequest r = HttpRequest.post(url)
                 .header("Authorization", "Bearer " + token)
                 .contentType("application/json")
                 .send(json);
+
     }
+
 
 }
 

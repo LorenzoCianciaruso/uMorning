@@ -24,5 +24,11 @@
         android:showAsAction="never"
         android:title="Settings" />
 
+    <item
+        android:id="@+id/post_metag"
+        android:icon="@android:drawable/ic_menu_preferences"
+        android:orderInCategory="100"
+        android:showAsAction="never"
+        android:title="Post weather" />
 
 </menu>

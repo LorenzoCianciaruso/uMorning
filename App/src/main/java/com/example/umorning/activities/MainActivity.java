@@ -99,7 +99,7 @@ public class MainActivity extends FragmentActivity implements
         startActivity(myIntent);
         overridePendingTransition(R.anim.fadein, R.anim.fadeout);
     }
-/*
+    /*
     public void startAccountManager(MenuItem item) {
         Intent intent = new Intent(this, AccountManagerActivity.class);
         startActivity(intent);
@@ -109,7 +109,7 @@ public class MainActivity extends FragmentActivity implements
         Intent intent = new Intent(this, SettingsActivity.class);
         startActivity(intent);
     }*/
-/*
+    /*
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
