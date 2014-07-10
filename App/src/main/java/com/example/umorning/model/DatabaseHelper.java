@@ -19,6 +19,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "uMorningDatabase";
     private static final String TABLE_ALARM = "alarms";
     private static final String TABLE_BADGE = "badges";
+    private static final String TABLE_REPORT = "reports";
+
 
     // colonne alarm
     private static final String KEY_ALARM_ID = "id";
@@ -42,6 +44,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String KEY_BADGE_ICON_AQUIRED = "iconAquired";
     private static final String KEY_BADGE_ICON_PENDING = "iconPending";
     private static final String KEY_BADGE_ACQUIRED = "acquired";
+
+    //colonne report
+    private static final String KEY_REPORT_ID = "idReport";
+    private static final String KEY_REPORT_DELAY = "delay";
+    private static final String KEY_REPORT_START_LATITUDE = "startLatitude";
+    private static final String KEY_REPORT_START_LONGITUDE = "startLongitude";
+    private static final String KEY_REPORT_END_LATITUDE = "endLatitude";
+    private static final String KEY_REPORT_END_LONGITUDE = "endLongitude";
+    private static final String KEY_REPORT_DATE = "date";
+    private static final String KEY_REPORT_EXPECTEDTIME = "expectedTime";
+
 
     private static final String CREATE_TABLE_ALARM = "CREATE TABLE " + TABLE_ALARM
             + "("
@@ -70,6 +83,18 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             + KEY_BADGE_ACQUIRED + " INTEGER"
             + ")";
 
+    private static final String CREATE_TABLE_REPORT = "CREATE TABLE " + TABLE_REPORT
+            + "("
+            + KEY_REPORT_ID + " INTEGER PRIMARY KEY,"
+            + KEY_REPORT_DELAY + " LONG,"
+            + KEY_REPORT_START_LATITUDE + " DOUBLE,"
+            + KEY_REPORT_START_LONGITUDE + " DOUBLE,"
+            + KEY_REPORT_END_LATITUDE + " DOUBLE,"
+            + KEY_REPORT_END_LONGITUDE + " DOUBLE,"
+            + KEY_REPORT_DATE + " LONG,"
+            + KEY_REPORT_EXPECTEDTIME + " LONG"
+            + ")";
+
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
 
@@ -79,6 +104,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
         sqLiteDatabase.execSQL(CREATE_TABLE_ALARM);
         sqLiteDatabase.execSQL(CREATE_TABLE_BADGE);
+        sqLiteDatabase.execSQL(CREATE_TABLE_REPORT);
         List<Badge> toAdd = Badge.createBadges();
         for (Badge b : toAdd){
             this.addBadge(b);
@@ -91,6 +117,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         // on upgrade elimina le tabelle veccchie
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TABLE_ALARM);
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TABLE_BADGE);
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TABLE_REPORT);
+
         // crea nuove tabelle
         onCreate(sqLiteDatabase);
     }
@@ -267,7 +295,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     }
 
-    // Aggiungi un allarme
+    // Aggiungi un badge
     public long addBadge(Badge badge) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = getContentValues(badge);
@@ -309,4 +337,81 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return values;
     }
 
+
+    //***************REPORT******************
+    //***************************************
+    //prendi tutti i report come lista
+
+    public List<Report> getAllReport() {
+        List<Report> reports = new ArrayList<Report>();
+        String selectQuery = "SELECT  * FROM " + TABLE_REPORT;
+        Log.e(LOG, selectQuery);
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor c = db.rawQuery(selectQuery, null);
+
+        // aggiungili alla lista
+        if (c!=null && c.moveToFirst()) {
+            do {
+                Report r = fromCursorToReport(c);
+                reports.add(r);
+            } while (c.moveToNext());
+        }
+        return reports;
+    }
+
+    //prendi report per id
+    public Report getReport(int report_id) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String selectQuery = "SELECT  * FROM " + TABLE_REPORT + " WHERE "
+                + KEY_REPORT_ID + " = " + report_id;
+        Log.e(LOG, selectQuery);
+        Cursor c = db.rawQuery(selectQuery, null);
+        if (c != null) {
+            c.moveToFirst();
+        }
+        return fromCursorToReport(c);
+    }
+
+    // Aggiungi un report
+    public long addReport(Report report) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = getContentValues(report);
+        return db.insert(TABLE_REPORT, null, values);
+    }
+
+    //trasforma un ogetto del db in un oggetto Report compatibile con il sistema
+    private Report fromCursorToReport(Cursor c) {
+        //creo i campi
+        int id = (c.getInt(c.getColumnIndex(KEY_REPORT_ID)));
+        long delay = (c.getLong(c.getColumnIndex(KEY_REPORT_DELAY)));
+        double startLatitude = (c.getDouble(c.getColumnIndex(KEY_REPORT_START_LATITUDE)));
+        double startLongitude = (c.getDouble(c.getColumnIndex(KEY_REPORT_START_LONGITUDE)));
+        double endLatitude = (c.getDouble(c.getColumnIndex(KEY_REPORT_END_LATITUDE)));
+        double endLongitude = (c.getDouble(c.getColumnIndex(KEY_REPORT_END_LONGITUDE)));
+        Calendar date = new GregorianCalendar();
+        date.setTimeInMillis(c.getLong(c.getColumnIndex(KEY_REPORT_DATE)));
+        Calendar expectedTime = new GregorianCalendar();
+        expectedTime.setTimeInMillis(c.getLong(c.getColumnIndex(KEY_REPORT_EXPECTEDTIME)));
+
+        //TODO real weather
+        //chiamo il costruttore
+        return new Report(id, delay, startLatitude,  startLongitude,  endLatitude,  endLongitude,  date,  expectedTime);
+    }
+
+
+    private ContentValues getContentValues(Report report) {
+        ContentValues values = new ContentValues();
+        values.put(KEY_REPORT_ID, report.getId());
+        values.put(KEY_REPORT_DELAY, report.getDelay());
+        values.put(KEY_REPORT_START_LATITUDE, report.getStartLatitude());
+        values.put(KEY_REPORT_START_LONGITUDE, report.getStartLongitude());
+        values.put(KEY_REPORT_END_LATITUDE, report.getEndLatitude());
+        values.put(KEY_REPORT_END_LONGITUDE, report.getEndLongitude());
+        values.put(KEY_REPORT_DATE, report.getDate().getTimeInMillis());
+        values.put(KEY_REPORT_EXPECTEDTIME, report.getExpectedTime().getTimeInMillis());
+        return values;
+
+        //TODO real weather
+
+    }
 }

@@ -18,9 +18,6 @@ public class Badge {
     public static final int SHORT_PREP_TIME = 11;
     public static final int LONG_PREP_TIME = 12;
 
-
-
-
     //fields
     private int id;
     private String name;
@@ -109,7 +106,7 @@ public class Badge {
         list.add(new Badge(id, name, description, iconAcquired,iconPending,acquired));
 
         //TODO per ciancia far acquisire questi badge
-        //TODO basta fare databasehelper.acquire(Badge.DEFINE_DELL_ID) ma va fatto nel posto giusto
+        //TODO basta fare databasehelper.acquire(Badge.DEFINE_BADGE_ID) ma va fatto nel posto giusto
         //login with facebook
         id = LOGIN_FB;
         name = "Blue F";
