@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Badge {
+    //TODO commenti in ita
     //define of badge' ids
     public static final int FIRST_USAGE = 1;
     public static final int FIRST_ALARM = 2;
@@ -110,7 +111,7 @@ public class Badge {
         //login with facebook
         id = LOGIN_FB;
         name = "Blue F";
-        description = "Log with Facebook";
+        description = "Log in with Facebook";
         iconAcquired = "";
         iconPending = "";
         acquired = false;
@@ -119,7 +120,7 @@ public class Badge {
         //login with Eventbrite
         id = LOGIN_EB;
         name = "Blue F";
-        description = "Log with Eventbrite";
+        description = "Log in with Eventbrite";
         iconAcquired = "";
         iconPending = "";
         acquired = false;
@@ -138,7 +139,7 @@ public class Badge {
         //first ring
         id = FIRST_RING;
         name = "Wake-up!!";
-        description = "uMorning fist word";
+        description = "uMorning first word";
         iconAcquired = "";
         iconPending = "";
         acquired = false;

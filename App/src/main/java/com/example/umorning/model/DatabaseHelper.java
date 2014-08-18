@@ -107,9 +107,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL(CREATE_TABLE_REPORT);
         List<Badge> toAdd = Badge.createBadges();
         for (Badge b : toAdd){
-            this.addBadge(b);
+            //TODO così com'è addBadge() non può stare nell'oncreate, chiamata ricorsiva getWritableDatabase
+            //this.addBadge(b)
+            this.addBadge(b,sqLiteDatabase);
         }
-        this.aquireBadge(Badge.FIRST_USAGE);
+        //TODO stessa cosa di sopra
+        //this.aquireBadge(Badge.FIRST_USAGE);
+        this.aquireBadge(Badge.FIRST_USAGE, sqLiteDatabase);
     }
 
     @Override
@@ -132,10 +136,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         long num = db.insert(TABLE_ALARM, null, values);
         switch ((int)num){
             case (5):
-                this.aquireBadge(Badge.FIVE_ALARMS);
+                this.aquireBadge(Badge.FIVE_ALARMS, db);
                 break;
             case (100):
-                this.aquireBadge(Badge.HUNDRED_ALARMS);
+                this.aquireBadge(Badge.HUNDRED_ALARMS, db);
                 break;
         }
         return num;
@@ -242,7 +246,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     //***************BADGE*******************
     //***************************************
-    //prendi tutti gli badge come lista
+    //prendi tutti i badge come lista
 
     public List<Badge> getAllBadges() {
         List<Badge> badges = new ArrayList<Badge>();
@@ -275,8 +279,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     //acquisisci un badge per id
-    public void aquireBadge(int badge_id) {
-        SQLiteDatabase db = this.getReadableDatabase();
+    public void aquireBadge(int badge_id, SQLiteDatabase db) {
+        if(db==null) {
+            db = this.getReadableDatabase();
+        }
         String selectQuery = "SELECT  * FROM " + TABLE_BADGE + " WHERE "
                 + KEY_BADGE_ID + " = " + badge_id;
         Log.e(LOG, selectQuery);
@@ -296,13 +302,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     // Aggiungi un badge
-    public long addBadge(Badge badge) {
-        SQLiteDatabase db = this.getWritableDatabase();
+    public long addBadge(Badge badge, SQLiteDatabase db) {
+        //SQLiteDatabase db = this.getWritableDatabase();
+        if(db==null) {
+            db = this.getWritableDatabase();
+        }
         ContentValues values = getContentValues(badge);
         return db.insert(TABLE_BADGE, null, values);
     }
 
-    //trasforma un ogetto del db in un oggetto Badge compatibile con il sistema
+    //trasforma un oggetto del db in un oggetto Badge compatibile con il sistema
     private Badge fromCursorToBadge(Cursor c) {
         //creo i campi
         int id = (c.getInt(c.getColumnIndex(KEY_BADGE_ID)));
@@ -379,7 +388,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return db.insert(TABLE_REPORT, null, values);
     }
 
-    //trasforma un ogetto del db in un oggetto Report compatibile con il sistema
+    //trasforma un oggetto del db in un oggetto Report compatibile con il sistema
     private Report fromCursorToReport(Cursor c) {
         //creo i campi
         int id = (c.getInt(c.getColumnIndex(KEY_REPORT_ID)));

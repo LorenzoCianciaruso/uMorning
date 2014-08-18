@@ -50,7 +50,7 @@ public class SettingsActivity extends Activity {
         selectedRingtone.setText(ringtone.getTitle(this));
 
         DatabaseHelper db = new DatabaseHelper(this);
-        db.aquireBadge(Badge.SETTINGS);
+        db.aquireBadge(Badge.SETTINGS, null);
 
     }
 
@@ -66,11 +66,11 @@ public class SettingsActivity extends Activity {
         editor.commit();
         if (userDelay < 15){
             DatabaseHelper db = new DatabaseHelper(this);
-            db.aquireBadge(Badge.SHORT_PREP_TIME);
+            db.aquireBadge(Badge.SHORT_PREP_TIME, null);
             }
         if (userDelay > 120){
             DatabaseHelper db = new DatabaseHelper(this);
-            db.aquireBadge(Badge.SHORT_PREP_TIME);
+            db.aquireBadge(Badge.SHORT_PREP_TIME, null);
         }
         finish();
     }
@@ -112,6 +112,6 @@ public class SettingsActivity extends Activity {
         editor.putString("TONE", ringtoneUri.toString());
         editor.commit();
         DatabaseHelper dbHelper = new DatabaseHelper(this);
-        dbHelper.aquireBadge(Badge.RINGTONE);
+        dbHelper.aquireBadge(Badge.RINGTONE, null);
     }
 }

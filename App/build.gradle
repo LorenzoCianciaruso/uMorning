@@ -34,7 +34,7 @@ android {
 }
 
 dependencies {
-    compile 'com.android.support:appcompat-v7:19.1.0'
+    compile 'com.android.support:appcompat-v7:+'
     compile 'com.google.android.gms:play-services:4.2.42'
     compile project(':libraries:facebook')
     compile 'com.github.kevinsawicki:http-request:5.6'
