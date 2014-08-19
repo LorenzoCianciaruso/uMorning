@@ -17,9 +17,11 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.example.umorning.R;
 import com.example.umorning.activities.AccountManagerActivity;
 import com.example.umorning.activities.AlarmDetailsActivity;
+import com.example.umorning.activities.PostMetagActivity;
 import com.example.umorning.activities.UserSettingActivity;
 import com.example.umorning.external_services.HttpRequests;
 import com.example.umorning.external_services.Metwit;
@@ -148,9 +150,8 @@ public class HomeFragment extends Fragment {
                 break;
             }
             case R.id.post_metag: {
-                //TODO postmetag
-               // Intent i = new Intent(getActivity(), PostMetagActivity.class);
-               // startActivityForResult(i, 1);
+                Intent i = new Intent(getActivity(), PostMetagActivity.class);
+                startActivityForResult(i, 1);
                 break;
             }
 
@@ -204,8 +205,7 @@ public class HomeFragment extends Fragment {
 
             } catch (NullPointerException e) {
                 SharedPreferences prefs = getActivity().getSharedPreferences("uMorning", 0);
-                //metwitManager = new Metwit(prefs.getString("Icon", " "), prefs.getString("Temperature", " "), prefs.getString("Locality", " "), prefs.getString("Country", " "));
-                weather = new WeatherForecasts(latitude,longitude,prefs.getString("Icon", " "), prefs.getString("Temperature", " "), prefs.getString("Locality", " "), prefs.getString("Country", " "));
+                weather = new WeatherForecasts(latitude, longitude, prefs.getString("Icon", " "), prefs.getString("Temperature", " "), prefs.getString("Locality", " "), prefs.getString("Country", " "));
             }
 
             //restituisce oggetto meteo contenente informazioni
@@ -248,8 +248,7 @@ public class HomeFragment extends Fragment {
         temperature.setText(temp);
 
         //setta l'icona
-        //TODO da aggiornare con i nuovi nomi
-        if (icon.equals(MetagsEnum.SUNNY.getValue())) {
+        if (icon.equals(MetagsEnum.CLEAR.getValue())) {
             weatherIcon.setImageResource(R.drawable.sunny);
         } else if (icon.equals(MetagsEnum.CLEAR_MOON.getValue())) {
             weatherIcon.setImageResource(R.drawable.clear_moon);
@@ -259,7 +258,7 @@ public class HomeFragment extends Fragment {
             weatherIcon.setImageResource(R.drawable.foggy);
         } else if (icon.equals(MetagsEnum.PARTLY_MOON.getValue())) {
             weatherIcon.setImageResource(R.drawable.partly_moon);
-        } else if (icon.equals(MetagsEnum.PARTLY_SUNNY.getValue())) {
+        } else if (icon.equals(MetagsEnum.PARTLYCLOUD.getValue())) {
             weatherIcon.setImageResource(R.drawable.partly_sunny);
         } else if (icon.equals(MetagsEnum.RAINY.getValue())) {
             weatherIcon.setImageResource(R.drawable.rainy);
@@ -267,7 +266,15 @@ public class HomeFragment extends Fragment {
             weatherIcon.setImageResource(R.drawable.snowy);
         } else if (icon.equals(MetagsEnum.STORMY.getValue())) {
             weatherIcon.setImageResource(R.drawable.stormy);
-        } else {
+        } else if (icon.equals(MetagsEnum.HAILING.getValue())) {
+            weatherIcon.setImageResource(R.drawable.hailing);
+        } else if (icon.equals(MetagsEnum.HEAVYSEAS.getValue())) {
+            weatherIcon.setImageResource(R.drawable.heavyseas);
+        } else if (icon.equals(MetagsEnum.CALMSEAS.getValue())) {
+            weatherIcon.setImageResource(R.drawable.calmseas);
+        } else if (icon.equals(MetagsEnum.SNOWFLURRIES.getValue())) {
+            weatherIcon.setImageResource(R.drawable.snowflurries);
+        } else if (icon.equals(MetagsEnum.WINDY.getValue())) {
             weatherIcon.setImageResource(R.drawable.windy);
         }
     }

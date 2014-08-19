@@ -19,6 +19,7 @@ import android.widget.Toast;
 import com.example.umorning.R;
 import com.example.umorning.activities.AccountManagerActivity;
 import com.example.umorning.activities.EventDetailsActivity;
+import com.example.umorning.activities.PostMetagActivity;
 import com.example.umorning.activities.UserSettingActivity;
 import com.example.umorning.external_services.Eventbrite;
 import com.example.umorning.external_services.Facebook;
@@ -197,9 +198,9 @@ public class EventsFragment extends Fragment {
                 break;
             }
             case R.id.post_metag: {
-                //TODO postmetag
-                //Intent i = new Intent(getActivity(), PostMetagActivity.class);
-                //startActivityForResult(i, 1);
+
+                Intent i = new Intent(getActivity(), PostMetagActivity.class);
+                startActivityForResult(i, 1);
                 break;
             }
 
