@@ -13,9 +13,9 @@ public class Metag {
         this.weather = status;
     }
 
-    public Metag(Double lat, Double lng) {
-        Geo geoTag = new Geo(lat, lng);
-        this.geo = geoTag;
+    public void setGeo(double lat, double lng){
+        Geo geo = new Geo(lat, lng);
+        this.geo = geo;
     }
 
     private class Status {

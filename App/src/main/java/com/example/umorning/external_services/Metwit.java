@@ -23,14 +23,12 @@ public class Metwit {
         //askForWeather();
     }
 
-  /*  public Metwit(String icon, String temperature, String locality, String country) {
-        this.icon = icon;
-        this.temperature = temperature;
-        this.locality = locality;
-        this.country = country;
-    }*/
 
-    //start thread che invia richiesta http a metwit
+    /**
+     * richiede meteo a metwit
+     * @return meteo attuale
+     * @throws NullPointerException
+     */
     public WeatherForecasts askForWeather() throws NullPointerException {
         String url = "https://api.metwit.com/v2/weather/?location_lat=" + latitude + "&location_lng=" + longitude;
         String result = new HttpRequests().getRequest(url);
@@ -44,9 +42,6 @@ public class Metwit {
             JSONObject jsonWeather = jObject.getJSONArray("objects").getJSONObject(0);
             locality = jsonWeather.getJSONObject("location").getString("locality");
             country = jsonWeather.getJSONObject("location").getString("country");
-            //String urlIcon = jsonWeather.getString("icon");
-            //String[] urlSplitted = urlIcon.split("/");
-            //icon = urlSplitted[5];
             jsonWeather = jsonWeather.getJSONObject("weather");
             icon = jsonWeather.getString("status");
             //parse da json a int e conversione da fahrenheit a gradi centigradi
@@ -59,6 +54,9 @@ public class Metwit {
         return weathFor;
     }
 
+    /**
+     * richiede token a metwit
+     */
     private void getAuthorizationToken() {
         String url = "https://api.metwit.com/token/";
         Map<String, String> data = new HashMap<String, String>();
@@ -77,9 +75,14 @@ public class Metwit {
 
     }
 
+    /**
+     * posta meteo della località attuale a metwit
+     * @param metag contiene informazione su meteo e coordinate
+     */
     public void postMetag(final Metag metag) {
         new Thread(new Runnable() {
             public void run() {
+                metag.setGeo(latitude,longitude);
                 getAuthorizationToken();
                 String url = "https://api.metwit.com/v2/metags/";
 
@@ -90,7 +93,6 @@ public class Metwit {
                         .header("Authorization", "Bearer " + token)
                         .contentType("application/json")
                         .send(json).code();
-
 
             }
         }).start();

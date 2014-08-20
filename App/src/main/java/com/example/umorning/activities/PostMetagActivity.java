@@ -1,7 +1,6 @@
 package com.example.umorning.activities;
 
 import android.app.Activity;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -41,7 +40,7 @@ public class PostMetagActivity extends Activity {
         partlyCloudyButton = (ImageButton) findViewById(R.id.partlyCloudy);
         cloudyButton = (ImageButton) findViewById(R.id.cloudy);
         rainyButton = (ImageButton) findViewById(R.id.rainy);
-        stormyButton = (ImageButton) findViewById(R.id.rainy);
+        stormyButton = (ImageButton) findViewById(R.id.stormy);
         windyButton = (ImageButton) findViewById(R.id.windy);
         snowyButton = (ImageButton) findViewById(R.id.snowy);
         snowflurriesButton = (ImageButton) findViewById(R.id.snowflurries);
@@ -73,7 +72,6 @@ public class PostMetagActivity extends Activity {
     }
 
     public void postMetag(View v) {
-
         double lat;
         double lon;
 
@@ -81,25 +79,22 @@ public class PostMetagActivity extends Activity {
             try {
                 lat = gps.getLatitude();
                 lon = gps.getLongitude();
-            } catch (NullPointerException e) {
-                SharedPreferences prefs = this.getSharedPreferences("uMorning", 0);
-                lat = Double.parseDouble(prefs.getString("Latitude", "45.529"));
-                lon = Double.parseDouble(prefs.getString("Longitude", "9.0429"));
-            }
-            //TODO mettere a posto coordinate
-            final Metwit metwit = new Metwit(lat, lon);
-            Metag metag = new Metag(lat, lon);
+                Metwit metwit = new Metwit(lat, lon);
+                Metag metag = new Metag();
 
-            if (HttpRequests.isOnline(this)) {
-                MetagsEnum metagEnum = setMetag(v);
-                if (metagEnum != null) {
-                    metag.setWeather(setMetag(v));
-                    metwit.postMetag(metag);
-                    Toast.makeText(this.getApplicationContext(), "Weather sent", Toast.LENGTH_LONG).show();
-                    finish();
+                if (HttpRequests.isOnline(this)) {
+                    MetagsEnum metagEnum = getMetag(v);
+                    if (metagEnum != null) {
+                        metag.setWeather(metagEnum);
+                        metwit.postMetag(metag);
+                        Toast.makeText(this, "Weather posted", Toast.LENGTH_LONG).show();
+                        finish();
+                    }
+                } else {
+                    Toast.makeText(this, "No Internet Connection", Toast.LENGTH_LONG).show();
                 }
-            } else {
-                Toast.makeText(this.getApplicationContext(), "No Internet Connection", Toast.LENGTH_LONG).show();
+            } catch (NullPointerException e) {
+                Toast.makeText(this, "Error in getting the position", Toast.LENGTH_LONG).show();
             }
         } else {
             // Chiedi all'utente di andare nelle impostazioni
@@ -108,7 +103,12 @@ public class PostMetagActivity extends Activity {
 
     }
 
-    private MetagsEnum setMetag(View v) {
+    /**
+     * restituisce enum relativa al bottone premuto
+     * @param v view di riferimento
+     * @return enum relativa al meteo scelto
+     */
+    private MetagsEnum getMetag(View v) {
         switch (v.getId()) {
             case R.id.clear:
                 return MetagsEnum.CLEAR;
