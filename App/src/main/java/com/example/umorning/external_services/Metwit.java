@@ -16,12 +16,6 @@ public class Metwit {
     private double latitude;
     private double longitude;
     private String token;
-    //TODO gestire token prima di post metag
-
-    //private String icon;
-    //private String temperature;
-    //private String locality;
-    //private String country;
 
     public Metwit(double latitude, double longitude) throws NullPointerException {
         this.latitude = latitude;
@@ -65,8 +59,7 @@ public class Metwit {
         return weathFor;
     }
 
-    public String getAuthorizationToken() {
-
+    private void getAuthorizationToken() {
         String url = "https://api.metwit.com/token/";
         Map<String, String> data = new HashMap<String, String>();
         data.put("grant_type", "client_credentials");
@@ -81,20 +74,26 @@ public class Metwit {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        return null;
+
     }
 
-    public void postMetag(Metag metag) {
+    public void postMetag(final Metag metag) {
+        new Thread(new Runnable() {
+            public void run() {
+                getAuthorizationToken();
+                String url = "https://api.metwit.com/v2/metags/";
 
-        String url = "https://api.metwit.com/v2/metags/";
+                Gson gson = new Gson();
+                String json = gson.toJson(metag);
 
-        Gson gson = new Gson();
-        String json = gson.toJson(metag);
+                int response = HttpRequest.post(url)
+                        .header("Authorization", "Bearer " + token)
+                        .contentType("application/json")
+                        .send(json).code();
 
-        HttpRequest r = HttpRequest.post(url)
-                .header("Authorization", "Bearer " + token)
-                .contentType("application/json")
-                .send(json);
+
+            }
+        }).start();
     }
 }
 
