@@ -119,7 +119,7 @@ public class Badge {
 
         //login with Eventbrite
         id = LOGIN_EB;
-        name = "Blue F";
+        name = "Events addicted";
         description = "Log in with Eventbrite";
         iconAcquired = "";
         iconPending = "";
