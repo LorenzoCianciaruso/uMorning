@@ -70,7 +70,6 @@ public class Eventbrite {
 
         resource_uri = resource_uri + "?token=" + token;
         String response = new HttpRequests().getRequest(resource_uri);
-
         try {
             JSONObject jObject = null;
             try {
@@ -80,15 +79,10 @@ public class Eventbrite {
             }
 
             JSONObject jsonName = jObject.getJSONObject("name");
-
             JSONObject jsonOrganizer = jObject.getJSONObject("organizer");
-
             JSONObject jsonVenue = jObject.getJSONObject("venue");
-
             JSONObject jsonAddress = jsonVenue.getJSONObject("address");
-
             JSONObject jsonStart = jObject.getJSONObject("start");
-
 
             String name = jsonName.getString("text");
             String organizer = jsonOrganizer.getString("name");

@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.example.umorning.R;
 import com.example.umorning.external_services.Facebook;
 import com.example.umorning.model.Alarm;
+import com.example.umorning.model.Badge;
 import com.example.umorning.model.DatabaseHelper;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -92,9 +93,7 @@ public class EventDetailsActivity extends FragmentActivity {
 
         dateTimeView.setText(time);
 
-
         db = new DatabaseHelper(this);
-
 
         String text = "<a href=" + url + " \">Link to the event</a>";
         urlView.setMovementMethod(LinkMovementMethod.getInstance());
@@ -131,6 +130,11 @@ public class EventDetailsActivity extends FragmentActivity {
         int idItem = item.getItemId();
         if (idItem == R.id.fb_share) {
             fb.publishStory(this, name, place, url, time);
+            if(db.aquireBadge(Badge.SHARE)){
+                Intent myIntent = new Intent(this, BadgeAcquisitionActivity.class);
+                myIntent.putExtra("badgeId", Badge.SHARE);
+                startActivity(myIntent);
+            }
         } else if (idItem == R.id.add) {
             //salva nel db
             SharedPreferences prefs = getSharedPreferences("uMorning", 0);
@@ -138,6 +142,31 @@ public class EventDetailsActivity extends FragmentActivity {
             Alarm alarm = new Alarm(id, delay, name, place, "", "", 0, 0, latitude, longitude, date, date, true);
             db = new DatabaseHelper(this);
             id = (int) db.addAlarm(alarm);
+
+            //controllo se ha acquisito un badge
+            switch(id){
+                case 1: if(db.aquireBadge(Badge.FIRST_ALARM)){
+                    Badge badge = db.getBadge(Badge.FIRST_ALARM);
+                    Intent myIntent = new Intent(this, BadgeAcquisitionActivity.class);
+                    myIntent.putExtra("badgeAquired", badge);
+                    startActivity(myIntent);
+                }
+                        break;
+                case 5: if(db.aquireBadge(Badge.FIVE_ALARMS)){
+                    Badge badge = db.getBadge(Badge.FIVE_ALARMS);
+                    Intent myIntent = new Intent(this, BadgeAcquisitionActivity.class);
+                    myIntent.putExtra("badgeAquired", badge);
+                    startActivity(myIntent);
+                }
+                        break;
+                case 100: if(db.aquireBadge(Badge.HUNDRED_ALARMS)){
+                    Badge badge = db.getBadge(Badge.HUNDRED_ALARMS);
+                    Intent myIntent = new Intent(this, BadgeAcquisitionActivity.class);
+                    myIntent.putExtra("badgeAquired", badge);
+                    startActivity(myIntent);
+                }
+            }
+
             Intent myIntent = new Intent(this, AlarmEditActivity.class);
             myIntent.putExtra("alarmId", id);
             myIntent.putExtra("fromEvent", 1);

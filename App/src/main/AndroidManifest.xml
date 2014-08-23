@@ -94,13 +94,19 @@
         <activity
             android:name=".activities.InfoActivity"
             android:label="@string/title_activity_info"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".activities.PostMetagActivity"
             android:label="@string/title_activity_post_metag"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.Holo.Light.Dialog.NoActionBar.MinWidth">
+            android:theme="@android:style/Theme.Holo.Light.Dialog.NoActionBar.MinWidth" >
+        </activity>
+        <activity
+            android:name=".activities.BadgeAcquisitionActivity"
+            android:label="@string/title_activity_badge_acquisition"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Holo.Light.Dialog.NoActionBar.MinWidth" >
         </activity>
     </application>
 

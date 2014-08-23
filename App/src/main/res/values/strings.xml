@@ -17,5 +17,6 @@
     <string name="pref_delay"></string>
     <string name="title_activity_info">InfoActivity</string>
     <string name="title_activity_post_metag">PostMetagActivity</string>
+    <string name="title_activity_badge_acquisition">BadgeAcquisitionActivity</string>
 
 </resources>

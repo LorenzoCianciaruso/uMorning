@@ -27,6 +27,7 @@ import com.example.umorning.external_services.HttpRequests;
 import com.example.umorning.external_services.Metwit;
 import com.example.umorning.internal_services.GpsLocalization;
 import com.example.umorning.model.Alarm;
+import com.example.umorning.model.Badge;
 import com.example.umorning.model.DatabaseHelper;
 import com.example.umorning.model.Metag;
 import com.example.umorning.model.MetagsEnum;
@@ -74,6 +75,7 @@ public class HomeFragment extends Fragment {
         weatherIcon = (ImageView) getView().findViewById(R.id.weatherIcon);
         progress = (ProgressBar) getView().findViewById(R.id.pbHeaderProgress);
         progress.setVisibility(View.INVISIBLE);
+
         updateUI();
 
         startMetwitRequest();
