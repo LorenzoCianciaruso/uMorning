@@ -58,7 +58,6 @@
             android:text="Ok"
             android:fontFamily="sans-serif-light"
             android:id="@+id/button"
-            android:layout_gravity="center_horizontal"
             android:enabled="true"
             android:onClick="closeActivity" />
 

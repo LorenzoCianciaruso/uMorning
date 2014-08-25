@@ -74,7 +74,7 @@ public class Badge implements Serializable{
         int id = Badge.FIRST_USAGE;
         String name = "Beginner";
         String description = "Use uMorning for the first time!";
-        int iconAcquired = R.drawable.firts_usage;
+        int iconAcquired = R.drawable.first_usage;
         int iconPending = 0;
         boolean aquired = false;
         list.add(new Badge(id, name, description, iconAcquired, iconPending, aquired));
