@@ -332,7 +332,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         String description = (c.getString(c.getColumnIndex(KEY_BADGE_DESCRIPTION)));
         int iconAcquired = (c.getInt(c.getColumnIndex(KEY_BADGE_ICON_AQUIRED)));
         int iconPending = (c.getInt(c.getColumnIndex(KEY_BADGE_ICON_PENDING)));
-        int aquisition = (c.getInt(c.getColumnIndex(KEY_BADGE_ICON_AQUIRED)));
+        int aquisition = (c.getInt(c.getColumnIndex(KEY_BADGE_ACQUIRED)));
         boolean aquired;
         if (aquisition == 0) {
             aquired = false;
