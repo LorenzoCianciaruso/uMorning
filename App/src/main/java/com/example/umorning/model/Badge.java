@@ -6,8 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Badge implements Serializable{
-    //TODO commenti in ita
-    //define of badge' ids
+    //define id badge
     public static final int FIRST_USAGE = 1;
     public static final int FIRST_ALARM = 2;
     public static final int FIVE_ALARMS = 3;
@@ -21,7 +20,7 @@ public class Badge implements Serializable{
     public static final int SHORT_PREP_TIME = 11;
     public static final int LONG_PREP_TIME = 12;
 
-    //fields
+    //campi
     private int id;
     private String name;
     private String description;
@@ -66,11 +65,11 @@ public class Badge implements Serializable{
         this.aquired = true;
     }
 
-    //this contains all the badges definiton used the first time to create the db
+    //definizioni dei badge usate per inizializzare il db
     public static List<Badge> createBadges() {
         List<Badge> list = new ArrayList<Badge>();
 
-        //first usage
+        //primo uso
         int id = Badge.FIRST_USAGE;
         String name = "Beginner";
         String description = "Use uMorning for the first time!";
@@ -79,7 +78,7 @@ public class Badge implements Serializable{
         boolean aquired = false;
         list.add(new Badge(id, name, description, iconAcquired, iconPending, aquired));
 
-        //first alarm created
+        //primo allarme creato
         id = Badge.FIRST_ALARM;
         name = "Noob";
         description = "Save your first alarm!";
@@ -88,7 +87,7 @@ public class Badge implements Serializable{
         aquired = false;
         list.add(new Badge(id, name, description, iconAcquired, iconPending, aquired));
 
-        //five alarms created
+        //5 allarmi
         id = Badge.FIVE_ALARMS;
         name = "Scheduler";
         description = "Create more then 5 alarms!";
@@ -97,7 +96,7 @@ public class Badge implements Serializable{
         aquired = false;
         list.add(new Badge(id, name, description, iconAcquired, iconPending, aquired));
 
-        //five alarms created
+        //100 allarmi
         id = Badge.HUNDRED_ALARMS;
         name = "Workhaolic";
         description = "Wake up 100 times!";
@@ -106,7 +105,7 @@ public class Badge implements Serializable{
         aquired = false;
         list.add(new Badge(id, name, description, iconAcquired, iconPending, aquired));
 
-        //login with facebook
+        //login con facebook
         id = Badge.LOGIN_FB;
         name = "Blue F";
         description = "Log in with Facebook!";
@@ -115,7 +114,7 @@ public class Badge implements Serializable{
         aquired = false;
         list.add(new Badge(id, name, description, iconAcquired, iconPending, aquired));
 
-        //login with Eventbrite
+        //login con Eventbrite
         id = Badge.LOGIN_EB;
         name = "Events addicted";
         description = "Log in with Eventbrite!";
@@ -124,7 +123,7 @@ public class Badge implements Serializable{
         aquired = false;
         list.add(new Badge(id, name, description, iconAcquired, iconPending, aquired));
 
-        //share with Facebook
+        //share con Facebook
         id = Badge.SHARE;
         name = "Supporter";
         description = "Share your experience on Facebook!";
@@ -133,7 +132,7 @@ public class Badge implements Serializable{
         aquired = false;
         list.add(new Badge(id, name, description, iconAcquired, iconPending, aquired));
 
-        //first ring
+        //prima sveglia
         id = Badge.FIRST_RING;
         name = "Wake-up!!";
         description = "uMorning first word!";
@@ -142,7 +141,7 @@ public class Badge implements Serializable{
         aquired = false;
         list.add(new Badge(id, name, description, iconAcquired, iconPending, aquired));
 
-        //access the settings
+        //vai alle impostazioni
         id = Badge.SETTINGS;
         name = "Tuner";
         description = "Personalize uMorning!";
@@ -151,7 +150,7 @@ public class Badge implements Serializable{
         aquired = false;
         list.add(new Badge(id, name, description, iconAcquired, iconPending, aquired));
 
-        //change ringtone
+        //cambia suoneria
         id = Badge.RINGTONE;
         name = "Juke-box";
         description = "Explore uMorning personalized tones!";
