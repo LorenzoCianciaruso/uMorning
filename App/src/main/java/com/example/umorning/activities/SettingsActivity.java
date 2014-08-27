@@ -50,7 +50,6 @@ public class SettingsActivity extends Activity {
         ringtone = RingtoneManager.getRingtone(this, ringtoneUri);
         selectedRingtone.setText(ringtone.getTitle(this));
 
-
         if (db.aquireBadge(Badge.SETTINGS)) {
             Intent myIntent = new Intent(this, BadgeAcquisitionActivity.class);
             myIntent.putExtra("badgeId", Badge.SETTINGS);
@@ -104,6 +103,14 @@ public class SettingsActivity extends Activity {
             intent.putExtra(RingtoneManager.EXTRA_RINGTONE_EXISTING_URI,
                     (Uri) null);
         }
+
+        if (db.aquireBadge(Badge.RINGTONE)) {
+            Badge badge = db.getBadge(Badge.RINGTONE);
+            Intent myIntent = new Intent(this, BadgeAcquisitionActivity.class);
+            myIntent.putExtra("badgeAquired", badge);
+            startActivity(myIntent);
+        }
+
         startActivityForResult(intent, 999);
 
     }
@@ -125,11 +132,6 @@ public class SettingsActivity extends Activity {
         editor.putString("TONE", ringtoneUri.toString());
         editor.commit();
 
-        if (db.aquireBadge(Badge.RINGTONE)) {
-            Badge badge = db.getBadge(Badge.RINGTONE);
-            Intent myIntent = new Intent(this, BadgeAcquisitionActivity.class);
-            myIntent.putExtra("badgeAquired", badge);
-            startActivity(myIntent);
-        }
+
     }
 }

@@ -12,7 +12,8 @@
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent">
+        android:layout_height="fill_parent"
+        android:gravity="center">
 
         <TextView
             android:layout_width="wrap_content"
@@ -52,14 +53,15 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginBottom="20dp" />
 
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Ok"
-            android:fontFamily="sans-serif-light"
-            android:id="@+id/button"
-            android:enabled="true"
-            android:onClick="closeActivity" />
-
     </LinearLayout>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Ok"
+        android:fontFamily="sans-serif-light"
+        android:id="@+id/button"
+        android:enabled="true"
+        android:onClick="closeActivity"
+        android:layout_alignParentBottom="true" />
 </RelativeLayout>

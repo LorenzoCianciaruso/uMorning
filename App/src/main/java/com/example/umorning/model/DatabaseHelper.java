@@ -106,8 +106,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL(CREATE_TABLE_REPORT);
         List<Badge> toAdd = Badge.createBadges();
         for (Badge b : toAdd) {
-            //TODO risolto, così com'è addBadge() non può stare nell'oncreate, chiamata ricorsiva getWritableDatabase
-            //this.addBadge(b)
+
             this.addBadge(b, sqLiteDatabase);
         }
     }
@@ -131,16 +130,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         ContentValues values = getContentValues(alarm);
         long num = db.insert(TABLE_ALARM, null, values);
 
-        //TODO risolto, non è nel database che va fatto il controllo sul numero di sveglie impostate.
-        //TODO chiamata ricorsiva a getWritableDatabase e non è qui che va chiamato il pop up, non siamo in una activity
-       /* switch ((int)num){
-            case (5):
-                this.aquireBadge(Badge.FIVE_ALARMS);
-                break;
-            case (100):
-                this.aquireBadge(Badge.HUNDRED_ALARMS);
-                break;
-        }*/
         return num;
     }
 
@@ -280,26 +269,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     //metodo che restituisce true se il badge richiesto è da acquisire, e lo acquisisce
     // false se il badge richiesto è già acquisito
     public boolean aquireBadge(int badge_id) {
-        /*SQLiteDatabase db = this.getWritableDatabase();
-        if(db==null) {
-            db = this.getReadableDatabase();
-        }
-        String selectQuery = "SELECT  * FROM " + TABLE_BADGE + " WHERE "
-                + KEY_BADGE_ID + " = " + badge_id;
-        Log.e(LOG, selectQuery);
-        Cursor c = db.rawQuery(selectQuery, null);
-        if (c != null) {
-            c.moveToFirst();
-        }
-        Badge badge = fromCursorToBadge(c);
-        */
+
         Badge badge = getBadge(badge_id);
         SQLiteDatabase db = this.getWritableDatabase();
 
         if(db==null) {
             db = this.getReadableDatabase();
         }
-        //TODO non si può far apparire qui il popup perchè richiederebbe dei sotterfugi per far partire una activity da qui,inoltre si mischierebbe model e view
 
         if (!badge.isAquired()) {
             badge.aquire();

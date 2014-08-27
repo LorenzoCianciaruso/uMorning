@@ -18,5 +18,6 @@
     <string name="title_activity_info">InfoActivity</string>
     <string name="title_activity_post_metag">PostMetagActivity</string>
     <string name="title_activity_badge_acquisition">BadgeAcquisitionActivity</string>
+    <string name="title_activity_badge_achievemts">BadgeAchievemtsActivity</string>
 
 </resources>

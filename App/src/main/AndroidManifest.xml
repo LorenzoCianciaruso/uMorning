@@ -108,6 +108,10 @@
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Holo.Light.Dialog.NoActionBar.MinWidth" >
         </activity>
+        <activity
+            android:name=".activities.BadgeAchievementsActivity"
+            android:label="@string/title_activity_badge_achievemts" >
+        </activity>
     </application>
 
     <uses-permission android:name="android.permission.VIBRATE" />

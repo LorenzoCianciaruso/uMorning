@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 import com.example.umorning.R;
 import com.example.umorning.activities.AccountManagerActivity;
+import com.example.umorning.activities.BadgeAchievementsActivity;
 import com.example.umorning.activities.EventDetailsActivity;
 import com.example.umorning.activities.PostMetagActivity;
 import com.example.umorning.activities.UserSettingActivity;
@@ -200,6 +201,11 @@ public class EventsFragment extends Fragment {
             case R.id.post_metag: {
 
                 Intent i = new Intent(getActivity(), PostMetagActivity.class);
+                startActivityForResult(i, 1);
+                break;
+            }
+            case R.id.menu_achievements: {
+                Intent i = new Intent(getActivity(), BadgeAchievementsActivity.class);
                 startActivityForResult(i, 1);
                 break;
             }

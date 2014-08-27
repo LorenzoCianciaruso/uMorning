@@ -131,8 +131,9 @@ public class EventDetailsActivity extends FragmentActivity {
         if (idItem == R.id.fb_share) {
             fb.publishStory(this, name, place, url, time);
             if(db.aquireBadge(Badge.SHARE)){
+                Badge badge = db.getBadge(Badge.SHARE);
                 Intent myIntent = new Intent(this, BadgeAcquisitionActivity.class);
-                myIntent.putExtra("badgeId", Badge.SHARE);
+                myIntent.putExtra("badgeAquired", badge);
                 startActivity(myIntent);
             }
         } else if (idItem == R.id.add) {

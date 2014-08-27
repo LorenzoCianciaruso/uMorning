@@ -1,5 +1,6 @@
 package com.example.umorning.activities;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
@@ -11,6 +12,8 @@ import android.preference.RingtonePreference;
 import android.view.MenuItem;
 
 import com.example.umorning.R;
+import com.example.umorning.model.Badge;
+import com.example.umorning.model.DatabaseHelper;
 
 public class UserSettingActivity extends PreferenceActivity {
 
@@ -20,6 +23,7 @@ public class UserSettingActivity extends PreferenceActivity {
     NumberPickerPreference refreshPicker;
     NumberPickerPreference delayPicker;
     private SharedPreferences sp;
+    private DatabaseHelper db = new DatabaseHelper(this);
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -49,6 +53,13 @@ public class UserSettingActivity extends PreferenceActivity {
         sp = PreferenceManager.getDefaultSharedPreferences(this);
         ringtonePicker.getOnPreferenceClickListener();
 
+        if (db.aquireBadge(Badge.SETTINGS)) {
+            Badge badge = db.getBadge(Badge.SETTINGS);
+            Intent myIntent = new Intent(this, BadgeAcquisitionActivity.class);
+            myIntent.putExtra("badgeAquired", badge);
+            startActivity(myIntent);
+        }
+
         /*int titleId = Resources.getSystem().getIdentifier("action_bar_title", "id", "android");
         TextView yourTextView = (TextView) findViewById(titleId);
         yourTextView.setClickable(true);
@@ -65,10 +76,10 @@ public class UserSettingActivity extends PreferenceActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        saveAll();
+        //saveAll();
     }
 
-    public boolean onOptionsItemSelected(MenuItem item) {
+       public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
             saveAll();
             finish();
@@ -96,5 +107,29 @@ public class UserSettingActivity extends PreferenceActivity {
         editor.putLong("REFRESH", refreshPicker.getValue());
         editor.putString("TONE", ringtoneUri.toString());
         editor.commit();
+
+        if (delayPicker.getValue() <= 15) {
+            if (db.aquireBadge(Badge.SHORT_PREP_TIME)) {
+                Badge badge = db.getBadge(Badge.SHORT_PREP_TIME);
+                Intent myIntent = new Intent(this, BadgeAcquisitionActivity.class);
+                myIntent.putExtra("badgeAquired", badge);
+                startActivity(myIntent);
+            }
+        }
+        if (delayPicker.getValue() >= 120) {
+            if (db.aquireBadge(Badge.LONG_PREP_TIME)) {
+                Badge badge = db.getBadge(Badge.LONG_PREP_TIME);
+                Intent myIntent = new Intent(this, BadgeAcquisitionActivity.class);
+                myIntent.putExtra("badgeAquired", badge);
+                startActivity(myIntent);
+            }
+        }
+
+        if (db.aquireBadge(Badge.RINGTONE)) {
+            Badge badge = db.getBadge(Badge.RINGTONE);
+            Intent myIntent = new Intent(this, BadgeAcquisitionActivity.class);
+            myIntent.putExtra("badgeAquired", badge);
+            startActivity(myIntent);
+        }
     }
 }
