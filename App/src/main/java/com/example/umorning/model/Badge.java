@@ -74,7 +74,7 @@ public class Badge implements Serializable{
         String name = "Beginner";
         String description = "Use uMorning for the first time!";
         int iconAcquired = R.drawable.first_usage;
-        int iconPending = 0;
+        int iconPending = R.drawable.badge_pending;
         boolean aquired = false;
         list.add(new Badge(id, name, description, iconAcquired, iconPending, aquired));
 
@@ -116,7 +116,7 @@ public class Badge implements Serializable{
 
         //login con Eventbrite
         id = Badge.LOGIN_EB;
-        name = "Events addicted";
+        name = "Eventsfinder";
         description = "Log in with Eventbrite!";
         iconAcquired = R.drawable.login_eb;
         //iconPending = "";

@@ -110,7 +110,8 @@
         </activity>
         <activity
             android:name=".activities.BadgeAchievementsActivity"
-            android:label="@string/title_activity_badge_achievemts" >
+            android:label="@string/title_activity_badge_achievemts"
+            android:screenOrientation="portrait">
         </activity>
     </application>
 

@@ -26,17 +26,19 @@
         android:title="Post weather" />
 
     <item
+        android:id="@+id/menu_achievements"
+        android:icon="@android:drawable/ic_menu_preferences"
+        android:orderInCategory="100"
+        android:showAsAction="never"
+        android:title="Achievements" />
+
+    <item
         android:id="@+id/menu_settings"
         android:icon="@android:drawable/ic_menu_preferences"
         android:orderInCategory="100"
         android:showAsAction="never"
         android:title="Settings" />
 
-    <item
-        android:id="@+id/menu_achievements"
-        android:icon="@android:drawable/ic_menu_preferences"
-        android:orderInCategory="100"
-        android:showAsAction="never"
-        android:title="Achievements" />
+
 
 </menu>
