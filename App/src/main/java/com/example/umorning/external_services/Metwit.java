@@ -17,10 +17,9 @@ public class Metwit {
     private double longitude;
     private String token;
 
-    public Metwit(double latitude, double longitude) throws NullPointerException {
+    public Metwit(double latitude, double longitude) {
         this.latitude = latitude;
         this.longitude = longitude;
-        //askForWeather();
     }
 
 
@@ -29,7 +28,7 @@ public class Metwit {
      * @return meteo attuale
      * @throws NullPointerException
      */
-    public WeatherForecasts askForWeather() throws NullPointerException {
+    public WeatherForecasts askForWeather() {
         String url = "https://api.metwit.com/v2/weather/?location_lat=" + latitude + "&location_lng=" + longitude;
         String result = new HttpRequests().getRequest(url);
         WeatherForecasts weathFor;
