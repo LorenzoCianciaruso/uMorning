@@ -26,7 +26,6 @@ public class Metwit {
     /**
      * richiede meteo a metwit
      * @return meteo attuale
-     * @throws NullPointerException
      */
     public WeatherForecasts askForWeather() {
         String url = "https://api.metwit.com/v2/weather/?location_lat=" + latitude + "&location_lng=" + longitude;
@@ -38,7 +37,10 @@ public class Metwit {
         String country = null;
         try {
             JSONObject jObject = new JSONObject(result);
-            JSONObject jsonWeather = jObject.getJSONArray("objects").getJSONObject(0);
+            JSONObject jsonWeather = jObject.getJSONArray("objects").getJSONObject(1);
+            if(jsonWeather==null){
+                jObject.getJSONArray("objects").getJSONObject(0);
+            }
             locality = jsonWeather.getJSONObject("location").getString("locality");
             country = jsonWeather.getJSONObject("location").getString("country");
             jsonWeather = jsonWeather.getJSONObject("weather");

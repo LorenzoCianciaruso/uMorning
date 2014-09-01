@@ -74,6 +74,7 @@ public class Eventbrite {
             JSONObject jObject = null;
             try {
                 jObject = new JSONObject(response);
+
             } catch (NullPointerException e) {
                 //  Toast.makeText(cxt.getApplicationContext(), "Not logged in Eventbrite", Toast.LENGTH_LONG).show();
             }
@@ -86,7 +87,7 @@ public class Eventbrite {
 
             String name = jsonName.getString("text");
             String organizer = jsonOrganizer.getString("name");
-            String country = jsonAddress.getString("country_name");
+            String country = jsonAddress.getString("country");
             String city = jsonAddress.getString("city");
             String address = jsonAddress.getString("address_1");
             double latitude = jsonVenue.getDouble("latitude");
