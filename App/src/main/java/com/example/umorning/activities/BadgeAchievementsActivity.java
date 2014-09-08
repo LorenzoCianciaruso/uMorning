@@ -1,9 +1,11 @@
 package com.example.umorning.activities;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.example.umorning.R;
@@ -33,7 +35,7 @@ public class BadgeAchievementsActivity extends Activity {
         aquireTextView();
 
         //ricevo lista dei badge
-        List<Badge> badges = db.getAllBadges();
+        final List<Badge> badges = db.getAllBadges();
 
         //setto badgeView e imageView in base al badge
         for(int i = 0; i < badges.size(); i++ ){
@@ -43,6 +45,17 @@ public class BadgeAchievementsActivity extends Activity {
                 imageViews[i].setImageResource(badges.get(i).getIconPending());
             }
             textViews[i].setText(badges.get(i).getName());
+
+            final int finalI = i;
+            imageViews[i].setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    AlertDialog alertDialog = new AlertDialog.Builder(BadgeAchievementsActivity.this).create();
+                    alertDialog.setTitle(badges.get(finalI).getName());
+                    alertDialog.setMessage(badges.get(finalI).getDescription());
+                    alertDialog.show();
+                }
+            });
         }
 
     }
@@ -75,5 +88,14 @@ public class BadgeAchievementsActivity extends Activity {
         imageViews[9] = (ImageView) findViewById(R.id.badge10);
         imageViews[10] = (ImageView) findViewById(R.id.badge11);
         imageViews[11] = (ImageView) findViewById(R.id.badge12);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
