@@ -30,7 +30,7 @@ public class Facebook {
     private List<Event> eventsList = new ArrayList<Event>();
     private Session session;
     private Context cxt;
-    private static final List<String> PERMISSIONS = Arrays.asList("publish_actions");
+    private static final List<String> PERMISSIONS = Arrays.asList("publish_actions", "user_events");
     private static final String PENDING_PUBLISH_KEY = "pendingPublishReauthorization";
     private boolean pendingPublishReauthorization = false;
 
@@ -61,7 +61,6 @@ public class Facebook {
                 HttpMethod.GET,
                 new Request.Callback() {
                     public void onCompleted(Response response) {
-                        System.out.println("RRRRR " + response.toString());
                         List<String> idList = getEventIdList(response);
                         for (int i = 0; i < idList.size(); i++) {
                             getEventDetails(idList.get(i));
@@ -86,7 +85,7 @@ public class Facebook {
                 String id = item.getString("id");
                 idList.add(id);
             }
-        } catch (JSONException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return idList;
