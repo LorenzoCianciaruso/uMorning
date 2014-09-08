@@ -127,7 +127,7 @@ public class Badge implements Serializable{
         id = Badge.SHARE;
         name = "Supporter";
         description = "Share your experience on Facebook!";
-        iconAcquired = R.drawable.share;
+        iconAcquired = R.drawable.sharebadge;
         //iconPending = "";
         aquired = false;
         list.add(new Badge(id, name, description, iconAcquired, iconPending, aquired));
@@ -145,7 +145,7 @@ public class Badge implements Serializable{
         id = Badge.SETTINGS;
         name = "Tuner";
         description = "Personalize uMorning!";
-        iconAcquired = R.drawable.settings;
+        iconAcquired = R.drawable.settingsbadge;
         //iconPending = "";
         aquired = false;
         list.add(new Badge(id, name, description, iconAcquired, iconPending, aquired));
@@ -154,7 +154,7 @@ public class Badge implements Serializable{
         id = Badge.RINGTONE;
         name = "Juke-box";
         description = "Explore uMorning personalized tones!";
-        iconAcquired = R.drawable.ringtone;
+        iconAcquired = R.drawable.ringtonebadge;
         //iconPending = "";
         aquired = false;
         list.add(new Badge(id, name, description, iconAcquired, iconPending, aquired));
