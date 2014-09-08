@@ -61,6 +61,7 @@ public class Facebook {
                 HttpMethod.GET,
                 new Request.Callback() {
                     public void onCompleted(Response response) {
+                        System.out.println("RRRRR " + response.toString());
                         List<String> idList = getEventIdList(response);
                         for (int i = 0; i < idList.size(); i++) {
                             getEventDetails(idList.get(i));

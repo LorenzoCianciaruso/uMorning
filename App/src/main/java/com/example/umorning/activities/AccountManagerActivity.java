@@ -35,7 +35,7 @@ public class AccountManagerActivity extends Activity {
 
         uiHelper = new UiLifecycleHelper(this, callback);
         uiHelper.onCreate(savedInstanceState);
-        List<String> writePermission = Arrays.asList("publish_actions");
+        List<String> writePermission = Arrays.asList("publish_actions","user_events");
         LoginButton facebookLoginButton = (LoginButton) findViewById(R.id.authButton);
         facebookLoginButton.setPublishPermissions(writePermission);
     }
