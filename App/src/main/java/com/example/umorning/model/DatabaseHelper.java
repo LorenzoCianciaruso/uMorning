@@ -13,6 +13,7 @@ import java.util.GregorianCalendar;
 import java.util.List;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
+
     //proprietà del DB
     private static final String LOG = "DatabaseHelper";
     private static final int DATABASE_VERSION = 1;
@@ -20,7 +21,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String TABLE_ALARM = "alarms";
     private static final String TABLE_BADGE = "badges";
     private static final String TABLE_REPORT = "reports";
-
 
     // colonne alarm
     private static final String KEY_ALARM_ID = "id";
@@ -97,7 +97,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
-
     }
 
     @Override
@@ -106,10 +105,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL(CREATE_TABLE_BADGE);
         sqLiteDatabase.execSQL(CREATE_TABLE_REPORT);
         List<Badge> toAdd = Badge.createBadges();
-        for (Badge b : toAdd){
-            this.addBadge(b);
+        for (Badge b : toAdd) {
+
+            this.addBadge(b, sqLiteDatabase);
         }
-        this.aquireBadge(Badge.FIRST_USAGE);
     }
 
     @Override
@@ -130,14 +129,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = getContentValues(alarm);
         long num = db.insert(TABLE_ALARM, null, values);
-        switch ((int)num){
-            case (5):
-                this.aquireBadge(Badge.FIVE_ALARMS);
-                break;
-            case (100):
-                this.aquireBadge(Badge.HUNDRED_ALARMS);
-                break;
-        }
+
         return num;
     }
 
@@ -164,7 +156,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         Cursor c = db.rawQuery(selectQuery, null);
 
         // aggiungili alla lista
-        if (c!=null && c.moveToFirst()) {
+        if (c != null && c.moveToFirst()) {
             do {
                 Alarm a = fromCursorToAlarm(c);
                 alarms.add(a);
@@ -242,8 +234,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     //***************BADGE*******************
     //***************************************
-    //prendi tutti gli badge come lista
 
+    //prendi tutti i badge come lista
     public List<Badge> getAllBadges() {
         List<Badge> badges = new ArrayList<Badge>();
         String selectQuery = "SELECT  * FROM " + TABLE_BADGE;
@@ -252,7 +244,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         Cursor c = db.rawQuery(selectQuery, null);
 
         // aggiungili alla lista
-        if (c!=null && c.moveToFirst()) {
+        if (c != null && c.moveToFirst()) {
             do {
                 Badge b = fromCursorToBadge(c);
                 badges.add(b);
@@ -274,51 +266,57 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return fromCursorToBadge(c);
     }
 
-    //acquisisci un badge per id
-    public void aquireBadge(int badge_id) {
-        SQLiteDatabase db = this.getReadableDatabase();
-        String selectQuery = "SELECT  * FROM " + TABLE_BADGE + " WHERE "
-                + KEY_BADGE_ID + " = " + badge_id;
-        Log.e(LOG, selectQuery);
-        Cursor c = db.rawQuery(selectQuery, null);
-        if (c != null) {
-            c.moveToFirst();
-        }
-        Badge toUpdate = fromCursorToBadge(c);
-        if (!toUpdate.isAcquired()){
-            toUpdate.acquire();
-            ContentValues values = getContentValues(toUpdate);
-            db.update(TABLE_BADGE, values, KEY_BADGE_ID + " = ?",
-                    new String[]{String.valueOf(toUpdate.getId())});
-            //TODO pop up che comuniche che è stato preso un badge
+    //metodo che restituisce true se il badge richiesto è da acquisire, e lo acquisisce
+    // false se il badge richiesto è già acquisito
+    public boolean aquireBadge(int badge_id) {
+
+        Badge badge = getBadge(badge_id);
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        if(db==null) {
+            db = this.getReadableDatabase();
         }
 
+        if (!badge.isAquired()) {
+            badge.aquire();
+            ContentValues values = getContentValues(badge);
+
+            db.update(TABLE_BADGE, values, KEY_BADGE_ID + " = ?", new String[]{String.valueOf(badge_id)});
+
+            return true;
+        } else {
+            return false;
+        }
     }
 
-    // Aggiungi un badge
-    public long addBadge(Badge badge) {
-        SQLiteDatabase db = this.getWritableDatabase();
+    //Aggiungi un badge
+    public long addBadge(Badge badge, SQLiteDatabase db) {
+        //SQLiteDatabase db = this.getWritableDatabase();
+        if (db == null) {
+            db = this.getWritableDatabase();
+        }
         ContentValues values = getContentValues(badge);
+
         return db.insert(TABLE_BADGE, null, values);
     }
 
-    //trasforma un ogetto del db in un oggetto Badge compatibile con il sistema
+    //trasforma un oggetto del db in un oggetto Badge
     private Badge fromCursorToBadge(Cursor c) {
         //creo i campi
         int id = (c.getInt(c.getColumnIndex(KEY_BADGE_ID)));
         String name = (c.getString(c.getColumnIndex(KEY_BADGE_NAME)));
         String description = (c.getString(c.getColumnIndex(KEY_BADGE_DESCRIPTION)));
-        String iconAcquired = (c.getString(c.getColumnIndex(KEY_BADGE_ICON_AQUIRED)));
-        String iconPending = (c.getString(c.getColumnIndex(KEY_BADGE_ICON_PENDING)));
-        int aquisition = (c.getInt(c.getColumnIndex(KEY_BADGE_ICON_AQUIRED)));
-        boolean acquired;
+        int iconAcquired = (c.getInt(c.getColumnIndex(KEY_BADGE_ICON_AQUIRED)));
+        int iconPending = (c.getInt(c.getColumnIndex(KEY_BADGE_ICON_PENDING)));
+        int aquisition = (c.getInt(c.getColumnIndex(KEY_BADGE_ACQUIRED)));
+        boolean aquired;
         if (aquisition == 0) {
-            acquired = false;
+            aquired = false;
         } else {
-            acquired = true;
+            aquired = true;
         }
         //chiamo il costruttore
-        return new Badge(id, name, description, iconAcquired, iconPending, acquired);
+        return new Badge(id, name, description, iconAcquired, iconPending, aquired);
     }
 
 
@@ -329,7 +327,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put(KEY_BADGE_DESCRIPTION, badge.getDescription());
         values.put(KEY_BADGE_ICON_AQUIRED, badge.getIconAcquired());
         values.put(KEY_BADGE_ICON_PENDING, badge.getIconPending());
-        if (badge.isAcquired()) {
+        if (badge.isAquired()) {
             values.put(KEY_BADGE_ACQUIRED, 1);
         } else {
             values.put(KEY_BADGE_ACQUIRED, 0);
@@ -350,7 +348,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         Cursor c = db.rawQuery(selectQuery, null);
 
         // aggiungili alla lista
-        if (c!=null && c.moveToFirst()) {
+        if (c != null && c.moveToFirst()) {
             do {
                 Report r = fromCursorToReport(c);
                 reports.add(r);
@@ -379,7 +377,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return db.insert(TABLE_REPORT, null, values);
     }
 
-    //trasforma un ogetto del db in un oggetto Report compatibile con il sistema
+    //trasforma un oggetto del db in un oggetto Report compatibile con il sistema
     private Report fromCursorToReport(Cursor c) {
         //creo i campi
         int id = (c.getInt(c.getColumnIndex(KEY_REPORT_ID)));
@@ -395,7 +393,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         //TODO real weather
         //chiamo il costruttore
-        return new Report(id, delay, startLatitude,  startLongitude,  endLatitude,  endLongitude,  date,  expectedTime);
+        return new Report(id, delay, startLatitude, startLongitude, endLatitude, endLongitude, date, expectedTime);
     }
 
 
@@ -414,4 +412,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         //TODO real weather
 
     }
+
+
 }

@@ -10,7 +10,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ShareActionProvider;
 import android.widget.TextView;
-
 import com.example.umorning.R;
 import com.example.umorning.external_services.Facebook;
 import com.example.umorning.model.Alarm;

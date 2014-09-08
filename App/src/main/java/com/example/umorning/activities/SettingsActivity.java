@@ -24,6 +24,7 @@ public class SettingsActivity extends Activity {
     private Ringtone ringtone;
 
     private TextView selectedRingtone;
+    private DatabaseHelper db = new DatabaseHelper(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,9 +50,11 @@ public class SettingsActivity extends Activity {
         ringtone = RingtoneManager.getRingtone(this, ringtoneUri);
         selectedRingtone.setText(ringtone.getTitle(this));
 
-        DatabaseHelper db = new DatabaseHelper(this);
-        db.aquireBadge(Badge.SETTINGS);
-
+        if (db.aquireBadge(Badge.SETTINGS)) {
+            Intent myIntent = new Intent(this, BadgeAcquisitionActivity.class);
+            myIntent.putExtra("badgeId", Badge.SETTINGS);
+            startActivity(myIntent);
+        }
     }
 
     public void saveSettings(View view) {
@@ -64,13 +67,22 @@ public class SettingsActivity extends Activity {
         editor.putLong("REFRESH", refreshRate);
         editor.putString("TONE", ringtoneUri.toString());
         editor.commit();
-        if (userDelay < 15){
-            DatabaseHelper db = new DatabaseHelper(this);
-            db.aquireBadge(Badge.SHORT_PREP_TIME);
+
+        if (userDelay <= 15) {
+            if (db.aquireBadge(Badge.SHORT_PREP_TIME)) {
+                Badge badge = db.getBadge(Badge.SHORT_PREP_TIME);
+                Intent myIntent = new Intent(this, BadgeAcquisitionActivity.class);
+                myIntent.putExtra("badgeAquired", badge);
+                startActivity(myIntent);
             }
-        if (userDelay > 120){
-            DatabaseHelper db = new DatabaseHelper(this);
-            db.aquireBadge(Badge.SHORT_PREP_TIME);
+        }
+        if (userDelay >= 120) {
+            if (db.aquireBadge(Badge.LONG_PREP_TIME)) {
+                Badge badge = db.getBadge(Badge.LONG_PREP_TIME);
+                Intent myIntent = new Intent(this, BadgeAcquisitionActivity.class);
+                myIntent.putExtra("badgeAquired", badge);
+                startActivity(myIntent);
+            }
         }
         finish();
     }
@@ -91,6 +103,14 @@ public class SettingsActivity extends Activity {
             intent.putExtra(RingtoneManager.EXTRA_RINGTONE_EXISTING_URI,
                     (Uri) null);
         }
+
+        if (db.aquireBadge(Badge.RINGTONE)) {
+            Badge badge = db.getBadge(Badge.RINGTONE);
+            Intent myIntent = new Intent(this, BadgeAcquisitionActivity.class);
+            myIntent.putExtra("badgeAquired", badge);
+            startActivity(myIntent);
+        }
+
         startActivityForResult(intent, 999);
 
     }
@@ -111,7 +131,7 @@ public class SettingsActivity extends Activity {
         SharedPreferences.Editor editor = prefs.edit();
         editor.putString("TONE", ringtoneUri.toString());
         editor.commit();
-        DatabaseHelper dbHelper = new DatabaseHelper(this);
-        dbHelper.aquireBadge(Badge.RINGTONE);
+
+
     }
 }

@@ -5,25 +5,23 @@ package com.example.umorning.model;
  */
 public class Metag {
 
+    private Geo geo;
     private Status weather;
 
-    private Geo geo;
-
-    public Metag(String weather, Double lat, Double lng) {
-
+    public void setWeather(MetagsEnum weather) {
         Status status = new Status(weather);
         this.weather = status;
+    }
 
-        Geo geoTag = new Geo(lat, lng);
-        this.geo = geoTag;
+    public void setGeo(double lat, double lng){
+        Geo geo = new Geo(lat, lng);
+        this.geo = geo;
     }
 
     private class Status {
-
         private String status;
-
-        Status(String status) {
-            this.status = status;
+        Status(MetagsEnum status) {
+            this.status = status.getValue();
         }
     }
 

@@ -37,7 +37,7 @@ public class GoogleGeocode {
         fromAddressToCoordinates();
     }
 
-
+//ciao
     private void fromAddressToCoordinates() {
 
         String url = "https://maps.googleapis.com/maps/api/geocode/json?address=" + formattedAddress + "&sensor=true&key=AIzaSyDj6lm3eLSuOhG4rLXL66WUBg7C7XEDYcA";

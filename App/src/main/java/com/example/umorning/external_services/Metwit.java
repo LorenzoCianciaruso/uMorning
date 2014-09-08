@@ -17,57 +17,49 @@ public class Metwit {
     private double longitude;
     private String token;
 
-    //private String icon;
-    //private String temperature;
-    //private String locality;
-    //private String country;
-
-    public Metwit(double latitude, double longitude) throws NullPointerException {
+    public Metwit(double latitude, double longitude) {
         this.latitude = latitude;
         this.longitude = longitude;
-        //askForWeather();
     }
 
-  /*  public Metwit(String icon, String temperature, String locality, String country) {
-        this.icon = icon;
-        this.temperature = temperature;
-        this.locality = locality;
-        this.country = country;
-    }*/
 
-    //start thread che invia richiesta http a metwit
-    public WeatherForecasts askForWeather() throws NullPointerException {
+    /**
+     * richiede meteo a metwit
+     * @return meteo attuale
+     */
+    public WeatherForecasts askForWeather() {
         String url = "https://api.metwit.com/v2/weather/?location_lat=" + latitude + "&location_lng=" + longitude;
         String result = new HttpRequests().getRequest(url);
-        WeatherForecasts weathFor = null;
-
+        WeatherForecasts weathFor;
+        String icon = null;
+        String temperature = null;
+        String locality = null;
+        String country = null;
         try {
             JSONObject jObject = new JSONObject(result);
-
-            JSONObject jsonWeather = jObject.getJSONArray("objects").getJSONObject(0);
-            String locality = jsonWeather.getJSONObject("location").getString("locality");
-            String country = jsonWeather.getJSONObject("location").getString("country");
-            String urlIcon = jsonWeather.getString("icon");
-            String[] urlSplitted = urlIcon.split("/");
-            String icon = urlSplitted[5];
+            JSONObject jsonWeather = jObject.getJSONArray("objects").getJSONObject(1);
+            if(jsonWeather==null){
+                jObject.getJSONArray("objects").getJSONObject(0);
+            }
+            locality = jsonWeather.getJSONObject("location").getString("locality");
+            country = jsonWeather.getJSONObject("location").getString("country");
             jsonWeather = jsonWeather.getJSONObject("weather");
+            icon = jsonWeather.getString("status");
             //parse da json a int e conversione da fahrenheit a gradi centigradi
             int temperatureFahrenheit = jsonWeather.getJSONObject("measured").getInt("temperature") - 273;
-            String temperature = Integer.toString(temperatureFahrenheit);
-
-            weathFor = new WeatherForecasts(latitude,longitude,icon,temperature,locality,country);
-
+            temperature = Integer.toString(temperatureFahrenheit);
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
+        weathFor = new WeatherForecasts(latitude, longitude, icon, temperature, locality, country);
         return weathFor;
     }
 
-    public String getAuthorizationToken(){
-
+    /**
+     * richiede token a metwit
+     */
+    private void getAuthorizationToken() {
         String url = "https://api.metwit.com/token/";
-
         Map<String, String> data = new HashMap<String, String>();
         data.put("grant_type", "client_credentials");
 
@@ -75,32 +67,37 @@ public class Metwit {
                 .basic("129379649", "QePJVqOllqI4qITm8K05Q0zFEvHkFfFo9GKdhgeV").form(data);
 
         String response = r.body();
-
         try {
             JSONObject jObject = new JSONObject(response);
             token = jObject.getString("access_token");
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        return null;
 
     }
 
-    public void postMetag( Metag metag ) {
+    /**prova
+     * post meteo della località attuale a metwit
+     * @param metag contiene informazione su meteo e coordinate
+     */
+    public void postMetag(final Metag metag) {
+        new Thread(new Runnable() {
+            public void run() {
+                metag.setGeo(latitude,longitude);
+                getAuthorizationToken();
+                String url = "https://api.metwit.com/v2/metags/";
 
-        String url = "https://api.metwit.com/v2/metags/";
+                Gson gson = new Gson();
+                String json = gson.toJson(metag);
 
-        Gson gson = new Gson();
-        String json = gson.toJson(metag);
+                int response = HttpRequest.post(url)
+                        .header("Authorization", "Bearer " + token)
+                        .contentType("application/json")
+                        .send(json).code();
 
-        HttpRequest r = HttpRequest.post(url)
-                .header("Authorization", "Bearer " + token)
-                .contentType("application/json")
-                .send(json);
-
+            }
+        }).start();
     }
-
-
 }
 
 

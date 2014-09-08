@@ -38,7 +38,6 @@ public class Facebook {
         this.cxt = cxt;
         session = Session.getActiveSession();
 
-
         if (session == null) {
             session = Session.openActiveSessionFromCache(cxt);
         }

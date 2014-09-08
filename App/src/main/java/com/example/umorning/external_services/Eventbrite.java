@@ -70,29 +70,24 @@ public class Eventbrite {
 
         resource_uri = resource_uri + "?token=" + token;
         String response = new HttpRequests().getRequest(resource_uri);
-
         try {
             JSONObject jObject = null;
             try {
                 jObject = new JSONObject(response);
+
             } catch (NullPointerException e) {
                 //  Toast.makeText(cxt.getApplicationContext(), "Not logged in Eventbrite", Toast.LENGTH_LONG).show();
             }
 
             JSONObject jsonName = jObject.getJSONObject("name");
-
             JSONObject jsonOrganizer = jObject.getJSONObject("organizer");
-
             JSONObject jsonVenue = jObject.getJSONObject("venue");
-
             JSONObject jsonAddress = jsonVenue.getJSONObject("address");
-
             JSONObject jsonStart = jObject.getJSONObject("start");
-
 
             String name = jsonName.getString("text");
             String organizer = jsonOrganizer.getString("name");
-            String country = jsonAddress.getString("country_name");
+            String country = jsonAddress.getString("country");
             String city = jsonAddress.getString("city");
             String address = jsonAddress.getString("address_1");
             double latitude = jsonVenue.getDouble("latitude");

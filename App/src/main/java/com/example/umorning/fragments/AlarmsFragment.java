@@ -13,6 +13,8 @@ import android.widget.ListView;
 import com.example.umorning.R;
 import com.example.umorning.activities.AccountManagerActivity;
 import com.example.umorning.activities.AlarmDetailsActivity;
+import com.example.umorning.activities.BadgeAchievementsActivity;
+import com.example.umorning.activities.PostMetagActivity;
 import com.example.umorning.activities.UserSettingActivity;
 import com.example.umorning.model.Alarm;
 import com.example.umorning.model.DatabaseHelper;
@@ -74,9 +76,13 @@ public class AlarmsFragment extends Fragment {
                 break;
             }
             case R.id.post_metag: {
-                //TODO post metag
-                //Intent i = new Intent(getActivity(), PostMetagActivity.class);
-                //startActivityForResult(i, 1);
+                Intent i = new Intent(getActivity(), PostMetagActivity.class);
+                startActivityForResult(i, 1);
+                break;
+            }
+            case R.id.menu_achievements: {
+                Intent i = new Intent(getActivity(), BadgeAchievementsActivity.class);
+                startActivityForResult(i, 1);
                 break;
             }
         }

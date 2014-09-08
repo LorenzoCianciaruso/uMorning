@@ -32,7 +32,7 @@
         </activity>
 
         <service android:name=".internal_services.AlarmBroadcastReceiver" />
-        <!--suppress AndroidDomInspection -->
+        <!-- suppress AndroidDomInspection -->
         <service android:name=".internal_services.GpsLocalization" />
 
         <activity
@@ -56,7 +56,6 @@
                 <data android:scheme="my.special.scheme" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".activities.SettingsActivity"
             android:label="Settings"
@@ -85,7 +84,7 @@
             android:name=".activities.UserSettingActivity"
             android:screenOrientation="portrait" />
 
-        <!--suppress AndroidDomInspection -->
+        <!-- suppress AndroidDomInspection -->
         <receiver android:name=".internal_services.AlarmBroadcastReceiver" />
 
         <meta-data
@@ -94,9 +93,26 @@
 
         <activity
             android:name=".activities.InfoActivity"
-            android:label="@string/title_activity_info" >
+            android:label="@string/title_activity_info"
+            android:screenOrientation="portrait" >
         </activity>
-
+        <activity
+            android:name=".activities.PostMetagActivity"
+            android:label="@string/title_activity_post_metag"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Holo.Light.Dialog.NoActionBar.MinWidth" >
+        </activity>
+        <activity
+            android:name=".activities.BadgeAcquisitionActivity"
+            android:label="@string/title_activity_badge_acquisition"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Holo.Light.Dialog.NoActionBar.MinWidth" >
+        </activity>
+        <activity
+            android:name=".activities.BadgeAchievementsActivity"
+            android:label="@string/title_activity_badge_achievemts"
+            android:screenOrientation="portrait">
+        </activity>
     </application>
 
     <uses-permission android:name="android.permission.VIBRATE" />

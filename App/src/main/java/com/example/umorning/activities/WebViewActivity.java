@@ -44,6 +44,7 @@ public class WebViewActivity extends Activity {
 
                     Intent intent = new Intent(WebViewActivity.this, AccountManagerActivity.class);
                     startActivity(intent);
+
                     finish();
                 }
             }

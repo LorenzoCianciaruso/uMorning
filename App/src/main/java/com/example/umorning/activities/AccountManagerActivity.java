@@ -8,6 +8,8 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.example.umorning.R;
+import com.example.umorning.model.Badge;
+import com.example.umorning.model.DatabaseHelper;
 import com.facebook.Session;
 import com.facebook.SessionState;
 import com.facebook.UiLifecycleHelper;
@@ -54,11 +56,30 @@ public class AccountManagerActivity extends Activity {
         intent.putExtras(b);
         startActivity(intent);
         finish();
+
+        //controllo se è il primo login in eventbrite
+        DatabaseHelper db = new DatabaseHelper(this);
+        if(db.aquireBadge(Badge.LOGIN_EB)){
+            Badge badge = db.getBadge(Badge.LOGIN_EB);
+            Intent myIntent = new Intent(this, BadgeAcquisitionActivity.class);
+            myIntent.putExtra("badgeAquired", badge);
+            startActivity(myIntent);
+        }
     }
 
     private void onSessionStateChange(Session session, SessionState state, Exception exception) {
         if (state.isOpened()) {
             Log.i(TAG, "Logged in...");
+
+            //controllo se è il primo login in facebook
+            DatabaseHelper db = new DatabaseHelper(this);
+            if(db.aquireBadge(Badge.LOGIN_FB)){
+                Badge badge = db.getBadge(Badge.LOGIN_FB);
+                Intent myIntent = new Intent(this, BadgeAcquisitionActivity.class);
+                myIntent.putExtra("badgeAquired", badge);
+                startActivity(myIntent);
+            }
+
         } else if (state.isClosed()) {
             Log.i(TAG, "Logged out...");
         }

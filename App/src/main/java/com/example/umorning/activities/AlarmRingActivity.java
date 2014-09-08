@@ -71,9 +71,13 @@ public class AlarmRingActivity extends Activity {
             r = RingtoneManager.getRingtone(getApplicationContext(), tone);
             r.play();
 
-            dbHelp.aquireBadge(Badge.FIRST_RING);
+            if(dbHelp.aquireBadge(Badge.FIRST_RING)){
+                Badge badge = dbHelp.getBadge(Badge.FIRST_RING);
+                Intent myIntent = new Intent(this, BadgeAcquisitionActivity.class);
+                myIntent.putExtra("badgeAquired", badge);
+                startActivity(myIntent);
+            }
         }
-
     }
 
     @Override
